@@ -91,7 +91,7 @@ public class MovieManager {
     public void editMovie() {
         System.out.println("Enter movieID: ");
         String movieID = sc.next();
-        for (Movie movie : movies) {
+        for (Movie movie : movies)
             if (movie.getMovieID().equalsIgnoreCase(movieID)) {
                 int choice;
                 do {
@@ -124,8 +124,7 @@ public class MovieManager {
                             System.out.println("Enter number of genres: ");
                             List<Genre> Genres = new ArrayList<>();
                             int numGenres = sc.nextInt();
-                            for (int i=0;i<numGenres;i++)
-                            {
+                            for (int i = 0; i < numGenres; i++) {
                                 System.out.println("Enter the genre: ");
                                 String userGenre = sc.next();
                                 Genres.add(Genre.valueOf(userGenre));
@@ -141,7 +140,7 @@ public class MovieManager {
                             System.out.println("Enter number of cast members: ");
                             int castSize = sc.nextInt();
                             List<String> newCastList = new ArrayList<>();
-                            for (int i=0;i<castSize;i++) {
+                            for (int i = 0; i < castSize; i++) {
                                 System.out.println("Enter cast member: ");
                                 String newCast = sc.next();
                                 newCastList.add(newCast);
@@ -162,8 +161,7 @@ public class MovieManager {
                             System.out.println("Enter new formats: ");
                             List<MovieFormat> newFormats = new ArrayList<>();
                             int newFormatLength = sc.nextInt();
-                            for (int i=0;i<newFormatLength;i++)
-                            {
+                            for (int i = 0; i < newFormatLength; i++) {
                                 System.out.println("Enter movie format: ");
                                 String newFormat = sc.next();
                                 newFormats.add(MovieFormat.valueOf(newFormat));
@@ -188,12 +186,22 @@ public class MovieManager {
                             movie.setReleaseDate(date);
                             break;
                     }
-                } while(choice < 12);
+                } while (choice < 12);
+                break;
             }
-        }
     }
 
-    // TODO
+    public void deleteMovie() {
+        System.out.println("Enter movieID to be deleted: ");
+        String delMovieID = sc.next();
+        for (Movie movie : movies)
+            if (movie.getMovieID().equalsIgnoreCase(delMovieID)) {
+                movies.remove(movie);
+                System.out.println("Movie deleted");
+                break;
+            }
+    }
+
     public void peekMovie() {
         System.out.println("Last movie added was: " + movies.get(movies.size()-1).getTitle());
     }
