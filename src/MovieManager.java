@@ -93,6 +93,7 @@ public class MovieManager {
         String movieID = sc.next();
         for (Movie movie : movies) {
             if (movie.getMovieID().equalsIgnoreCase(movieID)) {
+                int choice;
                 do {
                     System.out.println("(1) Edit movieID");
                     System.out.println("(2) Edit title");
@@ -106,7 +107,7 @@ public class MovieManager {
                     System.out.println("(10) Edit showing status");
                     System.out.println("(11) Edit release date");
                     System.out.println("(12) End edits");
-                    int choice = sc.nextInt();
+                    choice = sc.nextInt();
 
                     switch (choice) {
                         case 1:
@@ -186,16 +187,17 @@ public class MovieManager {
                             LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
                             movie.setReleaseDate(date);
                             break;
-
                     }
-                } while();
+                } while(choice < 12);
             }
         }
     }
 
     // TODO
-    public void peekMovie() {}
-    // TODO
+    public void peekMovie() {
+        System.out.println("Last movie added was: " + movies.get(movies.size()-1).getTitle());
+    }
+
     public List<Movie> getMovies() {
         return movies;
     }
