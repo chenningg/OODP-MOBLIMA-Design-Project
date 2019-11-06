@@ -15,6 +15,11 @@
 6. Submit a pull request to the master branch (it should pop up after you commit to the new branch).
 7. After approval and review, your pull request will be accepted into the master branch.
 
+## Updating your own branch
+1. To update your branch from the master branch, select **Branch -> Update from master**. This will commit any updates from master into your current branch.
+2. Thereafter, push the commits from master to your own branch. Your branch is now up to date with the master branch.
+
+
 ## Important notes
 
 - If it's your first time contributing, make sure to pull and fetch from the master branch before commiting anything.
