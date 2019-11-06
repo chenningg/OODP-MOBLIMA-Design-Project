@@ -23,13 +23,12 @@ S = Seat
 ==========
 Example:
 ==========
-cinema_DTE_001 <---- FILENAME
+cinema_DTE_004 <---- FILENAME
 
-1
+4
 STANDARD
 168
 $
-------------------
 SS---SSSSSSSS---SS
 SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
@@ -41,5 +40,4 @@ SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
 SS---SSSSSSSS---SS
-------------------
 E
