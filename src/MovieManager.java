@@ -88,7 +88,33 @@ public class MovieManager {
         movies.add(newMovie);
     }
 
-    public void editMovie() {}
+    public void editMovie() {
+        System.out.println("Enter movieID: ");
+        String movieID = sc.next();
+        for (Movie movie : movies) {
+            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
+                do {
+                    System.out.println("(1) Edit movieID");
+                    System.out.println("(2) Edit title");
+                    System.out.println("(3) Edit genres");
+                    System.out.println("(4) Edit director");
+                    System.out.println("(5) Edit cast");
+                    System.out.println("(6) Edit synopsis");
+                    System.out.println("(7) Edit rating");
+                    System.out.println("(8) Edit formats");
+                    System.out.println("(9) Edit duration");
+                    System.out.println("(10) Edit showing status");
+                    System.out.println("(11) Edit release date");
+                    int choice = sc.nextInt();
+
+                    switch (choice) {
+                        case 1:
+                            
+                    }
+                }
+            }
+        }
+    }
 
     public void deleteMovie() {}
 
@@ -98,9 +124,40 @@ public class MovieManager {
         return movies;
     }
 
-    public List<Movie> searchMovies(String movieName) {}
+    public List<Movie> searchMovies(String movieName) {
+        List<Movie> foundMovies = new ArrayList<>();
+        String lowerCaseName = movieName.toLowerCase();
 
-    public void displayMovieDetails(Movie movie) {}
+        // for-each loop
+        for (Movie movie : movies) {
+            if (movie.getTitle().toLowerCase().contains(lowerCaseName)) {
+                foundMovies.add(movie);
+            }
+        }
+        return foundMovies;
+    }
 
-    public Movie getMovieByID(int movieID) {}
+    public void displayMovieDetails(Movie movie) {
+        System.out.print("Movie Title: ");
+        System.out.println(movie.getTitle());
+        System.out.print("Showing Status: ");
+        System.out.println(movie.getShowingStatus());
+        System.out.print("Synopsis: ");
+        System.out.println(movie.getSynopsis());
+        System.out.print("Director: ");
+        System.out.println(movie.getDirector());
+        System.out.print("Cast: ");
+        for(int i=0;i<movie.getCast().size();i++){
+            System.out.println(movie.getCast().get(i));
+        }
+    }
+
+    public Movie getMovieByID(String movieID) {
+        for (Movie movie : movies) {
+            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
+                return movie;
+            }
+        }
+        return null;
+    }
 }
