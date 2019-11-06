@@ -96,7 +96,7 @@ public class MovieManager {
                 do {
                     System.out.println("(1) Edit movieID");
                     System.out.println("(2) Edit title");
-                    System.out.println("(3) Edit genres");
+                    System.out.println("(3) Edit genres (genres will be overwritten)");
                     System.out.println("(4) Edit director");
                     System.out.println("(5) Edit cast");
                     System.out.println("(6) Edit synopsis");
@@ -105,13 +105,30 @@ public class MovieManager {
                     System.out.println("(9) Edit duration");
                     System.out.println("(10) Edit showing status");
                     System.out.println("(11) Edit release date");
+                    System.out.println("(12) End edits");
                     int choice = sc.nextInt();
 
                     switch (choice) {
                         case 1:
-                            
+                            System.out.println("Enter new movieID: ");
+                            String newMovieID = sc.next();
+                            movie.setMovieID(newMovieID);
+                            break;
+                        case 2:
+                            System.out.println("Enter new title: ");
+                            String newTitle = sc.next();
+                            movie.setTitle(newTitle);
+                            break;
+                        case 3:
+                            System.out.println("Enter number of genres: ");
+                            List<Genre> Genres = new ArrayList<>();
+                            int numGenres = sc.nextInt();
+                            for (int i=0;i<numGenres;i++)
+                            {
+
+                            }
                     }
-                }
+                } while();
             }
         }
     }
