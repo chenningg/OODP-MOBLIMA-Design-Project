@@ -91,7 +91,7 @@ public class MovieManager {
     public void editMovie() {
         System.out.println("Enter movieID: ");
         String movieID = sc.next();
-        for (Movie movie : movies)
+        for (Movie movie : movies) {
             if (movie.getMovieID().equalsIgnoreCase(movieID)) {
                 int choice;
                 do {
