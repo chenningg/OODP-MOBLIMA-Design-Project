@@ -11,9 +11,9 @@ public class Booking {
     private String bookerEmail = null;
 
     //Methods
-    public void addTickets(Ticket newTicket){
+    public void addTickets(Ticket newTicket) {
         tickets.add(newTicket);
-
+        return true;
     }
     public updateTotalPrice(){
         for(int i=0;i<tickets.size();i++){

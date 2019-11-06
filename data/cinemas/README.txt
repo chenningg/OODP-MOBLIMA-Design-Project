@@ -1,19 +1,43 @@
-Each cinema file will be titled: 'cinema_XXXXX' where XXXXX is the cinema ID in integers.
-The full cinema ID will be 'cinema_XXXXX', NOT XXXXX only.
+Each cinema file will be titled: 'cinema_XXX_YYY'
+XXX is the cineplex ID and YYY is the cinema hall number appended with 0s at the front
+An example is 'cinema_DTE_004' for hall 4 of Downtown East's cineplex.
 
 In each cinema file, please follow the format below to create it in text.
-Open any existing cinema file for examples.
 
+==========
 Format:
-
+==========
 Hall number
 Cinema type (PLATINUM/GOLD/STANDARD) // Note: In CAPS
 Total Seats No
 Seat Layout (ASCII symbols, using legends below)
 
+==========
 Legend:
+==========
+$ = Screen	// Just put first symbol, screen takes up whole row
+- = Aisle space // Aisle space, must have at the sides, front and back
+E = Exit door	// Entrance only need to put the first index, it takes up the whole row
+S = Seat
 
-$ = Screen	// Screen should have at least a breadth : height of 10 : 2
-- = Aisle space // Aisle space should have at least a width of 2 for front and back corridors
-E = Exit door	// Exit door should have at least a width of 2
-S = Seat 
+==========
+Example:
+==========
+cinema_DTE_004 <---- FILENAME
+
+4
+STANDARD
+168
+$
+SS---SSSSSSSS---SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS-SSSSSSSSSSSS-SS
+SS---SSSSSSSS---SS
+E
