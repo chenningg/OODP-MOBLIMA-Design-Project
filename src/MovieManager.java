@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -77,7 +79,11 @@ public class MovieManager {
         String showStatus = sc.next();
         newMovie.setShowingStatus(ShowingStatus.valueOf(showStatus));
 
-
+        System.out.println("Enter release date (format DD/MM/YYYY): ");
+        String releaseDate = sc.next();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+        LocalDate date = LocalDate.parse(releaseDate, dateFormat);
+        newMovie.setReleaseDate(date);
     }
 
     public void editMovie() {}
