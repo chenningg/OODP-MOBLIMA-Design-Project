@@ -3,22 +3,24 @@ public class Company{
     private Cineplex[] cineplexes;
 
     //constructor
-    Company(){}
+    Company() {
+    	
+    }
 
     //methods
-    public void addCineplex(Cineplex[] cineplexes){
+    public void addCineplex(Cineplex[] cineplexes) {
         this.cineplexes.append(cineplexes);
     }
 
-    public Cineplex[] getCineplexes(){
+    public Cineplex[] getCineplexes() {
         return this.cineplexes;
     }
 
-    public String getCompanyName(){
+    public String getCompanyName() {
         return this.companyName;
     }
 
-    public void setCompanyName(String CompName){
+    public void setCompanyName(String CompName) {
         this.companyName= CompName;
     }
 
