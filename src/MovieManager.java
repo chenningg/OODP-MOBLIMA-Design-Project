@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class MovieManager {
     private static MovieManager single_instance = null;
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
     private MovieManager() {}
 
@@ -84,6 +84,8 @@ public class MovieManager {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
         LocalDate date = LocalDate.parse(releaseDate, dateFormat);
         newMovie.setReleaseDate(date);
+
+        movies.add(newMovie);
     }
 
     public void editMovie() {}
