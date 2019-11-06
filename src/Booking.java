@@ -11,7 +11,7 @@ public class Booking {
     private String bookerEmail = null;
 
     //Methods
-    public void addTickets(Ticket newTicket){
+    public void addTickets(Ticket newTicket) {
         tickets.add(newTicket);
     }
     
