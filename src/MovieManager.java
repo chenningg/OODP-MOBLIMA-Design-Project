@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -5,7 +7,7 @@ import java.util.Scanner;
 public class MovieManager {
     private static MovieManager single_instance = null;
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
 
     private MovieManager() {}
 
@@ -21,10 +23,14 @@ public class MovieManager {
     public void addMovie() {
         Movie newMovie = new Movie();
         List<Genre> genreList = new ArrayList<>();
-        System.out.println("Enter movieID: ");
-        newMovie.setMovieID(sc.next());
+        List<String> castList = new ArrayList<>();
+        List<MovieFormat> formatList = new ArrayList<>();
+
+        // System.out.println("Enter movieID: ");
+        // newMovie.setMovieID(sc.next());
         System.out.println("Enter movie title: ");
         newMovie.setTitle(sc.next());
+
         System.out.println("Enter number of genres: ");
         int numGenres = sc.nextInt();
         System.out.println("Enter the genres: ");
@@ -35,6 +41,51 @@ public class MovieManager {
             genreList.add(Genre.valueOf(userGenre));
         }
         newMovie.setGenres(genreList);
+
+        System.out.println("Enter director name: ");
+        newMovie.setDirector(sc.next());
+
+        System.out.println("Enter length of cast: ");
+        int castLength = sc.nextInt();
+        for (int i=0;i<castLength;i++)
+        {
+            System.out.println("Enter cast member: ");
+            String castName = sc.next();
+            castList.add(castName);
+        }
+        newMovie.setCast(castList);
+
+        System.out.println("Enter synopsis: ");
+        newMovie.setSynopsis(sc.next());
+
+        System.out.println("Enter movie rating: ");
+        String movieRating = sc.next();
+        newMovie.setMovieRating(MovieRating.valueOf(movieRating));
+
+        System.out.println("Enter number of movie formats: ");
+        int formatLength = sc.nextInt();
+        for (int i=0;i<formatLength;i++)
+        {
+            System.out.println("Enter movie format: ");
+            String format = sc.next();
+            formatList.add(MovieFormat.valueOf(format));
+        }
+        newMovie.setMovieFormats(formatList);
+
+        System.out.println("Enter movie duration: ");
+        newMovie.setMovieDuration(sc.nextFloat());
+
+        System.out.println("Enter showing status: ");
+        String showStatus = sc.next();
+        newMovie.setShowingStatus(ShowingStatus.valueOf(showStatus));
+
+        System.out.println("Enter release date (format DD/MM/YYYY): ");
+        String releaseDate = sc.next();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+        LocalDate date = LocalDate.parse(releaseDate, dateFormat);
+        newMovie.setReleaseDate(date);
+
+        movies.add(newMovie);
     }
 
     public void editMovie() {}
