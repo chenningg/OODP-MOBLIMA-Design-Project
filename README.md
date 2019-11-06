@@ -1,5 +1,6 @@
 # OODP MOBLIMA Design Project
- Group members: Shaun, Reuben, Chen Ning, John, Chuan Xin
+ *Group members:* Shaun, Reuben, Chen Ning, John, Chuan Xin
+ 
  Object Oriented Design Programming Course Project for NTU REP Year 2, wherein we have to create a Movie Booking console application applying OODP principles.
  
  
