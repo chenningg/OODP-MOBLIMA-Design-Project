@@ -1,4 +1,4 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Movie {
@@ -16,7 +16,7 @@ public class Movie {
     private int totalReviewNo;
     private float totalReviewScore;
     private ShowingStatus showingStatus = ShowingStatus.COMING_SOON;
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
     private long ticketsSold;
     private double grossProfit;
 
@@ -52,7 +52,7 @@ public class Movie {
         this.director = director;
     }
 
-    public String[] getCast() {
+    public List<String> getCast() {
         return cast;
     }
 
@@ -132,11 +132,11 @@ public class Movie {
         this.showingStatus = showingStatus;
     }
 
-    public LocalDateTime getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDateTime releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
