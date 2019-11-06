@@ -98,9 +98,23 @@ public class MovieManager {
         return movies;
     }
 
-    public List<Movie> searchMovies(String movieName) {}
+    public List<Movie> searchMovies(String movieName) {
+        List<Movie> foundMovies = new ArrayList<>();
+        String lowerCaseName = movieName.toLowerCase();
+
+        // for-each loop
+        for (Movie movie : movies) {
+            if (movie.getTitle().toLowerCase().contains(lowerCaseName)) {
+                foundMovies.add(movie);
+            }
+        }
+        return foundMovies;
+    }
 
     public void displayMovieDetails(Movie movie) {}
 
-    public Movie getMovieByID(int movieID) {}
+    public Movie getMovieByID(String movieID) {
+        String lowerCaseID = movieID.toLowerCase();
+        
+    }
 }
