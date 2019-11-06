@@ -1,7 +1,9 @@
+import java.util.List;
+
 public class MovieManager {
     private static MovieManager single_instance = null;
 
-    private Movie[] movies;
+    private List<Movie> movies;
 
     private MovieManager() {}
 
@@ -12,7 +14,9 @@ public class MovieManager {
         return single_instance;
     }
 
-    public void addMovie() {}
+    public void addMovie() {
+
+    }
 
     public void editMovie() {}
 
@@ -20,11 +24,11 @@ public class MovieManager {
 
     public void peekMovie() {}
 
-    public Movie[] getMovies() {
+    public List<Movie> getMovies() {
         return movies;
     }
 
-    public Movie[] searchMovies(String movieName) {}
+    public List<Movie> searchMovies(String movieName) {}
 
     public void displayMovieDetails(Movie movie) {}
 

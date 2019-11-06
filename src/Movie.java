@@ -1,16 +1,17 @@
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Movie {
     private String movieID;
     private String title;
-    private Genre[] genres;
+    private List<Genre> genres;
     private String director;
-    private String[] cast;
+    private List<String> cast;
     private String synopsis;
     private MovieRating movieRating;
-    private MovieFormat[] movieFormats;
+    private List<MovieFormat> movieFormats;
     private float movieDuration;
-    private Review[] movieReviews = null;
+    private List<Review> movieReviews = null;
     private float averageReviewScore;
     private int totalReviewNo;
     private float totalReviewScore;
@@ -35,11 +36,11 @@ public class Movie {
         this.movieID = movieID;
     }
 
-    public Genre[] getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Genre[] genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 
@@ -55,7 +56,7 @@ public class Movie {
         return cast;
     }
 
-    public void setCast(String[] cast) {
+    public void setCast(List<String> cast) {
         this.cast = cast;
     }
 
@@ -75,11 +76,11 @@ public class Movie {
         this.movieRating = movieRating;
     }
 
-    public MovieFormat[] getMovieFormats() {
+    public List<MovieFormat> getMovieFormats() {
         return movieFormats;
     }
 
-    public void setMovieFormats(MovieFormat[] movieFormats) {
+    public void setMovieFormats(List<MovieFormat> movieFormats) {
         this.movieFormats = movieFormats;
     }
 
@@ -91,11 +92,11 @@ public class Movie {
         this.movieDuration = movieDuration;
     }
 
-    public Review[] getMovieReviews() {
+    public List<Review> getMovieReviews() {
         return movieReviews;
     }
 
-    public void setMovieReviews(Review[] movieReviews) {
+    public void setMovieReviews(List<Review> movieReviews) {
         this.movieReviews = movieReviews;
     }
 
