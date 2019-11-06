@@ -16,19 +16,20 @@ Seat Layout (ASCII symbols, using legends below)
 Legend:
 ==========
 $ = Screen	// Just put first symbol, screen takes up whole row
-- = Aisle space // Aisle space
+- = Aisle space // Aisle space, at least one aisle on each side
 E = Exit door	// Entrance only need to put the first index, it takes up the whole row
 S = Seat
 
 ==========
 Example:
 ==========
-cinema_DTE_004 <---- FILENAME
+cinema_DTE_001 <---- FILENAME
 
-4
+1
 STANDARD
 168
 $
+------------------
 SS---SSSSSSSS---SS
 SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
@@ -40,4 +41,5 @@ SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
 SS---SSSSSSSS---SS
+------------------
 E
