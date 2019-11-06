@@ -5,7 +5,7 @@
  
 ## Contributing to the project
 
-Please follow the steps below in order to make a change to the master branch.
+**READ THE FOLLOWING BEFORE MAKING ANY CHANGES.**
 
 1. Ensure that you have fetched **AND** pulled the latest master branch into your local repository before making changes.
 2. Make any changes to your local repository as required. **DO NOT DELETE, CUT OR COPY ANY FOLDERS/FILES.** You should only create new files.
@@ -17,3 +17,5 @@ Please follow the steps below in order to make a change to the master branch.
 ## Important notes
 
 - If it's your first time contributing, make sure to pull and fetch from the master branch before commiting anything.
+- DO NOT pull from the master branch if you have changes on your local repository. All your changes will be lost. Instead, push all your changes to a new branch and submit a pull request.
+- If you want to make further changes BEFORE the master branch is updated, make a new branch of your pending branch and work from there.
