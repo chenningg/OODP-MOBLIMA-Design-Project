@@ -189,9 +189,10 @@ public class MovieManager {
                 } while (choice < 12);
                 break;
             }
+        }
     }
 
-    public void deleteMovie() {
+    public void deleteMovie(){
         System.out.println("Enter movieID to be deleted: ");
         String delMovieID = sc.next();
         for (Movie movie : movies)
