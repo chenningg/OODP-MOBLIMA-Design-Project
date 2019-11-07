@@ -39,11 +39,10 @@ public class Cineplex {
     public void openCinemaFile(String cineplexID) {
 		try {
 			// current folder is \src
-			FileReader frStream = new FileReader( "..\\data\\cineplexes\\cineplex_" + cineplexName + ".txt" );
+			FileReader frStream = new FileReader( "./data/cineplexes/cineplex_" + cineplexID + ".txt" );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
-
 			do {
 				inputLine = brStream.readLine(); // read in a line
 				if (inputLine == null) {break;} // end of file
@@ -51,7 +50,8 @@ public class Cineplex {
 				if (i==0) {
 					// first line of file is the cineplex name
 					this.setCineplexName(inputLine);
-				} else {	
+				}
+				else {	
 					// all other lines are lists of cinemas the cineplex has
 					this.addCinemas(inputLine);
 				}
