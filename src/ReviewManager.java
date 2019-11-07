@@ -50,7 +50,7 @@ public class ReviewManager {
                     break;
                 case 5:
                     System.out.println("Review submitted!");
-                    movie.appendReview(submittedReview);
+                    movie.addMovieReview(submittedReview);
                     break;
                 if (choice == 5)
                     break;
@@ -58,10 +58,21 @@ public class ReviewManager {
         } while (choice < 6);
     }
 
-    public List<Review> getReviews(Movie movie) {}
+    public List<Review> getReviews(Movie movie) {
+        return movie.getMovieReviews();
+    }
 
-    public float getAverageReviewScore(String movieID) {}
+    // TODO: for now change movieID to movie object
+    public float getAverageReviewScore(Movie movie) {
+        List<Review> reviews = movie.getMovieReviews();
+        float sum = 0;
+        for (Review review : reviews) {
+            sum += review.getScore();
+        }
+        return sum/reviews.size();
+    }
 
+    // TODO: What is the single review held by manager?
     public Review getReview() {
         return review;
     }

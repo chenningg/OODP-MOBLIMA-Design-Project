@@ -156,7 +156,7 @@ public class Movie {
         this.grossProfit = grossProfit;
     }
 
-    public void appendReview(Review review) {
+    public void addMovieReview(Review review) {
         this.movieReviews.add(review);
     }
 }
