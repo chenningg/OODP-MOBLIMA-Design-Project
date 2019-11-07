@@ -1,27 +1,80 @@
-public class Company{
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Company {
+	// Attributes
     private String companyName;
-    private Cineplex[] cineplexes;
+    private List<Cineplex> cineplexes;
 
-    //constructor
-    Company() {
-    	
+    // Constructor
+    Company(){
+    	this.cineplexes = new ArrayList<Cineplex>();
+    	this.openCompanyFile();
     }
 
-    //methods
-    public void addCineplex(Cineplex[] cineplexes) {
-        this.cineplexes.append(cineplexes);
-    }
+    
+    // Getters
+    public String getCompanyName(){return this.companyName;}
+    public List<Cineplex> getCineplexes(){return this.cineplexes;}
 
-    public Cineplex[] getCineplexes() {
-        return this.cineplexes;
-    }
 
-    public String getCompanyName() {
-        return this.companyName;
-    }
 
-    public void setCompanyName(String CompName) {
-        this.companyName= CompName;
+    // Setters
+    public void setCompanyName(String companyName){
+		this.companyName = companyName;
     }
+    
+    public void addCineplexes(String cineplexName){
+    	Cineplex cineplex = new Cineplex(cineplexName);
+    	cineplexes.add(cineplex); 
+    }
+    
+    
+    // File Reader
+    public void openCompanyFile() {
+		try {
+			// current folder is \src
+			FileReader frStream = new FileReader( "..\\data\\company.txt" );
+			BufferedReader brStream = new BufferedReader( frStream );
+			String inputLine;
+			int i = 0;
 
+			do {
+				inputLine = brStream.readLine(); // read in a line
+				if (inputLine == null) {break;} // end of file
+				
+				if (i==0) {
+					// first line of file is the company name
+					this.setCompanyName(inputLine);
+				} else {	
+					// all other lines are lists of cineplexes the company owns
+					this.addCineplexes(inputLine);
+				}
+
+				i++;
+			} while (inputLine != null);
+			
+			brStream.close();	
+			
+		} catch ( FileNotFoundException e ) {
+			System.out.println( "Error opening the input file!" + e.getMessage() );
+			System.exit( 0 );
+		} catch ( IOException e ) {
+			System.out.println( "IO Error!" + e.getMessage() );
+			e.printStackTrace();
+			System.exit( 0 );
+		}           
+
+    }
+}
+
+
+// Driver app for testing
+class CompanyApp {
+	public static void main(String[] args) {
+		Company myCompany = new Company();
+		System.out.println(myCompany.getCompanyName());
+		System.out.println(myCompany.getCineplexes());
+	}
 }
