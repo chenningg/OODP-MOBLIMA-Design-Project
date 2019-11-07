@@ -27,6 +27,7 @@ public class SerializerHelper {
             objectInputStream.close();
             bufferedInputStream.close();
             fileInputStream.close();
+            System.out.println("Object has been read in!");
             return object;
         }
         catch (IOException i)
