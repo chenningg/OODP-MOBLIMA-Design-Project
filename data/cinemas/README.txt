@@ -5,10 +5,10 @@ An example is 'cinema_DTE_004' for hall 4 of Downtown East's cineplex.
 In each cinema file, please follow the format below to create it in text.
 
 ==========
-Format:
+Format
 ==========
 Hall number
-Cinema type (PLATINUM/GOLD/STANDARD) // Note: In CAPS
+Cinema type (PLATINUM/STANDARD) // Note: In CAPS
 Total Seats No
 Seat Layout (ASCII symbols, using legends below)
 
@@ -29,6 +29,7 @@ cinema_DTE_004 <---- FILENAME
 STANDARD
 168
 $
+------------------
 SS---SSSSSSSS---SS
 SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
@@ -40,4 +41,5 @@ SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
 SS-SSSSSSSSSSSS-SS
 SS---SSSSSSSS---SS
+------------------
 E
