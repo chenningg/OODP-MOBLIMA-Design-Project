@@ -1,38 +1,30 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Cineplex {
 	// Attributes
 	private String cineplexID;
 	private String cineplexName;
-	private String address;
-	private List<Cinema> cinemas;
+	private ArrayList<Cinema> cinemas;
 	
 	
 	// Constructor
-	public Cineplex(String cineplexName) {
+	public Cineplex(String cineplexID) {
 		this.cinemas = new ArrayList<Cinema>();
-		this.openCinemaFile(cineplexName);
+		this.setCineplexID(cineplexID);
+		this.openCinemaFile(cineplexID);
 	}
-
 
 
 	// Getters
 	public String getCineplexID() {return cineplexID;}
 	public String getCineplexName() {return cineplexName;}
-	public String getAddress() {return address;}
-	public List<Cinema> getCinemas() {return cinemas;}
+	public ArrayList<Cinema> getCinemas() {return cinemas;}
 
 
-	
 	// Setters
 	public void setCineplexID(String cineplexID) {this.cineplexID = cineplexID;}
 	public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
-	public void setAddress(String address) {this.address = address;}
 	
 	public void addCinemas(String cinemaID) {
     	Cinema cinema = new Cinema(cinemaID);
@@ -40,8 +32,11 @@ public class Cineplex {
 	}
 	
 	
+	// Others
+	
+	
     // File Reader
-    public void openCinemaFile(String cineplexName) {
+    public void openCinemaFile(String cineplexID) {
 		try {
 			// current folder is \src
 			FileReader frStream = new FileReader( "..\\data\\cineplexes\\cineplex_" + cineplexName + ".txt" );
@@ -74,8 +69,5 @@ public class Cineplex {
 			e.printStackTrace();
 			System.exit( 0 );
 		}           
-    }	
-	
-	
-	
+    }		
 }
