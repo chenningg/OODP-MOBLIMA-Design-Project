@@ -155,4 +155,8 @@ public class Movie {
     public void setGrossProfit(double grossProfit) {
         this.grossProfit = grossProfit;
     }
+
+    public void appendReview(Review review) {
+        this.movieReviews.add(review);
+    }
 }
