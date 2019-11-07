@@ -1,16 +1,13 @@
 import java.util.Scanner;
 
 public class TransactionManager {
-	private Transaction transaction=null;
+	private Transaction transaction;
 	
 	//constructor
 	TransactionManager(){
 		this.transaction= null;
 	}
-	TransactionManager(Transaction transaction){
-		this.transaction= transaction;
-	}
-	
+
 	//methods
 	public void startTransaction(Booking booking){
 		Transaction tr= new Transaction();
@@ -20,6 +17,8 @@ public class TransactionManager {
     	Scanner s= new Scanner(System.in);
     	String creditCardNo = s.next();
     	tr.setCreditCardNo(creditCardNo);
+    	s.close();
+    	this.transaction= tr;
 	}
 	
 	public void getDetails() {
@@ -27,6 +26,7 @@ public class TransactionManager {
 	}
 	
 	public void makeTransaction() {
+		confirmBooking();
 		
 	}
 	
