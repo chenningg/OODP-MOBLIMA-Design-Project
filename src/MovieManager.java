@@ -192,7 +192,7 @@ public class MovieManager {
         }
     }
 
-    public void deleteMovie(){
+    public void deleteMovie() {
         System.out.println("Enter movieID to be deleted: ");
         String delMovieID = sc.next();
         for (Movie movie : movies)
