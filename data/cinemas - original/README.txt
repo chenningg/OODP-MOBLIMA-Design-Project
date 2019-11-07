@@ -11,8 +11,6 @@ Hall number
 Cinema type (PLATINUM/GOLD/STANDARD) // Note: In CAPS
 Total Seats No
 Occupied Seats No
-Seat Layout Rows
-Seat Layout Columns
 Seat Layout (ASCII symbols, using legends below)
 
 ==========
