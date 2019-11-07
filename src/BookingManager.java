@@ -105,6 +105,7 @@ class BookingManager {
     	
     	while (!exit) {
     		// Prints out ticket type selection menu
+    		// TODO TICKET DISCUSSION
     		System.out.printf("You have selected %s" );
     		System.out.println("Please select tickets:");
     		for (int i = 1; i <= ticketChoices; i++) {
