@@ -156,8 +156,25 @@ class BookingManager {
     
     // Add a seat selection. We need to check that all seats added are adjacent to each other, and are unoccupied.
     public void addSeatSelection() {
-		System.out.println("Please enter your seat selection (e.g. C6):");
+		System.out.println("Please enter a seat selection (e.g. C6):");
+		String selection = sc.next().toUpperCase();
 		
+		// Check if seat selection matches format
+		if (selection.matches("[A-Z]\\d{1,2}")) {
+			// Loop through seating plan to check if seat exists and is available
+			char seatRow = selection.charAt(0);
+			int seatCol = Integer.valueOf(selection.substring(1, selection.length()));
+			
+			for (int row = 0; row < getSeatingPlan().size(); row++) {
+				// If we find a match for alphabet row
+				if (getSeatingPlan().get(row).charAt(0) == seatRow) {
+					
+				}
+			}
+		}
+		
+		// If invalid selection, return error
+		System.out.println("Invalid seat ID entered. Please try again.");
     }
     
     
