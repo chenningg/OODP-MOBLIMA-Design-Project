@@ -1,13 +1,12 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 class BookingManager {
     // Variables
     private Showtime showtime = null;
-    private char[][] seatingPlan;
-    private List<String> selectedSeats = new ArrayList<String>();
-    private List<Ticket> selectedTickets = new ArrayList<Ticket>();
+    private ArrayList<String> seatingPlan;
+    private ArrayList<String> selectedSeats = new ArrayList<String>();
+    private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
 	private Booking booking = null;
     private Scanner sc = new Scanner(System.in);
     
@@ -31,7 +30,7 @@ class BookingManager {
     public void startBooking(Showtime baseShowtime) {
     	// Create a deep copy of showtime seats so we don't affect the original until booking completes
     	setShowtime(baseShowtime);
-    	setSeatingPlan(copySeatingPlan(baseShowtime.getCinema().getSeats()));
+    	setSeatingPlan(copySeatingPlan(baseShowtime.getCinema().getCinemaLayout()));
     	
     	// Show them booking menu until they exit
     	Boolean exit = false;
@@ -42,7 +41,7 @@ class BookingManager {
         	System.out.println("Please choose a choice:");
         	System.out.println("1. Select a seat");
         	System.out.println("2. Deselect a seat");
-        	System.out.println("3. Ticket selection");
+        	System.out.println("3. Confirm");
         	System.out.println("0. Exit");
 
         	switch(sc.nextInt()) {
@@ -72,29 +71,22 @@ class BookingManager {
     }
     
     // Prints out seating plan in a nice manner upon being given a 2D array of chars
-    public void displaySeats(char[][] seatingPlan) {
-    	int width = seatingPlan[0].length;
-    	int height = seatingPlan.length;
-    	
-    	// Print entire layout
-    	for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-            	System.out.printf("%c", seatingPlan[row][col]);
-            }
-            System.out.println(); // Line break
-        }		
+    public void displaySeats(ArrayList<String> seatingPlan) {
+    	int i = 0;
+		while (i < seatingPlan.size()) {
+			System.out.println(seatingPlan.get(i));
+			i++;
+		}	
     }
     
-    public char[][] copySeatingPlan(char[][] seats) {
-    	// Create a local deep copy of showtime's seats
-    	int height = seats.length;
-    	int width = seats[0].length;
-    	char[][] seatsCopy = new char[height][width];
-    	for (int row = 0; row < height; row++) {
-    		for (int col = 0; col < width; col++) {
-    			seatsCopy[row][col] = seats[row][col];
-    		}
-    	}
+    // Create a local deep copy of showtime's seats
+    public ArrayList<String> copySeatingPlan(ArrayList<String> seats) {
+    	ArrayList<String> seatsCopy = new ArrayList<String>();
+    	int i = 0;
+		while (i < seats.size()) {
+			seatsCopy.add(seats.get(i));
+			i++;
+		}
     	return seatsCopy;
     }
     
@@ -105,6 +97,7 @@ class BookingManager {
     	
     	while (!exit) {
     		// Prints out ticket type selection menu
+    		// TODO TICKET DISCUSSION
     		System.out.printf("You have selected %s" );
     		System.out.println("Please select tickets:");
     		for (int i = 1; i <= ticketChoices; i++) {
@@ -160,7 +153,7 @@ class BookingManager {
 		this.showtime = showtime;
 	}
     
-    public void setSeatingPlan(char[][] seatingPlan) {
+    public void setSeatingPlan(ArrayList<String> seatingPlan) {
 		this.seatingPlan = seatingPlan;
 	}
     
@@ -169,15 +162,15 @@ class BookingManager {
 		return showtime;
 	}
 	
-    public char[][] getSeatingPlan() {
+    public ArrayList<String> getSeatingPlan() {
 		return seatingPlan;
 	}
 
-	public List<String> getSelectedSeats() {
+	public ArrayList<String> getSelectedSeats() {
 		return selectedSeats;
 	}
 
-	public List<Ticket> getSelectedTickets() {
+	public ArrayList<Ticket> getSelectedTickets() {
 		return selectedTickets;
 	}
 }

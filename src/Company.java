@@ -1,12 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Company {
 	// Attributes
     private String companyName;
-    private List<Cineplex> cineplexes;
-
+    private ArrayList<Cineplex> cineplexes;
+    
     // Constructor
     Company(){
     	this.cineplexes = new ArrayList<Cineplex>();
@@ -16,8 +15,7 @@ public class Company {
     
     // Getters
     public String getCompanyName(){return this.companyName;}
-    public List<Cineplex> getCineplexes(){return this.cineplexes;}
-
+    public ArrayList<Cineplex> getCineplexes(){return this.cineplexes;}
 
 
     // Setters
@@ -31,11 +29,14 @@ public class Company {
     }
     
     
+    // Others
+    
+    
     // File Reader
     public void openCompanyFile() {
 		try {
 			// current folder is \src
-			FileReader frStream = new FileReader( "..\\data\\company.txt" );
+			FileReader frStream = new FileReader( "./data/company.txt" );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
@@ -76,5 +77,9 @@ class CompanyApp {
 		Company myCompany = new Company();
 		System.out.println(myCompany.getCompanyName());
 		System.out.println(myCompany.getCineplexes());
+		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
+		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
+		
+		myCompany.getCineplexes().get(0).getCinemas().get(0).printCinemaLayout();
 	}
 }

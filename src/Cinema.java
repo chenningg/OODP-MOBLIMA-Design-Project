@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Cinema {
 	// Attributes
@@ -11,20 +8,14 @@ public class Cinema {
 	private CinemaType cinemaType;
 	private int totalSeatNo;
 	private int occupiedSeatsNo;
-	private char[][] cinemaLayout;
-	
-	
-	
-	
+	private ArrayList<String> cinemaLayout;
 	
 	
 	// Constructor	
 	public Cinema(String cinemaID) {
-		this.setCinemaID(cinemaID);	
-		if (cinemaID.equals("CAT_001")) {
-			this.openCinemaFile(cinemaID);
-//			System.out.println(this.cinemaLayout);
-		}
+		this.cinemaLayout = new ArrayList<String>();
+		this.setCinemaID(cinemaID);			
+		this.openCinemaFile(cinemaID);
 	}
 
 	
@@ -34,8 +25,19 @@ public class Cinema {
 	public CinemaType getCinemaType() {return cinemaType;}
 	public int getTotalSeatNo() {return totalSeatNo;}
 	public int getOccupiedSeatsNo() {return occupiedSeatsNo;}
-	public char[][] getCinemaLayout() {return cinemaLayout;}
+	public ArrayList<String> getCinemaLayout() {return cinemaLayout;}
 	
+	public void printCinemaLayout() {
+		int i=0;
+		while (i<this.getCinemaLayout().size()) {
+			System.out.println(this.getCinemaLayout().get(i));
+			i++;
+		}
+	}
+	
+	public void updateCinemaLayout() {
+		
+	}
 
 	
 	// Setters
@@ -45,24 +47,17 @@ public class Cinema {
 	public void setTotalSeatNo(int totalSeatNo) {this.totalSeatNo = totalSeatNo;}
 	public void setOccupiedSeatsNo(int occupiedSeatsNo) {this.occupiedSeatsNo = occupiedSeatsNo;}
 
-	public void setCinemaRows(int rowCount) {
-		this.cinemaLayout = new char[rowCount][];
-	}
-	public void setCinemaColumns(int columnCount) {
-		int i=0;
-		while (this.cinemaLayout[i] != null) {
-			this.cinemaLayout[i] = new char[columnCount];
-			i++;
-		}
-	}
 	public void setCinemaLayout(int layoutRow, String inputLine) {
-		int i=0;
-		System.out.println(layoutRow);
-		while (i<inputLine.length()) {
-//			this.cinemaLayout[layoutRow][i] = inputLine.charAt(i);
-//			System.out.println(this.cinemaLayout[layoutRow]);
-			System.out.println(this.cinemaLayout);
-			i++;
+		this.cinemaLayout.add(inputLine);
+	}
+	
+	
+	// Others
+	public void updateOccupiedSeatsNo(int seatsBooked) {
+		if (this.totalSeatNo - (this.occupiedSeatsNo+seatsBooked) < 0) {
+			System.out.println("Not enough seats left in the cinema");
+		} else {
+			this.occupiedSeatsNo+=seatsBooked;
 		}
 	}
 	
@@ -71,7 +66,7 @@ public class Cinema {
     public void openCinemaFile(String cinemaID) {
 		try {
 			// current folder is \src
-			FileReader frStream = new FileReader( "..\\data\\cinemas\\cinema_" + cinemaID + ".txt" );
+			FileReader frStream = new FileReader( "./data/cinemas/cinema_" + cinemaID + ".txt" );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
@@ -96,17 +91,9 @@ public class Cinema {
 					case 3:
 						// fourth line of file is the occupied seats
 						this.setOccupiedSeatsNo(Integer.parseInt(inputLine));
-						break;	
-					case 4:
-						// fifth line of file is the number of rows in the seat layout
-						this.setCinemaRows(Integer.parseInt(inputLine));
-						break;
-					case 5:
-						// sixth line of file is the number of columns in the seat layout
-						this.setCinemaColumns(Integer.parseInt(inputLine));
-						break;					
+						break;				
 					default:
-						// seventh line of file onwards will be the seat layout
+						// fifth line of file onwards will be the cinema layout
 						this.setCinemaLayout(i-6, inputLine);
 						break;
 				}
