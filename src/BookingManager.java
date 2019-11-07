@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 class BookingManager {
@@ -7,6 +8,7 @@ class BookingManager {
     private ArrayList<String> seatingPlan;
     private ArrayList<String> selectedSeats = new ArrayList<String>();
     private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
+    private HashMap<String, Integer> ticketCount = new HashMap<String, Integer>();
 	private Booking booking = null;
     private Scanner sc = new Scanner(System.in);
     
@@ -45,8 +47,11 @@ class BookingManager {
         	System.out.println("0. Exit");
 
         	switch(sc.nextInt()) {
-        		case 0:
+        		case 0: // Exit, reset everything
         			exit = true;
+        			getSelectedSeats().clear();
+        			setShowtime(null);
+        			setBooking(null);
         			break;
         		case 1: // Select seat
         			addSeatSelection();
@@ -70,7 +75,8 @@ class BookingManager {
     	}
     }
     
-    // Prints out seating plan in a nice manner upon being given a 2D array of chars
+
+	// Prints out seating plan in a nice manner upon being given a 2D array of chars
     public void displaySeats(ArrayList<String> seatingPlan) {
     	int i = 0;
 		while (i < seatingPlan.size()) {
@@ -78,6 +84,7 @@ class BookingManager {
 			i++;
 		}	
     }
+    
     
     // Create a local deep copy of showtime's seats
     public ArrayList<String> copySeatingPlan(ArrayList<String> seats) {
@@ -90,87 +97,95 @@ class BookingManager {
     	return seatsCopy;
     }
     
+    
+    // Deals with ticket selection
     public void ticketSelection() {
     	Boolean exit = false;
-    	int count = getSelectedSeats().size(); // Tracks number of tickets available for selection
+    	int maxTickets = getSelectedSeats().size(); // Tracks number of tickets available for selection
     	int ticketChoices = TicketType.values().length; // Number of ticket choices available
+    	int choice;
     	
     	while (!exit) {
     		// Prints out ticket type selection menu
-    		// TODO TICKET DISCUSSION
-    		System.out.printf("You have selected %s" );
-    		System.out.println("Please select tickets:");
+    		System.out.printf("You have selected %d seats. %d tickets remaining to select:\n", maxTickets-(getSelectedTickets().size()));
     		for (int i = 1; i <= ticketChoices; i++) {
     			System.out.printf("%d. %s\n", i, TicketType.values()[i-1].toString());
     		}
-    		System.out.printf("%s. Clear selected tickets\n", ticketChoices+1);
-    		System.out.println("0. Cancel");
+    		System.out.printf("%d. Clear selected tickets\n", ticketChoices+1);
+    		System.out.printf("%d. Proceed to payment\n", ticketChoices+2);
+    		System.out.println("0. Cancel");		
     		
-    		switch(sc.nextInt()) {
-	    		case 0:
-	    			exit = true;
-	    			break;
-	    		case 1: // Select ticket
-	    			addTicketSelection();
-	    			break;
-	    		case 2: // Remove ticket
-	    			deleteTicketSelection();
-	    			break;
-	    		case 3: // Ticket selection, requires at least a seat selection
-	    			// If no seats selected, don't allow ticket selection
-	    			if (getSelectedSeats().size() <= 0) {
-	    				System.out.println("No seats selected. Please select a seat before choosing tickets.");
-	    			}
-	    			else {
-	    				// Book tickets
-	    				ticketSelection();
-	    			}
-	    			break;
-	    		default:
-	    			System.out.println("Invalid choice entered. Please try again.");
+    		choice = sc.nextInt();
+    		
+    		// Clear selected tickets and ticketCount, return to seats
+    		if (choice == 0) { 	// Exit
+    			exit = true;
+    			getSelectedTickets().clear();
+    			getTicketCount().clear();
+    		}
+    		// Clear selected tickets but try again  	
+    		else if (choice == ticketChoices+1) { 		
+    			getSelectedTickets().clear();
+    			getTicketCount().clear();
+    			System.out.printf("Ticket selections cleared.");
+    		}
+    		// Check all seats have tickets, then proceed to payment
+    		else if (choice == ticketChoices+2) { 		
+    			// TODO PROCEED TO PAYMENT !$!@$!@*%!@%!@*!(@
+    		}
+    		// Add ticket selection based on its type. Update ticketCount and ticketSelection.
+    		else if (choice >= 1 && choice <= ticketChoices) {
+    			System.out.printf("How many %s tickets would you like to purchase? (Max %d):\n", TicketType.values()[choice-1].toString(), maxTickets-(getSelectedTickets().size()));
+    			int count = sc.nextInt();
+    			
+    			// Too little or too many tickets booked, go back to ticket selection menu
+    			if (count < 1 || count > maxTickets-(getSelectedTickets().size())) {
+    				System.out.println("Too many/little tickets selected! If you would like to change ticket selections, please clear selections and try again.");
+    				continue;
+    			}
+    			
+    			// Else we update ticketCount and ticketSelection.
+    			addTicketSelection(TicketType.values()[choice-1], count);
+    		}
+    		// Invalid choice
+    		else {
+    			System.out.println("Invalid choice entered. Please try again.");
     		}
     	}
     }
     
-    // Setters
+    // Add a seat selection. We need to check that all seats added are adjacent to each other, and are unoccupied.
     public void addSeatSelection() {
 		System.out.println("Please enter your seat selection (e.g. C6):");
+		
     }
+    
     
     public void deleteSeatSelection() {
     	System.out.println("Please enter seat to deselect (e.g. C6):");
     }
     
-    public void addTicketSelection() {
-    	
-    }
     
-    public void deleteTicketSelection() {
-    	
+    public void addTicketSelection(TicketType ticketType, int count) {
+    	for (int i = 0; i < count; i++) {
+    		Ticket newTicket = new Ticket(ticketType);
+    		getSelectedTickets().add(newTicket);
+    	}
+    	getTicketCount().put(ticketType.toString(), count);
     }
 
-    public void setShowtime(Showtime showtime) {
-		this.showtime = showtime;
-	}
     
-    public void setSeatingPlan(ArrayList<String> seatingPlan) {
-		this.seatingPlan = seatingPlan;
-	}
+    // Setters
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}   
+    public void setSeatingPlan(ArrayList<String> seatingPlan) {this.seatingPlan = seatingPlan;}
+	public void setBooking(Booking booking) {this.booking = booking;}
     
-    // Getters
-	public Showtime getShowtime() {
-		return showtime;
-	}
 	
-    public ArrayList<String> getSeatingPlan() {
-		return seatingPlan;
-	}
-
-	public ArrayList<String> getSelectedSeats() {
-		return selectedSeats;
-	}
-
-	public ArrayList<Ticket> getSelectedTickets() {
-		return selectedTickets;
-	}
+    // Getters
+	public Showtime getShowtime() {return showtime;}
+    public ArrayList<String> getSeatingPlan() {return seatingPlan;}
+	public ArrayList<String> getSelectedSeats() {return selectedSeats;}
+	public ArrayList<Ticket> getSelectedTickets() {return selectedTickets;}
+	public HashMap<String, Integer> getTicketCount() {return ticketCount;}
+	public Booking getBooking() {return booking;}
 }
