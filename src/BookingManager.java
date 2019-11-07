@@ -10,7 +10,6 @@ class BookingManager {
     private List<Ticket> selectedTickets = new ArrayList<Ticket>();
 	private Booking booking = null;
     private Scanner sc = new Scanner(System.in);
-    private String selection;
     
     // Singleton
  	private static BookingManager single_instance = null;
@@ -105,13 +104,38 @@ class BookingManager {
     	int ticketChoices = TicketType.values().length; // Number of ticket choices available
     	
     	while (!exit) {
-    		// Prints out ticket type selection
-    		System.out.println("Please select ticket type:");
+    		// Prints out ticket type selection menu
+    		System.out.printf("You have selected %s )
+    		System.out.println("Please select tickets:");
     		for (int i = 1; i <= ticketChoices; i++) {
-    			System.out.printf("%d. %s\n", i, TicketType.values()[i-1]);
+    			System.out.printf("%d. %s\n", i, TicketType.values()[i-1].toString());
     		}
+    		System.out.printf("%s. Clear selected tickets\n", ticketChoices+1);
+    		System.out.println("0. Cancel");
     		
-    		
+    		switch(sc.nextInt()) {
+	    		case 0:
+	    			exit = true;
+	    			break;
+	    		case 1: // Select ticket
+	    			addTicketSelection();
+	    			break;
+	    		case 2: // Remove ticket
+	    			deleteTicketSelection();
+	    			break;
+	    		case 3: // Ticket selection, requires at least a seat selection
+	    			// If no seats selected, don't allow ticket selection
+	    			if (getSelectedSeats().size() <= 0) {
+	    				System.out.println("No seats selected. Please select a seat before choosing tickets.");
+	    			}
+	    			else {
+	    				// Book tickets
+	    				ticketSelection();
+	    			}
+	    			break;
+	    		default:
+	    			System.out.println("Invalid choice entered. Please try again.");
+    		}
     	}
     }
     

@@ -21,8 +21,18 @@ public class SystemSettingsManager {
     public void listHolidays() {}
 
     public void listPrices() {}
+    
     // TODO: confirm data type
     public void getHolidays() {}
+    
     // TODO: confirm data type
     public void getPrices() {}
+    
+    public Double getPrice(String key) {
+    	return(systemSettings.getPrice(key));
+    }
+    
+    public String getHoliday(String key) {
+    	return(systemSettings.getHoliday(key));
+    }
 }
