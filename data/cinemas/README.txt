@@ -8,7 +8,7 @@ In each cinema file, please follow the format below to create it in text.
 Format
 ==========
 Hall number
-Cinema type (PLATINUM/GOLD/STANDARD) // Note: In CAPS
+Cinema type (PLATINUM/STANDARD) // Note: In CAPS
 Total Seats No
 Occupied Seats No
 Seat Layout (ASCII symbols, using legends below)
