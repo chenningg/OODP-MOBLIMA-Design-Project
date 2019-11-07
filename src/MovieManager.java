@@ -189,6 +189,7 @@ public class MovieManager {
                 } while (choice < 12);
                 break;
             }
+        }
     }
 
     public void deleteMovie() {
