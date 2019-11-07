@@ -1,7 +1,8 @@
+import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
-public class ReviewManager {
+public class ReviewManager implements Serializable {
     Scanner sc = new Scanner(System.in);
     private Review review = null;
     private static ReviewManager single_instance = null;
@@ -36,7 +37,7 @@ public class ReviewManager {
                 case 2:
                     System.out.println("Enter here: ");
                     String reviewTitle = sc.next();
-                    submittedReview.setReviewTitle();
+                    submittedReview.setReviewTitle(reviewTitle);
                     break;
                 case 3:
                     System.out.println("Enter here: ");
@@ -50,8 +51,7 @@ public class ReviewManager {
                     break;
                 case 5:
                     System.out.println("Review submitted!");
-                    movie.addMovieReview(submittedReview);
-                    break;
+                    movie.addMovieReview(submittedReview); // no break so i can break out of loop instead?
                 if (choice == 5)
                     break;
             }
@@ -79,5 +79,63 @@ public class ReviewManager {
 
     public void setReview(Review review) {
         this.review = review;
+    }
+}
+
+class ReviewManagerTest
+{
+    public static void main(String[] args)
+    {
+        ReviewManager test =  ReviewManager.getInstance();
+        String filename = "rvmngr.ser";
+
+        try
+        {
+            //Saving of object in a file
+            FileOutputStream file = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+
+            // Method for serialization of object
+            out.writeObject(test);
+
+            out.close();
+            file.close();
+
+            System.out.println("Object has been serialized");
+        }
+
+        catch(IOException ex)
+        {
+            System.out.println("IOException is caught");
+        }
+
+        ReviewManager retrievedTest = null;
+
+        // Deserialization
+        try
+        {
+            // Reading the object from a file
+            FileInputStream file = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            // Method for deserialization of object
+            retrievedTest = (ReviewManager) in.readObject();
+
+            in.close();
+            file.close();
+
+            System.out.println("Object has been deserialized ");
+        }
+
+        catch(IOException ex)
+        {
+            System.out.println("IOException is caught");
+        }
+
+        catch(ClassNotFoundException ex)
+        {
+            System.out.println("ClassNotFoundException is caught");
+        }
+
     }
 }
