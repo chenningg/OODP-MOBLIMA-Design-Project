@@ -38,8 +38,17 @@ public class Cineplex {
     // File Reader
     public void openCinemaFile(String cineplexID) {
 		try {
-			// current folder is \src
-			FileReader frStream = new FileReader( "./data/cineplexes/cineplex_" + cineplexID + ".txt" );
+			// Get filepath
+			String filePath = ProjectRootPathFinder.findProjectRootPath();
+			
+			if (filePath == null) {
+				throw new IOException("Cannot find root");
+			} else {
+				filePath = filePath + "/data/cineplexes/cineplex_" + cineplexID + ".txt";
+			}			
+			
+			// Open file and traverse it			
+			FileReader frStream = new FileReader( filePath );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
