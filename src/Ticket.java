@@ -7,7 +7,7 @@ public class Ticket {
     Ticket(TicketType ticketType) {
     	this.ticketType = ticketType;
     	this.ticketPrice = SystemSettingsManager.getInstance().getPrice(ticketType.toString());
-    	this.seatID = null;
+    	this.seatID = null; // This will be set by booking manager
     }
     
     public TicketType getTicketType() {
