@@ -5,7 +5,6 @@ public class Company {
 	// Attributes
     private String companyName;
     private ArrayList<Cineplex> cineplexes;
-
     
     // Constructor
     Company(){
@@ -37,7 +36,7 @@ public class Company {
     public void openCompanyFile() {
 		try {
 			// current folder is \src
-			FileReader frStream = new FileReader( "..\\data\\company.txt" );
+			FileReader frStream = new FileReader( "./data/company.txt" );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
@@ -81,5 +80,6 @@ class CompanyApp {
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
 		
+		myCompany.getCineplexes().get(0).getCinemas().get(0).printCinemaLayout();
 	}
 }
