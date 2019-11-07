@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Company {
@@ -35,8 +37,17 @@ public class Company {
     // File Reader
     public void openCompanyFile() {
 		try {
-			// current folder is \src
-			FileReader frStream = new FileReader( "./data/company.txt" );
+			// Get filepath
+			String filePath = ProjectRootPathFinder.findProjectRootPath();
+			
+			if (filePath == null) {
+				throw new IOException("Cannot find root");
+			} else {
+				filePath = filePath + "/data/company.txt";
+			}
+			
+			// Open file and traverse it
+			FileReader frStream = new FileReader( filePath );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
@@ -80,6 +91,6 @@ class CompanyApp {
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
 		
-		myCompany.getCineplexes().get(0).getCinemas().get(0).printCinemaLayout();
+//		myCompany.getCineplexes().get(0).getCinemas().get(0).printCinemaLayout();
 	}
 }

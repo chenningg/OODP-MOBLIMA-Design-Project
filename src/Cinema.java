@@ -65,8 +65,17 @@ public class Cinema {
     // File Reader
     public void openCinemaFile(String cinemaID) {
 		try {
-			// current folder is \src
-			FileReader frStream = new FileReader( "./data/cinemas/cinema_" + cinemaID + ".txt" );
+			// Get filepath
+			String filePath = ProjectRootPathFinder.findProjectRootPath();
+			
+			if (filePath == null) {
+				throw new IOException("Cannot find root");
+			} else {
+				filePath = filePath + "/data/cinemas/cinema_" + cinemaID + ".txt";
+			}			
+			
+			// Open file and traverse it						
+			FileReader frStream = new FileReader( filePath );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
 			int i = 0;
