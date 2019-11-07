@@ -17,7 +17,7 @@ public class Booking {
     
     public updateTotalPrice(){
         for(int i=0;i<tickets.size();i++){
-            totalPrice += tickets[i];
+            totalPrice += tickets.get(i);
         }
         return totalPrice;
     }
