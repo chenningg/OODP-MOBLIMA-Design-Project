@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ReviewManager implements Serializable {
+    // prevents errors
+    private static final long serialVersionUID = -4507356447150982872L;
     Scanner sc = new Scanner(System.in);
     private Review review = null;
     private static ReviewManager single_instance = null;
