@@ -13,7 +13,6 @@ public class ProjectRootPathFinder {
 				return file.getCanonicalPath();
 			} else {
 				while (file.getName().equals(rootFolderName) != true) {
-					System.out.println("hi");
 					file = file.getCanonicalFile().getParentFile();
 					// System.out.println(file.getCanonicalPath());
 				}
