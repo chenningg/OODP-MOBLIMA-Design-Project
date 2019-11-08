@@ -75,6 +75,7 @@ public class ReviewManager implements Serializable {
     }
 
     // TODO: What is the single review held by manager?
+
     public Review getReview() {
         return review;
     }
