@@ -4,6 +4,11 @@ public class StaffAccount {
     private String username;
     private String password;
 
+    public StaffAccount(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
 
     //Methods
     //Getters
