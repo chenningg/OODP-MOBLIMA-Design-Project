@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class MovieManager {
     private static MovieManager single_instance = null;
 
-    private List<Movie> movies = new ArrayList<>();
+    private ArrayList<Movie> movies = new ArrayList<>();
 
     private MovieManager() {}
 

@@ -1,17 +1,18 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
     private String movieID;
     private String title;
-    private List<Genre> genres;
+    private ArrayList<Genre> genres;
     private String director;
-    private List<String> cast;
+    private ArrayList<String> cast;
     private String synopsis;
     private MovieRating movieRating;
-    private List<MovieFormat> movieFormats;
+    private ArrayList<MovieFormat> movieFormats;
     private float movieDuration;
-    private List<Review> movieReviews = null;
+    private ArrayList<Review> movieReviews = null;
     private float averageReviewScore;
     private int totalReviewNo;
     private float totalReviewScore;
@@ -36,7 +37,7 @@ public class Movie {
         this.movieID = movieID;
     }
 
-    public List<Genre> getGenres() {
+    public ArrayList<Genre> getGenres() {
         return genres;
     }
 
@@ -52,11 +53,11 @@ public class Movie {
         this.director = director;
     }
 
-    public List<String> getCast() {
+    public ArrayList<String> getCast() {
         return cast;
     }
 
-    public void setCast(List<String> cast) {
+    public void setCast(ArrayList<String> cast) {
         this.cast = cast;
     }
 
@@ -76,11 +77,11 @@ public class Movie {
         this.movieRating = movieRating;
     }
 
-    public List<MovieFormat> getMovieFormats() {
+    public ArrayList<MovieFormat> getMovieFormats() {
         return movieFormats;
     }
 
-    public void setMovieFormats(List<MovieFormat> movieFormats) {
+    public void setMovieFormats(ArrayList<MovieFormat> movieFormats) {
         this.movieFormats = movieFormats;
     }
 
@@ -92,11 +93,11 @@ public class Movie {
         this.movieDuration = movieDuration;
     }
 
-    public List<Review> getMovieReviews() {
+    public ArrayList<Review> getMovieReviews() {
         return movieReviews;
     }
 
-    public void setMovieReviews(List<Review> movieReviews) {
+    public void setMovieReviews(ArrayList<Review> movieReviews) {
         this.movieReviews = movieReviews;
     }
 
