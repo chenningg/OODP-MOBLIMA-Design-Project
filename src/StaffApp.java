@@ -111,13 +111,14 @@ public class StaffApp {
 
 
         System.out.println("==================== MOBLIMA STAFF APP ====================\n" +
-                "1. Configure System Settings\n" +
-                "2. Add Movie\n" +
-                "3. Update Movie Details\n" +
-                "4. Delete Movie\n" +
-                "5. List Top 5 Movies by Ticket Sales\n" +
-                "6. List Top 5 Movies by Review Score\n" +
-                "7. Exit App\n");
+                           "| 1. Configure System Settings                            |\n" +
+                           "| 2. Add Movie                                            |\n" +
+                           "| 3. Update Movie Details                                 |\n" +
+                           "| 4. Delete Movie                                         |\n" +
+                           "| 5. List Top 5 Movies by Ticket Sales                    |\n" +
+                           "| 6. List Top 5 Movies by Review Score                    |\n" +
+                           "| 7. Exit App                                             |\n"+
+                           "===========================================================");
 
 
 
