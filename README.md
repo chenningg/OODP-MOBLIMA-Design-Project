@@ -1,7 +1,7 @@
 # OODP MOBLIMA Design Project
  **Group members:** Shaun, Reuben, Chen Ning, John, Chuan Xin
  
- Object Oriented Design Programming Course Project for NTU REP Year 2, wherein we have to create a Movie Booking console application applying OODP principles.
+Object Oriented Design Programming Course Project for NTU REP Year 2 2019, wherein we have to create a Movie Booking console application applying OODP principles.
  
 ## Contributing to the project
 
@@ -14,6 +14,11 @@
 5. Push your commits to the new branch.
 6. Submit a pull request to the master branch (it should pop up after you commit to the new branch).
 7. After approval and review, your pull request will be accepted into the master branch.
+
+## Updating your own branch
+1. To update your branch from the master branch, select **Branch -> Update from master**. This will commit any updates from master into your current branch.
+2. Thereafter, push the commits from master to your own branch. Your branch is now up to date with the master branch.
+
 
 ## Important notes
 

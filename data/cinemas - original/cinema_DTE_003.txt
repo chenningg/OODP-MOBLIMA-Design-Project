@@ -1,0 +1,16 @@
+3
+STANDARD
+62
+0
+$
+----------
+--SSSSSS--
+-SSSSSSSS-
+-SSSSSSSS-
+-SSSSSSSS-
+-SSSSSSSS-
+-SSSSSSSS-
+-SSSSSSSS-
+-SSSSSSSS-
+----------
+E

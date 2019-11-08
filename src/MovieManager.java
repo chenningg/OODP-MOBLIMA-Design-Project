@@ -88,19 +88,165 @@ public class MovieManager {
         movies.add(newMovie);
     }
 
-    public void editMovie() {}
+    public void editMovie() {
+        System.out.println("Enter movieID: ");
+        String movieID = sc.next();
+        for (Movie movie : movies) {
+            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
+                int choice;
+                do {
+                    System.out.println("(1) Edit movieID");
+                    System.out.println("(2) Edit title");
+                    System.out.println("(3) Edit genres (genres will be overwritten)");
+                    System.out.println("(4) Edit director");
+                    System.out.println("(5) Edit cast (cast will be overwritten)");
+                    System.out.println("(6) Edit synopsis");
+                    System.out.println("(7) Edit rating");
+                    System.out.println("(8) Edit formats (formats will be overwritten)");
+                    System.out.println("(9) Edit duration");
+                    System.out.println("(10) Edit showing status");
+                    System.out.println("(11) Edit release date");
+                    System.out.println("(12) End edits");
+                    choice = sc.nextInt();
 
-    public void deleteMovie() {}
+                    switch (choice) {
+                        case 1:
+                            System.out.println("Enter new movieID: ");
+                            String newMovieID = sc.next();
+                            movie.setMovieID(newMovieID);
+                            break;
+                        case 2:
+                            System.out.println("Enter new title: ");
+                            String newTitle = sc.next();
+                            movie.setTitle(newTitle);
+                            break;
+                        case 3:
+                            System.out.println("Enter number of genres: ");
+                            List<Genre> Genres = new ArrayList<>();
+                            int numGenres = sc.nextInt();
+                            for (int i = 0; i < numGenres; i++) {
+                                System.out.println("Enter the genre: ");
+                                String userGenre = sc.next();
+                                Genres.add(Genre.valueOf(userGenre));
+                            }
+                            movie.setGenres(Genres);
+                            break;
+                        case 4:
+                            System.out.println("Enter director: ");
+                            String newDirector = sc.next();
+                            movie.setDirector(newDirector);
+                            break;
+                        case 5:
+                            System.out.println("Enter number of cast members: ");
+                            int castSize = sc.nextInt();
+                            List<String> newCastList = new ArrayList<>();
+                            for (int i = 0; i < castSize; i++) {
+                                System.out.println("Enter cast member: ");
+                                String newCast = sc.next();
+                                newCastList.add(newCast);
+                            }
+                            movie.setCast(newCastList);
+                            break;
+                        case 6:
+                            System.out.println("Enter new synopsis: ");
+                            String newSynopsis = sc.next();
+                            movie.setSynopsis(newSynopsis);
+                            break;
+                        case 7:
+                            System.out.println("Enter new rating: ");
+                            String newRating = sc.next();
+                            movie.setMovieRating(MovieRating.valueOf(newRating));
+                            break;
+                        case 8:
+                            System.out.println("Enter new formats: ");
+                            List<MovieFormat> newFormats = new ArrayList<>();
+                            int newFormatLength = sc.nextInt();
+                            for (int i = 0; i < newFormatLength; i++) {
+                                System.out.println("Enter movie format: ");
+                                String newFormat = sc.next();
+                                newFormats.add(MovieFormat.valueOf(newFormat));
+                            }
+                            movie.setMovieFormats(newFormats);
+                            break;
+                        case 9:
+                            System.out.println("Enter new duration: ");
+                            float newDuration = sc.nextFloat();
+                            movie.setMovieDuration(newDuration);
+                            break;
+                        case 10:
+                            System.out.println("Enter new showing status: ");
+                            String newShowStatus = sc.next();
+                            movie.setShowingStatus(ShowingStatus.valueOf(newShowStatus));
+                            break;
+                        case 11:
+                            System.out.println("Enter new release date: ");
+                            String newReleaseDate = sc.next();
+                            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+                            LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
+                            movie.setReleaseDate(date);
+                            break;
+                    }
+                } while (choice < 12);
+                break;
+            }
+        }
+    }
 
-    public void peekMovie() {}
+    public void deleteMovie() {
+        System.out.println("Enter movieID to be deleted: ");
+        String delMovieID = sc.next();
+        for (Movie movie : movies)
+            if (movie.getMovieID().equalsIgnoreCase(delMovieID)) {
+                movies.remove(movie);
+                System.out.println("Movie deleted");
+                break;
+            }
+    }
+
+    public void peekMovie() {
+        System.out.println("Last movie added was: " + movies.get(movies.size()-1).getTitle());
+    }
 
     public List<Movie> getMovies() {
         return movies;
     }
 
-    public List<Movie> searchMovies(String movieName) {}
+    public List<Movie> searchMovies(String movieName) {
+        List<Movie> foundMovies = new ArrayList<>();
+        String lowerCaseName = movieName.toLowerCase();
 
-    public void displayMovieDetails(Movie movie) {}
+        // for-each loop
+        for (Movie movie : movies) {
+            if (movie.getTitle().toLowerCase().contains(lowerCaseName)) {
+                foundMovies.add(movie);
+            }
+        }
+        return foundMovies;
+    }
 
-    public Movie getMovieByID(int movieID) {}
+    public void displayMovieDetails(Movie movie) {
+        System.out.print("Movie Title: ");
+        System.out.println(movie.getTitle());
+        System.out.print("Showing Status: ");
+        System.out.println(movie.getShowingStatus());
+        System.out.print("Synopsis: ");
+        System.out.println(movie.getSynopsis());
+        System.out.print("Director: ");
+        System.out.println(movie.getDirector());
+        System.out.print("Cast: ");
+        for(int i=0;i<movie.getCast().size();i++){
+            System.out.println(movie.getCast().get(i));
+        }
+    }
+
+    public Movie getMovieByID(String movieID) {
+        for (Movie movie : movies) {
+            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
+                return movie;
+            }
+        }
+        return null;
+    }
 }
+
+// TODO TEST

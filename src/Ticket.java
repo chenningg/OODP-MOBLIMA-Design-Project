@@ -1,8 +1,15 @@
 public class Ticket {
     private TicketType ticketType;
-    private double ticketPrice;
+    private Double ticketPrice;
     private String seatID;
 
+    // Constructor
+    Ticket(TicketType ticketType) {
+    	this.ticketType = ticketType;
+    	this.ticketPrice = SystemSettingsManager.getInstance().getPrice(ticketType.toString());
+    	this.seatID = null; // This will be set by booking manager
+    }
+    
     public TicketType getTicketType() {
         return ticketType;
     }
@@ -11,11 +18,11 @@ public class Ticket {
         this.ticketType = ticketType;
     }
 
-    public double getTicketPrice() {
+    public Double getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(double ticketPrice) {
+    public void setTicketPrice(Double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
 
