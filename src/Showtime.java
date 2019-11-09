@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Showtime implements Serializable {
-
+    private static final long serialVersionUID = 2L;
     private String showtimeID;
     private LocalDateTime dateTime;
     private Movie movie;
