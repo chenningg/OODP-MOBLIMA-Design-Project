@@ -1,6 +1,6 @@
 public enum CinemaType {
     PLATINUM ("PLATINUM"),
-    STANDARD ("STANDARD");
+    NORMAL ("NORMAL");
 
     private final String name;
 
