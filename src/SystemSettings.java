@@ -3,7 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class SystemSettings implements Serializable {
 		return (double) this.getSystemInfoHash().get("priceReference").get(key);
 	}
 	
-	public boolean isHoliday(Date key) {
+	public boolean isHoliday(LocalDate key) {
 		String temp = (String) this.getSystemInfoHash().get("holidayReference").get(key);
 		if (temp==null) {
 			return false;
@@ -46,7 +47,7 @@ public class SystemSettings implements Serializable {
 	// Setters
 	public void addSetting(String infoType, Object key, Object value) {
 		if (infoType.equals("holidayReference")) {
-			this.systemInfoHash.get(infoType).put((Date) key, (String) value);
+			this.systemInfoHash.get(infoType).put((LocalDate) key, (String) value);
 		} else {
 			this.systemInfoHash.get(infoType).put((String) key, (double) value);
 			this.systemInfoHash.get("priceReference").put((String) key, (double) value); // also update master list
@@ -57,7 +58,7 @@ public class SystemSettings implements Serializable {
 	
 	public void updateSetting(String infoType, Object key, Object value) {
 		if (infoType.equals("holidayReference")) {
-			this.systemInfoHash.get(infoType).replace((Date) key, (String) value);
+			this.systemInfoHash.get(infoType).replace((LocalDate) key, (String) value);
 		} else {
 			this.systemInfoHash.get(infoType).replace((String) key, (double) value);
 			this.systemInfoHash.get("priceReference").replace((String) key, (double) value); // also update master list
@@ -68,7 +69,7 @@ public class SystemSettings implements Serializable {
 	
 	public void deleteSetting(String infoType, Object key) {
 		if (infoType.equals("holidayReference")) {
-			this.systemInfoHash.get(infoType).remove((Date) key);
+			this.systemInfoHash.get(infoType).remove((LocalDate) key);
 		} else {
 			this.systemInfoHash.get(infoType).remove((String) key);
 			this.systemInfoHash.get("priceReference").remove((String) key); // also update master list
@@ -76,6 +77,12 @@ public class SystemSettings implements Serializable {
 		
 		System.out.println("Setting removed");		
 	}	
+	
+
+	
+	
+	
+	
 	
 	
 	/*
@@ -146,7 +153,7 @@ public class SystemSettings implements Serializable {
 	
 				switch (attributeName) {
 					case "holidayReference":
-						Date date = Date.valueOf(inputLineSeparated[0].trim());
+						LocalDate date = LocalDate.parse(inputLineSeparated[0].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 						String holidayName = inputLineSeparated[1].trim();
 						this.systemInfoHash.get(attributeName).put(date, holidayName);
 						break;
@@ -170,11 +177,4 @@ public class SystemSettings implements Serializable {
 			System.exit( 0 );
 		}	
 	}
-
-	
-	
-	
-	
-
-
 }

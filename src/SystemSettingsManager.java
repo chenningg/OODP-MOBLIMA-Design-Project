@@ -1,5 +1,5 @@
-import java.sql.Date;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class SystemSettingsManager {
@@ -9,10 +9,10 @@ public class SystemSettingsManager {
 	
 	private SystemSettingsManager() {
 		this.systemSettings = this.deSerialize();
-		/*
-		 * // Used only for initial serialization
-		 * this.systemSettings = new SystemSettings();
-		 */
+		
+		// Used only for initial serialization
+		// this.systemSettings = new SystemSettings();
+		
 	}
 	
 	public static SystemSettingsManager getInstance() {
@@ -25,13 +25,24 @@ public class SystemSettingsManager {
 		return this.systemSettings.getPrice(key);
 	}
 	
-	public double getPrice(Date date) {
+	public double getPrice(LocalDate date) {
 		if (this.systemSettings.isHoliday(date)) {
 			return this.systemSettings.getPrice("HOLIDAY");
 		} else {
 			return 0;
 		}
 	}
+	
+//	public void test() {
+//        String dateString = "2019-12-25";
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate date = LocalDate.parse(dateString, formatter);
+//        
+//        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        System.out.println(date);
+//        System.out.println(date instanceof LocalDate);
+//	}
+	
 	
 	public void displayMenu() {
 		Scanner sc = new Scanner(System.in);
@@ -147,11 +158,11 @@ public class SystemSettingsManager {
 				
 			switch (choice) {
 				case 1:
-					Date newHolidayDate;
+					LocalDate newHolidayDate;
 					String newHolidayName;
 					
 					System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
-					newHolidayDate = Date.valueOf(sc.next());
+					newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 					
 					System.out.println("Enter name of holiday: ");
 					newHolidayName = sc.next().toUpperCase();
@@ -229,11 +240,11 @@ public class SystemSettingsManager {
 			switch (choice) {
 				case 1:
 					this.systemSettings.viewSetting("holidayReference");
-					Date newHolidayDate;
+					LocalDate newHolidayDate;
 					String newHolidayName;
 					
 					System.out.println("Enter date of holiday you want to change in format YYYY-MM-DD: ");
-					newHolidayDate = Date.valueOf(sc.next());
+					newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 					
 					System.out.println("Enter new name of holiday: ");
 					newHolidayName = sc.next().toUpperCase();
@@ -350,10 +361,10 @@ public class SystemSettingsManager {
 						System.out.println("No data!");
 						break;
 					} else {				
-						Date newHolidayDate;
+						LocalDate newHolidayDate;
 						
 						System.out.println("Enter date of holiday you want to delete in format YYYY-MM-DD: ");
-						newHolidayDate = Date.valueOf(sc.next());
+						newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 						
 						this.systemSettings.deleteSetting("holidayReference", newHolidayDate);
 						this.systemSettings.viewSetting("holidayReference");
