@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -7,8 +8,7 @@ import java.util.List;
 public class Showtime{
 
     private String showtimeID;
-    private LocalDate date;
-    private LocalTime time;
+    private LocalDateTime dateTime;
     private Movie movie;
     private Cinema cinema;
     private Cineplex cineplex;
@@ -22,11 +22,8 @@ public class Showtime{
     public void getShowtimeID(){
         this.showtimeID = showtimeID;
     }
-    public LocalDate getDate() {
-        return date;
-    }
-    public LocalTime getTime() {
-        return time;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
     public Movie getMovie() {
         return movie;
@@ -46,12 +43,11 @@ public class Showtime{
     public void setShowtimeID(String showtimeID) {
         this.showtimeID = showtimeID;
     }
-    public void setDate(LocalDate date) {
-        this.date = date;
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
+
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
@@ -63,5 +59,9 @@ public class Showtime{
     }
     public void setSeatsFilled(int seatsFilled) {
         this.seatsFilled = seatsFilled;
+    }
+
+    public void setCinemaStatus(CinemaStatus cinemaStatus) {
+        this.cinemaStatus = cinemaStatus;
     }
 }

@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -159,7 +160,7 @@ public class MovieManager {
                             break;
                         case 8:
                             System.out.println("Enter new formats: ");
-                            List<MovieFormat> newFormats = new ArrayList<>();
+                            ArrayList<MovieFormat> newFormats = new ArrayList<>();
                             int newFormatLength = sc.nextInt();
                             for (int i = 0; i < newFormatLength; i++) {
                                 System.out.println("Enter movie format: ");
@@ -207,12 +208,12 @@ public class MovieManager {
         System.out.println("Last movie added was: " + movies.get(movies.size()-1).getTitle());
     }
 
-    public List<Movie> getMovies() {
+    public ArrayList<Movie> getMovies() {
         return movies;
     }
 
-    public List<Movie> searchMovies(String movieName) {
-        List<Movie> foundMovies = new ArrayList<>();
+    public ArrayList<Movie> searchMovies(String movieName) {
+        ArrayList<Movie> foundMovies = new ArrayList<>();
         String lowerCaseName = movieName.toLowerCase();
 
         // for-each loop
