@@ -24,14 +24,23 @@ public class SystemSettings implements Serializable {
 	// Getters 
 	public List<String> getsystemInfoList() {return this.systemInfoList;}
 	public Map<String, Map<Object, Object>> getSystemInfoHash() {return this.systemInfoHash;};
+	
 	public void viewSetting(String infoType) {
-		// Customer should only be able to access priceReference and holidayReference 
 		System.out.println(this.getSystemInfoHash().get(infoType));
 	}
+	
 	public double getPrice(String key) {
 		return (double) this.getSystemInfoHash().get("priceReference").get(key);
 	}
-
+	
+	public boolean isHoliday(Date key) {
+		String temp = (String) this.getSystemInfoHash().get("holidayReference").get(key);
+		if (temp==null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	
 	// Setters

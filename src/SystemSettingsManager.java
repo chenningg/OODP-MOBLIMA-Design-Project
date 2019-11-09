@@ -25,6 +25,14 @@ public class SystemSettingsManager {
 		return this.systemSettings.getPrice(key);
 	}
 	
+	public double getPrice(Date date) {
+		if (this.systemSettings.isHoliday(date)) {
+			return this.systemSettings.getPrice("HOLIDAY");
+		} else {
+			return 0;
+		}
+	}
+	
 	public void displayMenu() {
 		Scanner sc = new Scanner(System.in);
 		int choice;
