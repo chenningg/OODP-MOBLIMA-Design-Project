@@ -25,9 +25,9 @@ public class TicketManager {
 	// Methods
 	
 	// Deals with ticket selection
-    public void startTicketSelection() {
+    public void startTicketSelection(ArrayList<String> selectedSeats) {
     	Boolean exit = false;
-    	int maxTickets = getSelectedSeats().size(); // Tracks number of tickets available for selection
+    	int maxTickets = selectedSeats.size(); // Tracks number of tickets available for selection
     	int ticketChoices = TicketType.values().length; // Number of ticket choices available
     	int choice;
     	
