@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Showtime{
 
@@ -15,6 +16,7 @@ public class Showtime{
 
     //Methods
     public void bookseat(String seatID){
+        List<String> cinemaLayout = cinema.getCinemaLayout();
 
     }
     public void removeSeatBooking(String seatID){

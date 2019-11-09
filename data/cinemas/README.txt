@@ -8,38 +8,40 @@ In each cinema file, please follow the format below to create it in text.
 Format
 ==========
 Hall number
-Cinema type (PLATINUM/GOLD/STANDARD) // Note: In CAPS
+Cinema type (PLATINUM/STANDARD) // Note: In CAPS
 Total Seats No
+Occupied Seats No
 Seat Layout (ASCII symbols, using legends below)
 
 ==========
 Legend:
 ==========
-$ = Screen	// Just put first symbol, screen takes up whole row
-- = Aisle space // Aisle space, must have at the sides, front and back
-E = Exit door	// Entrance only need to put the first index, it takes up the whole row
-S = Seat
+0 = Empty seat, to be displayed visually as ' '
+1 = Occupied seat, to be displayed visually as 'x'
+
+The rest are to be displayed as-is
 
 ==========
 Example:
 ==========
 cinema_DTE_004 <---- FILENAME
 
-4
-STANDARD
-168
-$
-------------------
-SS---SSSSSSSS---SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS-SSSSSSSSSSSS-SS
-SS---SSSSSSSS---SS
-------------------
-E
+3
+PLATINUM
+30
+0
+|               SCREEN              |
+|___________________________________|
+
+      1  2  3  4  5  6     7  8      
+A  -  - |0||0||0||0||0| - |0| -  -  A
+B  - |0||0||0||0||0||0| - |0||0| -  B
+C  - |0||0||0||0||0||0| - |0||0| -  C
+D  - |0||0||0||0||0||0| - |0||0| -  D
+E  - |0||0||0||0||0||0| - |0||0| -  E
+F  - |0||0||0||0||0||0| - |0||0| -  F
+G  - |0||0||0||0||0||0| - |0||0| -  G
+   -  -  -  -  -  -  -  -  -  -  -  
+            ____________
+           |            |
+           |  ENTRANCE  |    

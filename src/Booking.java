@@ -13,11 +13,13 @@ public class Booking {
     //Methods
     public void addTickets(Ticket newTicket) {
         tickets.add(newTicket);
+
+        System.out.println("Ticket added");
     }
-    
-    public updateTotalPrice(){
+    public double updateTotalPrice(){
+
         for(int i=0;i<tickets.size();i++){
-            totalPrice += tickets.get(i);
+            totalPrice += tickets.get(i).getTicketPrice();
         }
         return totalPrice;
     }
@@ -26,12 +28,9 @@ public class Booking {
     public String getBookingID() {
         return bookingID;
     }
-    
-    public Ticket[] getTickets() {
-        for(int i=0;i<tickets.size();i++){
-
-        }
-        return tickets;
+  
+    public List<Ticket> getTickets() {
+        return this.tickets;
     }
     
     public double getTotalPrice() {
