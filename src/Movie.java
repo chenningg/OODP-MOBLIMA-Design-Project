@@ -21,6 +21,8 @@ public class Movie {
     private long ticketsSold;
     private double grossProfit;
 
+    public Movie(){}
+
     public String getTitle() {
         return title;
     }
@@ -160,4 +162,5 @@ public class Movie {
     public void addMovieReview(Review review) {
         this.movieReviews.add(review);
     }
+
 }
