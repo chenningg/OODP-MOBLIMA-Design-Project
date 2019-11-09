@@ -64,7 +64,7 @@ class BookingManager implements ResetSelf {
         			}
         			else {
         				// Book tickets
-        				TicketManager.getInstance().startTicketSelection();
+        				TicketManager.getInstance().startTicketSelection(getSelectedSeats());
         			}
         			break;
         		default:
@@ -331,7 +331,7 @@ class BookingManager implements ResetSelf {
     		updateSeatingPlan(getSelectedSeats().get(i), "confirmBooking");
     	}
     	
-    	// We then update the current showtime selected with the new seating plan, and update the showtime fill status
+    	// We then update the current showtime REFERENCE with the new seating plan, and update the showtime fill status
     	showtime.getCinema().setCinemaLayout(getSeatingPlan());
     	showtime.updateCinemaStatus();
     	
