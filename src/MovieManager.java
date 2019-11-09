@@ -30,12 +30,115 @@ public class MovieManager {
                            "| 3. By Reviews                                            |\n" +
                            "| 4. Back                                                  |\n" +
                            "===========================================================");
+
+        int choice = sc.nextInt();
+        switch (choice){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+               //CALL STAFF MENU FOR STAFF AND CUST MENU FOR CUST
+               StaffApp sa = StaffApp.getInstance();
+               sa.staffMenu();
+        }
+    }
+
+    public void displayMovies(){
+        System.out.println("========================= Movies ===========================\n" +
+                           "| 1. Now Showing                                           |\n" +
+                           "| 2. Upcoming                                              |\n" +
+                           "| 3. Cineplexes                                            |\n" +
+                           "| 4. Search by Movie Title                                 |\n" +
+                           "| 5. Back                                                  |\n" +
+                           "===========================================================");
+
+        Scanner sc = new Scanner(System.in);
+        int choice = sc.nextInt();
+        switch(choice){
+            case 1:
+                //TO DO
+                // LIST OUT ALL MOVIES WITH 'NOW SHOWING' STATUS
+                //WHEN MOVIE IS SELECTED
+                displayMovieDetails();
+                break;
+            case 2:
+                //TO DO
+                // LIST OUT ALL MOVIES WITH 'UPCOMING' STATUS
+                //WHEN MOVIE IS SELECTED
+                displayMovieDetails();
+                break;
+            case 3:
+                //TO DO
+                //LIST ALL CINEPLEXES
+                //SELECT 1-3 TO SELECT CINEPLEX
+                //LIST OUT ALL MOVIES IN CINEPLEX
+                //WHEN MOVIE IS SELECTED
+                //WHEN MOVIE IS SELECTED
+                displayMovieDetails();
+                break;
+            case 4:
+                String title = sc.next();
+                searchMovies(title);
+                break;
+            case 5:
+                //TO DO
+                //CALL Customer App
+                break;
+        }
+    }
+
+    public List<Movie> searchMovies(String movieName) {
+        List<Movie> foundMovies = new ArrayList<>();
+        String lowerCaseName = movieName.toLowerCase();
+
+        // for-each loop
+        for (Movie movie : movies) {
+            if (movie.getTitle().toLowerCase().contains(lowerCaseName)) {
+                foundMovies.add(movie);
+            }
+        }
+        return foundMovies;
+    }
+
+    public void displayMovieDetails(Movie movie) {
+        System.out.print("Movie Title: ");
+        System.out.println(movie.getTitle());
+        System.out.print("Showing Status: ");
+        System.out.println(movie.getShowingStatus());
+        System.out.print("Synopsis: ");
+        System.out.println(movie.getSynopsis());
+        System.out.print("Director: ");
+        System.out.println(movie.getDirector());
+        System.out.print("Cast: ");
+        for(int i=0;i<movie.getCast().size();i++){
+            System.out.println(movie.getCast().get(i));
+        }
+    }
+
+    public Movie getMovieByID(String movieID) {
+        for (Movie movie : movies) {
+            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
+                return movie;
+            }
+        }
+        return null;
     }
 
 
 
 
 
+
+
+
+
+
+
+
+//CRUD - CREATE READ UPDATE DELETE MOVIE
 
     public void addMovie() {
         Movie newMovie = new Movie();
@@ -228,40 +331,5 @@ public class MovieManager {
         return movies;
     }
 
-    public ArrayList<Movie> searchMovies(String movieName) {
-        ArrayList<Movie> foundMovies = new ArrayList<>();
-        String lowerCaseName = movieName.toLowerCase();
 
-        // for-each loop
-        for (Movie movie : movies) {
-            if (movie.getTitle().toLowerCase().contains(lowerCaseName)) {
-                foundMovies.add(movie);
-            }
-        }
-        return foundMovies;
-    }
-
-    public void displayMovieDetails(Movie movie) {
-        System.out.print("Movie Title: ");
-        System.out.println(movie.getTitle());
-        System.out.print("Showing Status: ");
-        System.out.println(movie.getShowingStatus());
-        System.out.print("Synopsis: ");
-        System.out.println(movie.getSynopsis());
-        System.out.print("Director: ");
-        System.out.println(movie.getDirector());
-        System.out.print("Cast: ");
-        for(int i=0;i<movie.getCast().size();i++){
-            System.out.println(movie.getCast().get(i));
-        }
-    }
-
-    public Movie getMovieByID(String movieID) {
-        for (Movie movie : movies) {
-            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
-                return movie;
-            }
-        }
-        return null;
-    }
 }

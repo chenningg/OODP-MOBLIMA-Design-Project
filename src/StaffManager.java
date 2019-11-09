@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class StaffManager {
-
+    //TO DO add Project Root Path Finder to read CSV
     public boolean login(int searchColumnIndex, String username, String password) throws IOException {
         String resultRow = null;
         BufferedReader br = new BufferedReader(new FileReader("test.csv"));
