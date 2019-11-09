@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cinema {
 	// Attributes
@@ -8,7 +9,7 @@ public class Cinema {
 	private CinemaType cinemaType;
 	private int totalSeatNo;
 	private int occupiedSeatsNo;
-	private ArrayList<String> cinemaLayout;
+	private List<String> cinemaLayout;
 	
 	
 	// Constructor	
@@ -25,7 +26,7 @@ public class Cinema {
 	public CinemaType getCinemaType() {return cinemaType;}
 	public int getTotalSeatNo() {return totalSeatNo;}
 	public int getOccupiedSeatsNo() {return occupiedSeatsNo;}
-	public ArrayList<String> getCinemaLayout() {return cinemaLayout;}
+	public List<String> getCinemaLayout() {return cinemaLayout;}
 	
 	public void printCinemaLayout() {
 		int i=0;
@@ -33,10 +34,6 @@ public class Cinema {
 			System.out.println(this.getCinemaLayout().get(i));
 			i++;
 		}
-	}
-	
-	public void updateCinemaLayout() {
-		
 	}
 
 	
