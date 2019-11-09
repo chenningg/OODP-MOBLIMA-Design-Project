@@ -1,40 +1,77 @@
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.ArrayList;
 
-public class TransactionManager {
-	private Transaction transaction;
+public class TransactionManager implements ResetSelf {
 	
-	//constructor
-	TransactionManager(){
-		this.transaction= null;
+	private Transaction transaction = null;
+	private String bookerMobileNo;
+	private String bookerEmail;
+	private Scanner sc = new Scanner(System.in);
+	
+	// Singleton & Constructor
+ 	private static TransactionManager single_instance = null;
+ 	
+ 	private TransactionManager() {}
+	
+	public static TransactionManager getInstance()
+	{
+	    if (single_instance == null) {
+	    	 single_instance = new TransactionManager();
+	    }	        
+	    return single_instance;
 	}
 
-	//methods
-	public void startTransaction(Booking booking){
-		Transaction tr= new Transaction();
-		tr.setBooking(booking);
-		tr.setTransactionID();
-    	System.out.println("Please enter your credit card number");
-    	Scanner s= new Scanner(System.in);
-    	String creditCardNo = s.next();
-    	tr.setCreditCardNo(creditCardNo);
-    	s.close();
-    	this.transaction= tr;
+	
+	// Methods
+	
+	// Start a new transaction with selected seats and selected tickets
+	public void startTransaction(HashMap<TicketType, Integer> ticketCount) {
+		
+		// Create new transaction
+		setTransaction(new Transaction());
+
+		// Show prices
+		displayPrices();
 	}
 	
-	public void getDetails() {
+	
+	// Displays pricing information and total price
+	public void displayPrices() {
 		
 	}
 	
-	public void makeTransaction() {
-		confirmBooking();
-		
+	
+	// Collects user info
+	public Boolean validateMobileNo() {
+		return false;
 	}
 	
-	public void storeTransaction() {
-		
+	
+	// Checks if email address is valid
+	public Boolean validateEmail() {
+		return false;
 	}
 	
-	public void confirmBooking() {
-		
+	
+	// Self reset
+	public void resetSelf() {
+		setTransaction(null);
+		setBookerMobileNo(null);
+		setBookerEmail(null);
 	}
+	
+	
+	// Getters
+	
+	public Transaction getTransaction() {return transaction;}
+	public String getBookerMobileNo() {return bookerMobileNo;}
+	public String getBookerEmail() {return bookerEmail;}
+	
+	
+	// Setters
+	
+	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
+	public void setBookerMobileNo(String bookerMobileNo) {this.bookerMobileNo = bookerMobileNo;}
+	public void setBookerEmail(String bookerEmail) {this.bookerEmail = bookerEmail;}
 }

@@ -10,27 +10,17 @@ public class Ticket {
     	this.seatID = null; // This will be set by booking manager
     }
     
-    public TicketType getTicketType() {
-        return ticketType;
-    }
+    
+    // Getters
+    
+    public TicketType getTicketType() {return ticketType;}
+    public void setTicketType(TicketType ticketType) {this.ticketType = ticketType;}
+    public Double getTicketPrice() {return ticketPrice;}
 
-    public void setTicketType(TicketType ticketType) {
-        this.ticketType = ticketType;
-    }
-
-    public Double getTicketPrice() {
-        return ticketPrice;
-    }
-
-    public void setTicketPrice(Double ticketPrice) {
-        this.ticketPrice = ticketPrice;
-    }
-
-    public String getSeatID() {
-        return seatID;
-    }
-
-    public void setSeatID(String seatID) {
-        this.seatID = seatID;
-    }
+    
+    // Setters
+    
+    public void setTicketPrice(Double ticketPrice) {this.ticketPrice = ticketPrice;}
+    public String getSeatID() {return seatID;}
+    public void setSeatID(String seatID) {this.seatID = seatID;}
 }
