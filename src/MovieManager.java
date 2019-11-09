@@ -22,9 +22,9 @@ public class MovieManager {
 
     public void addMovie() {
         Movie newMovie = new Movie();
-        List<Genre> genreList = new ArrayList<>();
-        List<String> castList = new ArrayList<>();
-        List<MovieFormat> formatList = new ArrayList<>();
+        ArrayList<Genre> genreList = new ArrayList<>();
+        ArrayList<String> castList = new ArrayList<>();
+        ArrayList<MovieFormat> formatList = new ArrayList<>();
 
         // System.out.println("Enter movieID: ");
         // newMovie.setMovieID(sc.next());
@@ -122,7 +122,7 @@ public class MovieManager {
                             break;
                         case 3:
                             System.out.println("Enter number of genres: ");
-                            List<Genre> Genres = new ArrayList<>();
+                            ArrayList<Genre> Genres = new ArrayList<>();
                             int numGenres = sc.nextInt();
                             for (int i = 0; i < numGenres; i++) {
                                 System.out.println("Enter the genre: ");
@@ -139,7 +139,7 @@ public class MovieManager {
                         case 5:
                             System.out.println("Enter number of cast members: ");
                             int castSize = sc.nextInt();
-                            List<String> newCastList = new ArrayList<>();
+                            ArrayList<String> newCastList = new ArrayList<>();
                             for (int i = 0; i < castSize; i++) {
                                 System.out.println("Enter cast member: ");
                                 String newCast = sc.next();
@@ -248,5 +248,3 @@ public class MovieManager {
         return null;
     }
 }
-
-// TODO TEST

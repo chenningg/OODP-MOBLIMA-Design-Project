@@ -13,19 +13,11 @@ public class Showtime{
     private Cinema cinema;
     private Cineplex cineplex;
     private CinemaStatus cinemaStatus;
-
+    private ArrayList <String> seatLayout = cinema.getCinemaLayout(); // booking manager to override with each booking
+    private int seatsFilled = 0; // booking manager to update this count for easy reference too
 
     //Methods
-    public void bookseat(String seatID){
-        ArrayList <String> cinemaLayout = cinema.getCinemaLayout();
 
-    }
-    public void removeSeatBooking(String seatID){
-
-    }
-    public int getSeatFilledAmount(){
-
-    }
     //Getters
     public void getShowtimeID(){
         this.showtimeID = showtimeID;
@@ -48,6 +40,7 @@ public class Showtime{
     public CinemaStatus getCinemaStatus() {
         return cinemaStatus;
     }
+    public int getSeatsFilled() { return seatsFilled; }
 
     //Setters
     public void setShowtimeID(String showtimeID) {
@@ -68,7 +61,7 @@ public class Showtime{
     public void setCineplex(Cineplex cineplex) {
         this.cineplex = cineplex;
     }
-
-
-
+    public void setSeatsFilled(int seatsFilled) {
+        this.seatsFilled = seatsFilled;
+    }
 }
