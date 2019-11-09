@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +19,7 @@ public class ReviewManager implements Serializable {
         return single_instance;
     }
 
+    // TODO: call movie manager to provide Movie object
     public void createReview(Movie movie) {
         Review submittedReview = new Review();
         int choice;
@@ -60,13 +62,13 @@ public class ReviewManager implements Serializable {
         } while (choice < 6);
     }
 
-    public List<Review> getReviews(Movie movie) {
+    public ArrayList<Review> getReviews(Movie movie) {
         return movie.getMovieReviews();
     }
 
     // TODO: for now change movieID to movie object
     public float getAverageReviewScore(Movie movie) {
-        List<Review> reviews = movie.getMovieReviews();
+        ArrayList<Review> reviews = movie.getMovieReviews();
         float sum = 0;
         for (Review review : reviews) {
             sum += review.getScore();
