@@ -2,20 +2,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class BookingManager {
+class BookingManager implements ResetSelf {
     // Variables
-    private Showtime showtime = null;
     private ArrayList<String> seatingPlan;
     private ArrayList<String> selectedSeats = new ArrayList<String>();
-    private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
-    private HashMap<String, Integer> ticketCount = new HashMap<String, Integer>();
-	private Booking booking = null;
+    private HashMap<Character, ArrayList<Integer>> rowChecker = new HashMap<Character, ArrayList<Integer>>(); // Checks if a seat has been booked in a specific row
     private Scanner sc = new Scanner(System.in);
+    private Booking booking = null; // Current booking to make
+    private Showtime showtime = null; // Current showtime selected
     
-    // Singleton
+    
+    // Singleton & Constructor
  	private static BookingManager single_instance = null;
-
- 	// Constructor
+ 	
  	private BookingManager() {}
 	
 	public static BookingManager getInstance()
@@ -26,12 +25,13 @@ class BookingManager {
 	    return single_instance;
 	}
 	    
+	
     // Methods
 
     // Starts a booking by showing available seats and allows user to select seats based on a copy of showtime
-    public void startBooking(Showtime baseShowtime) {
+    public void startSeatSelection(Showtime baseShowtime) {
     	// Create a deep copy of showtime seats so we don't affect the original until booking completes
-    	setShowtime(baseShowtime);
+    	setShowtime(baseShowtime); // Contain reference to selected showtime
     	setSeatingPlan(copySeatingPlan(baseShowtime.getCinema().getCinemaLayout()));
     	
     	// Show them booking menu until they exit
@@ -43,15 +43,13 @@ class BookingManager {
         	System.out.println("Please choose a choice:");
         	System.out.println("1. Select a seat");
         	System.out.println("2. Deselect a seat");
-        	System.out.println("3. Confirm");
+        	System.out.println("3. Confirm and go to ticket selection");
         	System.out.println("0. Exit");
 
         	switch(sc.nextInt()) {
         		case 0: // Exit, reset everything
         			exit = true;
-        			getSelectedSeats().clear();
-        			setShowtime(null);
-        			setBooking(null);
+        			resetSelf();
         			break;
         		case 1: // Select seat
         			addSeatSelection();
@@ -66,7 +64,7 @@ class BookingManager {
         			}
         			else {
         				// Book tickets
-        				ticketSelection();
+        				TicketManager.getInstance().startTicketSelection();
         			}
         			break;
         		default:
@@ -76,13 +74,35 @@ class BookingManager {
     }
     
 
-	// Prints out seating plan in a nice manner upon being given a 2D array of chars
+	// Prints out seating plan in a nice manner upon being given a List of Strings
     public void displaySeats(ArrayList<String> seatingPlan) {
-    	int i = 0;
-		while (i < seatingPlan.size()) {
-			System.out.println(seatingPlan.get(i));
-			i++;
-		}	
+    	char item;
+    	String rowRef;
+    	String[] symbols = {" ", "X", "S"}; // Symbols for seat status display
+    	
+    	// Iterate through List of Strings
+    	for (int row = 0; row < getSeatingPlan().size(); row++) {
+    		rowRef = getSeatingPlan().get(row);
+    		
+    		// Check if this row has seats. If not, just print whole row straight.
+    		if (!(Character.isAlphabetic(rowRef.charAt(0)))) { // No seats
+    			System.out.println(rowRef);
+    		}
+    		else { // Seats present
+    			for (int col = 0; col < rowRef.length(); col++) {
+        			item = rowRef.charAt(col);
+
+        			// Check if current item is a seat. Prints corresponding symbol according to seat status.
+        			if (Character.isDigit(item)) {
+        				System.out.printf("%s", symbols[Character.getNumericValue(item)]);
+        			}
+        			// Else just print the character
+        			else {
+        				System.out.printf(Character.toString(item));
+        			}
+        		}
+    		}
+    	}
     }
     
     
@@ -98,111 +118,248 @@ class BookingManager {
     }
     
     
-    // Deals with ticket selection
-    public void ticketSelection() {
-    	Boolean exit = false;
-    	int maxTickets = getSelectedSeats().size(); // Tracks number of tickets available for selection
-    	int ticketChoices = TicketType.values().length; // Number of ticket choices available
-    	int choice;
-    	
-    	while (!exit) {
-    		// Prints out ticket type selection menu
-    		System.out.printf("You have selected %d seats. %d tickets remaining to select:\n", maxTickets-(getSelectedTickets().size()));
-    		for (int i = 1; i <= ticketChoices; i++) {
-    			System.out.printf("%d. %s\n", i, TicketType.values()[i-1].toString());
-    		}
-    		System.out.printf("%d. Clear selected tickets\n", ticketChoices+1);
-    		System.out.printf("%d. Proceed to payment\n", ticketChoices+2);
-    		System.out.println("0. Cancel");		
-    		
-    		choice = sc.nextInt();
-    		
-    		// Clear selected tickets and ticketCount, return to seats
-    		if (choice == 0) { 	// Exit
-    			exit = true;
-    			getSelectedTickets().clear();
-    			getTicketCount().clear();
-    		}
-    		// Clear selected tickets but try again  	
-    		else if (choice == ticketChoices+1) { 		
-    			getSelectedTickets().clear();
-    			getTicketCount().clear();
-    			System.out.printf("Ticket selections cleared.");
-    		}
-    		// Check all seats have tickets, then proceed to payment
-    		else if (choice == ticketChoices+2) { 		
-    			// TODO PROCEED TO PAYMENT !$!@$!@*%!@%!@*!(@
-    		}
-    		// Add ticket selection based on its type. Update ticketCount and ticketSelection.
-    		else if (choice >= 1 && choice <= ticketChoices) {
-    			System.out.printf("How many %s tickets would you like to purchase? (Max %d):\n", TicketType.values()[choice-1].toString(), maxTickets-(getSelectedTickets().size()));
-    			int count = sc.nextInt();
-    			
-    			// Too little or too many tickets booked, go back to ticket selection menu
-    			if (count < 1 || count > maxTickets-(getSelectedTickets().size())) {
-    				System.out.println("Too many/little tickets selected! If you would like to change ticket selections, please clear selections and try again.");
-    				continue;
-    			}
-    			
-    			// Else we update ticketCount and ticketSelection.
-    			addTicketSelection(TicketType.values()[choice-1], count);
-    		}
-    		// Invalid choice
-    		else {
-    			System.out.println("Invalid choice entered. Please try again.");
-    		}
-    	}
-    }
-    
     // Add a seat selection. We need to check that all seats added are adjacent to each other, and are unoccupied.
     public void addSeatSelection() {
 		System.out.println("Please enter a seat selection (e.g. C6):");
 		String selection = sc.next().toUpperCase();
 		
-		// Check if seat selection matches format
-		if (selection.matches("[A-Z]\\d{1,2}")) {
-			// Loop through seating plan to check if seat exists and is available
-			char seatRow = selection.charAt(0);
-			int seatCol = Integer.valueOf(selection.substring(1, selection.length()));
+		// Check if seat selection is allowable. If it is, update rowChecker and selectedSeats
+		if (allowSeatSelection(selection)) {
+			char seatRow = selection.charAt(0); // Alphabet row of seatID
+			int seatCol = Integer.valueOf(selection.substring(1, selection.length())); // Integer column of seatID
 			
-			for (int row = 0; row < getSeatingPlan().size(); row++) {
-				// If we find a match for alphabet row
-				if (getSeatingPlan().get(row).charAt(0) == seatRow) {
+			// Add the new seat selection to selectedSeats
+			getSelectedSeats().add(selection);
+			
+			// If no existing seats selected for a row, create the row in rowChecker
+			if (!(getRowChecker().containsKey(seatRow))) {
+				getRowChecker().put(seatRow, new ArrayList<Integer>());		
+			}
+			
+			// Add in the selected seat in the row for rowChecker
+			getRowChecker().get(seatRow).add(seatCol);
+			
+			// Update seating plan
+	    	updateSeatingPlan(selection, "addSelection");
+		}
+		
+		// If invalid selection, error is automatically generated by allowSeatSelection() function.
+    }
+    
+    
+    // Checks if seat selection is valid
+    public Boolean allowSeatSelection(String seatID) {
+    	// First we check if entered seat ID is valid aka starts with alphabet and has an integer (capped at 2 digits)
+    	if (seatID.matches("[A-Z]\\d{1,2}")) {
+			// If seatID entered is valid, check if seat exists
+			char seatRow = seatID.charAt(0); // Alphabet row of seatID
+			int seatCol = Integer.valueOf(seatID.substring(1, seatID.length())); // Integer column of seatID
+			int seatCount = 0; // Count of seat index in a row
+			String rowRef;
+			
+			// Iterate through rows of seating plan to find seat row alphabet
+			for (int row = 1; row < getSeatingPlan().size(); row++) {				
+				rowRef = getSeatingPlan().get(row);
+				
+				// If we find a match for seat row
+				if (rowRef.charAt(0) == seatRow) {
 					
+					// We then check if seat exists at the specified column. Ignore 0 index as it's the row alphabet.
+					for (int col = 1; col < rowRef.length(); col++) {
+						
+						// When we encounter a digit (aka a seat) add it to seatCount and match against seatCol.
+						if (Character.isDigit(rowRef.charAt(col))) {
+							seatCount += 1;
+							
+							// Check if current seat we are at matches seatCol of selected seat (aka seat exists)
+							if (seatCol == seatCount) {
+								
+								// Check if seat is unoccupied
+								if (rowRef.charAt(col) == '0') {
+									
+									// Check if there are existing bookings in this row. 
+									// Only allow selection if current selection is adjacent to any existing bookings.
+									if (rowChecker.containsKey(seatRow)) {
+										ArrayList<Integer> rowSeats= rowChecker.get(seatRow);
+										
+										// Selected seat column must be +/- one of any existing entry
+										for (int i = 0; i < rowSeats.size(); i++) {
+											if (Math.abs(rowSeats.get(i) - seatCol) == 1) {
+												// Seat exists, is unoccupied, and is adjacent to a previous selection, allow selection.
+												return true;
+											}
+										}
+										
+										// Seat is not adjacent to previous selections in the same row, return false
+										System.out.println("Seat selection invalid. Please do not leave spaces between seats.");
+										return false;
+									}
+									// Seat exists, and is unoccupied. No previous selection in row, allow selection.
+									else {
+										return true;
+									}					
+								}
+								// Seat is already occupied, disallow selection
+								else {
+									System.out.println("Seat selection invalid. This seat has already been selected or is otherwise occupied.");
+									return false;
+								}		
+							}
+						}
+					}
 				}
 			}
 		}
-		
-		// If invalid selection, return error
-		System.out.println("Invalid seat ID entered. Please try again.");
-    }
-    
-    
-    public void deleteSeatSelection() {
-    	System.out.println("Please enter seat to deselect (e.g. C6):");
-    }
-    
-    
-    public void addTicketSelection(TicketType ticketType, int count) {
-    	for (int i = 0; i < count; i++) {
-    		Ticket newTicket = new Ticket(ticketType);
-    		getSelectedTickets().add(newTicket);
-    	}
-    	getTicketCount().put(ticketType.toString(), count);
-    }
 
+    	// If we reach here, either the input is invalid, the row doesn't exist, or the column of seat doesn't exist.
+    	System.out.println("Invalid seatID input. Please try again.");
+    	return false;
+    }
+    
+    
+    // Deletes a seat selection
+    public void deleteSeatSelection() {
+    	System.out.println("Please enter a seat selection to remove (e.g. C6):");
+		String selection = sc.next().toUpperCase();
+		
+		// Check if seat selection is allowable. If it is, update rowChecker and selectedSeats
+		if (allowSeatDeletion(selection)) {
+			char seatRow = selection.charAt(0); // Alphabet row of seatID
+			int seatCol = Integer.valueOf(selection.substring(1, selection.length())); // Integer column of seatID
+		
+			// Remove seat selection from selectedSeats
+			getSelectedSeats().remove(selection);
+			
+			// Remove the seat from rowChecker
+			getRowChecker().get(seatRow).remove(seatCol);
+			
+			// If the row is empty after removing this seat, then remove row entry from rowChecker
+			if (getRowChecker().get(seatRow).size() <= 0) {
+				getRowChecker().remove(seatRow);
+			}
+			
+			// Update seating plan
+			updateSeatingPlan(selection, "deleteSelection");
+		}
+		
+		// If invalid selection, error is automatically generated by allowSeatDeletion() function.
+    }
+    
+    
+    // Checks if seat selection removal is valid
+    public Boolean allowSeatDeletion(String seatID) {
+    	// First we check if entered seat ID is valid aka starts with alphabet and has an integer (capped at 2 digits)
+    	if (seatID.matches("[A-Z]\\d{1,2}")) {
+			// If seatID entered is valid, check if seat exists in currently selected seats
+    		if (getSelectedSeats().contains(seatID)) {
+    			char seatRow = seatID.charAt(0); // Alphabet row of seatID
+    			int seatCol = Integer.valueOf(seatID.substring(1, seatID.length())); // Integer column of seatID
+    			
+    			// We need to check if the seat exists in a row between selections to ensure no gaps are formed
+    			ArrayList<Integer> rowRef = getRowChecker().get(seatRow);
+    			
+    			// If seat for deletion is in between two other seats, do not allow deletion
+    			if (rowRef.contains(seatCol+1) && rowRef.contains(seatCol-1)) {
+    				System.out.println("The seatID specified could not be deselected. Please do not leave spaces between seat selections.");
+					return false;
+    			}
+    			// Else, the seat is either an edge seat or is a solitary seat in that row, allow deselection
+    			else {
+    				return true;
+    			}
+    		}
+    		// Seat doesn't exist as a selection
+    		else {
+    			System.out.println("SeatID does not match any currently selected seats. Please try again.");
+    			return false;
+    		}
+		}
+
+    	// If we reach here, either the input is invalid, the row doesn't exist, or the column of seat doesn't exist.
+    	System.out.println("Invalid seatID input. Please try again.");
+    	return false;
+    }
+    
+    
+    // Update seating plan List. Operation can be: addSelection, deleteSelection or confirmSelection
+    public void updateSeatingPlan(String seatID, String operation) {
+    	char seatRow = seatID.charAt(0); // Alphabet row of seatID
+		int seatCol = Integer.valueOf(seatID.substring(1, seatID.length())); // Integer column of seatID
+		String seatModifier;
+		
+		switch(operation) {
+			case "addSelection":
+				seatModifier = "2";
+				break;
+			case "deleteSelection":
+				seatModifier = "0";
+				break;
+			case "confirmSelection":
+				seatModifier = "1";
+				break;
+			default:
+				System.out.println("Error! Operation parameter for function updateSeatingPlan() in BookingManager is invalid.");
+				return; // Terminate
+		}
+		
+		// Iterate until we find the seat's row and col index position in the seatingPlan List
+    	for (int row = 0; row < getSeatingPlan().size(); row++) {
+    		String rowRef = getSeatingPlan().get(row);
+    		if (rowRef.charAt(0) == seatRow) {
+    			int seatCount = 0; // Counts seats from start of row
+    		 	for (int col = 1; col < rowRef.length(); col++) {
+    		 		if (Character.isDigit(rowRef.charAt(col))) {
+    		 			seatCount += 1;
+    		 			if (seatCount == seatCol) {
+    		 				String updatedRow = rowRef.substring(0, col) + seatModifier + rowRef.substring(col+1);
+    		 				
+    		 				// Replace current row
+    		 				rowRef = updatedRow;
+    		 				return; // Terminate function
+    		 			}
+    		 		}
+	    		}
+    		}
+    	}
+    }
+    
+    
+    // Once booking is confirmed and payment is made, listen to event raised and call this to create and store booking
+    public void makeBooking() {
+    	// Since booking is confirmed, we update all selected seats to be confirmed seats (occupied)
+    	for (int i = 0; i < getSelectedSeats().size(); i++) {
+    		updateSeatingPlan(getSelectedSeats().get(i), "confirmBooking");
+    	}
+    	
+    	// We then update the current showtime selected with the new seating plan, and update the showtime fill status
+    	showtime.getCinema().setCinemaLayout(getSeatingPlan());
+    	showtime.updateCinemaStatus();
+    	
+    	// Finally, reset this instance
+    	resetSelf();
+    }
+    
+    
+    // Resets all variables of this singleton instance (e.g. if user presses back)
+    public void resetSelf() {
+    	setShowtime(null);
+		setBooking(null);
+		setSeatingPlan(null);
+    	getSelectedSeats().clear();
+		getRowChecker().clear();
+    }
+    
     
     // Setters
-    public void setShowtime(Showtime showtime) {this.showtime = showtime;}   
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
+    public void setBooking(Booking booking) {this.booking = booking;}
     public void setSeatingPlan(ArrayList<String> seatingPlan) {this.seatingPlan = seatingPlan;}
-	public void setBooking(Booking booking) {this.booking = booking;}
     
 	
     // Getters
 	public Showtime getShowtime() {return showtime;}
+	public Booking getBooking() {return booking;}
     public ArrayList<String> getSeatingPlan() {return seatingPlan;}
 	public ArrayList<String> getSelectedSeats() {return selectedSeats;}
-	public ArrayList<Ticket> getSelectedTickets() {return selectedTickets;}
-	public HashMap<String, Integer> getTicketCount() {return ticketCount;}
-	public Booking getBooking() {return booking;}
+	public HashMap<Character, ArrayList<Integer>> getRowChecker() {return rowChecker;}
 }
