@@ -1,4 +1,5 @@
 import java.io.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +91,9 @@ class CompanyApp {
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
 			
-		SystemSettingsManager.getInstance().displayMenu();
+		System.out.println(SystemSettingsManager.getInstance().getPrice("THU"));
+		System.out.println(SystemSettingsManager.getInstance().getPrice(Date.valueOf("2019-12-25")));
+		
 		
 		System.out.println("end of program");
 	}
