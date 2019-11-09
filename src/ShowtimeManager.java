@@ -274,9 +274,16 @@ public class ShowtimeManager implements Serializable {
             }
         }
     }
-    public ShowtimeManager loadObject() {}
+    public ShowtimeManager loadObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_manager.dat";
+        return (ShowtimeManager) SerializerHelper.deSerializeObject(filepath);
+    }
 
-    public void saveObject() {}
+    public void saveObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_manager.dat";
+        SerializerHelper.serializeObject(this, filepath);
+        System.out.println("Showtime Manager Saved!");
+    }
 
     private Movie findMovie(String movieID) {
         MovieManager movieManager = MovieManager.getInstance();
