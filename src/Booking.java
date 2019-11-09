@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -9,8 +10,7 @@ public class Booking {
     private String bookingID;
     private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
     private Transaction transaction;
-    private LocalDate date;
-    private LocalTime time;
+    private LocalDateTime dateTime;
     private String movieName;
     private int hallNo;
     private String cineplexName;
@@ -27,8 +27,7 @@ public class Booking {
 	public String getBookingID() {return bookingID;}
 	public ArrayList<Ticket> getTickets() {return tickets;}
 	public Transaction getTransaction() {return transaction;}
-	public LocalDate getDate() {return date;}
-	public LocalTime getTime() {return time;}
+    public LocalDateTime getDateTime() {return dateTime;}
 	public String getMovieName() {return movieName;}
 	public int getHallNo() {return hallNo;}
 	public String getCineplexName() {return cineplexName;}
@@ -41,8 +40,7 @@ public class Booking {
 	public void setBookingID(String bookingID) {this.bookingID = bookingID;}
 	public void setTickets(ArrayList<Ticket> tickets) {this.tickets = tickets;}
 	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
-	public void setDate(LocalDate date) {this.date = date;}
-	public void setTime(LocalTime time) {this.time = time;}
+    public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
 	public void setMovieName(String movieName) {this.movieName = movieName;}
 	public void setHallNo(int hallNo) {this.hallNo = hallNo;}
 	public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
