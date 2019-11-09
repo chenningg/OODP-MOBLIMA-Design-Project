@@ -47,8 +47,8 @@ public class Cinema {
 	public void setTotalSeatNo(int totalSeatNo) {this.totalSeatNo = totalSeatNo;}
 	public void setOccupiedSeatsNo(int occupiedSeatsNo) {this.occupiedSeatsNo = occupiedSeatsNo;}
 
-	public void setCinemaLayout(int layoutRow, String inputLine) {
-		this.cinemaLayout.add(inputLine);
+	public void setCinemaLayout(ArrayList<String> newCinemaLayout) {
+		this.cinemaLayout = newCinemaLayout;
 	}
 	
 	
@@ -78,7 +78,9 @@ public class Cinema {
 			FileReader frStream = new FileReader( filePath );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
+			
 			int i = 0;
+			ArrayList<String> seatingPlan = new ArrayList<String>();
 
 			do {
 				inputLine = brStream.readLine(); // read in a line
@@ -103,13 +105,15 @@ public class Cinema {
 						break;				
 					default:
 						// fifth line of file onwards will be the cinema layout
-						this.setCinemaLayout(i-6, inputLine);
+						seatingPlan.add(inputLine);
 						break;
 				}
 				i++;
 			} while (inputLine != null);
 			
 			brStream.close();	
+			
+			this.setCinemaLayout(seatingPlan);
 			
 		} catch ( FileNotFoundException e ) {
 			System.out.println( "Error opening the input file!" + e.getMessage() );

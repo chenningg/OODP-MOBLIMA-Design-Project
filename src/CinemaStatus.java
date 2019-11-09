@@ -1,6 +1,6 @@
 public enum CinemaStatus {
-    SOLD_OUT ("SOLD_OUT"),
-    SELLING_FAST ("SELLING_FAST"),
+    SOLD_OUT ("SOLD OUT"),
+    SELLING_FAST ("SELLING FAST"),
     AVAILABLE ("AVAILABLE");
 
     private final String name;

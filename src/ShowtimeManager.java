@@ -152,7 +152,7 @@ public class ShowtimeManager implements Serializable {
             choice = sc.nextInt();
 
             switch (choice) {
-                case 1: 
+                case 1:
                     System.out.println("Enter here: ");
                     showtimeID = sc.next();
                     break;
