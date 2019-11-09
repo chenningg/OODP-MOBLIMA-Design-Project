@@ -20,6 +20,22 @@ public class MovieManager {
 
     Scanner sc = new Scanner(System.in);
 
+
+
+    public void viewTop5(){
+        System.out.println("==================== View Top 5 Movies =====================\n" +
+                           "| 1. By Sales                                              |\n" +
+                           "| 2. By Tickets Sold                                       |\n" +
+                           "| 3. By Reviews                                            |\n" +
+                           "| 4. Back                                                  |\n" +
+                           "===========================================================");
+    }
+
+
+
+
+
+
     public void addMovie() {
         Movie newMovie = new Movie();
         List<Genre> genreList = new ArrayList<>();
