@@ -34,11 +34,13 @@ public class SerializerHelper {
         {
             System.out.println("IOException caught!");
             i.printStackTrace();
+            return null;
         }
         catch (ClassNotFoundException c)
         {
             System.out.println("Class not found!");
             c.printStackTrace();
+            return null;
         }
     }
 }

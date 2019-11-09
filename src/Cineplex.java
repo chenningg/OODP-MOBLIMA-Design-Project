@@ -1,11 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cineplex {
 	// Attributes
 	private String cineplexID;
 	private String cineplexName;
-	private ArrayList<Cinema> cinemas;
+	private List<Cinema> cinemas;
 	
 	
 	// Constructor
@@ -19,7 +20,7 @@ public class Cineplex {
 	// Getters
 	public String getCineplexID() {return cineplexID;}
 	public String getCineplexName() {return cineplexName;}
-	public ArrayList<Cinema> getCinemas() {return cinemas;}
+	public List<Cinema> getCinemas() {return cinemas;}
 
 
 	// Setters

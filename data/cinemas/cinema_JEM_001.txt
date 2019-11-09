@@ -1,5 +1,5 @@
 1
-STANDARD
+NORMAL
 164
 0
 |                       SCREEN                       |
