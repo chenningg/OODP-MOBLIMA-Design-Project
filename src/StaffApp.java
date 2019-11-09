@@ -7,6 +7,7 @@ public class StaffApp {
 
     private StaffApp(){}
 
+    //Create Singleton getInstance
     public static StaffApp getInstance()
     {
         if (single_instance == null)
@@ -14,16 +15,19 @@ public class StaffApp {
         return single_instance;
     }
 
-    public boolean loginMenu() throws IOException {
+    //LoginMenu
+    //boolean function - returns true when logged in else returns false
+    public boolean loginMenu() throws IOException
+    {
         Scanner sc = new Scanner(System.in);
         int input;
         String username,password;
         boolean authenticate = false;
 
-        System.out.println("==================== MOBLIMA STAFF APP ====================\n");
+        System.out.println("==================== MOBLIMA STAFF APP ====================");
         System.out.println("| 1. Login                                                |\n"+
-                           "| 2. Exit                                                 |\n"+
-                           "===========================================================");
+                "| 2. Exit                                                 |\n"+
+                "===========================================================");
 
         System.out.println("Enter Choice: ");
         input = sc.nextInt();
@@ -46,17 +50,23 @@ public class StaffApp {
         return authenticate;
     }
 
-    public boolean staffMenu(){
+    //StaffMenu
+    //Run this menu only when LoginMenu returns true
+    //boolean function - returns true, logout returns false
+
+    public boolean staffMenu()
+    {
         Scanner sc = new Scanner(System.in);
         int input;
+        boolean loginStatus=true;
 
         System.out.println("==================== MOBLIMA STAFF APP ====================\n" +
-                           "| 1. View Top 5 Movies                                     |\n" +
-                           "| 2. Configure System Settings                             |\n" +
-                           "| 3. Movie Database                                        |\n" +
-                           "| 4. Showtime Database                                     |\n" +
-                           "| 5. Logout                                                |\n" +
-                           "===========================================================");
+                "| 1. View Top 5 Movies                                     |\n" +
+                "| 2. Configure System Settings                             |\n" +
+                "| 3. Movie Database                                        |\n" +
+                "| 4. Showtime Database                                     |\n" +
+                "| 5. Logout                                                |\n" +
+                "===========================================================");
 
         System.out.println("Enter Choice: ");
         input = sc.nextInt();
@@ -74,19 +84,26 @@ public class StaffApp {
                 //Showtimes Database
                 break;
             case 5:
-                new StaffManager().logout();
+                loginStatus=new StaffManager().logout();
                 break;
         }
-        return true;
+        return loginStatus;
     }
 
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException
+    {
         StaffApp sa = StaffApp.getInstance();
-        boolean loggedIn = sa.loginMenu();
-        while(loggedIn){
-            loggedIn = sa.staffMenu();
+        boolean loggedOut;
+        boolean loggedIn= true;
+        while(loggedIn != false){
+            loggedIn= sa.loginMenu();
+            if(loggedIn){
+                loggedOut=sa.staffMenu();
+                if(loggedOut == false)
+                    continue;
+            }
         }
     }
 }

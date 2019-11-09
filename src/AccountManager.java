@@ -13,14 +13,14 @@ public class AccountManager {
         //loadAccount
         //write into CSV
     }
-    public loadAccount(){
+    public void loadAccount(){
         //read in CSV
     }
-    public updateAccount(){
+    public void updateAccount(){
         //loadAccount
         //search row in CSV, write in CSV
     }
-    public deleteAccount(){
+    public void deleteAccount(){
         //loadAccount
         //
     }
