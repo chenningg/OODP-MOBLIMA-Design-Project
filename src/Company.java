@@ -91,6 +91,7 @@ class CompanyApp {
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
 			
 		SystemSettingsManager.getInstance().displayMenu();
+		
 		System.out.println("end of program");
 	}
 }
