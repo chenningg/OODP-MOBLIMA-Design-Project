@@ -9,7 +9,6 @@ public class SystemSettingsManager {
 	
 	private SystemSettingsManager() {
 		this.systemSettings = this.deSerialize();
-		this.getPriceTable();
 		/*
 		 * // Used only for initial serialization
 		 * this.systemSettings = new SystemSettings();
@@ -22,8 +21,8 @@ public class SystemSettingsManager {
 		return single_instance;
 	}
 	
-	public Map<Object, Object> getPriceTable() {
-		return this.systemSettings.getPriceReference();
+	public double getPrice(String key) {
+		return this.systemSettings.getPrice(key);
 	}
 	
 	public void displayMenu() {

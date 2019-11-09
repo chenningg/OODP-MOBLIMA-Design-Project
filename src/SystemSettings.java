@@ -28,9 +28,10 @@ public class SystemSettings implements Serializable {
 		// Customer should only be able to access priceReference and holidayReference 
 		System.out.println(this.getSystemInfoHash().get(infoType));
 	}
-	public Map<Object, Object> getPriceReference() {
-		return this.getSystemInfoHash().get("priceReference");
+	public double getPrice(String key) {
+		return (double) this.getSystemInfoHash().get("priceReference").get(key);
 	}
+
 	
 	
 	// Setters
