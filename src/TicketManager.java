@@ -1,14 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 
 public class TicketManager implements ResetSelf {
 	
 	// Variables
     private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
-    private HashMap<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
-    private HashMap<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();
+    private Map<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
+    private Map<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();
     private Scanner sc = new Scanner(System.in);
 	
 
@@ -74,7 +79,9 @@ public class TicketManager implements ResetSelf {
 	    	    		getSelectedTickets().get(j).setSeatID(selectedSeats.get(j));
 	    	    	}
 	    	    	
-	    	    	// PROCEED TO PAYMENT, passes on selected seats as well as a count of ticket types
+	    	    	// PROCEED TO PAYMENT, passes on ticket prices as well as a count of tickets selected
+	    	    	// Update ticket prices for all tickets
+	    	    	updateTicketPrices(showtime);
 	    	    	TransactionManager.getInstance().startTransaction(getTicketPrices(), getTicketCount());
     	    	}
     			else {
@@ -118,6 +125,34 @@ public class TicketManager implements ResetSelf {
     }
    
     
+    // Updates ticket prices for all tickets types for current showtime
+    public void updateTicketPrices(Showtime showtime) {
+    	Map<TicketType, Double> prices = getTicketPrices();
+    	SystemSettingsManager priceList = SystemSettingsManager.getInstance();
+    	
+    	for (TicketType type : TicketType.values()) { 
+    		// Get base price based on ticket type
+    	    prices.put(type, SystemSettingsManager.getInstance().getPrice("BASE"));
+    	    
+    	    // Update price based on ticket type
+    	    prices.put(type, prices.get(type) + priceList.getPrice(type.toString()));
+    	    
+    	    // Update price based on date (see if it's a holiday)
+    	    prices.put(type, prices.get(type) + priceList.getPrice(showtime.getDateTime().toLocalDate()));
+    	    
+    	    // Update price based on day of week
+    	    String day = showtime.getDateTime().getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault());
+    	    prices.put(type, prices.get(type) + priceList.getPrice(day));
+    	    
+    	    // Update price based on movie format
+    	    prices.put(type, prices.get(type) + priceList.getPrice(showtime.getMovieFormat().toString()));
+    	    
+    	    // Update price based on cinema type
+    	    prices.put(type, prices.get(type) + priceList.getPrice(showtime.getCinema().getCinemaType().toString()));
+    	}
+    }
+    
+    
     // Injects ticket selection information into BookingManager's booking when event is raised, and reset itself
     public void confirmTicketSelection() {
     	BookingManager.getInstance().getBooking().setTickets(selectedTickets);
@@ -135,6 +170,6 @@ public class TicketManager implements ResetSelf {
     
     // Getters
  	public ArrayList<Ticket> getSelectedTickets() {return selectedTickets;}
- 	public HashMap<TicketType, Integer> getTicketCount() {return ticketCount;}
- 	public HashMap<TicketType, Double> getTicketPrices() {return ticketPrices;}
+ 	public Map<TicketType, Integer> getTicketCount() {return ticketCount;}
+ 	public Map<TicketType, Double> getTicketPrices() {return ticketPrices;}
 }

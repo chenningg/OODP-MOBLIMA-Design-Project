@@ -1,6 +1,6 @@
 public enum MovieFormat {
-	TWOD ("2D"),
-    THREED ("3D"),
+	TWOD ("TWOD"),
+    THREED ("THREED"),
     IMAX ("IMAX");
 
     private final String name;       
