@@ -7,8 +7,8 @@ public class Booking {
     //Attributes
 	
     private String bookingID;
-    private ArrayList<Ticket> tickets = new ArrayList<>();
-    private double totalPrice = 0;
+    private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+    private Transaction transaction;
     private LocalDate date;
     private LocalTime time;
     private String movieName;
@@ -24,68 +24,28 @@ public class Booking {
     
     // Getters
     
-	public String getBookingID() {
-		return bookingID;
-	}
-	public ArrayList<Ticket> getTickets() {
-		return tickets;
-	}
-	public double getTotalPrice() {
-		return totalPrice;
-	}
-	public LocalDate getDate() {
-		return date;
-	}
-	public LocalTime getTime() {
-		return time;
-	}
-	public String getMovieName() {
-		return movieName;
-	}
-	public int getHallNo() {
-		return hallNo;
-	}
-	public String getCineplexName() {
-		return cineplexName;
-	}
-	public String getBookerMobileNo() {
-		return bookerMobileNo;
-	}
-	public String getBookerEmail() {
-		return bookerEmail;
-	}
+	public String getBookingID() {return bookingID;}
+	public ArrayList<Ticket> getTickets() {return tickets;}
+	public Transaction getTransaction() {return transaction;}
+	public LocalDate getDate() {return date;}
+	public LocalTime getTime() {return time;}
+	public String getMovieName() {return movieName;}
+	public int getHallNo() {return hallNo;}
+	public String getCineplexName() {return cineplexName;}
+	public String getBookerMobileNo() {return bookerMobileNo;}
+	public String getBookerEmail() {return bookerEmail;}
 	
 	
 	// Setters
 	
-	public void setBookingID(String bookingID) {
-		this.bookingID = bookingID;
-	}
-	public void setTickets(ArrayList<Ticket> tickets) {
-		this.tickets = tickets;
-	}
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-	public void setTime(LocalTime time) {
-		this.time = time;
-	}
-	public void setMovieName(String movieName) {
-		this.movieName = movieName;
-	}
-	public void setHallNo(int hallNo) {
-		this.hallNo = hallNo;
-	}
-	public void setCineplexName(String cineplexName) {
-		this.cineplexName = cineplexName;
-	}
-	public void setBookerMobileNo(String bookerMobileNo) {
-		this.bookerMobileNo = bookerMobileNo;
-	}
-	public void setBookerEmail(String bookerEmail) {
-		this.bookerEmail = bookerEmail;
-	}
+	public void setBookingID(String bookingID) {this.bookingID = bookingID;}
+	public void setTickets(ArrayList<Ticket> tickets) {this.tickets = tickets;}
+	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
+	public void setDate(LocalDate date) {this.date = date;}
+	public void setTime(LocalTime time) {this.time = time;}
+	public void setMovieName(String movieName) {this.movieName = movieName;}
+	public void setHallNo(int hallNo) {this.hallNo = hallNo;}
+	public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
+	public void setBookerMobileNo(String bookerMobileNo) {this.bookerMobileNo = bookerMobileNo;}
+	public void setBookerEmail(String bookerEmail) {this.bookerEmail = bookerEmail;}
 }
