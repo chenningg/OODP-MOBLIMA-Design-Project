@@ -91,7 +91,7 @@ public class SystemSettings implements Serializable {
 
 	// Setters 
 	private void setsystemInfoList() {
-		this.systemInfoList = new ArrayList<String>(List.of("priceReference", "holidayReference", "dayOfWeek$", "basePrice$", "holiday$", "movieFormat$", "ticketType$", "cinemaType$"));	
+		this.systemInfoList = new ArrayList<String>(List.of("priceReference", "holidayReference", "dayOfWeek$", "default$", "holiday$", "movieFormat$", "ticketType$", "cinemaType$"));	
 	}
 	
 	private void setSystemInfoHash() {
@@ -123,8 +123,8 @@ public class SystemSettings implements Serializable {
 				case "dayOfWeek$":
 					filePath = filePath + "/data/system_settings/day_of_week.txt";
 					break;
-				case "basePrice$":
-					filePath = filePath + "/data/system_settings/base_price.txt";
+				case "default$":
+					filePath = filePath + "/data/system_settings/default_price.txt";
 					break;
 				case "holiday$":
 					filePath = filePath + "/data/system_settings/holiday.txt";
