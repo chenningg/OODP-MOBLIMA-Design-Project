@@ -1,12 +1,12 @@
 import java.io.*;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Company {
 	// Attributes
     private String companyName;
-    private ArrayList<Cineplex> cineplexes;
+    private List<Cineplex> cineplexes;
     
     // Constructor
     Company(){
@@ -17,7 +17,7 @@ public class Company {
     
     // Getters
     public String getCompanyName(){return this.companyName;}
-    public ArrayList<Cineplex> getCineplexes(){return this.cineplexes;}
+    public List<Cineplex> getCineplexes(){return this.cineplexes;}
 
 
     // Setters
@@ -90,7 +90,11 @@ class CompanyApp {
 		System.out.println(myCompany.getCineplexes());
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
+			
+		System.out.println(SystemSettingsManager.getInstance().getPrice("THU"));
+		System.out.println(SystemSettingsManager.getInstance().getPrice(Date.valueOf("2019-12-25")));
 		
-//		myCompany.getCineplexes().get(0).getCinemas().get(0).printCinemaLayout();
+		
+		System.out.println("end of program");
 	}
 }

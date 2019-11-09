@@ -72,7 +72,8 @@ public class StaffApp {
         input = sc.nextInt();
         switch(input){
             case 1:
-                //View Top 5
+                MovieManager mm = MovieManager.getInstance();
+                mm.viewTop5Staff();
                 break;
             case 2:
                 //System Settings

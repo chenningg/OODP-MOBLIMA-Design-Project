@@ -324,7 +324,7 @@ class BookingManager implements ResetSelf {
     }
     
     
-    // Once booking is confirmed and payment is made, listen to event raised and call this to create and store booking
+    // Once booking is confirmed and payment is made, we raise an event to let other parts know to inject information into this booking
     public void makeBooking() {
     	// Since booking is confirmed, we update all selected seats to be confirmed seats (occupied)
     	for (int i = 0; i < getSelectedSeats().size(); i++) {
@@ -334,6 +334,29 @@ class BookingManager implements ResetSelf {
     	// We then update the current showtime REFERENCE with the new seating plan, and update the showtime fill status
     	showtime.getCinema().setCinemaLayout(getSeatingPlan());
     	showtime.updateCinemaStatus();
+    	
+    	// We create a new booking and fill it up with the finalized information before storing it
+    	setBooking(new Booking());
+    	
+    	// RAISE EVENT TO CALL OTHER MANAGERS TO INJECT INFORMATION INTO THIS BOOKING
+    	// This fills up the booking's ticketList, totalPrice, bookerMobileNo and bookerEmail
+    	// TODO
+    	
+    	// Now we have to update the rest of booking: bookingID, movieName, hallNo and cineplexName
+    	
+    	// Update the booking with the showtime's date and time
+    	getBooking().setDate(showtime.getDate());
+    	getBooking().setTime(showtime.getTime());
+    	
+    	// Update booking's movieName, cineplexName and hallNo
+    	getBooking().setMovieName(showtime.getMovie().getTitle());
+    	getBooking().setCineplexName(showtime.getCineplex().getCineplexName());
+    	getBooking().setHallNo(showtime.getCinema().getHallNo());
+    	
+    	// Finally, we can generate a unique ID for this booking
+    	
+    	// We can then send this booking off to store as a file
+    	// TODO
     	
     	// Finally, reset this instance
     	resetSelf();
