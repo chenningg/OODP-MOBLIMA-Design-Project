@@ -15,16 +15,26 @@ public class Showtime{
     private CinemaStatus cinemaStatus;
 
 
-    //Methods TODO
-
-    public int getSeatFilledAmount() {
-    	return 0;
+    //Methods
+    
+    public void updateCinemaStatus() {
+    	double percentageFilled = getCinema().getOccupiedSeatsNo() / getCinema().getTotalSeatNo();
+    	
+    	if (percentageFilled <= 50.0) {
+    		setCinemaStatus(CinemaStatus.AVAILABLE);
+    	}
+    	else if (percentageFilled < 100.0) {
+    		setCinemaStatus(CinemaStatus.SELLING_FAST);
+    	}
+    	else {
+    		setCinemaStatus(CinemaStatus.SOLD_OUT);
+    	}
     }
     
     
     //Getters
     
-    public void getShowtimeID() {this.showtimeID = showtimeID;}
+    public String getShowtimeID() {return showtimeID;}
     public LocalDate getDate() {return date;}
     public LocalTime getTime() {return time;}
     public Movie getMovie() {return movie;}
@@ -33,14 +43,12 @@ public class Showtime{
     public CinemaStatus getCinemaStatus() {return cinemaStatus;}
 
     //Setters
-    
     public void setShowtimeID(String showtimeID) {this.showtimeID = showtimeID;}
     public void setDate(LocalDate date) {this.date = date;}
     public void setTime(LocalTime time) {this.time = time;}
     public void setMovie(Movie movie) {this.movie = movie;}
     public void setCinema(Cinema cinema) {this.cinema = cinema;}
     public void setCineplex(Cineplex cineplex) {this.cineplex = cineplex;}
-
-
+    public void setCinemaStatus(CinemaStatus cinemaStatus) {this.cinemaStatus = cinemaStatus;}
 
 }
