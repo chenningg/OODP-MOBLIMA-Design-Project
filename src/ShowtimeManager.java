@@ -12,7 +12,9 @@ public class ShowtimeManager implements Serializable {
     // Singleton things
     private static ShowtimeManager single_instance = null;
 
-    private ShowtimeManager() {}
+    private ShowtimeManager() {
+        this.showtimes = loadObject();
+    }
 
     public static ShowtimeManager getInstance()
     {
@@ -274,15 +276,16 @@ public class ShowtimeManager implements Serializable {
             }
         }
     }
-    public ShowtimeManager loadObject() {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_manager.dat";
-        return (ShowtimeManager) SerializerHelper.deSerializeObject(filepath);
+    public ArrayList<Showtime> loadObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
+        System.out.println("Showtimes loaded!");
+        return (ArrayList<Showtime>) SerializerHelper.deSerializeObject(filepath);
     }
 
     public void saveObject() {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_manager.dat";
-        SerializerHelper.serializeObject(this, filepath);
-        System.out.println("Showtime Manager Saved!");
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
+        SerializerHelper.serializeObject(this.showtimes, filepath);
+        System.out.println("Showtimes Saved!");
     }
 
     private Movie findMovie(String movieID) {
