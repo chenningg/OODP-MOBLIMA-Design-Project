@@ -2,18 +2,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class BookingManager {
+class BookingManager implements ResetSelf {
     // Variables
-    private Showtime showtime = null;
     private ArrayList<String> seatingPlan;
     private ArrayList<String> selectedSeats = new ArrayList<String>();
-	private Booking booking = null;
+    private HashMap<Character, Integer> rowChecker = new HashMap<Character, Integer>(); // Checks if a seat has been booked in a specific row
     private Scanner sc = new Scanner(System.in);
+    private Booking booking = null; // Current booking to make
+    private Showtime showtime = null; // Current showtime selected
     
-    // Singleton
+    
+    // Singleton & Constructor
  	private static BookingManager single_instance = null;
-
- 	// Constructor
+ 	
  	private BookingManager() {}
 	
 	public static BookingManager getInstance()
@@ -24,12 +25,13 @@ class BookingManager {
 	    return single_instance;
 	}
 	    
+	
     // Methods
 
     // Starts a booking by showing available seats and allows user to select seats based on a copy of showtime
-    public void startBooking(Showtime baseShowtime) {
+    public void startSeatSelection(Showtime baseShowtime) {
     	// Create a deep copy of showtime seats so we don't affect the original until booking completes
-    	setShowtime(baseShowtime);
+    	setShowtime(baseShowtime); // Contain reference to selected showtime
     	setSeatingPlan(copySeatingPlan(baseShowtime.getCinema().getCinemaLayout()));
     	
     	// Show them booking menu until they exit
@@ -47,9 +49,7 @@ class BookingManager {
         	switch(sc.nextInt()) {
         		case 0: // Exit, reset everything
         			exit = true;
-        			getSelectedSeats().clear();
-        			setShowtime(null);
-        			setBooking(null);
+        			resetSelf();
         			break;
         		case 1: // Select seat
         			addSeatSelection();
@@ -101,43 +101,97 @@ class BookingManager {
 		System.out.println("Please enter a seat selection (e.g. C6):");
 		String selection = sc.next().toUpperCase();
 		
-		// Check if seat selection matches format
-		if (selection.matches("[A-Z]\\d{1,2}")) {
-			// Loop through seating plan to check if seat exists and is available
-			char seatRow = selection.charAt(0);
-			int seatCol = Integer.valueOf(selection.substring(1, selection.length()));
+		// Check if seat selection is allowable
+		if (allowSeatSelection(selection)) {
 			
-			for (int row = 0; row < getSeatingPlan().size(); row++) {
-				// If we find a match for alphabet row
-				if (getSeatingPlan().get(row).charAt(0) == seatRow) {
-					
-				}
-			}
 		}
 		
 		// If invalid selection, return error
 		System.out.println("Invalid seat ID entered. Please try again.");
     }
     
+    
     // Check for adjacent seats on the same row, no gaps in between same row seats
-    public Boolean checkAdjacentSeats() {
-    	
+    public Boolean allowSeatSelection(String seatID) {
+    	// First we check if entered seat ID is valid aka starts with alphabet and has an integer (capped at 2 digits)
+    	if (seatID.matches("[A-Z]\\d{1,2}")) {
+			// If seatID entered is valid, check if seat exists
+			char seatRow = seatID.charAt(0); // Alphabet row of seatID
+			int seatCol = Integer.valueOf(seatID.substring(1, seatID.length())); // Integer column of seatID
+			int seatCount = 0; // Count of seat index in a row
+			String rowRef;
+			
+			// Iterate through rows of seating plan to find seat row alphabet
+			for (int row = 1; row < getSeatingPlan().size(); row++) {				
+				rowRef = getSeatingPlan().get(row);
+				
+				// If we find a match for seat row
+				if (rowRef.charAt(0) == seatRow) {
+					
+					// We then check if seat exists at the specified column. Ignore 0 index as it's the row alphabet.
+					for (int col = 1; col < rowRef.length(); col++) {
+						
+						// When we encounter a digit (aka a seat) add it to seatCount and match against seatCol.
+						if (Character.isDigit(rowRef.charAt(col))) {
+							seatCount += 1;
+							
+							// Check if current seat we are at matches seatCol of selected seat (aka seat exists)
+							if (seatCol == seatCount) {
+								
+								// Check if seat is unoccupied
+								if (rowRef.charAt(col) == '0') {
+									
+									// Check if there are existing bookings in this row. 
+									// Only allow selection if current selection is adjacent to any existing bookings.
+									
+									
+								}
+								
+							}
+						}
+					}
+				}
+			}
+		}
+
+    	// If we reach here, either the input is invalid, the row doesn't exist, or the column of seat doesn't exist.
+    	System.out.println("Invalid seatID input. Please try again.");
+    	return false;
     }
     
+    
+    // Deletes a seat selection
     public void deleteSeatSelection() {
     	System.out.println("Please enter seat to deselect (e.g. C6):");
     }
     
     
+    // Once booking is confirmed and payment is made, listen to event raised and call this to create and store booking
+    public void makeBooking() {
+    	
+    }
+    
+    
+    // Resets all variables of this singleton instance (e.g. if user presses back)
+    public void resetSelf() {
+    	setShowtime(null);
+		setBooking(null);
+		setSeatingPlan(null);
+    	getSelectedSeats().clear();
+		getRowChecker().clear();
+    }
+    
+    
     // Setters
-    public void setShowtime(Showtime showtime) {this.showtime = showtime;}   
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
+    public void setBooking(Booking booking) {this.booking = booking;}
     public void setSeatingPlan(ArrayList<String> seatingPlan) {this.seatingPlan = seatingPlan;}
-	public void setBooking(Booking booking) {this.booking = booking;}
     
 	
     // Getters
 	public Showtime getShowtime() {return showtime;}
+	public Booking getBooking() {return booking;}
     public ArrayList<String> getSeatingPlan() {return seatingPlan;}
 	public ArrayList<String> getSelectedSeats() {return selectedSeats;}
-	public Booking getBooking() {return booking;}
+	public HashMap<Character, Integer> getRowChecker() {return rowChecker;}
 }
