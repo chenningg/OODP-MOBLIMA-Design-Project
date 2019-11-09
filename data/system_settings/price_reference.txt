@@ -1,4 +1,5 @@
 BASE     | 10
+BOOKING  | 1
 MON      | 0
 TUE      | 0
 WED      | 0

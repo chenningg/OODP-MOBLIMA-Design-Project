@@ -8,6 +8,7 @@ public class SystemSettingsManager {
 	private static SystemSettingsManager single_instance = null;
 	
 	private SystemSettingsManager() {
+		// Used after serialization
 		this.systemSettings = this.deSerialize();
 		
 		// Used only for initial serialization
@@ -32,16 +33,6 @@ public class SystemSettingsManager {
 			return 0;
 		}
 	}
-	
-//	public void test() {
-//        String dateString = "2019-12-25";
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        LocalDate date = LocalDate.parse(dateString, formatter);
-//        
-//        LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        System.out.println(date);
-//        System.out.println(date instanceof LocalDate);
-//	}
 	
 	
 	public void displayMenu() {
@@ -95,7 +86,7 @@ public class SystemSettingsManager {
 			System.out.println("What setting would you like to view?");
 			System.out.print("1. All Price Reference    ");
 			System.out.print("2. Holiday List    ");
-			System.out.print("3. Base Price    ");
+			System.out.print("3. Default Price    ");
 			System.out.println("4. Day of the week    ");
 			System.out.print("5. Holiday    ");
 			System.out.print("6. Movie Format    ");
@@ -114,7 +105,7 @@ public class SystemSettingsManager {
 					this.systemSettings.viewSetting("holidayReference");
 					break;
 				case 3: 
-					this.systemSettings.viewSetting("basePrice$");
+					this.systemSettings.viewSetting("default$");
 					break;
 				case 4:
 					this.systemSettings.viewSetting("dayOfWeek$");
@@ -232,7 +223,7 @@ public class SystemSettingsManager {
 			System.out.println("4. Cinema Type Modifier    ");
 			System.out.print("5. Day of the Week Modifier    ");
 			System.out.print("6. Holiday Modifier    ");
-			System.out.print("7. Ticket Base Price    ");
+			System.out.print("7. Default Modifier    ");
 			System.out.println("0. Back to SystemSettings Menu......");
 			
 			choice = sc.nextInt();
@@ -319,14 +310,18 @@ public class SystemSettingsManager {
 					this.systemSettings.viewSetting("holiday$");
 					break;		
 				case 7:
-					this.systemSettings.viewSetting("base$");
-					double newBaseModifier;
+					this.systemSettings.viewSetting("default$");
+					String newDefaultName;
+					double newDefaultModifier;
 					
-					System.out.println("Enter new ticket base price: ");
-					newBaseModifier = sc.nextDouble();
+					System.out.println("Enter the default setting you want to change: ");
+					newDefaultName = sc.next().toUpperCase();
 					
-					this.systemSettings.updateSetting("base$", "BASE", newBaseModifier);			
-					this.systemSettings.viewSetting("base$");
+					System.out.println("Enter new default price: ");
+					newDefaultModifier = sc.nextDouble();
+					
+					this.systemSettings.updateSetting("default$", newDefaultName, newDefaultModifier);	
+					this.systemSettings.viewSetting("default$");
 					break;			
 				case 0: 
 					break;
