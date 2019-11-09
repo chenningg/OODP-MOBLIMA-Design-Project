@@ -2,6 +2,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -28,6 +29,7 @@ public class ShowtimeManager implements Serializable {
     public void displayMovieShowtimes(Movie movie, Cineplex cineplex)
     {
         HashMap <Integer, Showtime> showtimeSelect = new HashMap<>();
+        BookingManager bookingManager = BookingManager.getInstance();
         if (cineplex == null)
         {
             System.out.println("Enter cineplex ID: ");
@@ -39,15 +41,16 @@ public class ShowtimeManager implements Serializable {
         for (Showtime showtime : showtimes)
         {
             if (showtime.getMovie() == movie) {
-                System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDate() + showtime.getTime());
+                System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDateTime());
                 showtimeSelect.put(count, showtime);
                 count++;
             }
         }
         System.out.println(count + ". Exit");
         int choice = sc.nextInt();
-        // TODO: booking manager call here, to book showtime mapped by hashmap
+        // booking manager call here, to book showtime mapped by hashmap
         Showtime selectedShowtime = showtimeSelect.get(choice);
+        bookingManager.startSeatSelection(selectedShowtime);
         if (!showtimeSelect.containsKey(choice)) {
             // TODO: call back to previous view
         }
@@ -80,24 +83,19 @@ public class ShowtimeManager implements Serializable {
                         // first line of file is DateTime of showtime
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
                         String dateInString = inputLine;
-                        LocalDateTime dateTime = LocalDateTime.parse(dateInString, formatter);
+                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
                         newShowtime.setDateTime(dateTime);
                         System.out.println("Showtime read and added!");
                         break;
                     case 1:
-                        // second line of file is the Movie
-                        String movieName = inputLine;
-                        MovieManager movieManager = MovieManager.getInstance();
-                        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
-                        for (Movie movie : moviesInMovieManager)
-                        {
-                            String movieNameRead = movie.getTitle();
-                            if (movieNameRead.equalsIgnoreCase(movieName))
-                            {
-                                newShowtime.setMovie(movie);
-                                System.out.println("Movie read and added!");
-                                break;
-                            }
+                        // second line of file is the movieID
+                        String movieID = inputLine;
+                        Movie foundMovie = this.findMovie(movieID);
+                        if (foundMovie == null) {
+                            System.out.println("Movie not found!");
+                        }
+                        else {
+                            newShowtime.setMovie(foundMovie);
                         }
                         break;
                     case 2:
@@ -136,14 +134,17 @@ public class ShowtimeManager implements Serializable {
         int choice;
         String showtimeID;
         LocalDateTime showtimeDateTime;
-        String movieTitle;
+        String movieID;
+        Movie movie;
         String cinemaID;
+        Cinema cinema;
         String cineplexID;
+        Cineplex cineplex;
         CinemaStatus cinemaStatus;
         do {
             System.out.println("1. Enter showtimeID");
             System.out.println("2. Enter showtime DateTime");
-            System.out.println("3. Enter movie title");
+            System.out.println("3. Enter movieID");
             System.out.println("4. Enter cinemaID");
             System.out.println("5. Enter cineplexID");
             System.out.println("6. Enter cinema status");
@@ -159,26 +160,152 @@ public class ShowtimeManager implements Serializable {
                 case 2:
                     System.out.println("Enter here: ");
                     String DateTime = sc.next();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                    showtimeDateTime = LocalDateTime.parse(DateTime, formatter);
+                    showtimeDateTime = this.dateTimeParser(DateTime);
                     break;
                 case 3:
                     System.out.println("Enter here: ");
-                    movieTitle = sc.next();
-
+                    movieID = sc.next();
+                    movie = this.findMovie(movieID);
+                    break;
+                case 4:
+                    System.out.println("Enter here: ");
+                    cinemaID = sc.next();
+                    cinema = new Cinema(cinemaID);
+                    break;
+                case 5:
+                    System.out.println("Enter here: ");
+                    cineplexID = sc.next();
+                    cineplex = new Cineplex(cineplexID);
+                    break;
+                case 6:
+                    System.out.println("Enter here: ");
+                    cinemaStatus = CinemaStatus.valueOf(sc.next());
+                    break;
+                case 7:
+                    if (movie == null || showtimeID == null || showtimeDateTime == null || movieID == null || cinemaID == null || cineplexID == null || cinemaStatus == null) {
+                        System.out.println("All fields must be entered!");
+                        break;
+                    }
+                    else {
+                        Showtime showtime = new Showtime();
+                        showtime.setShowtimeID(showtimeID);
+                        showtime.setMovie(movie);
+                        showtime.setDateTime(showtimeDateTime);
+                        showtime.setCinema(cinema);
+                        showtime.setCineplex(cineplex);
+                        showtime.setCinemaStatus(cinemaStatus);
+                        break;
+                    }
+                case 8:
+                    // TODO: add call to previous view
+                    break;
             }
-            // TODO: add call to previous view
         } while (choice < 8);
     }
 
-    public void updateShowtime() {
+    public void updateShowtime(String showtimeID) {
+        int choice;
+        Showtime foundShowtime = this.findShowtime(showtimeID);
+        if (foundShowtime != null) {
+            do {
+                System.out.println("1. Update showtimeID");
+                System.out.println("2. Update showtime DateTime");
+                System.out.println("3. Update movie (enter movieID");
+                System.out.println("4. Update cinema (enter cinemaID)");
+                System.out.println("5. Update cineplex (enter cineplexID)");
+                System.out.println("6. Update cinema status");
+                System.out.println("7. Back"); // TODO: is there a exit flow? and flow to where?
+                choice = sc.nextInt();
 
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter here: ");
+                        String newShowtimeID = sc.next();
+                        foundShowtime.setShowtimeID(showtimeID);
+                        break;
+                    case 2:
+                        System.out.println("Enter here: ");
+                        String newDateTime = sc.next();
+                        foundShowtime.setDateTime(this.dateTimeParser(newDateTime));
+                        break;
+                    case 3:
+                        System.out.println("Enter here: ");
+                        String newMovieID = sc.next();
+                        Movie newMovie = this.findMovie(newMovieID);
+                        foundShowtime.setMovie(newMovie);
+                        break;
+                    case 4:
+                        System.out.println("Enter here: ");
+                        String newCinemaID = sc.next();
+                        // call new Cinema here since layout will be refreshed
+                        Cinema newCinema = new Cinema(newCinemaID);
+                        foundShowtime.setCinema(newCinema);
+                        break;
+                    case 5:
+                        System.out.println("Enter here: ");
+                        String newCineplexID = sc.next();
+                        // call new Cineplex here since halls may be refreshed
+                        Cineplex newCineplex = new Cineplex(newCineplexID);
+                        foundShowtime.setCineplex(newCineplex);
+                        break;
+                    case 6:
+                        System.out.println("Enter here: ");
+                        foundShowtime.setCinemaStatus(CinemaStatus.valueOf(sc.next()));
+                        break;
+                    case 7:
+                        // TODO: exit view flow
+                        break;
+                }
+            } while (choice < 8);
+        }
+        else
+        {
+            System.out.println("Showtime not found!");
+        }
     }
 
-    public void deleteShowtime() {
-
+    public void deleteShowtime(String showtimeID) {
+        for (Showtime showtime : showtimes) {
+            String storedShowtimeID = showtime.getShowtimeID();
+            if (storedShowtimeID.equalsIgnoreCase(showtimeID)) {
+                showtimes.remove(showtime);
+                System.out.println("Showtime deleted!");
+                break;
+            }
+        }
     }
     public ShowtimeManager loadObject() {}
 
     public void saveObject() {}
+
+    private Movie findMovie(String movieID) {
+        MovieManager movieManager = MovieManager.getInstance();
+        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
+        for (Movie movie : moviesInMovieManager)
+        {
+            String movieTitle = movie.getMovieID();
+            if (movieTitle.equalsIgnoreCase(movieID))
+            {
+                return movie;
+            }
+        }
+        return null; // if movie not found
+    }
+
+    private Showtime findShowtime(String showtimeID) {
+        for (Showtime showtime : showtimes) {
+            String showtimeIDInManager = showtime.getShowtimeID();
+            if (showtimeIDInManager.equalsIgnoreCase(showtimeID))
+            {
+                return showtime;
+            }
+        }
+        return null;
+    }
+
+    private LocalDateTime dateTimeParser(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
+        return dateTime;
+    }
 }

@@ -36,8 +36,7 @@ public class Showtime{
     //Getters
 
     public String getShowtimeID() {return showtimeID;}
-    public LocalDate getDate() {return date;}
-    public LocalTime getTime() {return time;}
+    public LocalDateTime getDateTime() {return dateTime;}
     public Movie getMovie() {return movie;}
     public Cinema getCinema() {return cinema;}
     public Cineplex getCineplex() {return cineplex;}
@@ -45,8 +44,7 @@ public class Showtime{
 
     //Setters
     public void setShowtimeID(String showtimeID) {this.showtimeID = showtimeID;}
-    public void setDate(LocalDate date) {this.date = date;}
-    public void setTime(LocalTime time) {this.time = time;}
+    public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
     public void setMovie(Movie movie) {this.movie = movie;}
     public void setCinema(Cinema cinema) {this.cinema = cinema;}
     public void setCineplex(Cineplex cineplex) {this.cineplex = cineplex;}
