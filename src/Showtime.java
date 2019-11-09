@@ -15,7 +15,7 @@ public class Showtime implements Serializable {
     private CinemaStatus cinemaStatus;
     private List<String> seatLayout; // booking manager to override with each booking
 
-    
+
     //Methods
 
     public void updateCinemaStatus() {
