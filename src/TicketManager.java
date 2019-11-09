@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -7,6 +8,7 @@ public class TicketManager implements ResetSelf {
 	// Variables
     private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
     private HashMap<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
+    private HashMap<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();
     private Scanner sc = new Scanner(System.in);
 	
 
@@ -26,8 +28,8 @@ public class TicketManager implements ResetSelf {
 	
 	// Methods
 	
-	// Deals with ticket selection
-    public void startTicketSelection(ArrayList<String> selectedSeats) {
+	// Starts ticket selection
+    public void startTicketSelection(Showtime showtime, List<String> selectedSeats) {
     	
     	Boolean exit = false;
     	int maxTickets = selectedSeats.size(); // Total number of tickets available for selection
@@ -73,7 +75,7 @@ public class TicketManager implements ResetSelf {
 	    	    	}
 	    	    	
 	    	    	// PROCEED TO PAYMENT, passes on selected seats as well as a count of ticket types
-	    	    	TransactionManager.getInstance().startTransaction(getTicketCount());
+	    	    	TransactionManager.getInstance().startTransaction(getTicketPrices(), getTicketCount());
     	    	}
     			else {
     				System.out.printf("Not enough tickets selected! %d tickets remaining to select.\n", ticketsLeft);
@@ -127,10 +129,12 @@ public class TicketManager implements ResetSelf {
     public void resetSelf() {
     	getSelectedTickets().clear();
     	getTicketCount().clear();
+    	getTicketPrices().clear();
     }
     
     
     // Getters
  	public ArrayList<Ticket> getSelectedTickets() {return selectedTickets;}
  	public HashMap<TicketType, Integer> getTicketCount() {return ticketCount;}
+ 	public HashMap<TicketType, Double> getTicketPrices() {return ticketPrices;}
 }

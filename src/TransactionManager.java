@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 import java.util.ArrayList;
 
 public class TransactionManager implements ResetSelf {
@@ -26,19 +28,27 @@ public class TransactionManager implements ResetSelf {
 	// Methods
 	
 	// Start a new transaction with selected seats and selected tickets
-	public void startTransaction(HashMap<TicketType, Integer> ticketCount) {
+	public void startTransaction(Map<TicketType, Double> ticketPrices, Map<TicketType, Integer> ticketCount) {
 		
 		// Create new transaction
 		setTransaction(new Transaction());
 
 		// Show prices
-		displayPrices();
+		displayPrices(selectedTickets, ticketCount);
 	}
 	
 	
 	// Displays pricing information and total price
-	public void displayPrices() {
+	public void displayPrices(List<Ticket> selectedTickets, Map<TicketType, Integer> ticketCount) {
 		
+		// Print out selected ticket prices inclusive of GST and total amount
+		System.out.println("Please check your booking prices below:");
+		System.out.printf("%-20s%-20s%s", "Item", "Quantity", "Net Price");
+		for (Map.Entry<TicketType, Integer> item : ticketCount.entrySet()) {
+			System.out.printf("%-20sx%-20d\n", item.getKey().toString() + " TICKET", item.getValue());
+			System.out.printf("%f", )
+                                			
+		}
 	}
 	
 	
