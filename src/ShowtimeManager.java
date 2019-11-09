@@ -1,13 +1,10 @@
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
-public class ShowtimeManager implements{
-    private ArrayList<Showtime> showtimes;
+public class ShowtimeManager {
+    private List<Showtime> showtimes;
 
     // Singleton things
     private static ShowtimeManager single_instance = null;
@@ -30,7 +27,7 @@ public class ShowtimeManager implements{
     // Showtime manager called at this point with movie
     public void displayMovieShowtimes(Movie movie, Cineplex cineplex)
     {
-        HashMap <Integer, Showtime> showtimeSelect = new HashMap<>();
+        Map <Integer, Showtime> showtimeSelect = new HashMap<>();
         BookingManager bookingManager = BookingManager.getInstance();
         if (cineplex == null)
         {
@@ -276,10 +273,10 @@ public class ShowtimeManager implements{
             }
         }
     }
-    public ArrayList<Showtime> loadObject() {
+    public List<Showtime> loadObject() {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
         System.out.println("Showtimes loaded!");
-        return (ArrayList<Showtime>) SerializerHelper.deSerializeObject(filepath);
+        return (List<Showtime>) SerializerHelper.deSerializeObject(filepath);
     }
 
     public void saveObject() {
@@ -290,7 +287,7 @@ public class ShowtimeManager implements{
 
     private Movie findMovie(String movieID) {
         MovieManager movieManager = MovieManager.getInstance();
-        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
+        List<Movie> moviesInMovieManager = movieManager.getMovies();
         for (Movie movie : moviesInMovieManager)
         {
             String movieTitle = movie.getMovieID();

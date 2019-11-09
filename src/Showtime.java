@@ -14,7 +14,7 @@ public class Showtime implements Serializable {
     private Cinema cinema;
     private Cineplex cineplex;
     private CinemaStatus cinemaStatus;
-    private ArrayList <String> seatLayout = cinema.getCinemaLayout(); // booking manager to override with each booking
+    private List <String> seatLayout = cinema.getCinemaLayout(); // booking manager to override with each booking
     private int seatsFilled = 0; // booking manager to update this count for easy reference too
 
     //Methods
