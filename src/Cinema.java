@@ -43,10 +43,7 @@ public class Cinema {
 	public void setCinemaType(CinemaType cinemaType) {this.cinemaType = cinemaType;}
 	public void setTotalSeatNo(int totalSeatNo) {this.totalSeatNo = totalSeatNo;}
 	public void setOccupiedSeatsNo(int occupiedSeatsNo) {this.occupiedSeatsNo = occupiedSeatsNo;}
-
-	public void setCinemaLayout(ArrayList<String> newCinemaLayout) {
-		this.cinemaLayout = newCinemaLayout;
-	}
+	public void setCinemaLayout(List<String> list) {this.cinemaLayout = list;}
 	
 	
 	// Others

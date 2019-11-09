@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 class BookingManager implements ResetSelf {
     // Variables
-    private ArrayList<String> seatingPlan;
-    private ArrayList<String> selectedSeats = new ArrayList<String>();
+    private List<String> seatingPlan;
+    private List<String> selectedSeats = new ArrayList<String>();
     private HashMap<Character, ArrayList<Integer>> rowChecker = new HashMap<Character, ArrayList<Integer>>(); // Checks if a seat has been booked in a specific row
     private Scanner sc = new Scanner(System.in);
     private Booking booking = null; // Current booking to make
@@ -64,7 +65,7 @@ class BookingManager implements ResetSelf {
         			}
         			else {
         				// Book tickets
-        				TicketManager.getInstance().startTicketSelection(getSelectedSeats());
+        				TicketManager.getInstance().startTicketSelection(getShowtime(), getSelectedSeats());
         			}
         			break;
         		default:
@@ -75,7 +76,7 @@ class BookingManager implements ResetSelf {
     
 
 	// Prints out seating plan in a nice manner upon being given a List of Strings
-    public void displaySeats(ArrayList<String> seatingPlan) {
+    public void displaySeats(List<String> list) {
     	char item;
     	String rowRef;
     	String[] symbols = {" ", "X", "S"}; // Symbols for seat status display
@@ -107,11 +108,11 @@ class BookingManager implements ResetSelf {
     
     
     // Create a local deep copy of showtime's seats
-    public ArrayList<String> copySeatingPlan(ArrayList<String> seats) {
+    public ArrayList<String> copySeatingPlan(List<String> list) {
     	ArrayList<String> seatsCopy = new ArrayList<String>();
     	int i = 0;
-		while (i < seats.size()) {
-			seatsCopy.add(seats.get(i));
+		while (i < list.size()) {
+			seatsCopy.add(list.get(i));
 			i++;
 		}
     	return seatsCopy;
@@ -345,8 +346,7 @@ class BookingManager implements ResetSelf {
     	// Now we have to update the rest of booking: bookingID, movieName, hallNo and cineplexName
     	
     	// Update the booking with the showtime's date and time
-    	getBooking().setDate(showtime.getDate());
-    	getBooking().setTime(showtime.getTime());
+    	getBooking().setDateTime(getShowtime().getDateTime());
     	
     	// Update booking's movieName, cineplexName and hallNo
     	getBooking().setMovieName(showtime.getMovie().getTitle());
@@ -382,7 +382,7 @@ class BookingManager implements ResetSelf {
     // Getters
 	public Showtime getShowtime() {return showtime;}
 	public Booking getBooking() {return booking;}
-    public ArrayList<String> getSeatingPlan() {return seatingPlan;}
-	public ArrayList<String> getSelectedSeats() {return selectedSeats;}
+    public List<String> getSeatingPlan() {return seatingPlan;}
+	public List<String> getSelectedSeats() {return selectedSeats;}
 	public HashMap<Character, ArrayList<Integer>> getRowChecker() {return rowChecker;}
 }

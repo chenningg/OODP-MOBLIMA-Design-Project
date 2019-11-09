@@ -1,7 +1,5 @@
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +12,9 @@ public class Showtime implements Serializable {
     private Cinema cinema;
     private Cineplex cineplex;
     private CinemaStatus cinemaStatus;
-    private ArrayList <String> seatLayout = cinema.getCinemaLayout(); // booking manager to override with each booking
-    private int seatsFilled = 0; // booking manager to update this count for easy reference too
+    private List<String> seatLayout; // booking manager to override with each booking
 
+    
     //Methods
 
     public void updateCinemaStatus() {
