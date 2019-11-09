@@ -1,5 +1,7 @@
 import java.io.*;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,10 +93,8 @@ class CompanyApp {
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
 		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
 			
-		System.out.println(SystemSettingsManager.getInstance().getPrice("THU"));
-		System.out.println(SystemSettingsManager.getInstance().getPrice(Date.valueOf("2019-12-25")));
-		
-		
+		System.out.println(SystemSettingsManager.getInstance().getPrice("FRI"));
+		System.out.println(SystemSettingsManager.getInstance().getPrice(LocalDate.parse("2019-12-25", DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 		System.out.println("end of program");
 	}
 }
