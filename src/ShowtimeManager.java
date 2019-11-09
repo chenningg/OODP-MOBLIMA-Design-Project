@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class ShowtimeManager implements Serializable {
+public class ShowtimeManager {
     private ArrayList<Showtime> showtimes;
 
     // Singleton things
