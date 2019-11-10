@@ -17,8 +17,10 @@ public class CustomerApp {
         CustomerManager cm= CustomerManager.getInstance();
 
         Scanner sc = new Scanner(System.in);
+
         int input,choice,emailOrMobile;
         String searchterm;
+
         // Loop for App
         do{
             System.out.println("Enter the number of your choice(1-5): ");
@@ -42,7 +44,7 @@ public class CustomerApp {
                     }
                     //let user choose movie
                     do{
-                        System.out.println("Enter choice of movie(1-" + mm.searchMovies(searchterm).size()+": ");
+                        System.out.println("Enter choice of movie(1-" + mm.searchMovies(searchTerm).size()+": ");
                         choice = sc.nextInt();
 
                     }while(choice <1 || choice>mm.searchMovies(searchterm).size());
