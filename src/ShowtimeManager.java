@@ -329,4 +329,13 @@ public class ShowtimeManager {
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         return dateTime;
     }
+
+    // Getters and Setters
+    public List<Showtime> getShowtimes() {
+        return showtimes;
+    }
+
+    public void setShowtimes(List<Showtime> showtimes) {
+        this.showtimes = showtimes;
+    }
 }
