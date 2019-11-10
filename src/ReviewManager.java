@@ -32,24 +32,20 @@ public class ReviewManager {
             switch (choice) {
                 case 1:
                     System.out.println("Enter here: ");
-                    submittedReview.setReviewerName(sc.next());
-                    break;
-                case 2:
-                    System.out.println("Enter here: ");
                     String reviewTitle = sc.next();
                     submittedReview.setReviewTitle(reviewTitle);
                     break;
-                case 3:
+                case 2:
                     System.out.println("Enter here: ");
                     String reviewBody = sc.next();
                     submittedReview.setReviewBody(reviewBody);
                     break;
-                case 4:
+                case 3:
                     System.out.println("Enter score of 1-5: ");
                     float reviewScore = sc.nextFloat();
                     submittedReview.setScore(reviewScore);
                     break;
-                case 5:
+                case 4:
                     System.out.println("Review submitted!");
                     movie.addMovieReview(submittedReview);
                     break;
