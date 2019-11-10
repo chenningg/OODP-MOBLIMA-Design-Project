@@ -17,7 +17,7 @@ public class CustomerApp {
 
         Scanner sc = new Scanner(System.in);
         int input,choice;
-        String searchterm;
+        String searchTerm;
         // Loop for App
         do{
             System.out.println("Enter the number of your choice(1-6): ");
@@ -37,20 +37,20 @@ public class CustomerApp {
 
                 case 2:
                     System.out.println("Enter search term: ");
-                    searchterm = sc.next();
-                    if(mm.searchMovies(searchterm).size() == 0){
+                    searchTerm = sc.next();
+                    if(mm.searchMovies(searchTerm).size() == 0){
                         System.out.println("No Movies found.");
                         break;
                     }
-                    for(int i=0;i<mm.searchMovies(searchterm).size();i++){
-                        System.out.println(i+1+". "+mm.searchMovies(searchterm).get(i));
+                    for(int i=0;i<mm.searchMovies(searchTerm).size();i++){
+                        System.out.println(i+1+". "+mm.searchMovies(searchTerm).get(i));
                     }
                     do{
-                        System.out.println("Enter choice of movie(1-" + mm.searchMovies(searchterm).size()+": ");
+                        System.out.println("Enter choice of movie(1-" + mm.searchMovies(searchTerm).size()+": ");
                         choice = sc.nextInt();
 
-                    }while(choice <1 || choice>mm.searchMovies(searchterm).size());
-                    mm.displayMovieDetails(mm.searchMovies(searchterm).get(choice-1));
+                    }while(choice <1 || choice>mm.searchMovies(searchTerm).size());
+                    mm.displayMovieDetails(mm.searchMovies(searchTerm).get(choice-1));
                     break;
 
                 case 3:
