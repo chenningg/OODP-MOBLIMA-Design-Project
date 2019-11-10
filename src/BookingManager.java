@@ -370,7 +370,10 @@ class BookingManager implements ResetSelf {
     	// Finally, we can generate a unique ID for this booking
     	getBooking().setBookingID();
     	
-    	// We can then send this booking off to store as a file
+    	// We store the booking in our CustomerAccount
+    	CustomerManager.getInstance().storeBooking(getBooking());
+    	
+    	// We can then send this booking off to store as a serialized file
     	String filePath = ProjectRootPathFinder.findProjectRootPath();
     	filePath = filePath + "/data/bookings/booking_" + getBooking().getBookingID() + ".txt";
     	
