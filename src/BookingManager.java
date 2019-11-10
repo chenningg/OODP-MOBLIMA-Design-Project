@@ -324,6 +324,7 @@ class BookingManager implements ResetSelf {
     		 		if (Character.isDigit(rowRef.charAt(col))) {
     		 			seatCount += 1;
     		 			if (seatCount == seatCol) {
+    		 				// Modify the row string to include the seat's new status
     		 				String updatedRow = rowRef.substring(0, col) + seatModifier + rowRef.substring(col+1);
     		 				
     		 				// Replace current row
@@ -351,7 +352,8 @@ class BookingManager implements ResetSelf {
     	// We create a new booking and fill it up with the finalized information before storing it
     	setBooking(new Booking());
     	
-    	// This fills up the booking's tickets, transaction, bookerName, bookerMobileNo and bookerEmail
+    	// We now fill up the booking's tickets, transaction, bookerName, bookerMobileNo and bookerEmail
+    	// Note that this also resets both these Managers (calls their respective reset functions)
     	TicketManager.getInstance().confirmTicketSelection();
     	TransactionManager.getInstance().confirmTransaction(); 	
     	
