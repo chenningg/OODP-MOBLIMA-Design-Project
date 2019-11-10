@@ -30,6 +30,11 @@ public class SerializerHelper {
             System.out.println("Object has been read in!");
             return object;
         }
+        catch (FileNotFoundException f) {
+            System.out.println("FileNotFoundException caught!");
+            f.printStackTrace();
+            return null;
+        }
         catch (IOException i)
         {
             System.out.println("IOException caught!");
