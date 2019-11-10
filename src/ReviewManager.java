@@ -9,10 +9,10 @@ public class ReviewManager implements Serializable {
     private Review review = null;
     private static ReviewManager single_instance = null;
 
-    private ReviewManager() {}
+    private ReviewManager() {
+    }
 
-    public static ReviewManager getInstance()
-    {
+    public static ReviewManager getInstance() {
         if (single_instance == null)
             single_instance = new ReviewManager();
         return single_instance;
@@ -55,8 +55,8 @@ public class ReviewManager implements Serializable {
                 case 5:
                     System.out.println("Review submitted!");
                     movie.addMovieReview(submittedReview); // no break so i can break out of loop instead?
-                if (choice == 5)
-                    break;
+                    if (choice == 5)
+                        break;
             }
         } while (choice < 6);
     }
@@ -72,7 +72,7 @@ public class ReviewManager implements Serializable {
         for (Review review : reviews) {
             sum += review.getScore();
         }
-        return sum/reviews.size();
+        return sum / reviews.size();
     }
 
     // TODO: What is the single review held by manager?
@@ -83,5 +83,13 @@ public class ReviewManager implements Serializable {
 
     public void setReview(Review review) {
         this.review = review;
+    }
+
+
+    public void displayReview(Movie movie) {
+        ArrayList<Review> reviewList = getReviews(movie);
+        for (int i = 0; i < reviewList.size(); i++) {
+            System.out.println(i + 1 + ". " + reviewList.get(i));
+        }
     }
 }

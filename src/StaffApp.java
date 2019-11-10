@@ -76,7 +76,7 @@ public class StaffApp {
                 mm.viewTop5Staff();
                 break;
             case 2:
-                //System Settings
+                SystemSettingsManager.getInstance().displayMenu();
                 break;
             case 3:
                 //Movie Database
