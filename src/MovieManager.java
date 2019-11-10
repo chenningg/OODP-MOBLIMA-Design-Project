@@ -1,5 +1,10 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -25,6 +30,8 @@ class MovieManager {
 
 
     public void viewTop5Cust(){
+        ShowtimeManager sm = ShowtimeManager.getInstance();
+
         System.out.println("==================== View Top 5 Movies =====================\n" +
                            "| 1. By Sales                                              |\n" +
                            "| 2. By Tickets Sold                                       |\n" +
@@ -32,45 +39,54 @@ class MovieManager {
                            "| 4. Back                                                  |\n" +
                            "===========================================================");
 
-        int choice = sc.nextInt();
-        switch (choice){
-            case 1:
-                ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
-                top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
-                for(int i=0;i<5;i++) {
-                    System.out.println(i+1 +". "+top5Sales.get(i).getTitle());
-                }
-                System.out.println("Choose a movie:");
-                int input1 = sc.nextInt();
-                displayMovieDetails(top5Sales.get(input1-1));
-                break;
-            case 2:
-                ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies);
-                top5Tickets.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
-                for(int i=0;i<5;i++) {
-                    System.out.println(i+1 +". "+top5Tickets.get(i).getTitle());
-                }
-                System.out.println("Choose a movie:");
-                int input2 = sc.nextInt();
-                displayMovieDetails(top5Tickets.get(input2-1));
-                break;
-            case 3:
-                ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
-                top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
-                for(int i=0;i<5;i++) {
-                    System.out.println(i+1 +". "+top5Reviews.get(i).getTitle());
-                }
-                System.out.println("Choose a movie:");
-                int input3 = sc.nextInt();
-                displayMovieDetails(top5Reviews.get(input3-1));
-                break;
-            case 4:
-               //CALL CUST MENU FOR CUST
+        int choice;
+        do{
+            choice= sc.nextInt();
+            switch (choice){
+                case 1:
+                    ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
+                    top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
+                    for(int i=0;i<5;i++) {
+                        System.out.println(i+1 +". "+top5Sales.get(i).getTitle());
+                    }
+                    System.out.println("Choose a movie:");
+                    int input1 = sc.nextInt();
+                    displayMovieDetails(top5Sales.get(input1-1));
+                    submovieMenu(top5Sales.get(input1-1));
+                    break;
+                case 2:
+                    ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies);
+                    top5Tickets.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
+                    for(int i=0;i<5;i++) {
+                        System.out.println(i+1 +". "+top5Tickets.get(i).getTitle());
+                    }
+                    System.out.println("Choose a movie:");
+                    int input2 = sc.nextInt();
+                    displayMovieDetails(top5Tickets.get(input2-1));
+                    submovieMenu(top5Tickets.get(input2-1));
+                    break;
+                case 3:
+                    ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
+                    for(int i=0;i<5;i++) {
+                        System.out.println(i+1 +". "+top5Reviews.get(i).getTitle());
+                    }
+                    System.out.println("Choose a movie:");
+                    int input3 = sc.nextInt();
+                    displayMovieDetails(top5Reviews.get(input3-1));
+                    submovieMenu(top5Reviews.get(input3-1));
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Please enter a number between 0-4.");
+            }
+        }while(choice!=4);
 
-        }
     }
 
     public void viewTop5Staff(){
+
         System.out.println("==================== View Top 5 Movies =====================\n" +
                 "| 1. By Sales                                              |\n" +
                 "| 2. By Tickets Sold                                       |\n" +
@@ -78,36 +94,41 @@ class MovieManager {
                 "| 4. Back                                                  |\n" +
                 "===========================================================");
 
-        int choice = sc.nextInt();
-        switch (choice){
-            case 1:
-                ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
-                top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
-                for(int i=0;i<5;i++) {
-                    System.out.println(i+1 +". "+top5Sales.get(i).getTitle());
-                }
-                break;
-            case 2:
-                ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies);
-                top5Tickets.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
-                for(int i=0;i<5;i++) {
-                    System.out.println(i+1 +". "+top5Tickets.get(i).getTitle());
-                }
-                break;
-            case 3:
-                ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
-                top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
-                for(int i=0;i<5;i++) {
-                    System.out.println(i+1 +". "+top5Reviews.get(i).getTitle());
-                }
-                break;
-            case 4:
-                StaffApp sa = StaffApp.getInstance();
-                sa.staffMenu();
-        }
+        int choice;
+        do{
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
+                    top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
+                    for (int i = 0; i < 5; i++) {
+                        System.out.println(i + 1 + ". " + top5Sales.get(i).getTitle());
+                    }
+                    break;
+                case 2:
+                    ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies);
+                    top5Tickets.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
+                    for (int i = 0; i < 5; i++) {
+                        System.out.println(i + 1 + ". " + top5Tickets.get(i).getTitle());
+                    }
+                    break;
+                case 3:
+                    ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
+                    for (int i = 0; i < 5; i++) {
+                        System.out.println(i + 1 + ". " + top5Reviews.get(i).getTitle());
+                    }
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.println("Please enter a number between 0-4.");
+            }
+        }while(choice!=4);
     }
 
     public void displayMovies(){
+        ShowtimeManager sm = ShowtimeManager.getInstance();
         System.out.println("========================= Movies ===========================\n" +
                            "| 1. Now Showing                                           |\n" +
                            "| 2. Coming Soon                                           |\n" +
@@ -117,63 +138,95 @@ class MovieManager {
                            "===========================================================");
 
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        switch(choice){
-            case 1:
+        int choice;
+        do{
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                    ArrayList<Movie> nowShowing = new ArrayList<Movie>();
+                    for(int i=0;i<movies.size();i++){
+                        if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
+                            nowShowing.add(movies.get(i));
+                        }
+                    }
+                    for(int i=0;i<nowShowing.size();i++){
+                        System.out.println(i+1 +". "+nowShowing.get(i).getTitle());
+                    }
+                    System.out.println("Choose a movie:");
+                    int option1 = sc.nextInt();
+                    displayMovieDetails(nowShowing.get(option1-1));
+                    submovieMenu(nowShowing.get(option1-1));
+                    break;
+                case 2:
+                    ArrayList<Movie> comingSoon = new ArrayList<Movie>();
+                    for(int i=0;i<movies.size();i++){
+                        if(movies.get(i).getShowingStatus().equalsString("COMING_SOON")){
+                            comingSoon.add(movies.get(i));
+                        }
+                    }
+                    for(int i=0;i<comingSoon.size();i++){
+                        System.out.println(i+1 +". "+comingSoon.get(i).getTitle());
+                    }
+                    System.out.println("Choose a movie:");
+                    int option2 = sc.nextInt();
+                    displayMovieDetails(comingSoon.get(option2-1));
+                    submovieMenu(comingSoon.get(option2-1));
+                    break;
+                case 3:
+                    List<Cineplex> cineplexes = new ArrayList<>();
+                    cineplexes =  new Company().getCineplexes();
+                    for(int i=0;i<cineplexes.size();i++){
+                        System.out.println(i+1 +". "+ cineplexes.get(i).getCineplexName());
+                    }
+                    System.out.println("Choose a cinema:");
+                    int option3 = sc.nextInt();
+                    sm.displayMoviesfromCineplex(cineplexes.get(option3-1));
+                    break;
+                case 4:
+                    String title = sc.next();
 
-                ArrayList<Movie> nowShowing = new ArrayList<Movie>();
-                for(int i=0;i<movies.size();i++){
-                    if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
-                        nowShowing.add(movies.get(i));
+                    for(int i=0;i<searchMovies(title).size();i++){
+                        System.out.println(i+1 +". "+ searchMovies(title).get(i).getTitle());
                     }
-                }
-                for(int i=0;i<nowShowing.size();i++){
-                    System.out.println(i+1 +". "+nowShowing.get(i).getTitle());
-                }
-                System.out.println("Choose a movie:");
-                int option1 = sc.nextInt();
-                displayMovieDetails(nowShowing.get(option1-1));
-                break;
-            case 2:
-                ArrayList<Movie> comingSoon = new ArrayList<Movie>();
-                for(int i=0;i<movies.size();i++){
-                    if(movies.get(i).getShowingStatus().equalsString("COMING_SOON")){
-                        comingSoon.add(movies.get(i));
-                    }
-                }
-                for(int i=0;i<comingSoon.size();i++){
-                    System.out.println(i+1 +". "+comingSoon.get(i).getTitle());
-                }
-                System.out.println("Choose a movie:");
-                int option2 = sc.nextInt();
-                displayMovieDetails(comingSoon.get(option2-1));
-                break;
-            case 3:
-                //TO DO
-                //LIST ALL CINEPLEXES
-                //SELECT 1-3 TO SELECT CINEPLEX
-                //LIST OUT ALL MOVIES IN CINEPLEX
-                //WHEN MOVIE IS SELECTED
-                //WHEN MOVIE IS SELECTED
-                ArrayList<Cineplex> cineplexes = new ArrayList<>();
-                cineplexes = new Cineplex().getCinemas();
-                for(int i=0;i<cineplexes.size();i++){
-                    System.out.println(i+1 + cineplexes.get(i).getCineplexName());
-                }
-                System.out.println("Choose a cinema:");
-                int option3 = sc.nextByte();
-                displayMovieDetails(cineplexes.get(option3-1).getCineplexName()???);
-                break;
-            case 4:
-                String title = sc.next();
-                searchMovies(title);
-                break;
-            case 5:
-                //TO DO
-                //CALL Customer App
-                break;
-        }
+                    System.out.println("Choose a movie:");
+                    int option4 = sc.nextInt();
+                    submovieMenu(searchMovies(title).get(option4-1));
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Please enter a number between 1-5.");
+            }
+        }while(choice != 5);
+
     }
+
+    public void submovieMenu(Movie movie){
+        ShowtimeManager sm = ShowtimeManager.getInstance();
+        ReviewManager rm = ReviewManager.getInstance();
+        System.out.println(" 1. Display Showtimes\n" +
+                           " 2. View Reviews\n" +
+                           " 3. Back");
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        do{
+            choice = sc.nextInt();
+            switch(choice) {
+                case 1:
+                    sm.displayMovieShowtimes(movie, null);
+                    break;
+                case 2:
+                    rm.displayReview(movie);
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Please enter a number between 1-3");
+            }
+        }while(choice !=3);
+
+    }
+
 
     public List<Movie> searchMovies(String movieName) {
         List<Movie> foundMovies = new ArrayList<>();
@@ -291,6 +344,83 @@ class MovieManager {
         newMovie.setReleaseDate(date);
 
         movies.add(newMovie);
+    }
+
+    public void readMovie(String movieID) {
+        try {
+            Movie newMovie = new Movie();
+            // Get filepath
+            String filePath = ProjectRootPathFinder.findProjectRootPath();
+            if (filePath == null) {
+                throw new IOException("Cannot find root");
+            } else {
+                // read active movies
+                filePath = filePath + "/data/movies/active" + movieID + ".txt";
+            }
+
+            // Open file and traverse it
+            FileReader frStream = new FileReader( filePath );
+            BufferedReader brStream = new BufferedReader( frStream );
+            String inputLine;
+            int i = 0;
+
+            do {
+                inputLine = brStream.readLine(); // read in a line
+                if (inputLine == null) {break;} // end of file
+
+                switch (i) {
+                    case 0:
+                        // first line of file is DateTime of showtime
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        String dateInString = inputLine;
+                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
+                        newShowtime.setDateTime(dateTime);
+                        System.out.println("Showtime read and added!");
+                        break;
+                    case 1:
+                        // second line of file is the movieID
+                        String movieID = inputLine;
+                        Movie foundMovie = this.findMovie(movieID);
+                        if (foundMovie == null) {
+                            System.out.println("Movie not found!");
+                        }
+                        else {
+                            newShowtime.setMovie(foundMovie);
+                        }
+                        break;
+                    case 2:
+                        // third line of file is the cinemaID, which is used to construct Cinema Object
+                        String cinemaID = inputLine;
+                        Cinema cinema = new Cinema(cinemaID);
+                        newShowtime.setCinema(cinema); // TODO: does this set seat layout already?
+                        break;
+                    case 3:
+                        // fourth line of file is the cineplexID
+                        String cineplexID = inputLine;
+                        Cineplex cineplex = new Cineplex(cineplexID);
+                        newShowtime.setCineplex(cineplex);
+                        break;
+                    case 4:
+                        String movieFormat = inputLine;
+                        newShowtime.setMovieFormat(MovieFormat.valueOf(movieFormat));
+                    case 5:
+                        // sixth line will be cinema status
+                        String cinemaStatus = inputLine;
+                        CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
+                        newShowtime.setCinemaStatus(cinemaStatus1);
+                }
+                i++;
+            } while (inputLine != null);
+        }
+        catch ( FileNotFoundException e ) {
+            System.out.println( "Error opening the input file!" + e.getMessage() );
+            System.exit( 0 );
+        }
+        catch ( IOException e ) {
+            System.out.println( "IO Error!" + e.getMessage() );
+            e.printStackTrace();
+            System.exit( 0 );
+        }
     }
 
     public void editMovie() {
