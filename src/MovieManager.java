@@ -154,7 +154,14 @@ class MovieManager {
                 //LIST OUT ALL MOVIES IN CINEPLEX
                 //WHEN MOVIE IS SELECTED
                 //WHEN MOVIE IS SELECTED
-                displayMovieDetails();
+                ArrayList<Cineplex> cineplexes = new ArrayList<>();
+                cineplexes = new Cineplex().getCinemas();
+                for(int i=0;i<cineplexes.size();i++){
+                    System.out.println(i+1 + cineplexes.get(i).getCineplexName());
+                }
+                System.out.println("Choose a cinema:");
+                int option3 = sc.nextByte();
+                displayMovieDetails(cineplexes.get(option3-1).getCineplexName()???);
                 break;
             case 4:
                 String title = sc.next();
