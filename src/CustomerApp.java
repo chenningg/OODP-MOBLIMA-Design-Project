@@ -19,7 +19,7 @@ public class CustomerApp {
         Scanner sc = new Scanner(System.in);
 
         int input,choice,emailOrMobile;
-        String searchterm, email, mobileNo;
+        String searchterm;
 
         // Loop for App
         do{
@@ -56,41 +56,23 @@ public class CustomerApp {
                     break;
 
                 case 4://check booking history
-                	System.out.println("Enter 1 or 2: \n"
-                			+ "1. Check via email address\n"
-                			+ "2. Check via mobile number\n");
-                	emailOrMobile= sc.nextInt();
-                	//separate switch statement
-                	switch (emailOrMobile) {
-                	case 1:
-                		//ask for email and checks customer accounts
-                		System.out.println("Enter your email address: \n");
-                		email= sc.next();
-                		if (cm.searchCustEmail(email)==null)
-                			System.out.println("No prior bookings made.");
-                		else {
-                			//print out all bookings
-                			System.out.println("Bookings:");
-                			for (int i=0; i<cm.searchCustEmail(email).getBookingHistory().size();i++){
-                				System.out.println(i + 1 + "." + cm.searchCustEmail(email).getBookingHistory().get(i));
-                			}
-                		}
-                		break;
-                	case 2:
-                		//asks for mobile number and checks customer accounts
-                		System.out.println("Enter your mobile number: \n");
-                		mobileNo= sc.next();
-                		if (cm.searchCustEmail(mobileNo)==null)
-                			System.out.println("No prior bookings made.");
-                		else {
-                			//print out all bookings
-                			System.out.println("Bookings:");
-                			for (int i=0; i<cm.searchCustMobile(mobileNo).getBookingHistory().size();i++){
-                				System.out.println(i + 1 + "." + cm.searchCustEmail(mobileNo).getBookingHistory().get(i));
-                			}
-                		}
-                		break;
-                	}
+                	do {
+	                	System.out.print("Enter 1,2 or 3: \n"
+	                			+ "1. Check via email address\n"
+	                			+ "2. Check via mobile number\n"
+	                			+ "3. Return to previous");
+	                	emailOrMobile= sc.nextInt();
+	                	switch (emailOrMobile) {
+	                	case 1:
+	                		cm.printPastBookingByEmail();
+	                		break;
+	                	case 2:
+	                		cm.printPastBookingByMobile();
+	                		break;
+                		default: System.out.println("Please enter a valid choice");
+	                	}
+                	}while(emailOrMobile!=3);
+                	
                     break;
             }
         }while(input != 5);

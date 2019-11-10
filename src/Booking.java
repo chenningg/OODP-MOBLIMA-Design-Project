@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.io.*;
 
 public class Booking {
@@ -7,7 +8,7 @@ public class Booking {
     //Attributes
 	
     private String bookingID;
-    private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+    private List<Ticket> tickets = new ArrayList<Ticket>();
     private Transaction transaction;
     private LocalDateTime dateTime;
     private String movieName;
@@ -77,7 +78,7 @@ public class Booking {
     // Getters
     
 	public String getBookingID() {return bookingID;}
-	public ArrayList<Ticket> getTickets() {return tickets;}
+	public List<Ticket> getTickets() {return tickets;}
 	public Transaction getTransaction() {return transaction;}
     public LocalDateTime getDateTime() {return dateTime;}
 	public String getMovieName() {return movieName;}
