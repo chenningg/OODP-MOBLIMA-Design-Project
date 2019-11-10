@@ -29,6 +29,39 @@ public class ShowtimeManager {
 
 
     // Methods
+    public void showtimeMenu() {
+        System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
+                           "| 1. Read From File                                        |\n" +
+                           "| 2. Create Showtime Entry                                 |\n" +
+                           "| 3. Update Showtime Entry                                 |\n" +
+                           "| 4. Delete Showtime Entry                                 |\n" +
+                           "| 5. Back                                                  |\n" +
+                           "===========================================================");
+        int choice;
+        do {
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter showtimeID to be read from file: ");
+                    this.readShowtime(sc.next());
+                    break;
+                case 2:
+                    this.createShowtime();
+                    break;
+                case 3:
+                    System.out.println("Enter showtimeID to be updated: ");
+                    this.updateShowtime(sc.next());
+                    break;
+                case 4:
+                    System.out.println("Enter showtimeID to be deleted: ");
+                    this.deleteShowtime(sc.next());
+                    break;
+                default:
+                    System.out.println("Please enter valid input!");
+                    break;
+            }
+        } while (choice != 0);
+    }
 
     public void displayMoviesfromCineplex(Cineplex cineplex)
     {
