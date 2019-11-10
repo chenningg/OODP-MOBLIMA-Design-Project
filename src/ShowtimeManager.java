@@ -29,6 +29,39 @@ public class ShowtimeManager {
 
 
     // Methods
+    public void showtimeMenu() {
+        System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
+                           "| 1. Read From File                                        |\n" +
+                           "| 2. Create Showtime Entry                                 |\n" +
+                           "| 3. Update Showtime Entry                                 |\n" +
+                           "| 4. Delete Showtime Entry                                 |\n" +
+                           "| 5. Back                                                  |\n" +
+                           "===========================================================");
+        int choice;
+        do {
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter showtimeID to be read from file: ");
+                    this.readShowtime(sc.next());
+                    break;
+                case 2:
+                    this.createShowtime();
+                    break;
+                case 3:
+                    System.out.println("Enter showtimeID to be updated: ");
+                    this.updateShowtime(sc.next());
+                    break;
+                case 4:
+                    System.out.println("Enter showtimeID to be deleted: ");
+                    this.deleteShowtime(sc.next());
+                    break;
+                default:
+                    System.out.println("Please enter valid input!");
+                    break;
+            }
+        } while (choice != 0);
+    }
 
     public void displayMoviesfromCineplex(Cineplex cineplex)
     {
@@ -111,7 +144,7 @@ public class ShowtimeManager {
                 switch (i) {
                     case 0:
                         // first line of file is DateTime of showtime
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                         String dateInString = inputLine;
                         LocalDateTime dateTime = this.dateTimeParser(dateInString);
                         newShowtime.setDateTime(dateTime);
@@ -360,7 +393,7 @@ public class ShowtimeManager {
     }
 
     private LocalDateTime dateTimeParser(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         return dateTime;
     }
