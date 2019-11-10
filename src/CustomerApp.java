@@ -58,6 +58,7 @@ public class CustomerApp {
                 			+ "1. Check via email address\n"
                 			+ "2. Check via mobile number\n");
                 	emailOrMobile= sc.nextInt();
+                	//separate switch statement
                 	switch (emailOrMobile) {
                 	case 1:
                 		//ask for email and checks customer accounts
