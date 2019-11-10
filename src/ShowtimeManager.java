@@ -110,7 +110,10 @@ public class ShowtimeManager {
                         newShowtime.setCineplex(cineplex);
                         break;
                     case 4:
-                        // fifth line will be cinema status
+                        String movieFormat = inputLine;
+                        newShowtime.setMovieFormat(MovieFormat.valueOf(movieFormat));
+                    case 5:
+                        // sixth line will be cinema status
                         String cinemaStatus = inputLine;
                         CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
                         newShowtime.setCinemaStatus(cinemaStatus1);
@@ -136,6 +139,7 @@ public class ShowtimeManager {
         String movieID;
         Movie movie;
         String cinemaID;
+        MovieFormat movieFormat;
         Cinema cinema;
         String cineplexID;
         Cineplex cineplex;
@@ -147,8 +151,9 @@ public class ShowtimeManager {
             System.out.println("4. Enter cinemaID");
             System.out.println("5. Enter cineplexID");
             System.out.println("6. Enter cinema status");
-            System.out.println("7. Confirm entry");
-            System.out.println("8. Back"); // TODO: Implement this
+            System.out.println("7. Enter movie format");
+            System.out.println("8. Confirm entry");
+            System.out.println("9. Back"); // TODO: Implement this
             choice = sc.nextInt();
 
             switch (choice) {
@@ -181,7 +186,11 @@ public class ShowtimeManager {
                     cinemaStatus = CinemaStatus.valueOf(sc.next());
                     break;
                 case 7:
-                    if (movie == null || showtimeID == null || showtimeDateTime == null || movieID == null || cinemaID == null || cineplexID == null || cinemaStatus == null) {
+                    System.out.println("Enter here: ");
+                    movieFormat = MovieFormat.valueOf(sc.next());
+                    break;
+                case 8:
+                    if (movieFormat == null || movie == null || showtimeID == null || showtimeDateTime == null || movieID == null || cinemaID == null || cineplexID == null || cinemaStatus == null) {
                         System.out.println("All fields must be entered!");
                         break;
                     }
@@ -193,9 +202,10 @@ public class ShowtimeManager {
                         showtime.setCinema(cinema);
                         showtime.setCineplex(cineplex);
                         showtime.setCinemaStatus(cinemaStatus);
+                        showtime.setMovieFormat(movieFormat);
                         break;
                     }
-                case 8:
+                case 9:
                     // TODO: add call to previous view
                     break;
             }
@@ -213,7 +223,8 @@ public class ShowtimeManager {
                 System.out.println("4. Update cinema (enter cinemaID)");
                 System.out.println("5. Update cineplex (enter cineplexID)");
                 System.out.println("6. Update cinema status");
-                System.out.println("7. Back"); // TODO: is there a exit flow? and flow to where?
+                System.out.println("7. Update movie format");
+                System.out.println("8. Back"); // TODO: is there a exit flow? and flow to where?
                 choice = sc.nextInt();
 
                 switch (choice) {
@@ -252,6 +263,9 @@ public class ShowtimeManager {
                         foundShowtime.setCinemaStatus(CinemaStatus.valueOf(sc.next()));
                         break;
                     case 7:
+                        System.out.println("Enter here: ");
+                        foundShowtime.setMovieFormat(MovieFormat.valueOf(sc.next()));
+                    case 8:
                         // TODO: exit view flow
                         break;
                 }
