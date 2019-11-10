@@ -1,32 +1,25 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerAccount {
+public class CustomerAccount{
 
     private String mobileNo;
     private String email;
-    private ArrayList<Booking> bookingHistory= new ArrayList<Booking>();
-    private ArrayList<Transaction> transactionHistory= new ArrayList<Transaction>();
-    
-    //constructor
+    private List<Booking> bookingHistory= new ArrayList<Booking>();
+    private String name=null;
+
+	//constructor
     CustomerAccount(){}
     
-    public void addBooking() {
-    	bookingHistory.add(BookingManager.getInstance().getBooking());
+    public void addBooking(Booking booking) {
+    	bookingHistory.add(booking);
     }
     
-    public void addTransaction() {
-    	transactionHistory.add(TransactionManager.getInstance().getTransaction());
-    }
     
     public List<Booking> getBookingHistory() {
     	return bookingHistory;
     }
     
-    public List<Transaction> getTransactionHistory(){
-    	return transactionHistory;
-    }
-
 	public String getmobileNo() {
 		return email;
 	}
@@ -43,5 +36,14 @@ public class CustomerAccount {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+    
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 
 }

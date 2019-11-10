@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Serializable{
     private String movieID;
     private String title;
     private ArrayList<Genre> genres;
@@ -20,6 +21,7 @@ public class Movie {
     private LocalDate releaseDate;
     private long ticketsSold;
     private double grossProfit;
+    private static final long serialVersionUID = 5L;
 
     public Movie(){}
 

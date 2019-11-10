@@ -165,7 +165,6 @@ public class TransactionManager implements ResetSelf {
 	    return true;
 	}
 	
-	
 	// Checks if email address is valid
 	protected Boolean validateEmail(String email) {
 		// Check length
@@ -183,7 +182,6 @@ public class TransactionManager implements ResetSelf {
 		
 		return true;
 	}
-	
 	
 	// Checks if credit card is valid
 	protected Boolean validateCreditCard(String creditCardNo) {
@@ -287,9 +285,7 @@ public class TransactionManager implements ResetSelf {
 		getTransaction().setTransactionID();
 		getTransaction().setCreditCardNo(getBookerCreditCard());
 		BookingManager.getInstance().getBooking().setTransaction(getTransaction());
-		BookingManager.getInstance().getBooking().setBookerEmail(getBookerEmail());
-		BookingManager.getInstance().getBooking().setBookerMobileNo(getBookerMobileNo());
-		BookingManager.getInstance().getBooking().setBookerName(getBookerName());
+		CustomerManager.getInstance().updateCustomer(getBookerName(), getBookerEmail(), getBookerMobileNo());
 		resetSelf();
 	}
 	

@@ -8,12 +8,12 @@ public class SystemSettingsManager {
 	private static SystemSettingsManager single_instance = null;
 	
 	private SystemSettingsManager() {
-		// Used after serialization
-		this.systemSettings = this.deSerialize();
-		
-		// Used only for initial serialization
-		// this.systemSettings = new SystemSettings();
-		
+		SystemSettings serializedObject = this.deSerialize();
+		if (serializedObject != null) {
+			this.systemSettings = serializedObject;
+		} else {
+			this.systemSettings = new SystemSettings();
+		}
 	}
 	
 	public static SystemSettingsManager getInstance() {
