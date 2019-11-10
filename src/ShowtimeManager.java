@@ -29,6 +29,25 @@ public class ShowtimeManager {
 
 
     // Methods
+
+    public void displayMoviesfromCineplex(Cineplex cineplex)
+    {
+        MovieManager mm = MovieManager.getInstance();
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        for (Showtime showtime : showtimes)
+        {
+            if (showtime.getCineplex() == cineplex && !movieList.contains(showtime.getMovie())){
+                movieList.add(showtime.getMovie());
+            }
+        }
+        for(int i=0;i<movieList.size();i++){
+            System.out.println(i+1 +". "+ movieList.get(i).getTitle());
+        }
+        System.out.println("Choose a movie:");
+        int option = sc.nextInt();
+        mm.submovieMenu(movieList.get(option-1));
+    }
+
     // Showtime manager called at this point with movie
     public void displayMovieShowtimes(Movie movie, Cineplex cineplex)
     {
@@ -149,16 +168,16 @@ public class ShowtimeManager {
 
     public void createShowtime() {
         int choice;
-        String showtimeID;
-        LocalDateTime showtimeDateTime;
-        String movieID;
-        Movie movie;
-        String cinemaID;
-        MovieFormat movieFormat;
-        Cinema cinema;
-        String cineplexID;
-        Cineplex cineplex;
-        CinemaStatus cinemaStatus;
+        String showtimeID=null;
+        LocalDateTime showtimeDateTime = null;
+        String movieID=null;
+        Movie movie=null;
+        String cinemaID=null;
+        MovieFormat movieFormat=null;
+        Cinema cinema=null;
+        String cineplexID=null;
+        Cineplex cineplex=null;
+        CinemaStatus cinemaStatus=null;
         do {
             System.out.println("1. Enter showtimeID");
             System.out.println("2. Enter showtime DateTime");

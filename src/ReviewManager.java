@@ -8,10 +8,10 @@ public class ReviewManager {
     private Review review = null;
     private static ReviewManager single_instance = null;
 
-    private ReviewManager() {}
+    private ReviewManager() {
+    }
 
-    public static ReviewManager getInstance()
-    {
+    public static ReviewManager getInstance() {
         if (single_instance == null)
             single_instance = new ReviewManager();
         return single_instance;
@@ -70,7 +70,7 @@ public class ReviewManager {
         for (Review review : reviews) {
             sum += review.getScore();
         }
-        return sum/reviews.size();
+        return sum / reviews.size();
     }
 
     public Review getReview() {
@@ -79,5 +79,13 @@ public class ReviewManager {
 
     public void setReview(Review review) {
         this.review = review;
+    }
+
+
+    public void displayReview(Movie movie) {
+        ArrayList<Review> reviewList = getReviews(movie);
+        for (int i = 0; i < reviewList.size(); i++) {
+            System.out.println(i + 1 + ". " + reviewList.get(i));
+        }
     }
 }
