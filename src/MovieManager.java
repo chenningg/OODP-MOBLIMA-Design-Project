@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -6,7 +7,7 @@ import java.util.*;
 class MovieManager {
     //Variables
     private ArrayList<Movie> movies = new ArrayList<Movie>();
-    Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
     Movie m = new Movie();
 
     //Singleton
@@ -226,9 +227,9 @@ class MovieManager {
 
     public void addMovie() {
         Movie newMovie = new Movie();
-        List<Genre> genreList = new ArrayList<>();
-        List<String> castList = new ArrayList<>();
-        List<MovieFormat> formatList = new ArrayList<>();
+        ArrayList<Genre> genreList = new ArrayList<>();
+        ArrayList<String> castList = new ArrayList<>();
+        ArrayList<MovieFormat> formatList = new ArrayList<>();
 
         // System.out.println("Enter movieID: ");
         // newMovie.setMovieID(sc.next());
@@ -326,7 +327,7 @@ class MovieManager {
                             break;
                         case 3:
                             System.out.println("Enter number of genres: ");
-                            List<Genre> Genres = new ArrayList<>();
+                            ArrayList<Genre> Genres = new ArrayList<>();
                             int numGenres = sc.nextInt();
                             for (int i = 0; i < numGenres; i++) {
                                 System.out.println("Enter the genre: ");
@@ -343,7 +344,7 @@ class MovieManager {
                         case 5:
                             System.out.println("Enter number of cast members: ");
                             int castSize = sc.nextInt();
-                            List<String> newCastList = new ArrayList<>();
+                            ArrayList<String> newCastList = new ArrayList<>();
                             for (int i = 0; i < castSize; i++) {
                                 System.out.println("Enter cast member: ");
                                 String newCast = sc.next();
@@ -363,7 +364,7 @@ class MovieManager {
                             break;
                         case 8:
                             System.out.println("Enter new formats: ");
-                            List<MovieFormat> newFormats = new ArrayList<>();
+                            ArrayList<MovieFormat> newFormats = new ArrayList<>();
                             int newFormatLength = sc.nextInt();
                             for (int i = 0; i < newFormatLength; i++) {
                                 System.out.println("Enter movie format: ");
@@ -411,11 +412,9 @@ class MovieManager {
         System.out.println("Last movie added was: " + movies.get(movies.size()-1).getTitle());
     }
 
-    public List<Movie> getMovies() {
+    public ArrayList<Movie> getMovies() {
         return movies;
     }
 
 
 }
-
-// TODO TEST

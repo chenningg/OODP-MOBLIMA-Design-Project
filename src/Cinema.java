@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cinema {
 	// Attributes
@@ -8,7 +9,7 @@ public class Cinema {
 	private CinemaType cinemaType;
 	private int totalSeatNo;
 	private int occupiedSeatsNo;
-	private ArrayList<String> cinemaLayout;
+	private List<String> cinemaLayout;
 	
 	
 	// Constructor	
@@ -25,7 +26,7 @@ public class Cinema {
 	public CinemaType getCinemaType() {return cinemaType;}
 	public int getTotalSeatNo() {return totalSeatNo;}
 	public int getOccupiedSeatsNo() {return occupiedSeatsNo;}
-	public ArrayList<String> getCinemaLayout() {return cinemaLayout;}
+	public List<String> getCinemaLayout() {return cinemaLayout;}
 	
 	public void printCinemaLayout() {
 		int i=0;
@@ -33,10 +34,6 @@ public class Cinema {
 			System.out.println(this.getCinemaLayout().get(i));
 			i++;
 		}
-	}
-	
-	public void updateCinemaLayout() {
-		
 	}
 
 	
@@ -46,10 +43,7 @@ public class Cinema {
 	public void setCinemaType(CinemaType cinemaType) {this.cinemaType = cinemaType;}
 	public void setTotalSeatNo(int totalSeatNo) {this.totalSeatNo = totalSeatNo;}
 	public void setOccupiedSeatsNo(int occupiedSeatsNo) {this.occupiedSeatsNo = occupiedSeatsNo;}
-
-	public void setCinemaLayout(int layoutRow, String inputLine) {
-		this.cinemaLayout.add(inputLine);
-	}
+	public void setCinemaLayout(List<String> list) {this.cinemaLayout = list;}
 	
 	
 	// Others
@@ -78,7 +72,9 @@ public class Cinema {
 			FileReader frStream = new FileReader( filePath );
 			BufferedReader brStream = new BufferedReader( frStream );
 			String inputLine;
+			
 			int i = 0;
+			ArrayList<String> seatingPlan = new ArrayList<String>();
 
 			do {
 				inputLine = brStream.readLine(); // read in a line
@@ -103,13 +99,15 @@ public class Cinema {
 						break;				
 					default:
 						// fifth line of file onwards will be the cinema layout
-						this.setCinemaLayout(i-6, inputLine);
+						seatingPlan.add(inputLine);
 						break;
 				}
 				i++;
 			} while (inputLine != null);
 			
 			brStream.close();	
+			
+			this.setCinemaLayout(seatingPlan);
 			
 		} catch ( FileNotFoundException e ) {
 			System.out.println( "Error opening the input file!" + e.getMessage() );
