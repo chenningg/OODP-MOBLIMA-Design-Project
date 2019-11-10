@@ -111,7 +111,7 @@ public class ShowtimeManager {
                 switch (i) {
                     case 0:
                         // first line of file is DateTime of showtime
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                         String dateInString = inputLine;
                         LocalDateTime dateTime = this.dateTimeParser(dateInString);
                         newShowtime.setDateTime(dateTime);
@@ -360,7 +360,7 @@ public class ShowtimeManager {
     }
 
     private LocalDateTime dateTimeParser(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         return dateTime;
     }
