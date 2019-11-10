@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ class BookingManager implements ResetSelf {
     private Scanner sc = new Scanner(System.in);
     private Booking booking = null; // Current booking to make
     private Showtime showtime = null; // Current showtime selected
+    public Boolean exit = false;
     
     
     // Singleton & Constructor
@@ -34,10 +36,20 @@ class BookingManager implements ResetSelf {
     	// Create a deep copy of showtime seats so we don't affect the original until booking completes
     	setShowtime(baseShowtime); // Contain reference to selected showtime
     	setSeatingPlan(copySeatingPlan(baseShowtime.getCinema().getCinemaLayout()));
+
     	
     	// Show them booking menu until they exit
-    	Boolean exit = false;
+    	exit = false;
     	while (!exit) {
+    		
+    		// If no more seats left, terminate
+    		if (baseShowtime.getCinemaStatus() == CinemaStatus.SOLD_OUT) {
+    			System.out.println("Sorry. This showtime is sold out. Please select another showtime.");
+    			exit = true;
+    			resetSelf();
+    			return;
+    		}
+    		
     		// Show the seating plan
         	displaySeats(getSeatingPlan());
         	
@@ -339,9 +351,9 @@ class BookingManager implements ResetSelf {
     	// We create a new booking and fill it up with the finalized information before storing it
     	setBooking(new Booking());
     	
-    	// RAISE EVENT TO CALL OTHER MANAGERS TO INJECT INFORMATION INTO THIS BOOKING
-    	// This fills up the booking's ticketList, totalPrice, bookerMobileNo and bookerEmail
-    	// TODO
+    	// This fills up the booking's tickets, transaction, bookerName, bookerMobileNo and bookerEmail
+    	TicketManager.getInstance().confirmTicketSelection();
+    	TransactionManager.getInstance().confirmTransaction(); 	
     	
     	// Now we have to update the rest of booking: bookingID, movieName, hallNo and cineplexName
     	
@@ -354,9 +366,13 @@ class BookingManager implements ResetSelf {
     	getBooking().setHallNo(showtime.getCinema().getHallNo());
     	
     	// Finally, we can generate a unique ID for this booking
+    	getBooking().setBookingID();
     	
     	// We can then send this booking off to store as a file
-    	// TODO
+    	String filePath = ProjectRootPathFinder.findProjectRootPath();
+    	filePath = filePath + "/data/bookings/booking_" + getBooking().getBookingID() + ".txt";
+    	
+    	SerializerHelper.serializeObject(getBooking(), filePath);
     	
     	// Finally, reset this instance
     	resetSelf();
@@ -370,6 +386,7 @@ class BookingManager implements ResetSelf {
 		setSeatingPlan(null);
     	getSelectedSeats().clear();
 		getRowChecker().clear();
+		exit = true;
     }
     
     

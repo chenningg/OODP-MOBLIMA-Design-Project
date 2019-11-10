@@ -1,8 +1,5 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Showtime implements Serializable {
     private static final long serialVersionUID = 2L;
@@ -13,7 +10,6 @@ public class Showtime implements Serializable {
     private Cinema cinema;
     private Cineplex cineplex;
     private CinemaStatus cinemaStatus;
-    private List<String> seatLayout; // booking manager to override with each booking
 
 
     //Methods
