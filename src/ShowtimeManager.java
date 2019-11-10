@@ -98,8 +98,11 @@ public class ShowtimeManager {
                         newShowtime.setDateTime(dateTime);
                         System.out.println("Showtime read and added!");
                         break;
+                    // second line of file is showtimeID
                     case 1:
-                        // second line of file is the movieID
+                        newShowtime.setShowtimeID(showtimeID);
+                    case 2:
+                        // third line of file is the movieID
                         String movieID = inputLine;
                         Movie foundMovie = this.findMovie(movieID);
                         if (foundMovie == null) {
@@ -109,23 +112,23 @@ public class ShowtimeManager {
                             newShowtime.setMovie(foundMovie);
                         }
                         break;
-                    case 2:
-                        // third line of file is the cinemaID, which is used to construct Cinema Object
+                    // fourth line is movieformat
+                    case 3:
+                        newShowtime.setMovieFormat(MovieFormat.valueOf(inputLine));
+                    case 4:
+                        // fifth line of file is the cinemaID, which is used to construct Cinema Object
                         String cinemaID = inputLine;
                         Cinema cinema = new Cinema(cinemaID);
                         newShowtime.setCinema(cinema); // TODO: does this set seat layout already?
                         break;
-                    case 3:
-                        // fourth line of file is the cineplexID
+                    case 5:
+                        // sixth line of file is the cineplexID
                         String cineplexID = inputLine;
                         Cineplex cineplex = new Cineplex(cineplexID);
                         newShowtime.setCineplex(cineplex);
                         break;
-                    case 4:
-                        String movieFormat = inputLine;
-                        newShowtime.setMovieFormat(MovieFormat.valueOf(movieFormat));
-                    case 5:
-                        // sixth line will be cinema status
+                    case 6:
+                        // fifth line will be cinema status
                         String cinemaStatus = inputLine;
                         CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
                         newShowtime.setCinemaStatus(cinemaStatus1);
