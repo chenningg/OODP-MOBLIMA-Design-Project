@@ -3,7 +3,7 @@ import java.time.LocalDate;
 public class Review {
     //Attributes
     private String reviewID;
-    private String reviewerID;
+    private String reviewName;
     private String reviewTitle;
     private String reviewBody;
     private float score;
@@ -15,9 +15,7 @@ public class Review {
     public String getReviewID() {
         return reviewID;
     }
-    public String getReviewerID() {
-        return reviewerID;
-    }
+    public String getReviewName() { return reviewName; }
     public String getReviewTitle() {
         return reviewTitle;
     }
@@ -34,9 +32,7 @@ public class Review {
     public void setReviewID(String reviewID) {
         this.reviewID = reviewID;
     }
-    public void setReviewerID(String reviewerID) {
-        this.reviewerID = reviewerID;
-    }
+    public void setReviewName(String reviewName) { this.reviewName = reviewName; }
     public void setReviewTitle(String reviewTitle) {
         this.reviewTitle = reviewTitle;
     }

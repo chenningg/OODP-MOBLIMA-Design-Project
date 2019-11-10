@@ -10,7 +10,12 @@ public class ShowtimeManager {
     private static ShowtimeManager single_instance = null;
 
     private ShowtimeManager() {
-        this.showtimes = loadObject();
+        List<Showtime> serializedObject = this.loadObject();
+        if (serializedObject != null) {
+            this.showtimes = serializedObject;
+        } else {
+            this.showtimes = new ArrayList<>();
+        }
     }
 
     public static ShowtimeManager getInstance()
@@ -36,6 +41,7 @@ public class ShowtimeManager {
             cineplex = new Cineplex(cineplexID);
         }
         System.out.println("Please select showtime: ");
+        System.out.println("0. Back");
         int count = 1;
         for (Showtime showtime : showtimes)
         {
@@ -49,10 +55,16 @@ public class ShowtimeManager {
         int choice = sc.nextInt();
         // booking manager call here, to book showtime mapped by hashmap
         Showtime selectedShowtime = showtimeSelect.get(choice);
-        bookingManager.startSeatSelection(selectedShowtime);
-        if (!showtimeSelect.containsKey(choice)) {
-            // TODO: call back to previous view
+        if (choice == 0) {
+            System.out.println("Going back...");
         }
+        else if (showtimeSelect.containsKey(choice)) {
+            bookingManager.startSeatSelection(selectedShowtime);
+        }
+        else {
+            System.out.println("Showtime selected not available!");
+        }
+        // end of function control, goes back!
     }
 
     public void readShowtime(String showtimeID) {
@@ -153,7 +165,7 @@ public class ShowtimeManager {
             System.out.println("6. Enter cinema status");
             System.out.println("7. Enter movie format");
             System.out.println("8. Confirm entry");
-            System.out.println("9. Back"); // TODO: Implement this
+            System.out.println("0. Back");
             choice = sc.nextInt();
 
             switch (choice) {
@@ -205,11 +217,11 @@ public class ShowtimeManager {
                         showtime.setMovieFormat(movieFormat);
                         break;
                     }
-                case 9:
-                    // TODO: add call to previous view
+                default:
+                    System.out.println("Please enter an option 0 - 8!");
                     break;
             }
-        } while (choice < 8);
+        } while (choice != 0);
     }
 
     public void updateShowtime(String showtimeID) {
@@ -224,7 +236,7 @@ public class ShowtimeManager {
                 System.out.println("5. Update cineplex (enter cineplexID)");
                 System.out.println("6. Update cinema status");
                 System.out.println("7. Update movie format");
-                System.out.println("8. Back"); // TODO: is there a exit flow? and flow to where?
+                System.out.println("0. Back");
                 choice = sc.nextInt();
 
                 switch (choice) {
@@ -265,11 +277,12 @@ public class ShowtimeManager {
                     case 7:
                         System.out.println("Enter here: ");
                         foundShowtime.setMovieFormat(MovieFormat.valueOf(sc.next()));
-                    case 8:
-                        // TODO: exit view flow
+                        break;
+                    default:
+                        System.out.println("Please enter an option 0 - 7!");
                         break;
                 }
-            } while (choice < 8);
+            } while (choice != 0);
         }
         else
         {

@@ -44,7 +44,7 @@ public class CustomerApp {
                     }
                     //let user choose movie
                     do{
-                        System.out.println("Enter choice of movie(1-" + mm.searchMovies(searchTerm).size()+": ");
+                        System.out.println("Enter choice of movie(1-" + mm.searchMovies(searchterm).size()+": ");
                         choice = sc.nextInt();
 
                     }while(choice <1 || choice>mm.searchMovies(searchterm).size());
