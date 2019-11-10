@@ -1,29 +1,26 @@
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Transaction {
     private String transactionID;
     private String creditCardNo;
-    private HashMap<TicketType, Integer> ticketCount;
-    private HashMap<String, ArrayList<String>> priceModifiers;
+    private List<Ticket> ticketList;
     private double totalPrice;
     
     // Constructor
     Transaction(){
     	this.transactionID = null;
     	this.creditCardNo= null;
-    	this.ticketCount = new HashMap<TicketType, Integer>();
-    	this.priceModifiers = new HashMap<String, ArrayList<String>>();
+    	this.ticketList = new ArrayList<Ticket>();
     	this.totalPrice = 0;
     }
     
     
     // Getters
     
-    public HashMap<TicketType, Integer> getTicketCount() {return ticketCount;}
-	public HashMap<String, ArrayList<String>> getPriceModifiers() {return priceModifiers;}
+    public List<Ticket> getTicketList() {return ticketList;}
 	public double getTotalPrice() {return totalPrice;}
 	public String getTransactionID() {return transactionID;}   
     public String getCreditCardNo() {return creditCardNo;}
@@ -31,9 +28,11 @@ public class Transaction {
     
     // Setters
     
-    public void setCreditCardNo(String creditCardNo) {this.creditCardNo= creditCardNo;}
+    public void setCreditCardNo(String creditCardNo) {this.creditCardNo = creditCardNo;}
+    public void setTotalPrice(double totalPrice) {this.totalPrice = totalPrice;}
+    public void setTicketList(List<Ticket> ticketList) {this.ticketList = ticketList;}
     
-    // Called after booking is complete, listen to event
+    // Called after booking is complete
     public void setTransactionID() {
         LocalDateTime datetime= LocalDateTime.now() ;
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyyMMddHHmm");
