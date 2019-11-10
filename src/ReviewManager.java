@@ -21,10 +21,11 @@ public class ReviewManager {
         Review submittedReview = new Review();
         int choice;
         do {
-            System.out.println("1. Enter title of review: ");
-            System.out.println("2. Enter review text: ");
-            System.out.println("3. Enter score: ");
-            System.out.println("4. Submit review");
+            System.out.println("1. Enter your name: ");
+            System.out.println("2. Enter title of review: ");
+            System.out.println("3. Enter review text: ");
+            System.out.println("4. Enter score: ");
+            System.out.println("5. Submit review");
             System.out.println("0. Back");
             choice = sc.nextInt();
 
