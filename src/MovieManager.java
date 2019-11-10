@@ -4,10 +4,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
-public class MovieManager {
+class MovieManager {
     //Variables
     private ArrayList<Movie> movies = new ArrayList<Movie>();
-    Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
     Movie m = new Movie();
 
     //Singleton
