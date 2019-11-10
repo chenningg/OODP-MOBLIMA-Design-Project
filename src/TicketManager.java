@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 
 public class TicketManager implements ResetSelf {
@@ -15,6 +13,7 @@ public class TicketManager implements ResetSelf {
     private Map<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
     private Map<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();
     private Scanner sc = new Scanner(System.in);
+    public Boolean exit = false;
 	
 
 	// Singleton & Constructor
@@ -36,7 +35,10 @@ public class TicketManager implements ResetSelf {
 	// Starts ticket selection
     public void startTicketSelection(Showtime showtime, List<String> selectedSeats) {
     	
-    	Boolean exit = false;
+    	// Get new ticket prices based on showtime
+    	updateTicketPrices(showtime);
+    	
+    	exit = false;
     	int maxTickets = selectedSeats.size(); // Total number of tickets available for selection
     	int ticketChoices = TicketType.values().length; // Number of ticket choices available
     	int ticketsLeft = maxTickets; // Tracks number of tickets left for selection
@@ -80,9 +82,8 @@ public class TicketManager implements ResetSelf {
 	    	    	}
 	    	    	
 	    	    	// PROCEED TO PAYMENT, passes on ticket prices as well as a count of tickets selected
-	    	    	// Update ticket prices for all tickets
-	    	    	updateTicketPrices(showtime);
-	    	    	TransactionManager.getInstance().startTransaction(getTicketPrices(), getTicketCount());
+	    	    	exit = true;
+	    	    	TransactionManager.getInstance().startTransaction(getSelectedTickets(), getTicketPrices(), getTicketCount());
     	    	}
     			else {
     				System.out.printf("Not enough tickets selected! %d tickets remaining to select.\n", ticketsLeft);
@@ -117,7 +118,7 @@ public class TicketManager implements ResetSelf {
     		Ticket newTicket = new Ticket(ticketType);
     		
     		// Update ticket price based on cinema type, holiday and time
-    		newTicket.setTicketPrice(newTicket.getTicketPrice());
+    		newTicket.setTicketPrice(getTicketPrices().get(ticketType));
     		
     		getSelectedTickets().add(newTicket);
     	}
@@ -165,6 +166,7 @@ public class TicketManager implements ResetSelf {
     	getSelectedTickets().clear();
     	getTicketCount().clear();
     	getTicketPrices().clear();
+    	exit = true;
     }
     
     
