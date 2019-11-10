@@ -21,30 +21,35 @@ public class ReviewManager {
         Review submittedReview = new Review();
         int choice;
         do {
-            System.out.println("1. Enter title of review: ");
-            System.out.println("2. Enter review text: ");
-            System.out.println("3. Enter score: ");
-            System.out.println("4. Submit review");
+            System.out.println("1. Enter your name: ");
+            System.out.println("2. Enter title of review: ");
+            System.out.println("3. Enter review text: ");
+            System.out.println("4. Enter score: ");
+            System.out.println("5. Submit review");
             System.out.println("0. Back");
             choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
                     System.out.println("Enter here: ");
+                    submittedReview.setReviewerName(sc.next());
+                    break;
+                case 2:
+                    System.out.println("Enter here: ");
                     String reviewTitle = sc.next();
                     submittedReview.setReviewTitle(reviewTitle);
                     break;
-                case 2:
+                case 3:
                     System.out.println("Enter here: ");
                     String reviewBody = sc.next();
                     submittedReview.setReviewBody(reviewBody);
                     break;
-                case 3:
+                case 4:
                     System.out.println("Enter score of 1-5: ");
                     float reviewScore = sc.nextFloat();
                     submittedReview.setScore(reviewScore);
                     break;
-                case 4:
+                case 5:
                     System.out.println("Review submitted!");
                     movie.addMovieReview(submittedReview);
                     break;
