@@ -8,7 +8,7 @@ public class MovieManager {
     //Variables
     private ArrayList<Movie> movies = new ArrayList<Movie>();
     Scanner sc = new Scanner(System.in);
-    Movie m = new Movie();
+    Movie movie = new Movie();
 
     //Singleton
     private static MovieManager single_instance = null;
