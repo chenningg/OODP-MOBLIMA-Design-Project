@@ -132,7 +132,7 @@ public class ShowtimeManager {
         int count = 1;
         for (Showtime showtime : showtimes)
         {
-            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())_ {
+            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())){
                 System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDateTime().toString());
                 showtimeSelect.put(count, showtime);
                 count++;
