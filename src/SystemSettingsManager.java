@@ -7,6 +7,12 @@ public class SystemSettingsManager {
 	private SystemSettings systemSettings;
 	private static SystemSettingsManager single_instance = null;
 	
+	public static SystemSettingsManager getInstance() {
+		if (single_instance == null)
+			single_instance = new SystemSettingsManager();
+		return single_instance;
+	}
+	
 	
 	// Constructor
 	private SystemSettingsManager() {
@@ -21,12 +27,6 @@ public class SystemSettingsManager {
 
 
 	// Public exposed methods to app
-	public static SystemSettingsManager getInstance() {
-		if (single_instance == null)
-			single_instance = new SystemSettingsManager();
-		return single_instance;
-	}
-	
 	public double getPrice(String key) {
 		return this.systemSettings.getPrice(key);
 	}
