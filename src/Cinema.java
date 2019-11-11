@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cinema implements Serializable, Cloneable {
+public class Cinema implements Cloneable, Serializable {
 	// Attributes
 	private String cinemaID;
 	private int hallNo;
