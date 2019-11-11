@@ -2,21 +2,26 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Company {
+public class Company implements Serializable {
 	// Attributes
+	private static final long serialVersionUID = 9L;
     private String companyName;
     private List<Cineplex> cineplexes;
+    private List<String> cineplexNames;
+    
     
     // Constructor
     Company(){
     	this.cineplexes = new ArrayList<Cineplex>();
+    	this.cineplexNames = new ArrayList<String>();
     	this.openCompanyFile();
     }
 
     
     // Getters
-    public String getCompanyName(){return this.companyName;}
-    public List<Cineplex> getCineplexes(){return this.cineplexes;}
+    public String getCompanyName() {return this.companyName;}
+    public List<Cineplex> getCineplexes() {return this.cineplexes;}
+    public List<String> getCineplexNames() {return this.cineplexNames;} 
 
 
     // Setters
@@ -26,13 +31,22 @@ public class Company {
     
     public void addCineplexes(String cineplexName){
     	Cineplex cineplex = new Cineplex(cineplexName);
-    	cineplexes.add(cineplex); 
+    	this.cineplexes.add(cineplex); 
+    	this.cineplexNames.add(cineplex.getCineplexName());
     }
     
     
-    // Others
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+	// Initializers: Below code used only for the very first run of the app
     // File Reader
     public void openCompanyFile() {
 		try {
@@ -42,7 +56,7 @@ public class Company {
 			if (filePath == null) {
 				throw new IOException("Cannot find root");
 			} else {
-				filePath = filePath + "/data/company.txt";
+				filePath = filePath + "/data/company/company.txt";
 			}
 			
 			// Open file and traverse it
