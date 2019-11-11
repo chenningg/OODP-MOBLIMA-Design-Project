@@ -66,6 +66,8 @@ public class ShowtimeManager {
                     System.out.println("Enter showtimeID to be deleted: ");
                     this.deleteShowtime(sc.next());
                     break;
+                case 0:
+                    break;
                 default:
                     System.out.println("Please enter valid input!");
                     break;
@@ -73,6 +75,10 @@ public class ShowtimeManager {
         } while (choice != 0);
     }
 
+    /***
+     * Allows user to view showtimes of a movie
+     * @param movieID MovieID entered to search for the movie
+     */
     public void viewShowtimes(String movieID) {
         Movie movie = this.findMovie(movieID);
         int count = 1;
@@ -132,13 +138,12 @@ public class ShowtimeManager {
         int count = 1;
         for (Showtime showtime : showtimes)
         {
-            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())_ {
+            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())){
                 System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDateTime().toString());
                 showtimeSelect.put(count, showtime);
                 count++;
             }
         }
-        System.out.println(count + ". Exit");
         int choice = sc.nextInt();
         // booking manager call here, to book showtime mapped by hashmap
         Showtime selectedShowtime = showtimeSelect.get(choice);
@@ -227,6 +232,7 @@ public class ShowtimeManager {
                     }
                 i++;
             } while (inputLine != null);
+            this.showtimes.add(newShowtime);
             this.saveObject(); // save whole array
         }
         catch ( FileNotFoundException e ) {
@@ -314,6 +320,7 @@ public class ShowtimeManager {
                         showtime.setCineplex(cineplex);
                         showtime.setCinemaStatus(cinemaStatus);
                         showtime.setMovieFormat(movieFormat);
+                        this.showtimes.add(showtime);
                         this.saveObject(); // save whole array
                         break;
                     }
@@ -400,14 +407,15 @@ public class ShowtimeManager {
      * @param showtimeID for the indentification of the showtime
      */
     public void deleteShowtime(String showtimeID) {
-        for (Showtime showtime : showtimes) {
-            String storedShowtimeID = showtime.getShowtimeID();
-            if (storedShowtimeID.equalsIgnoreCase(showtimeID)) {
-                showtimes.remove(showtime);
-                System.out.println("Showtime deleted!");
-                break;
-            }
+        Showtime foundShowtime = this.findShowtime(showtimeID);
+        if (foundShowtime != null) {
+            showtimes.remove(foundShowtime);
+            System.out.println("Showtime deleted!");
         }
+        else {
+            System.out.println("Showtime does not exist!");
+        }
+        this.saveObject();
     }
 
     /***
