@@ -50,6 +50,8 @@ public class CustomerManager implements ResetSelf {
 			// Get booking from customer history and display it
 			custToPrint.getBookingHistory().get(i).displayBooking();
 		}
+		if (custToPrint.getBookingHistory().size()==0)
+			System.out.println("No records found.\n");
 	}
 	
 	public List<Booking> getBookingHistory(CustomerAccount customerAccount) {
