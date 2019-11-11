@@ -36,28 +36,33 @@ public class ShowtimeManager {
      */
     public void showtimeMenu() {
         System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
-                           "| 1. Read From File                                        |\n" +
-                           "| 2. Create Showtime Entry                                 |\n" +
-                           "| 3. Update Showtime Entry                                 |\n" +
-                           "| 4. Delete Showtime Entry                                 |\n" +
-                           "| 5. Back                                                  |\n" +
+                           "| 1. View showtime for a movie (enter movieID)              \n" +
+                           "| 2. Read From File                                        |\n" +
+                           "| 3. Create Showtime Entry                                 |\n" +
+                           "| 4. Update Showtime Entry                                 |\n" +
+                           "| 5. Delete Showtime Entry                                 |\n" +
+                           "| 0. Back                                                  |\n" +
                            "===========================================================");
         int choice;
         do {
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
+                    System.out.println("Enter here: ");
+                    this.viewShowtimes(sc.next());
+                    break;
+                case 2:
                     System.out.println("Enter showtimeID to be read from file: ");
                     this.readShowtime(sc.next());
                     break;
-                case 2:
+                case 3:
                     this.createShowtime();
                     break;
-                case 3:
+                case 4:
                     System.out.println("Enter showtimeID to be updated: ");
                     this.updateShowtime(sc.next());
                     break;
-                case 4:
+                case 5:
                     System.out.println("Enter showtimeID to be deleted: ");
                     this.deleteShowtime(sc.next());
                     break;
@@ -66,6 +71,21 @@ public class ShowtimeManager {
                     break;
             }
         } while (choice != 0);
+    }
+
+    public void viewShowtimes(String movieID) {
+        Movie movie = this.findMovie(movieID);
+        int count = 1;
+        for (Showtime showtime : showtimes) {
+            if (showtime.getMovie() == movie) {
+                System.out.println("Showtime " + count + ": ");
+                System.out.println("Showing at Cineplex: " + showtime.getCineplex().getCineplexName() + " Hall: " + showtime.getCinema().getHallNo());
+                System.out.println("Show timing: " + showtime.getDateTime().toString());
+                System.out.println("Cinema status: " + showtime.getCinemaStatus().toString());
+                System.out.println("Movie format: " + showtime.getMovieFormat().toString());
+                count++;
+            }
+        }
     }
 
     /***
