@@ -3,7 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -391,7 +392,7 @@ class MovieManager {
         newMovie.setMovieFormats(formatList);
 
         System.out.println("Enter movie duration: ");
-        newMovie.setMovieDuration(sc.nextFloat());
+        newMovie.setMovieDuration(sc.nextInt());
 
         System.out.println("Enter showing status: ");
         String showStatus = sc.next();
@@ -400,7 +401,7 @@ class MovieManager {
         System.out.println("Enter release date (format DD/MM/YYYY): ");
         String releaseDate = sc.next();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-        LocalDate date = LocalDate.parse(releaseDate, dateFormat);
+        LocalDateTime date = LocalDateTime.parse(releaseDate, dateFormat);
         newMovie.setReleaseDate(date);
 
         movies.add(newMovie);
@@ -430,25 +431,66 @@ class MovieManager {
 
                 switch (i) {
                     case 0:
-                        //1st line of file is title
-                        break;
+                        //1st line of file is movieID
+                        newMovie.setMovieID(movieID);
                     case 1:
-                        //2nd line of file is genres
+                        //2st line of file is title
+                        newMovie.setTitle(inputLine);
                         break;
                     case 2:
-                        //3rd line of file is director
+                        //3rd line of file is genres
+                        ArrayList<Genre> genreList = new ArrayList<Genre>();
+                        String[] genres = inputLine.split(", ?");
+                        for(int j=0;j<genres.length;j++){
+                            genreList.add(Genre.valueOf(genres[j]));
+                        }
+                        newMovie.setGenres(genreList);
                         break;
                     case 3:
-                        //4th line of file is cast
+                        //4th line of file is director
+                        newMovie.setDirector(inputLine);
                         break;
                     case 4:
-                        //5th line of file is synopsis
+                        //5th line of file is cast
+                        ArrayList<String> castList = new ArrayList<String>();
+                        for(int j=0;j<inputLine.split(", ?").length;j++){
+                            castList.add(inputLine.split(", ?")[j]);
+                        }
+                        newMovie.setCast(castList);
                         break;
                     case 5:
-                        //6th line of file is movieRating
+                        //6th line of file is synopsis
+                        newMovie.setSynopsis(inputLine);
                         break;
                     case 6:
-                        //7th line of 
+                        //7th line of file is movieRating
+                        newMovie.setMovieRating(MovieRating.valueOf(inputLine));
+                        break;
+                    case 7:
+                        //8th line of file is movieformats
+                        ArrayList<MovieFormat> movieformats = new ArrayList<MovieFormat>();
+                        String[] mflist = inputLine.split(", ?");
+                        for(int j=0;j<mflist.length;j++){
+                            movieformats.add(MovieFormat.valueOf(mflist[j]));
+                        }
+                        newMovie.setMovieFormats(movieformats);
+                        break;
+                    case 8:
+                        //9th line of file is movieDuration
+                        newMovie.setMovieDuration(Integer.parseInt(inputLine));
+                        break;
+                    case 9:
+                        //10th line of file is showing status
+                        newMovie.setShowingStatus(ShowingStatus.valueOf(inputLine));
+                        break;
+                    case 10:
+                        //11th line of file is release date
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        String dateInString = inputLine;
+                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
+                        newMovie.setReleaseDate(dateTime);
+                        System.out.println("Movie release date read and added!");
+                        break;
                 }
                 i++;
             } while (inputLine != null);
@@ -546,7 +588,7 @@ class MovieManager {
                             break;
                         case 9:
                             System.out.println("Enter new duration: ");
-                            float newDuration = sc.nextFloat();
+                            int newDuration = sc.nextInt();
                             movie.setMovieDuration(newDuration);
                             break;
                         case 10:
@@ -558,7 +600,7 @@ class MovieManager {
                             System.out.println("Enter new release date: ");
                             String newReleaseDate = sc.next();
                             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-                            LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
+                            LocalDateTime date = LocalDateTime.parse(newReleaseDate, dateFormat);
                             movie.setReleaseDate(date);
                             break;
                     }
@@ -597,6 +639,17 @@ class MovieManager {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
         SerializerHelper.serializeObject(this.movies, filepath);
         System.out.println("Movies Saved!");
+    }
+
+    private Date dateParser(String dateString) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = formatter.parse(dateString);
+        return date;
+    }
+    private LocalDateTime dateTimeParser(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
+        return dateTime;
     }
 
 }
