@@ -430,44 +430,25 @@ class MovieManager {
 
                 switch (i) {
                     case 0:
-                        // first line of file is DateTime of showtime
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                        String dateInString = inputLine;
-                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
-                        newShowtime.setDateTime(dateTime);
-                        System.out.println("Showtime read and added!");
+                        //1st line of file is title
                         break;
                     case 1:
-                        // second line of file is the movieID
-                        String movieID = inputLine;
-                        Movie foundMovie = this.findMovie(movieID);
-                        if (foundMovie == null) {
-                            System.out.println("Movie not found!");
-                        }
-                        else {
-                            newShowtime.setMovie(foundMovie);
-                        }
+                        //2nd line of file is genres
                         break;
                     case 2:
-                        // third line of file is the cinemaID, which is used to construct Cinema Object
-                        String cinemaID = inputLine;
-                        Cinema cinema = new Cinema(cinemaID);
-                        newShowtime.setCinema(cinema); // TODO: does this set seat layout already?
+                        //3rd line of file is director
                         break;
                     case 3:
-                        // fourth line of file is the cineplexID
-                        String cineplexID = inputLine;
-                        Cineplex cineplex = new Cineplex(cineplexID);
-                        newShowtime.setCineplex(cineplex);
+                        //4th line of file is cast
                         break;
                     case 4:
-                        String movieFormat = inputLine;
-                        newShowtime.setMovieFormat(MovieFormat.valueOf(movieFormat));
+                        //5th line of file is synopsis
+                        break;
                     case 5:
-                        // sixth line will be cinema status
-                        String cinemaStatus = inputLine;
-                        CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
-                        newShowtime.setCinemaStatus(cinemaStatus1);
+                        //6th line of file is movieRating
+                        break;
+                    case 6:
+                        //7th line of 
                 }
                 i++;
             } while (inputLine != null);
