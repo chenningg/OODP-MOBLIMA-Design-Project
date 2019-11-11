@@ -15,6 +15,10 @@ public class StaffApp {
         return single_instance;
     }
 
+    /***
+     * Displays the Staff Login Menu
+     * returns true when logged in
+     */
     //LoginMenu
     //boolean function - returns true when logged in else returns false
     public boolean loginMenu() throws IOException
@@ -24,8 +28,8 @@ public class StaffApp {
         String username,password;
         boolean authenticate = false;
 
-        System.out.println("==================== MOBLIMA STAFF APP ====================");
-        System.out.println("| 1. Login                                                |\n"+
+        System.out.println("==================== MOBLIMA STAFF APP ====================\n"+
+                "| 1. Login                                                |\n"+
                 "| 2. Exit                                                 |\n"+
                 "===========================================================");
 
@@ -54,6 +58,9 @@ public class StaffApp {
     //Run this menu only when LoginMenu returns true
     //boolean function - returns true, logout returns false
 
+    /***
+     * Displays the Staff Menu after logging in.
+     */
     public boolean staffMenu()
     {
         Scanner sc = new Scanner(System.in);
@@ -79,11 +86,10 @@ public class StaffApp {
                 SystemSettingsManager.getInstance().displayMenu();
                 break;
             case 3:
-                //Movie Database
+                MovieManager.getInstance().movieMenu();
                 break;
             case 4:
-                //Showtimes Database
-
+                ShowtimeManager.getInstance().showtimeMenu();
                 break;
             case 5:
                 loginStatus=new StaffManager().logout();

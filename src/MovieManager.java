@@ -19,7 +19,14 @@ class MovieManager {
     private static MovieManager single_instance = null;
 
     //Constructor
-    private MovieManager() {}
+    private MovieManager() {
+        ArrayList<Movie> serializedObject = this.loadObject();
+        if (serializedObject != null) {
+            this.movies = serializedObject;
+        } else {
+            this.movies = new ArrayList<>();
+        }
+    }
 
     public static MovieManager getInstance()
     {
@@ -29,6 +36,43 @@ class MovieManager {
     }
 
 
+    //Methods
+    public void movieMenu() {
+        System.out.println("==================== MOVIE STAFF APP ====================\n" +
+                           "| 1. Read From File                                        |\n" +
+                           "| 2. Create Showtime Entry                                 |\n" +
+                           "| 3. Update Showtime Entry                                 |\n" +
+                           "| 4. Delete Showtime Entry                                 |\n" +
+                           "| 5. Back                                                  |\n" +
+                           "===========================================================");
+        int choice;
+        do {
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter movieID to be read from file: ");
+                    this.readMovie(sc.next());
+                    break;
+                case 2:
+                    this.addMovie();
+                    break;
+                case 3:
+                    this.editMovie();
+                    break;
+                case 4:
+                    this.deleteMovie();
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Please enter a number between 1-5.");
+                    break;
+            }
+        } while (choice != 5);
+    }
+    /***
+     * Displays Top 5 Movies menu for Customers
+     */
     public void viewTop5Cust(){
         ShowtimeManager sm = ShowtimeManager.getInstance();
 
@@ -67,6 +111,11 @@ class MovieManager {
                     break;
                 case 3:
                     ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    for(int i=top5Reviews.size()-1;i>=0;i--){
+                        if(top5Reviews.get(i).getMovieReviews().size() <= 1){
+                            top5Reviews.remove(i);
+                        }
+                    }
                     top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
                     for(int i=0;i<5;i++) {
                         System.out.println(i+1 +". "+top5Reviews.get(i).getTitle());
@@ -85,6 +134,9 @@ class MovieManager {
 
     }
 
+    /***
+     * Displays Top 5 Movies menu for Staff
+     */
     public void viewTop5Staff(){
 
         System.out.println("==================== View Top 5 Movies =====================\n" +
@@ -114,6 +166,11 @@ class MovieManager {
                     break;
                 case 3:
                     ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    for(int i=top5Reviews.size()-1;i>=0;i--){
+                        if(top5Reviews.get(i).getMovieReviews().size() <= 1){
+                            top5Reviews.remove(i);
+                        }
+                    }
                     top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
                     for (int i = 0; i < 5; i++) {
                         System.out.println(i + 1 + ". " + top5Reviews.get(i).getTitle());
@@ -129,23 +186,25 @@ class MovieManager {
 
     public void displayMovies(){
         ShowtimeManager sm = ShowtimeManager.getInstance();
-        System.out.println("========================= Movies ===========================\n" +
-                           "| 1. Now Showing                                           |\n" +
-                           "| 2. Coming Soon                                           |\n" +
-                           "| 3. Cineplexes                                            |\n" +
-                           "| 4. Search by Movie Title                                 |\n" +
-                           "| 5. Back                                                  |\n" +
-                           "===========================================================");
+
 
         Scanner sc = new Scanner(System.in);
         int choice;
         do{
+            System.out.println("========================= Movies ===========================\n" +
+                    "| 1. Now Showing                                           |\n" +
+                    "| 2. Coming Soon                                           |\n" +
+                    "| 3. Cineplexes                                            |\n" +
+                    "| 4. Search by Movie Title                                 |\n" +
+                    "| 5. Back                                                  |\n" +
+                    "===========================================================");
+            System.out.println("Enter your choice: ");
             choice = sc.nextInt();
             switch(choice){
                 case 1:
                     ArrayList<Movie> nowShowing = new ArrayList<Movie>();
                     for(int i=0;i<movies.size();i++){
-                        if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
+                        if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING") || movies.get(i).getShowingStatus().equalsString("PREVIEW")){
                             nowShowing.add(movies.get(i));
                         }
                     }
@@ -170,7 +229,6 @@ class MovieManager {
                     System.out.println("Choose a movie:");
                     int option2 = sc.nextInt();
                     displayMovieDetails(comingSoon.get(option2-1));
-                    submovieMenu(comingSoon.get(option2-1));
                     break;
                 case 3:
                     List<Cineplex> cineplexes = new ArrayList<>();
@@ -202,6 +260,7 @@ class MovieManager {
     }
 
     public void submovieMenu(Movie movie){
+        boolean exit = false;
         ShowtimeManager sm = ShowtimeManager.getInstance();
         ReviewManager rm = ReviewManager.getInstance();
         System.out.println(" 1. Display Showtimes\n" +
@@ -209,21 +268,22 @@ class MovieManager {
                            " 3. Back");
         Scanner sc = new Scanner(System.in);
         int choice;
-        do{
+        while(!exit){
+            System.out.println("Enter your choice: ");
             choice = sc.nextInt();
             switch(choice) {
                 case 1:
                     sm.displayMovieShowtimes(movie, null);
-                    break;
+                    exit = true;
                 case 2:
                     rm.displayReview(movie);
                     break;
                 case 3:
-                    break;
+                    exit = true;
                 default:
                     System.out.println("Please enter a number between 1-3");
             }
-        }while(choice !=3);
+        }
 
     }
 
@@ -546,5 +606,16 @@ class MovieManager {
         return movies;
     }
 
+    public ArrayList<Movie> loadObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
+        System.out.println("Movies loaded!");
+        return (ArrayList<Movie>) SerializerHelper.deSerializeObject(filepath);
+    }
+
+    public void saveObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
+        SerializerHelper.serializeObject(this.movies, filepath);
+        System.out.println("Movies Saved!");
+    }
 
 }
