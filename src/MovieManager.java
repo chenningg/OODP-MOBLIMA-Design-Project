@@ -416,7 +416,7 @@ class MovieManager {
                 throw new IOException("Cannot find root");
             } else {
                 // read active movies
-                filePath = filePath + "/data/movies/active" + movieID + ".txt";
+                filePath = filePath + "/data/intialisation/movies/" + movieID + ".txt";
             }
 
             // Open file and traverse it
@@ -426,6 +426,13 @@ class MovieManager {
             int i = 0;
 
             do {
+                newMovie.setMovieReviews(new ArrayList<Review>());
+                newMovie.setGrossProfit(0);
+                newMovie.setTicketsSold(0);
+                newMovie.setAverageReviewScore(0);
+                newMovie.setTotalReviewNo(0);
+                newMovie.setTotalReviewScore(0);
+
                 inputLine = brStream.readLine(); // read in a line
                 if (inputLine == null) {break;} // end of file
 
@@ -467,13 +474,13 @@ class MovieManager {
                         newMovie.setMovieRating(MovieRating.valueOf(inputLine));
                         break;
                     case 7:
-                        //8th line of file is movieformats
-                        ArrayList<MovieFormat> movieformats = new ArrayList<MovieFormat>();
-                        String[] mflist = inputLine.split(", ?");
-                        for(int j=0;j<mflist.length;j++){
-                            movieformats.add(MovieFormat.valueOf(mflist[j]));
+                        //8th line of file is movieFormats
+                        ArrayList<MovieFormat> movieFormats = new ArrayList<MovieFormat>();
+                        String[] mfList = inputLine.split(", ?");
+                        for(int j=0;j<mfList.length;j++){
+                            movieFormats.add(MovieFormat.valueOf(mfList[j]));
                         }
-                        newMovie.setMovieFormats(movieformats);
+                        newMovie.setMovieFormats(movieFormats);
                         break;
                     case 8:
                         //9th line of file is movieDuration
