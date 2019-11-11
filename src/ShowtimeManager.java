@@ -5,18 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ShowtimeManager {
-    private List<Showtime> showtimes;
+	// Attributes
+	private List<Showtime> showtimes;
 
-    // Singleton things
     private static ShowtimeManager single_instance = null;
 
     private ShowtimeManager() {
-        List<Showtime> serializedObject = this.loadObject();
+        List<Showtime> serializedObject = this.load();
         if (serializedObject != null) {
             this.showtimes = serializedObject;
         } else {
             this.showtimes = new ArrayList<>();
-            this.saveObject();
+            this.save();
         }
     }
 
@@ -27,17 +27,23 @@ public class ShowtimeManager {
         return single_instance;
     }
 
-    Scanner sc = new Scanner(System.in);
 
-
-    // Methods
-
-    /***
-     * Displays menu which calls to methods below
-     */
-    public void showtimeMenu() {
-
+	////////////////////////////////////////////////////////////////////////////////////////////
+    
+    // Still editing
+    // Must pass control over to other managers
+    // Do not keep the checking within here, only keep the logic
+    // How should we handle scanners? Pass it on and on or create in each class
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    
+    // Public exposed methods to app
+    public void showtimeMenuStaff(Scanner sc) {
         int choice;
+        
         do {
             System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
                     "| 1. View showtime for a movie (enter movieID)              \n" +
@@ -47,6 +53,7 @@ public class ShowtimeManager {
                     "| 5. Delete Showtime Entry                                 |\n" +
                     "| 0. Back                                                  |\n" +
                     "===========================================================");
+            System.out.println("Enter choice: ");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -69,19 +76,27 @@ public class ShowtimeManager {
                     this.deleteShowtime(sc.next());
                     break;
                 case 0:
+                	System.out.println("Back to StaffApp......");
                     break;
                 default:
-                    System.out.println("Please enter valid input!");
+                    System.out.println("Invalid choice. Please choose between 0-5.");
                     break;
             }
         } while (choice != 0);
     }
+    
+    
+    
+    
+    
+    // Private methods
+    
 
     /***
      * Allows user to view showtimes of a movie
      * @param movieID MovieID entered to search for the movie
      */
-    public void viewShowtimes(String movieID) {
+    private void viewShowtimes(String movieID) {
         Movie movie = this.findMovie(movieID);
         if (movie != null) {
             int count = 1;
@@ -107,7 +122,6 @@ public class ShowtimeManager {
      */
     public void displayMoviesfromCineplex(String cineplexID)
     {
-        MovieManager mm = MovieManager.getInstance();
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         for (Showtime showtime : showtimes)
         {
@@ -120,7 +134,7 @@ public class ShowtimeManager {
         }
         System.out.println("Choose a movie:");
         int option = sc.nextInt();
-        mm.submovieMenu(movieList.get(option-1));
+        MovieManager.getInstance().submovieMenu(movieList.get(option-1));
     }
 
     /***
@@ -133,7 +147,6 @@ public class ShowtimeManager {
     public void displayMovieShowtimes(Movie movie, Cineplex cineplex)
     {
         Map <Integer, Showtime> showtimeSelect = new HashMap<>();
-        BookingManager bookingManager = BookingManager.getInstance();
         if (cineplex == null)
         {
             System.out.println("Enter cineplexID: ");
@@ -158,7 +171,7 @@ public class ShowtimeManager {
             System.out.println("Going back...");
         }
         else if (showtimeSelect.containsKey(choice)) {
-            bookingManager.startSeatSelection(selectedShowtime);
+        	BookingManager.getInstance().startSeatSelection(selectedShowtime);
         }
         else {
             System.out.println("Showtime selected not available!");
@@ -242,7 +255,7 @@ public class ShowtimeManager {
                 i++;
             } while (inputLine != null);
             this.showtimes.add(newShowtime);
-            this.saveObject(); // save whole array
+            this.save(); // save whole array
         }
         catch ( FileNotFoundException e ) {
         System.out.println( "Error opening the input file!" + e.getMessage() );
@@ -330,7 +343,7 @@ public class ShowtimeManager {
                         showtime.setCinemaStatus(cinemaStatus);
                         showtime.setMovieFormat(movieFormat);
                         this.showtimes.add(showtime);
-                        this.saveObject(); // save whole array
+                        this.save(); // save whole array
                         break;
                     }
                 default:
@@ -403,7 +416,7 @@ public class ShowtimeManager {
                         break;
                 }
             } while (choice != 0);
-            this.saveObject(); // save whole array
+            this.save(); // save whole array
         }
         else
         {
@@ -424,25 +437,10 @@ public class ShowtimeManager {
         else {
             System.out.println("Showtime does not exist!");
         }
-        this.saveObject();
+        this.save();
     }
 
-    /***
-     * To reload the object via deserialization
-     * @return returns the list of showtimes to the constructor
-     */
-    public List<Showtime> loadObject() {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
-        return (List<Showtime>) SerializerHelper.deSerializeObject(filepath);
-    }
 
-    /***
-     * Save the array list, for loading later
-     */
-    public void saveObject() {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
-        SerializerHelper.serializeObject(this.showtimes, filepath);
-    }
 
     /***
      * Helper function to return movie object
@@ -450,8 +448,7 @@ public class ShowtimeManager {
      * @return Movie object returned from search
      */
     private Movie findMovie(String movieID) {
-        MovieManager movieManager = MovieManager.getInstance();
-        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
+        ArrayList<Movie> moviesInMovieManager = MovieManager.getInstance().getMovies();
         for (Movie movie : moviesInMovieManager)
         {
             String movieTitle = movie.getMovieID();
@@ -500,5 +497,25 @@ public class ShowtimeManager {
 
     public void setShowtimes(List<Showtime> showtimes) {
         this.showtimes = showtimes;
+    }
+    
+    
+    
+	// Private Serialization and Deserialization
+    /***
+     * To reload the object via deserialization
+     * @return returns the list of showtimes to the constructor
+     */
+    public List<Showtime> load() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
+        return (List<Showtime>) SerializerHelper.deSerializeObject(filepath);
+    }
+
+    /***
+     * Save the array list, for loading later
+     */
+    public void save() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
+        SerializerHelper.serializeObject(this.showtimes, filepath);
     }
 }
