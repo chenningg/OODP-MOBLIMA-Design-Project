@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Review {
+public class Review implements Serializable {
     //Attributes
     private String reviewID;
     private String reviewerName;
