@@ -247,7 +247,7 @@ class MovieManager {
                     }
                     System.out.println("Choose a cinema:");
                     int option3 = sc.nextInt();
-                    sm.displayMoviesfromCineplex(cineplexes.get(option3-1));
+                    sm.displayMoviesfromCineplex(cineplexes.get(option3-1).getCineplexID());
                     break;
                 case 4:
                     String title = sc.next();
