@@ -349,6 +349,9 @@ class BookingManager implements ResetSelf {
     	showtime.getCinema().setCinemaLayout(getSeatingPlan());
     	showtime.updateCinemaStatus();
     	
+    	// Save the new showtimes status
+    	ShowtimeManager.getInstance().saveObject();
+    	
     	// We create a new booking and fill it up with the finalized information before storing it
     	setBooking(new Booking());
     	
