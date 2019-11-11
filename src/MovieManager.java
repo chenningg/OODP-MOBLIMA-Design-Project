@@ -12,8 +12,8 @@ import java.util.*;
 
 class MovieManager {
     //Variables
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
-    private Scanner sc = new Scanner(System.in);
+    private ArrayList<Movie> movies;
+    Scanner sc = new Scanner(System.in);
     Movie m = new Movie();
 
     //Singleton

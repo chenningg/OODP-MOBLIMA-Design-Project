@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,16 +36,17 @@ public class ShowtimeManager {
      * Displays menu which calls to methods below
      */
     public void showtimeMenu() {
-        System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
-                           "| 1. View showtime for a movie (enter movieID)              \n" +
-                           "| 2. Read From File                                        |\n" +
-                           "| 3. Create Showtime Entry                                 |\n" +
-                           "| 4. Update Showtime Entry                                 |\n" +
-                           "| 5. Delete Showtime Entry                                 |\n" +
-                           "| 0. Back                                                  |\n" +
-                           "===========================================================");
+
         int choice;
         do {
+            System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
+                    "| 1. View showtime for a movie (enter movieID)              \n" +
+                    "| 2. Read From File                                        |\n" +
+                    "| 3. Create Showtime Entry                                 |\n" +
+                    "| 4. Update Showtime Entry                                 |\n" +
+                    "| 5. Delete Showtime Entry                                 |\n" +
+                    "| 0. Back                                                  |\n" +
+                    "===========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -81,16 +83,21 @@ public class ShowtimeManager {
      */
     public void viewShowtimes(String movieID) {
         Movie movie = this.findMovie(movieID);
-        int count = 1;
-        for (Showtime showtime : showtimes) {
-            if (showtime.getMovie() == movie) {
-                System.out.println("Showtime " + count + ": ");
-                System.out.println("Showing at Cineplex: " + showtime.getCineplex().getCineplexName() + " Hall: " + showtime.getCinema().getHallNo());
-                System.out.println("Show timing: " + showtime.getDateTime().toString());
-                System.out.println("Cinema status: " + showtime.getCinemaStatus().toString());
-                System.out.println("Movie format: " + showtime.getMovieFormat().toString());
-                count++;
+        if (movie != null) {
+            int count = 1;
+            for (Showtime showtime : showtimes) {
+                if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())) {
+                    System.out.println("Showtime " + count + ": ");
+                    System.out.println("Showing at Cineplex: " + showtime.getCineplex().getCineplexName() + " Hall: " + showtime.getCinema().getHallNo());
+                    System.out.println("Show timing: " + showtime.getDateTime().toString());
+                    System.out.println("Cinema status: " + showtime.getCinemaStatus().toString());
+                    System.out.println("Movie format: " + showtime.getMovieFormat().toString());
+                    count++;
+                }
             }
+        }
+        else {
+            System.out.println("Movie does not exist!");
         }
     }
 
@@ -172,7 +179,7 @@ public class ShowtimeManager {
                 throw new IOException("Cannot find root");
             } else {
                 // read active showtimes
-                filePath = filePath + "/data/showtimes/active" + showtimeID + ".txt";
+                filePath = filePath + "/data/initialisation/showtimes/" + showtimeID + ".txt";
             }
 
             // Open file and traverse it
@@ -186,7 +193,11 @@ public class ShowtimeManager {
                 if (inputLine == null) {break;} // end of file
 
                 switch (i) {
+                    // first line of file is showtimeID
                     case 0:
+                        newShowtime.setShowtimeID(showtimeID);
+                        break;
+                    case 1:
                         // first line of file is DateTime of showtime
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                         String dateInString = inputLine;
@@ -194,9 +205,6 @@ public class ShowtimeManager {
                         newShowtime.setDateTime(dateTime);
                         System.out.println("Showtime read and added!");
                         break;
-                    // second line of file is showtimeID
-                    case 1:
-                        newShowtime.setShowtimeID(showtimeID);
                     case 2:
                         // third line of file is the movieID
                         String movieID = inputLine;
@@ -211,6 +219,7 @@ public class ShowtimeManager {
                     // fourth line is movieformat
                     case 3:
                         newShowtime.setMovieFormat(MovieFormat.valueOf(inputLine));
+                        break;
                     case 4:
                         // fifth line of file is the cinemaID, which is used to construct Cinema Object
                         String cinemaID = inputLine;
@@ -442,10 +451,13 @@ public class ShowtimeManager {
      */
     private Movie findMovie(String movieID) {
         MovieManager movieManager = MovieManager.getInstance();
-        List<Movie> moviesInMovieManager = movieManager.getMovies();
+        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
         for (Movie movie : moviesInMovieManager)
         {
             String movieTitle = movie.getMovieID();
+            if(movieTitle==null){
+                return null;
+            }
             if (movieTitle.equalsIgnoreCase(movieID))
             {
                 return movie;
