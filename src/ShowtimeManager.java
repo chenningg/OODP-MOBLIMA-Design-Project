@@ -227,6 +227,7 @@ public class ShowtimeManager {
                     }
                 i++;
             } while (inputLine != null);
+            this.showtimes.add(newShowtime);
             this.saveObject(); // save whole array
         }
         catch ( FileNotFoundException e ) {
@@ -314,6 +315,7 @@ public class ShowtimeManager {
                         showtime.setCineplex(cineplex);
                         showtime.setCinemaStatus(cinemaStatus);
                         showtime.setMovieFormat(movieFormat);
+                        this.showtimes.add(showtime);
                         this.saveObject(); // save whole array
                         break;
                     }
