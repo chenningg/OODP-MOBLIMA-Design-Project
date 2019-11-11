@@ -204,6 +204,7 @@ public class ShowtimeManager {
                         newShowtime.setCinemaStatus(cinemaStatus1);
                 }
                 i++;
+                this.saveObject(); // save whole array
             } while (inputLine != null);
         }
         catch ( FileNotFoundException e ) {
@@ -291,6 +292,7 @@ public class ShowtimeManager {
                         showtime.setCineplex(cineplex);
                         showtime.setCinemaStatus(cinemaStatus);
                         showtime.setMovieFormat(movieFormat);
+                        this.saveObject(); // save whole array
                         break;
                     }
                 default:
@@ -362,6 +364,7 @@ public class ShowtimeManager {
                         System.out.println("Please enter an option 0 - 7!");
                         break;
                 }
+                this.saveObject(); // save whole array
             } while (choice != 0);
         }
         else
@@ -391,7 +394,6 @@ public class ShowtimeManager {
      */
     public List<Showtime> loadObject() {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
-        System.out.println("Showtimes loaded!");
         return (List<Showtime>) SerializerHelper.deSerializeObject(filepath);
     }
 
@@ -401,7 +403,6 @@ public class ShowtimeManager {
     public void saveObject() {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
         SerializerHelper.serializeObject(this.showtimes, filepath);
-        System.out.println("Showtimes Saved!");
     }
 
     /***
