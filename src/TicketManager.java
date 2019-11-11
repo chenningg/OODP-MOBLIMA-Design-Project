@@ -157,6 +157,11 @@ public class TicketManager implements ResetSelf {
     // Injects ticket selection information into BookingManager's booking when event is raised, and reset itself
     public void confirmTicketSelection() {
     	BookingManager.getInstance().getBooking().setTickets(selectedTickets);
+    	
+    	// Update movie's ticket sales info
+    	Movie currMovie = BookingManager.getInstance().getShowtime().getMovie();
+    	currMovie.setTicketsSold(currMovie.getTicketsSold() + getSelectedTickets().size());
+    	
     	resetSelf();
     }
     

@@ -42,11 +42,13 @@ public class CustomerManager implements ResetSelf {
 			printBookingHistory(mobileToCustomer.get(mobileNo));
 	}
 	
-	public void printBookingHistory(CustomerAccount cust) {
+	public void printBookingHistory(CustomerAccount custToPrint) {
 		System.out.println("Previous Bookings:");
 		//prints each booking held in customerAccount
-		for (int i=0;i<cust.getBookingHistory().size();i++) {
-			System.out.printf(i+1+ "." + cust.getBookingHistory().get(i)+ "\n");
+		for (int i=0;i<custToPrint.getBookingHistory().size();i++) {
+			
+			// Get booking from customer history and display it
+			custToPrint.getBookingHistory().get(i).displayBooking();
 		}
 	}
 	
