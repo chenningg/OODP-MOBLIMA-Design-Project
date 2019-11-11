@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +13,13 @@ public class Movie implements Serializable{
     private String synopsis;
     private MovieRating movieRating;
     private ArrayList<MovieFormat> movieFormats;
-    private float movieDuration;
+    private int movieDuration;
     private ArrayList<Review> movieReviews = null;
     private float averageReviewScore;
     private int totalReviewNo;
     private float totalReviewScore;
     private ShowingStatus showingStatus = ShowingStatus.COMING_SOON;
-    private LocalDate releaseDate;
+    private LocalDateTime releaseDate;
     private long ticketsSold;
     private double grossProfit;
     private static final long serialVersionUID = 5L;
@@ -93,7 +94,7 @@ public class Movie implements Serializable{
         return movieDuration;
     }
 
-    public void setMovieDuration(float movieDuration) {
+    public void setMovieDuration(int movieDuration) {
         this.movieDuration = movieDuration;
     }
 
@@ -137,11 +138,11 @@ public class Movie implements Serializable{
         this.showingStatus = showingStatus;
     }
 
-    public LocalDate getReleaseDate() {
+    public LocalDateTime getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(LocalDateTime releaseDate) {
         this.releaseDate = releaseDate;
     }
 
