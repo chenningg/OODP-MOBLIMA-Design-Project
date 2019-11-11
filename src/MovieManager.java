@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -80,16 +79,14 @@ class MovieManager {
      */
     public void viewTop5Cust(){
         ShowtimeManager sm = ShowtimeManager.getInstance();
-
-        System.out.println("==================== View Top 5 Movies =====================\n" +
-                           "| 1. By Sales                                              |\n" +
-                           "| 2. By Tickets Sold                                       |\n" +
-                           "| 3. By Reviews                                            |\n" +
-                           "| 4. Back                                                  |\n" +
-                           "===========================================================");
-
         int choice;
         do{
+            System.out.println("==================== View Top 5 Movies =====================\n" +
+                    "| 1. By Sales                                              |\n" +
+                    "| 2. By Tickets Sold                                       |\n" +
+                    "| 3. By Reviews                                            |\n" +
+                    "| 4. Back                                                  |\n" +
+                    "===========================================================");
             choice= sc.nextInt();
             switch (choice){
                 case 1:
@@ -148,15 +145,16 @@ class MovieManager {
      */
     public void viewTop5Staff(){
 
-        System.out.println("==================== View Top 5 Movies =====================\n" +
-                "| 1. By Sales                                              |\n" +
-                "| 2. By Tickets Sold                                       |\n" +
-                "| 3. By Reviews                                            |\n" +
-                "| 4. Back                                                  |\n" +
-                "===========================================================");
+
 
         int choice;
         do{
+            System.out.println("==================== View Top 5 Movies =====================\n" +
+                    "| 1. By Sales                                              |\n" +
+                    "| 2. By Tickets Sold                                       |\n" +
+                    "| 3. By Reviews                                            |\n" +
+                    "| 4. Back                                                  |\n" +
+                    "===========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -222,6 +220,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a movie:");
                     int option1 = sc.nextInt();
+                    if(option1<1 || option1 >= nowShowing.size()){
+                        break;
+                    }
                     displayMovieDetails(nowShowing.get(option1-1));
                     submovieMenu(nowShowing.get(option1-1));
                     break;
@@ -237,6 +238,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a movie:");
                     int option2 = sc.nextInt();
+                    if(option2<1 || option2 >= comingSoon.size()){
+                        break;
+                    }
                     displayMovieDetails(comingSoon.get(option2-1));
                     break;
                 case 3:
@@ -247,6 +251,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a cinema:");
                     int option3 = sc.nextInt();
+                    if(option3<1 || option3 >= cineplexes.size()){
+                        break;
+                    }
                     sm.displayMoviesfromCineplex(cineplexes.get(option3-1).getCineplexID());
                     break;
                 case 4:
@@ -257,6 +264,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a movie:");
                     int option4 = sc.nextInt();
+                    if(option4<1 || option4 >= searchMovies(title).size()){
+                        break;
+                    }
                     submovieMenu(searchMovies(title).get(option4-1));
                     break;
                 case 5:
@@ -447,7 +457,13 @@ class MovieManager {
                 switch (i) {
                     case 0:
                         //1st line of file is movieID
+                        if(movies.contains(getMovieByID(movieID))){
+                            System.out.println("Movie already exists.");
+                            inputLine =null;
+                            break;
+                        }
                         newMovie.setMovieID(movieID);
+                        break;
                     case 1:
                         //2st line of file is title
                         newMovie.setTitle(inputLine);
@@ -509,7 +525,10 @@ class MovieManager {
                 }
                 i++;
             } while (inputLine != null);
+            this.movies.add(newMovie);
+            this.saveObject();
         }
+
         catch ( FileNotFoundException e ) {
             System.out.println( "Error opening the input file!" + e.getMessage() );
             System.exit( 0 );
@@ -620,31 +639,38 @@ class MovieManager {
                         movie.setReleaseDate(date);
                         break;
                 }
-            } while (choice < 12);
+            } while (choice != 12);
 //                break;
             }
         else{
             System.out.println("Movie not found.");
         }
+        this.saveObject();
     }
 
     public void deleteMovie() {
         System.out.println("Enter movieID to be deleted: ");
         String delMovieID = sc.next();
-        for (Movie movie : movies)
-            if (movie.getMovieID().equalsIgnoreCase(delMovieID)) {
-                movies.remove(movie);
-                System.out.println("Movie deleted");
-                break;
-            }
+        Movie foundMovie = this.findMovie(delMovieID);
+        if(foundMovie!=null){
+            movies.remove(foundMovie);
+            System.out.println("Movie deleted");
+        }
+        else{
+            System.out.println("Movie does not exist.");
+        }
+        this.saveObject();
     }
 
     private Movie findMovie(String movieID) {
         MovieManager movieManager = MovieManager.getInstance();
-        List<Movie> moviesInMovieManager = movieManager.getMovies();
+        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
         for (Movie movie : moviesInMovieManager)
         {
             String movieTitle = movie.getMovieID();
+            if(movieTitle==null){
+                return null;
+            }
             if (movieTitle.equalsIgnoreCase(movieID))
             {
                 return movie;

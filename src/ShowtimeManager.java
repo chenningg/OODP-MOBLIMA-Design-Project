@@ -66,6 +66,8 @@ public class ShowtimeManager {
                     System.out.println("Enter showtimeID to be deleted: ");
                     this.deleteShowtime(sc.next());
                     break;
+                case 0:
+                    break;
                 default:
                     System.out.println("Please enter valid input!");
                     break;
