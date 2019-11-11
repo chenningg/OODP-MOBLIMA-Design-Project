@@ -8,7 +8,7 @@ public class SystemSettingsManager {
 	private static SystemSettingsManager single_instance = null;
 	
 	private SystemSettingsManager() {
-		SystemSettings serializedObject = this.deSerialize();
+		SystemSettings serializedObject = this.load();
 		if (serializedObject != null) {
 			this.systemSettings = serializedObject;
 		} else {
@@ -74,7 +74,7 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 		
 		System.out.println("Back to StaffApp......");
-		this.serialize();
+		this.save();
 		sc.close();
 	}
 	
@@ -423,12 +423,12 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");		
 	}
 
-	public void serialize() {
+	public void save() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		SerializerHelper.serializeObject(this.systemSettings, filePath);
 	}
 	
-	public SystemSettings deSerialize() {
+	public SystemSettings load() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		return (SystemSettings) SerializerHelper.deSerializeObject(filePath);
 		
