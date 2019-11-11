@@ -286,6 +286,11 @@ public class TransactionManager implements ResetSelf {
 		getTransaction().setCreditCardNo(getBookerCreditCard());
 		BookingManager.getInstance().getBooking().setTransaction(getTransaction());
 		CustomerManager.getInstance().updateCustomer(getBookerName(), getBookerEmail(), getBookerMobileNo());
+		
+		// Update movie's total grossings
+		Movie currMovie = BookingManager.getInstance().getShowtime().getMovie();
+		currMovie.setGrossProfit(currMovie.getGrossProfit() + getTransaction().getTotalPrice());
+		
 		resetSelf();
 	}
 	

@@ -3,10 +3,11 @@ import java.util.List;
 
 public class CustomerAccount{
 
+	private String name=null;
     private String mobileNo;
     private String email;
     private List<Booking> bookingHistory= new ArrayList<Booking>();
-    private String name=null;
+   
 
 	//constructor
     CustomerAccount(){}

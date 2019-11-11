@@ -3,7 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,7 +20,14 @@ class MovieManager {
     private static MovieManager single_instance = null;
 
     //Constructor
-    private MovieManager() {}
+    private MovieManager() {
+        ArrayList<Movie> serializedObject = this.loadObject();
+        if (serializedObject != null) {
+            this.movies = serializedObject;
+        } else {
+            this.movies = new ArrayList<>();
+        }
+    }
 
     public static MovieManager getInstance()
     {
@@ -29,6 +37,43 @@ class MovieManager {
     }
 
 
+    //Methods
+    public void movieMenu() {
+        System.out.println("==================== MOVIE STAFF APP ====================\n" +
+                           "| 1. Read From File                                        |\n" +
+                           "| 2. Create Showtime Entry                                 |\n" +
+                           "| 3. Update Showtime Entry                                 |\n" +
+                           "| 4. Delete Showtime Entry                                 |\n" +
+                           "| 5. Back                                                  |\n" +
+                           "===========================================================");
+        int choice;
+        do {
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter movieID to be read from file: ");
+                    this.readMovie(sc.next());
+                    break;
+                case 2:
+                    this.addMovie();
+                    break;
+                case 3:
+                    this.editMovie();
+                    break;
+                case 4:
+                    this.deleteMovie();
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Please enter a number between 1-5.");
+                    break;
+            }
+        } while (choice != 5);
+    }
+    /***
+     * Displays Top 5 Movies menu for Customers
+     */
     public void viewTop5Cust(){
         ShowtimeManager sm = ShowtimeManager.getInstance();
 
@@ -67,6 +112,11 @@ class MovieManager {
                     break;
                 case 3:
                     ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    for(int i=top5Reviews.size()-1;i>=0;i--){
+                        if(top5Reviews.get(i).getMovieReviews().size() <= 1){
+                            top5Reviews.remove(i);
+                        }
+                    }
                     top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
                     for(int i=0;i<5;i++) {
                         System.out.println(i+1 +". "+top5Reviews.get(i).getTitle());
@@ -85,6 +135,9 @@ class MovieManager {
 
     }
 
+    /***
+     * Displays Top 5 Movies menu for Staff
+     */
     public void viewTop5Staff(){
 
         System.out.println("==================== View Top 5 Movies =====================\n" +
@@ -114,6 +167,11 @@ class MovieManager {
                     break;
                 case 3:
                     ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    for(int i=top5Reviews.size()-1;i>=0;i--){
+                        if(top5Reviews.get(i).getMovieReviews().size() <= 1){
+                            top5Reviews.remove(i);
+                        }
+                    }
                     top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
                     for (int i = 0; i < 5; i++) {
                         System.out.println(i + 1 + ". " + top5Reviews.get(i).getTitle());
@@ -129,23 +187,25 @@ class MovieManager {
 
     public void displayMovies(){
         ShowtimeManager sm = ShowtimeManager.getInstance();
-        System.out.println("========================= Movies ===========================\n" +
-                           "| 1. Now Showing                                           |\n" +
-                           "| 2. Coming Soon                                           |\n" +
-                           "| 3. Cineplexes                                            |\n" +
-                           "| 4. Search by Movie Title                                 |\n" +
-                           "| 5. Back                                                  |\n" +
-                           "===========================================================");
+
 
         Scanner sc = new Scanner(System.in);
         int choice;
         do{
+            System.out.println("========================= Movies ===========================\n" +
+                    "| 1. Now Showing                                           |\n" +
+                    "| 2. Coming Soon                                           |\n" +
+                    "| 3. Cineplexes                                            |\n" +
+                    "| 4. Search by Movie Title                                 |\n" +
+                    "| 5. Back                                                  |\n" +
+                    "===========================================================");
+            System.out.println("Enter your choice: ");
             choice = sc.nextInt();
             switch(choice){
                 case 1:
                     ArrayList<Movie> nowShowing = new ArrayList<Movie>();
                     for(int i=0;i<movies.size();i++){
-                        if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
+                        if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING") || movies.get(i).getShowingStatus().equalsString("PREVIEW")){
                             nowShowing.add(movies.get(i));
                         }
                     }
@@ -170,7 +230,6 @@ class MovieManager {
                     System.out.println("Choose a movie:");
                     int option2 = sc.nextInt();
                     displayMovieDetails(comingSoon.get(option2-1));
-                    submovieMenu(comingSoon.get(option2-1));
                     break;
                 case 3:
                     List<Cineplex> cineplexes = new ArrayList<>();
@@ -202,6 +261,7 @@ class MovieManager {
     }
 
     public void submovieMenu(Movie movie){
+        boolean exit = false;
         ShowtimeManager sm = ShowtimeManager.getInstance();
         ReviewManager rm = ReviewManager.getInstance();
         System.out.println(" 1. Display Showtimes\n" +
@@ -209,21 +269,22 @@ class MovieManager {
                            " 3. Back");
         Scanner sc = new Scanner(System.in);
         int choice;
-        do{
+        while(!exit){
+            System.out.println("Enter your choice: ");
             choice = sc.nextInt();
             switch(choice) {
                 case 1:
                     sm.displayMovieShowtimes(movie, null);
-                    break;
+                    exit = true;
                 case 2:
                     rm.displayReview(movie);
                     break;
                 case 3:
-                    break;
+                    exit = true;
                 default:
                     System.out.println("Please enter a number between 1-3");
             }
-        }while(choice !=3);
+        }
 
     }
 
@@ -331,7 +392,7 @@ class MovieManager {
         newMovie.setMovieFormats(formatList);
 
         System.out.println("Enter movie duration: ");
-        newMovie.setMovieDuration(sc.nextFloat());
+        newMovie.setMovieDuration(sc.nextInt());
 
         System.out.println("Enter showing status: ");
         String showStatus = sc.next();
@@ -340,7 +401,7 @@ class MovieManager {
         System.out.println("Enter release date (format DD/MM/YYYY): ");
         String releaseDate = sc.next();
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-        LocalDate date = LocalDate.parse(releaseDate, dateFormat);
+        LocalDateTime date = LocalDateTime.parse(releaseDate, dateFormat);
         newMovie.setReleaseDate(date);
 
         movies.add(newMovie);
@@ -370,44 +431,66 @@ class MovieManager {
 
                 switch (i) {
                     case 0:
-                        // first line of file is DateTime of showtime
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                        String dateInString = inputLine;
-                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
-                        newShowtime.setDateTime(dateTime);
-                        System.out.println("Showtime read and added!");
-                        break;
+                        //1st line of file is movieID
+                        newMovie.setMovieID(movieID);
                     case 1:
-                        // second line of file is the movieID
-                        String movieID = inputLine;
-                        Movie foundMovie = this.findMovie(movieID);
-                        if (foundMovie == null) {
-                            System.out.println("Movie not found!");
-                        }
-                        else {
-                            newShowtime.setMovie(foundMovie);
-                        }
+                        //2st line of file is title
+                        newMovie.setTitle(inputLine);
                         break;
                     case 2:
-                        // third line of file is the cinemaID, which is used to construct Cinema Object
-                        String cinemaID = inputLine;
-                        Cinema cinema = new Cinema(cinemaID);
-                        newShowtime.setCinema(cinema); // TODO: does this set seat layout already?
+                        //3rd line of file is genres
+                        ArrayList<Genre> genreList = new ArrayList<Genre>();
+                        String[] genres = inputLine.split(", ?");
+                        for(int j=0;j<genres.length;j++){
+                            genreList.add(Genre.valueOf(genres[j]));
+                        }
+                        newMovie.setGenres(genreList);
                         break;
                     case 3:
-                        // fourth line of file is the cineplexID
-                        String cineplexID = inputLine;
-                        Cineplex cineplex = new Cineplex(cineplexID);
-                        newShowtime.setCineplex(cineplex);
+                        //4th line of file is director
+                        newMovie.setDirector(inputLine);
                         break;
                     case 4:
-                        String movieFormat = inputLine;
-                        newShowtime.setMovieFormat(MovieFormat.valueOf(movieFormat));
+                        //5th line of file is cast
+                        ArrayList<String> castList = new ArrayList<String>();
+                        for(int j=0;j<inputLine.split(", ?").length;j++){
+                            castList.add(inputLine.split(", ?")[j]);
+                        }
+                        newMovie.setCast(castList);
+                        break;
                     case 5:
-                        // sixth line will be cinema status
-                        String cinemaStatus = inputLine;
-                        CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
-                        newShowtime.setCinemaStatus(cinemaStatus1);
+                        //6th line of file is synopsis
+                        newMovie.setSynopsis(inputLine);
+                        break;
+                    case 6:
+                        //7th line of file is movieRating
+                        newMovie.setMovieRating(MovieRating.valueOf(inputLine));
+                        break;
+                    case 7:
+                        //8th line of file is movieformats
+                        ArrayList<MovieFormat> movieformats = new ArrayList<MovieFormat>();
+                        String[] mflist = inputLine.split(", ?");
+                        for(int j=0;j<mflist.length;j++){
+                            movieformats.add(MovieFormat.valueOf(mflist[j]));
+                        }
+                        newMovie.setMovieFormats(movieformats);
+                        break;
+                    case 8:
+                        //9th line of file is movieDuration
+                        newMovie.setMovieDuration(Integer.parseInt(inputLine));
+                        break;
+                    case 9:
+                        //10th line of file is showing status
+                        newMovie.setShowingStatus(ShowingStatus.valueOf(inputLine));
+                        break;
+                    case 10:
+                        //11th line of file is release date
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        String dateInString = inputLine;
+                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
+                        newMovie.setReleaseDate(dateTime);
+                        System.out.println("Movie release date read and added!");
+                        break;
                 }
                 i++;
             } while (inputLine != null);
@@ -505,7 +588,7 @@ class MovieManager {
                             break;
                         case 9:
                             System.out.println("Enter new duration: ");
-                            float newDuration = sc.nextFloat();
+                            int newDuration = sc.nextInt();
                             movie.setMovieDuration(newDuration);
                             break;
                         case 10:
@@ -517,7 +600,7 @@ class MovieManager {
                             System.out.println("Enter new release date: ");
                             String newReleaseDate = sc.next();
                             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-                            LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
+                            LocalDateTime date = LocalDateTime.parse(newReleaseDate, dateFormat);
                             movie.setReleaseDate(date);
                             break;
                     }
@@ -546,5 +629,27 @@ class MovieManager {
         return movies;
     }
 
+    public ArrayList<Movie> loadObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
+        System.out.println("Movies loaded!");
+        return (ArrayList<Movie>) SerializerHelper.deSerializeObject(filepath);
+    }
+
+    public void saveObject() {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
+        SerializerHelper.serializeObject(this.movies, filepath);
+        System.out.println("Movies Saved!");
+    }
+
+    private Date dateParser(String dateString) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = formatter.parse(dateString);
+        return date;
+    }
+    private LocalDateTime dateTimeParser(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
+        return dateTime;
+    }
 
 }
