@@ -66,6 +66,8 @@ public class ShowtimeManager {
                     System.out.println("Enter showtimeID to be deleted: ");
                     this.deleteShowtime(sc.next());
                     break;
+                case 0:
+                    break;
                 default:
                     System.out.println("Please enter valid input!");
                     break;
@@ -132,7 +134,7 @@ public class ShowtimeManager {
         int count = 1;
         for (Showtime showtime : showtimes)
         {
-            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())_ {
+            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())){
                 System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDateTime().toString());
                 showtimeSelect.put(count, showtime);
                 count++;
