@@ -79,19 +79,3 @@ public class Company {
 
     }
 }
-
-
-// Driver app for testing
-class CompanyApp {
-	public static void main(String[] args) {
-		Company myCompany = new Company();
-		System.out.println(myCompany.getCompanyName());
-		System.out.println(myCompany.getCineplexes());
-		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
-		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
-			
-		System.out.println(SystemSettingsManager.getInstance().getPrice("FRI"));
-		SystemSettingsManager.getInstance().displayMenu();
-		System.out.println("end of program");
-	}
-}
