@@ -16,19 +16,17 @@ public class SystemSettings implements Serializable {
 	private Map<String, Map<Object, Object>> systemInfoHash;	
 	private List<String> systemInfoList;
 
+	
 	// Constructor
 	public SystemSettings() {
 		this.setsystemInfoList();
 		this.setSystemInfoHash();
 	}	
 	
+	
 	// Getters 
 	public List<String> getsystemInfoList() {return this.systemInfoList;}
 	public Map<String, Map<Object, Object>> getSystemInfoHash() {return this.systemInfoHash;};
-	
-	public void viewSetting(String infoType) {
-		System.out.println(this.getSystemInfoHash().get(infoType));
-	}
 	
 	public double getPrice(String key) {
 		return (double) this.getSystemInfoHash().get("priceReference").get(key);
@@ -44,7 +42,11 @@ public class SystemSettings implements Serializable {
 	}
 	
 	
-	// Setters
+	// CRUD methods
+	public void viewSetting(String infoType) {
+		System.out.println(this.getSystemInfoHash().get(infoType));
+	}
+	
 	public void addSetting(String infoType, Object key, Object value) {
 		if (infoType.equals("holidayReference")) {
 			this.systemInfoHash.get(infoType).put((LocalDate) key, (String) value);
@@ -85,11 +87,7 @@ public class SystemSettings implements Serializable {
 	
 	
 	
-	/*
-	 * Below code used only for initial serialization
-	*/
-
-	// Setters 
+	// Initializers: Below code used only for the very first run of the app
 	private void setsystemInfoList() {
 		this.systemInfoList = new ArrayList<String>(List.of("priceReference", "holidayReference", "dayOfWeek$", "default$", "holiday$", "movieFormat$", "ticketType$", "cinemaType$"));	
 	}

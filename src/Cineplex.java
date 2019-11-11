@@ -2,25 +2,28 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cineplex {
+public class Cineplex implements Serializable {
 	// Attributes
 	private String cineplexID;
 	private String cineplexName;
 	private List<Cinema> cinemas;
+	private List<String> cinemaIDs;
 	
 	
 	// Constructor
 	public Cineplex(String cineplexID) {
 		this.cinemas = new ArrayList<Cinema>();
+		this.cinemaIDs = new ArrayList<String>();
 		this.setCineplexID(cineplexID);
 		this.openCinemaFile(cineplexID);
 	}
 
 
 	// Getters
-	public String getCineplexID() {return cineplexID;}
-	public String getCineplexName() {return cineplexName;}
-	public List<Cinema> getCinemas() {return cinemas;}
+	public String getCineplexID() {return this.cineplexID;}
+	public String getCineplexName() {return this.cineplexName;}
+	public List<Cinema> getCinemas() {return this.cinemas;}
+	public List<String> getCinemaIDs() {return this.cinemaIDs;}
 
 
 	// Setters
@@ -29,13 +32,21 @@ public class Cineplex {
 	
 	public void addCinemas(String cinemaID) {
     	Cinema cinema = new Cinema(cinemaID);
-    	cinemas.add(cinema); 
+    	this.cinemas.add(cinema); 
+    	this.cinemaIDs.add(cinemaID);
 	}
 	
 	
-	// Others
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	// Initializers: Below code used only for the very first run of the app
     // File Reader
     public void openCinemaFile(String cineplexID) {
 		try {
