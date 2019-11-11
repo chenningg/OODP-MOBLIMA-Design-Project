@@ -15,6 +15,7 @@ public class ShowtimeManager {
             this.showtimes = serializedObject;
         } else {
             this.showtimes = new ArrayList<>();
+            this.saveObject();
         }
     }
 
@@ -202,10 +203,11 @@ public class ShowtimeManager {
                         String cinemaStatus = inputLine;
                         CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
                         newShowtime.setCinemaStatus(cinemaStatus1);
-                }
+                        break;
+                    }
                 i++;
-                this.saveObject(); // save whole array
             } while (inputLine != null);
+            this.saveObject(); // save whole array
         }
         catch ( FileNotFoundException e ) {
         System.out.println( "Error opening the input file!" + e.getMessage() );
@@ -364,8 +366,8 @@ public class ShowtimeManager {
                         System.out.println("Please enter an option 0 - 7!");
                         break;
                 }
-                this.saveObject(); // save whole array
             } while (choice != 0);
+            this.saveObject(); // save whole array
         }
         else
         {
