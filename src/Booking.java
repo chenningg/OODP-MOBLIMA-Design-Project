@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Locale;
 import java.io.*;
 
-public class Booking {
+public class Booking implements Serializable {
 	
     //Attributes
 	
+	private static final long serialVersionUID = 6L;
     private String bookingID;
     private List<Ticket> tickets = new ArrayList<Ticket>();
     private Transaction transaction;
