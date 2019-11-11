@@ -354,6 +354,7 @@ class BookingManager implements ResetSelf {
     	
     	// We now fill up the booking's tickets, transaction, bookerName, bookerMobileNo and bookerEmail
     	// Note that this also resets both these Managers (calls their respective reset functions)
+    	// In these functions, we also update the movie's ticket sales and gross profits
     	TicketManager.getInstance().confirmTicketSelection();
     	TransactionManager.getInstance().confirmTransaction(); 	
     	
