@@ -1,6 +1,9 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.io.*;
 
 public class Booking {
@@ -14,13 +17,32 @@ public class Booking {
     private String movieName;
     private int hallNo;
     private String cineplexName;
-    private String bookerName;
-    private String bookerMobileNo;
-    private String bookerEmail;
 
     
     //Methods
     
+    // Displays this booking in formatted form
+    public void displayBooking() {
+    	System.out.println("=============================================================================");
+    	System.out.printf("Booking ID: %s\n", getBookingID());
+    	System.out.printf("Cineplex: %s\n", getCineplexName());
+    	System.out.printf("Movie: %s\n", getMovieName());
+    	System.out.printf("Hall: %d\n", getHallNo());
+    	
+    	// Print showtime date and time
+        DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd MMM yyyy, hh.mma");
+    	System.out.printf("Showtime: %s\n", getDateTime().format(formatter));
+    	
+    	// Print tickets
+    	System.out.printf("Seats booked: ");
+    	for (int i = 0; i < getTickets().size(); i++) {
+    		System.out.printf("%s, ", getTickets().get(i).getSeatID());
+    	}
+    	System.out.println();
+    	System.out.println("=============================================================================");
+    }
+    
+    // Gets the latest ID for this booking from file
     public String getLatestID() {
     	
     	String latestID = String.format("%08ld", 00000000);
@@ -84,9 +106,6 @@ public class Booking {
 	public String getMovieName() {return movieName;}
 	public int getHallNo() {return hallNo;}
 	public String getCineplexName() {return cineplexName;}
-	public String getBookerName() {return bookerName;}
-	public String getBookerMobileNo() {return bookerMobileNo;}
-	public String getBookerEmail() {return bookerEmail;}
 	
 	
 	// Setters
@@ -94,13 +113,11 @@ public class Booking {
 	public void setBookingID() {
 		this.bookingID = getLatestID();
 	}
+	
 	public void setTickets(ArrayList<Ticket> tickets) {this.tickets = tickets;}
 	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
     public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
 	public void setMovieName(String movieName) {this.movieName = movieName;}
 	public void setHallNo(int hallNo) {this.hallNo = hallNo;}
 	public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
-	public void setBookerName(String bookerName) {this.bookerName = bookerName;}
-	public void setBookerMobileNo(String bookerMobileNo) {this.bookerMobileNo = bookerMobileNo;}
-	public void setBookerEmail(String bookerEmail) {this.bookerEmail = bookerEmail;}
 }
