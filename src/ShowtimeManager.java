@@ -15,6 +15,7 @@ public class ShowtimeManager {
             this.showtimes = serializedObject;
         } else {
             this.showtimes = new ArrayList<>();
+            this.saveObject();
         }
     }
 
@@ -29,6 +30,10 @@ public class ShowtimeManager {
 
 
     // Methods
+
+    /***
+     * Displays menu which calls to methods below
+     */
     public void showtimeMenu() {
         System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
                            "| 1. Read From File                                        |\n" +
@@ -63,6 +68,10 @@ public class ShowtimeManager {
         } while (choice != 0);
     }
 
+    /***
+     * Lists out movies at the Cineplex to customers.
+     * @param cineplex Cineplex entered is the one to be searched.
+     */
     public void displayMoviesfromCineplex(Cineplex cineplex)
     {
         MovieManager mm = MovieManager.getInstance();
@@ -81,6 +90,12 @@ public class ShowtimeManager {
         mm.submovieMenu(movieList.get(option-1));
     }
 
+    /***
+     * Searches for showtimes by movie and cineplex
+     * @param movie Movie to be searched
+     * @param cineplex Cineplex, if entered, is searched for the showtime. Else,
+     *                 Cineplex is entered by the user to proceed with search.
+     */
     // Showtime manager called at this point with movie
     public void displayMovieShowtimes(Movie movie, Cineplex cineplex)
     {
@@ -119,6 +134,10 @@ public class ShowtimeManager {
         // end of function control, goes back!
     }
 
+    /***
+     * To read showtime data from text file
+     * @param showtimeID showtime identifier
+     */
     public void readShowtime(String showtimeID) {
         try {
             Showtime newShowtime = new Showtime();
@@ -184,9 +203,11 @@ public class ShowtimeManager {
                         String cinemaStatus = inputLine;
                         CinemaStatus cinemaStatus1 = CinemaStatus.valueOf(cinemaStatus);
                         newShowtime.setCinemaStatus(cinemaStatus1);
-                }
+                        break;
+                    }
                 i++;
             } while (inputLine != null);
+            this.saveObject(); // save whole array
         }
         catch ( FileNotFoundException e ) {
         System.out.println( "Error opening the input file!" + e.getMessage() );
@@ -199,6 +220,9 @@ public class ShowtimeManager {
         }
     }
 
+    /***
+     * For staff to create a showtime from console
+     */
     public void createShowtime() {
         int choice;
         String showtimeID=null;
@@ -270,6 +294,7 @@ public class ShowtimeManager {
                         showtime.setCineplex(cineplex);
                         showtime.setCinemaStatus(cinemaStatus);
                         showtime.setMovieFormat(movieFormat);
+                        this.saveObject(); // save whole array
                         break;
                     }
                 default:
@@ -279,6 +304,10 @@ public class ShowtimeManager {
         } while (choice != 0);
     }
 
+    /***
+     * Update an existing showtime
+     * @param showtimeID identifier entered to find existing showtime
+     */
     public void updateShowtime(String showtimeID) {
         int choice;
         Showtime foundShowtime = this.findShowtime(showtimeID);
@@ -338,6 +367,7 @@ public class ShowtimeManager {
                         break;
                 }
             } while (choice != 0);
+            this.saveObject(); // save whole array
         }
         else
         {
@@ -345,6 +375,10 @@ public class ShowtimeManager {
         }
     }
 
+    /***
+     * For staff to delete a showtime
+     * @param showtimeID for the indentification of the showtime
+     */
     public void deleteShowtime(String showtimeID) {
         for (Showtime showtime : showtimes) {
             String storedShowtimeID = showtime.getShowtimeID();
@@ -355,18 +389,29 @@ public class ShowtimeManager {
             }
         }
     }
+
+    /***
+     * To reload the object via deserialization
+     * @return returns the list of showtimes to the constructor
+     */
     public List<Showtime> loadObject() {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
-        System.out.println("Showtimes loaded!");
         return (List<Showtime>) SerializerHelper.deSerializeObject(filepath);
     }
 
+    /***
+     * Save the array list, for loading later
+     */
     public void saveObject() {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtimes.dat";
         SerializerHelper.serializeObject(this.showtimes, filepath);
-        System.out.println("Showtimes Saved!");
     }
 
+    /***
+     * Helper function to return movie object
+     * @param movieID To convert a movieID to a Movie object
+     * @return Movie object returned from search
+     */
     private Movie findMovie(String movieID) {
         MovieManager movieManager = MovieManager.getInstance();
         List<Movie> moviesInMovieManager = movieManager.getMovies();
@@ -381,6 +426,11 @@ public class ShowtimeManager {
         return null; // if movie not found
     }
 
+    /***
+     * To find showtime object
+     * @param showtimeID Convert ID to showtime object
+     * @return showtime object
+     */
     private Showtime findShowtime(String showtimeID) {
         for (Showtime showtime : showtimes) {
             String showtimeIDInManager = showtime.getShowtimeID();
@@ -392,6 +442,11 @@ public class ShowtimeManager {
         return null;
     }
 
+    /***
+     * Helper function to parse string to datetime
+     * @param dateTimeString string to be parsed
+     * @return DateTime object
+     */
     private LocalDateTime dateTimeParser(String dateTimeString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
