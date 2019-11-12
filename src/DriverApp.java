@@ -17,10 +17,10 @@ public class DriverApp {
 	        
 	        switch (choice) {
 		        case 1:
-		        	 CustomerApp.getInstance().displayCustomerMenu(sc);
+		        	 CustomerApp.getInstance().displayCustomerMenu();
 		        	break;
 		        case 2:
-		        	StaffApp.getInstance().displayLoginMenu(sc);
+		        	StaffApp.getInstance().displayLoginMenu();
 		        	break;
 		        case 0:
 		        	System.out.println("Thank you for using our MOBLIMA APP");

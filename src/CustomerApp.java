@@ -93,7 +93,7 @@ public class CustomerApp {
 	                	System.out.print("Enter 1,2 or 3: \n"
 	                			+ "1. Check via email address\n"
 	                			+ "2. Check via mobile number\n"
-	                			+ "0. Back to CustomerApp");
+	                			+ "0. Back to CustomerApp\n");
 	                	emailOrMobile= sc.nextInt();
 	                	switch (emailOrMobile) {
 	                	case 1:
