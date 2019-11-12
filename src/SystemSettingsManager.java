@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class SystemSettingsManager {
 	// Attributes
 	private SystemSettings systemSettings;
+	
+	private Scanner sc = new Scanner(System.in);
+	
 	private static SystemSettingsManager single_instance = null;
 	
 	public static SystemSettingsManager getInstance() {
@@ -39,19 +42,18 @@ public class SystemSettingsManager {
 		}
 	}
 	
-	public void displayMenu(Scanner sc) {
+	public void displayMenu() {
 		int choice;
 		
 		do {
-			System.out.println();
-			System.out.println("Welcome to the SystemSettings Menu");
-			System.out.print("1. View setting    ");
-			System.out.print("2. Add setting    ");
-			System.out.print("3. Change setting    ");
-			System.out.print("4. Delete setting    ");
-			System.out.println("0. Back to StaffApp......    ");
-			System.out.println("What would you like to do?");
-			
+	        System.out.println("=================== SystemSettings Menu ===================\n"+
+	                "| 1. View Setting                                          |\n"+
+	                "| 2. Add Setting                                           |\n"+
+	                "| 3. Change Setting                                        |\n"+
+	                "| 4. Delete Setting                                        |\n"+
+	                "| 0. Back to StaffApp                                      |\n"+
+	                "===========================================================");			
+			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 			
 			switch (choice) {
@@ -68,6 +70,7 @@ public class SystemSettingsManager {
 					this.deleteSystemSetting(sc);
 					break;
 				case 0:
+					System.out.println("Back to StaffApp......");
 					break;
 				default:
 					System.out.println("Invalid choice. Please choose between 0-4.");
@@ -76,7 +79,6 @@ public class SystemSettingsManager {
 
 		} while (choice!=0);
 		
-		System.out.println("Back to StaffApp......");
 		this.save();
 	}
 	
@@ -86,19 +88,18 @@ public class SystemSettingsManager {
 		int choice;
 		
 		do {
-			System.out.println();
-			System.out.println("What setting would you like to view?");
-			System.out.print("1. All Price Reference    ");
-			System.out.print("2. Holiday List    ");
-			System.out.print("3. Default Price    ");
-			System.out.println("4. Day of the week    ");
-			System.out.print("5. Holiday    ");
-			System.out.print("6. Movie Format    ");
-			System.out.print("7. Ticket Type    ");
-			System.out.print("8. Cinema Type    ");
-			System.out.println("0. Back to SystemSettings Menu......");
-			System.out.println("What would you like to view?");
-			
+	        System.out.println(	"=================== View SystemSettings ===================\n"+
+	                		   	"| 1. All Price References                                  |\n"+
+	                		   	"| 2. Holiday References                                    |\n"+
+				                "| 3. Default Prices                                        |\n"+
+				                "| 4. Day-of-the-Week Prices                                |\n"+
+				                "| 5. Holiday Prices                                        |\n"+
+				                "| 6. Movie Format Prices                                   |\n"+
+				                "| 7. Ticket Type Prices                                    |\n"+
+				                "| 8. Cinema Type Prices                                    |\n"+
+				                "| 0. Back to SystemSettings Menu                           |\n"+
+				                "===========================================================");					
+			System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
 			switch (choice) {
@@ -127,28 +128,27 @@ public class SystemSettingsManager {
 					this.systemSettings.viewSetting("cinemaType$");
 					break;
 				case 0:
+					System.out.println("Back to SystemSettings Menu......");
 					break;
 				default:
 					System.out.println("Invalid choice. Please choose between 0-8.");
 					break;
 			}
 		} while (choice!=0);
-		
-		System.out.println("Back to SystemSettings Menu......");
 	}
 	
 	private void addSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
-			System.out.println();
-			System.out.println("What setting would you like to add?");
-			System.out.print("1. New Holiday Reference    ");
-			System.out.print("2. New Movie Format    ");
-			System.out.print("3. New Ticket Type    ");
-			System.out.print("4. New Cinema Type    ");
-			System.out.println("0. Back to SystemSettings");
-			
+	        System.out.println(	"==================== Add SystemSettings ===================\n"+
+			        		   	"| 1. New Holiday Reference                                 |\n"+
+			        		   	"| 2. New Movie Format                                      |\n"+
+				                "| 3. New Ticket Type                                       |\n"+
+				                "| 4. New Cinema Type                                       |\n"+
+				                "| 0. Back to SystemSettings Menu                           |\n"+
+				                "===========================================================");					
+			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
 			switch (choice) {
@@ -205,31 +205,30 @@ public class SystemSettingsManager {
 					this.systemSettings.viewSetting("cinemaType$");
 					break;
 				case 0:
+					System.out.println("Back to SystemSettings Menu......");
 					break;
 				default:
 					System.out.println("Invalid choice. Please choose between 0-4.");
 					break;
 			}
 		} while (choice!=0);
-		
-		System.out.println("Back to SystemSettings Menu......");
 	}
 	
 	private void changeSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
-			System.out.println();
-			System.out.println("What setting would you like to change?");
-			System.out.print("1. Holiday Reference Name    ");
-			System.out.print("2. Movie Format Modifier   ");
-			System.out.print("3. Ticket Type Modifier    ");
-			System.out.println("4. Cinema Type Modifier    ");
-			System.out.print("5. Day of the Week Modifier    ");
-			System.out.print("6. Holiday Modifier    ");
-			System.out.print("7. Default Modifier    ");
-			System.out.println("0. Back to SystemSettings Menu......");
-			
+	        System.out.println(	"=================== Change SystemSettings ==================\n"+
+			        		   	"| 1. Holiday Reference                                     |\n"+
+			        		   	"| 2. Movie Format Prices                                   |\n"+
+				                "| 3. Ticket Type Prices                                    |\n"+
+				                "| 4. Cinema Type Prices                                    |\n"+
+				                "| 5. Day-of-the-Week Prices                                |\n"+
+				                "| 6. Holiday Prices                                        |\n"+
+				                "| 7. Default Prices                                        |\n"+
+				                "| 0. Back to SystemSettings Menu                           |\n"+
+				                "===========================================================");		
+			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
 			switch (choice) {
@@ -342,14 +341,14 @@ public class SystemSettingsManager {
 		int choice;
 		
 		do {
-			System.out.println();
-			System.out.println("What setting would you like to delete?");
-			System.out.print("1. Holiday Reference Name    ");
-			System.out.print("2. Movie Format Modifier   ");
-			System.out.print("3. Ticket Type Modifier    ");
-			System.out.print("4. Cinema Type Modifier    ");
-			System.out.println("0. Back to SystemSettings Menu......");
-			
+	        System.out.println(	"=================== Delete SystemSettings ==================\n"+
+			        		   	"| 1. Holiday Reference                                     |\n"+
+			        		   	"| 2. Movie Format 											|\n"+
+				                "| 3. Ticket Type                                    		|\n"+
+				                "| 4. Cinema Type 		                                    |\n"+
+				                "| 0. Back to SystemSettings Menu                           |\n"+
+				                "===========================================================");					
+	        System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
 			switch (choice) {

@@ -8,6 +8,8 @@ public class ShowtimeManager {
 	// Attributes
 	private List<Showtime> showtimes;
 
+	private Scanner sc = new Scanner(System.in);
+
     private static ShowtimeManager single_instance = null;
 
     private ShowtimeManager() {
@@ -41,24 +43,23 @@ public class ShowtimeManager {
     
     
     // Public exposed methods to app
-    public void showtimeMenuStaff(Scanner sc) {
+    public void showtimeMenuStaff() {
         int choice;
         
         do {
-            System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
-                    "| 1. View showtime for a movie (enter movieID)              \n" +
-                    "| 2. Read From File                                        |\n" +
-                    "| 3. Create Showtime Entry                                 |\n" +
-                    "| 4. Update Showtime Entry                                 |\n" +
-                    "| 5. Delete Showtime Entry                                 |\n" +
-                    "| 0. Back                                                  |\n" +
-                    "===========================================================");
+            System.out.println(	"==================== SHOWTIME STAFF APP ====================\n" +
+			                    "| 1. View showtime for a movie (enter movieID)              \n" +
+			                    "| 2. Read From File                                        |\n" +
+			                    "| 3. Create Showtime Entry                                 |\n" +
+			                    "| 4. Update Showtime Entry                                 |\n" +
+			                    "| 5. Delete Showtime Entry                                 |\n" +
+			                    "| 0. Back                                                  |\n" +
+			                    "===========================================================");
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
             switch (choice) {
-                case 1:
-                    System.out.println("Enter here: ");
-                    this.viewShowtimes(sc.next());
+                case 1:;
+                    this.viewShowtimes();
                     break;
                 case 2:
                     System.out.println("Enter showtimeID to be read from file: ");
@@ -69,11 +70,11 @@ public class ShowtimeManager {
                     break;
                 case 4:
                     System.out.println("Enter showtimeID to be updated: ");
-                    this.updateShowtime(sc.next());
+                    this.updateShowtime();
                     break;
                 case 5:
                     System.out.println("Enter showtimeID to be deleted: ");
-                    this.deleteShowtime(sc.next());
+                    this.deleteShowtime();
                     break;
                 case 0:
                 	System.out.println("Back to StaffApp......");
@@ -96,8 +97,9 @@ public class ShowtimeManager {
      * Allows user to view showtimes of a movie
      * @param movieID MovieID entered to search for the movie
      */
-    private void viewShowtimes(String movieID) {
-        Movie movie = this.findMovie(movieID);
+    private void viewShowtimes() {
+    	String movieID = sc.next();
+    	Movie movie = this.findMovie(movieID);
         if (movie != null) {
             int count = 1;
             for (Showtime showtime : showtimes) {
@@ -283,7 +285,7 @@ public class ShowtimeManager {
         String cineplexID=null;
         Cineplex cineplex=null;
         CinemaStatus cinemaStatus=null;
-        do {
+        do {     
             System.out.println("1. Enter showtimeID");
             System.out.println("2. Enter showtime DateTime");
             System.out.println("3. Enter movieID");
