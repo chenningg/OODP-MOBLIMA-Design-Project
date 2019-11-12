@@ -11,15 +11,21 @@ import java.util.*;
 
 
 class MovieManager {
-    //Variables
+	// Attributes 
     private ArrayList<Movie> movies;
     Scanner sc = new Scanner(System.in);
     Movie m = new Movie();
 
-    //Singleton
     private static MovieManager single_instance = null;
 
-    //Constructor
+    public static MovieManager getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new MovieManager();
+        return single_instance;
+    }
+    
+    // Constructor
     private MovieManager() {
         ArrayList<Movie> serializedObject = this.loadObject();
         if (serializedObject != null) {
@@ -30,25 +36,28 @@ class MovieManager {
         }
     }
 
-    public static MovieManager getInstance()
-    {
-        if (single_instance == null)
-            single_instance = new MovieManager();
-        return single_instance;
-    }
+    
+	////////////////////////////////////////////////////////////////////////////////////////////
+    
+    // Still editing
+    // Must pass control over to other managers
+    // Do not keep the checking within here, only keep the logic
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    //Methods
-    public void movieMenu() {
+
+	// Public exposed methods to app
+    public void movieMenuStaff() {
 
         int choice;
         do {
-            System.out.println("==================== MOVIE STAFF APP ====================\n" +
+            System.out.println("=================== MOVIE MENU (STAFF) ==================\n" +
                                "| 1. Read From File                                     |\n" +
                                "| 2. Create Movie Entry                                 |\n" +
                                "| 3. Update Movie Entry                                 |\n" +
                                "| 4. Delete Movie Entry                                 |\n" +
-                               "| 5. Back                                               |\n" +
+                               "| 0. Back to StaffApp......                             |\n" +
                                "=========================================================");
             choice = sc.nextInt();
             switch (choice) {
@@ -60,7 +69,6 @@ class MovieManager {
                     this.addMovie();
                     break;
                 case 3:
-
                     this.editMovie();
                     break;
                 case 4:
@@ -74,19 +82,21 @@ class MovieManager {
             }
         } while (choice != 5);
     }
+    
+    
     /***
      * Displays Top 5 Movies menu for Customers
      */
-    public void viewTop5Cust(){
-        ShowtimeManager sm = ShowtimeManager.getInstance();
+    public void viewTop5Cust() {
         int choice;
         do{
             System.out.println("==================== View Top 5 Movies =====================\n" +
                     "| 1. By Sales                                              |\n" +
                     "| 2. By Tickets Sold                                       |\n" +
                     "| 3. By Reviews                                            |\n" +
-                    "| 4. Back                                                  |\n" +
+                    "| 0. Back to StaffApp                                      |\n" +
                     "===========================================================");
+            System.out.println("Enter choice:");
             choice= sc.nextInt();
             switch (choice){
                 case 1:
@@ -131,7 +141,8 @@ class MovieManager {
                     displayMovieDetails(top5Reviews.get(input3-1));
                     submovieMenu(top5Reviews.get(input3-1));
                     break;
-                case 4:
+                case 0:
+                	System.out.println("Back to StaffApp......");
                     break;
                 default:
                     System.out.println("Please enter a number between 0-4.");
@@ -192,9 +203,6 @@ class MovieManager {
     }
 
     public void displayMovies(){
-        ShowtimeManager sm = ShowtimeManager.getInstance();
-
-
         Scanner sc = new Scanner(System.in);
         int choice;
         do{
@@ -254,7 +262,7 @@ class MovieManager {
                     if(option3<1 || option3 >= cineplexes.size()){
                         break;
                     }
-                    sm.displayMoviesfromCineplex(cineplexes.get(option3-1).getCineplexID());
+                    ShowtimeManager.getInstance().displayMoviesfromCineplex(cineplexes.get(option3-1).getCineplexID());
                     break;
                 case 4:
                     String title = sc.next();
@@ -280,8 +288,6 @@ class MovieManager {
 
     public void submovieMenu(Movie movie){
         boolean exit = false;
-        ShowtimeManager sm = ShowtimeManager.getInstance();
-        ReviewManager rm = ReviewManager.getInstance();
         System.out.println(" 1. Display Showtimes\n" +
                            " 2. View Reviews\n" +
                            " 3. Back");
@@ -292,10 +298,10 @@ class MovieManager {
             choice = sc.nextInt();
             switch(choice) {
                 case 1:
-                    sm.displayMovieShowtimes(movie, null);
+                	ShowtimeManager.getInstance().displayMovieShowtimes(movie, null);
                     exit = true;
                 case 2:
-                    rm.displayReview(movie);
+                	ReviewManager.getInstance().displayReview(movie);
                     break;
                 case 3:
                     exit = true;
@@ -663,8 +669,7 @@ class MovieManager {
     }
 
     private Movie findMovie(String movieID) {
-        MovieManager movieManager = MovieManager.getInstance();
-        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
+        ArrayList<Movie> moviesInMovieManager = MovieManager.getInstance().getMovies();
         for (Movie movie : moviesInMovieManager)
         {
             String movieTitle = movie.getMovieID();

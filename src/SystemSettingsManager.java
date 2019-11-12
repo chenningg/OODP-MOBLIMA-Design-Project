@@ -39,8 +39,7 @@ public class SystemSettingsManager {
 		}
 	}
 	
-	public void displayMenu() {
-		Scanner sc = new Scanner(System.in);
+	public void displayMenu(Scanner sc) {
 		int choice;
 		
 		do {
@@ -79,7 +78,6 @@ public class SystemSettingsManager {
 		
 		System.out.println("Back to StaffApp......");
 		this.save();
-		sc.close();
 	}
 	
 	
