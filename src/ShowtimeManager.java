@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,31 +36,39 @@ public class ShowtimeManager {
      * Displays menu which calls to methods below
      */
     public void showtimeMenu() {
-        System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
-                           "| 1. Read From File                                        |\n" +
-                           "| 2. Create Showtime Entry                                 |\n" +
-                           "| 3. Update Showtime Entry                                 |\n" +
-                           "| 4. Delete Showtime Entry                                 |\n" +
-                           "| 5. Back                                                  |\n" +
-                           "===========================================================");
+
         int choice;
         do {
+            System.out.println("==================== SHOWTIME STAFF APP ====================\n" +
+                    "| 1. View showtime for a movie (enter movieID)              \n" +
+                    "| 2. Read From File                                        |\n" +
+                    "| 3. Create Showtime Entry                                 |\n" +
+                    "| 4. Update Showtime Entry                                 |\n" +
+                    "| 5. Delete Showtime Entry                                 |\n" +
+                    "| 0. Back                                                  |\n" +
+                    "===========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
+                    System.out.println("Enter here: ");
+                    this.viewShowtimes(sc.next());
+                    break;
+                case 2:
                     System.out.println("Enter showtimeID to be read from file: ");
                     this.readShowtime(sc.next());
                     break;
-                case 2:
+                case 3:
                     this.createShowtime();
                     break;
-                case 3:
+                case 4:
                     System.out.println("Enter showtimeID to be updated: ");
                     this.updateShowtime(sc.next());
                     break;
-                case 4:
+                case 5:
                     System.out.println("Enter showtimeID to be deleted: ");
                     this.deleteShowtime(sc.next());
+                    break;
+                case 0:
                     break;
                 default:
                     System.out.println("Please enter valid input!");
@@ -69,16 +78,40 @@ public class ShowtimeManager {
     }
 
     /***
-     * Lists out movies at the Cineplex to customers.
-     * @param cineplex Cineplex entered is the one to be searched.
+     * Allows user to view showtimes of a movie
+     * @param movieID MovieID entered to search for the movie
      */
-    public void displayMoviesfromCineplex(Cineplex cineplex)
+    public void viewShowtimes(String movieID) {
+        Movie movie = this.findMovie(movieID);
+        if (movie != null) {
+            int count = 1;
+            for (Showtime showtime : showtimes) {
+                if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())) {
+                    System.out.println("Showtime " + count + ": ");
+                    System.out.println("Showing at Cineplex: " + showtime.getCineplex().getCineplexName() + " Hall: " + showtime.getCinema().getHallNo());
+                    System.out.println("Show timing: " + showtime.getDateTime().toString());
+                    System.out.println("Cinema status: " + showtime.getCinemaStatus().toString());
+                    System.out.println("Movie format: " + showtime.getMovieFormat().toString());
+                    count++;
+                }
+            }
+        }
+        else {
+            System.out.println("Movie does not exist!");
+        }
+    }
+
+    /***
+     * Lists out movies at the Cineplex to customers.
+     * @param cineplexID CineplexID entered is the one to be searched.
+     */
+    public void displayMoviesfromCineplex(String cineplexID)
     {
         MovieManager mm = MovieManager.getInstance();
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         for (Showtime showtime : showtimes)
         {
-            if (showtime.getCineplex() == cineplex && !movieList.contains(showtime.getMovie())){
+            if (showtime.getCineplex().getCineplexID().equalsIgnoreCase(cineplexID) && !movieList.contains(showtime.getMovie())){
                 movieList.add(showtime.getMovie());
             }
         }
@@ -103,7 +136,7 @@ public class ShowtimeManager {
         BookingManager bookingManager = BookingManager.getInstance();
         if (cineplex == null)
         {
-            System.out.println("Enter cineplex ID: ");
+            System.out.println("Enter cineplexID: ");
             String cineplexID = sc.next();
             cineplex = new Cineplex(cineplexID);
         }
@@ -112,13 +145,12 @@ public class ShowtimeManager {
         int count = 1;
         for (Showtime showtime : showtimes)
         {
-            if (showtime.getMovie() == movie) {
-                System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDateTime());
+            if (showtime.getMovie().getMovieID().equalsIgnoreCase(movie.getMovieID())){
+                System.out.println(count + ". " + movie.getTitle() + " is available at " + showtime.getDateTime().toString());
                 showtimeSelect.put(count, showtime);
                 count++;
             }
         }
-        System.out.println(count + ". Exit");
         int choice = sc.nextInt();
         // booking manager call here, to book showtime mapped by hashmap
         Showtime selectedShowtime = showtimeSelect.get(choice);
@@ -147,7 +179,7 @@ public class ShowtimeManager {
                 throw new IOException("Cannot find root");
             } else {
                 // read active showtimes
-                filePath = filePath + "/data/showtimes/active" + showtimeID + ".txt";
+                filePath = filePath + "/data/initialisation/showtimes/" + showtimeID + ".txt";
             }
 
             // Open file and traverse it
@@ -161,7 +193,11 @@ public class ShowtimeManager {
                 if (inputLine == null) {break;} // end of file
 
                 switch (i) {
+                    // first line of file is showtimeID
                     case 0:
+                        newShowtime.setShowtimeID(showtimeID);
+                        break;
+                    case 1:
                         // first line of file is DateTime of showtime
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                         String dateInString = inputLine;
@@ -169,9 +205,6 @@ public class ShowtimeManager {
                         newShowtime.setDateTime(dateTime);
                         System.out.println("Showtime read and added!");
                         break;
-                    // second line of file is showtimeID
-                    case 1:
-                        newShowtime.setShowtimeID(showtimeID);
                     case 2:
                         // third line of file is the movieID
                         String movieID = inputLine;
@@ -186,6 +219,7 @@ public class ShowtimeManager {
                     // fourth line is movieformat
                     case 3:
                         newShowtime.setMovieFormat(MovieFormat.valueOf(inputLine));
+                        break;
                     case 4:
                         // fifth line of file is the cinemaID, which is used to construct Cinema Object
                         String cinemaID = inputLine;
@@ -207,6 +241,7 @@ public class ShowtimeManager {
                     }
                 i++;
             } while (inputLine != null);
+            this.showtimes.add(newShowtime);
             this.saveObject(); // save whole array
         }
         catch ( FileNotFoundException e ) {
@@ -294,6 +329,7 @@ public class ShowtimeManager {
                         showtime.setCineplex(cineplex);
                         showtime.setCinemaStatus(cinemaStatus);
                         showtime.setMovieFormat(movieFormat);
+                        this.showtimes.add(showtime);
                         this.saveObject(); // save whole array
                         break;
                     }
@@ -380,14 +416,15 @@ public class ShowtimeManager {
      * @param showtimeID for the indentification of the showtime
      */
     public void deleteShowtime(String showtimeID) {
-        for (Showtime showtime : showtimes) {
-            String storedShowtimeID = showtime.getShowtimeID();
-            if (storedShowtimeID.equalsIgnoreCase(showtimeID)) {
-                showtimes.remove(showtime);
-                System.out.println("Showtime deleted!");
-                break;
-            }
+        Showtime foundShowtime = this.findShowtime(showtimeID);
+        if (foundShowtime != null) {
+            showtimes.remove(foundShowtime);
+            System.out.println("Showtime deleted!");
         }
+        else {
+            System.out.println("Showtime does not exist!");
+        }
+        this.saveObject();
     }
 
     /***
@@ -414,10 +451,13 @@ public class ShowtimeManager {
      */
     private Movie findMovie(String movieID) {
         MovieManager movieManager = MovieManager.getInstance();
-        List<Movie> moviesInMovieManager = movieManager.getMovies();
+        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
         for (Movie movie : moviesInMovieManager)
         {
             String movieTitle = movie.getMovieID();
+            if(movieTitle==null){
+                return null;
+            }
             if (movieTitle.equalsIgnoreCase(movieID))
             {
                 return movie;

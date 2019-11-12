@@ -2,21 +2,25 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Company {
+public class Company implements Serializable {
 	// Attributes
     private String companyName;
     private List<Cineplex> cineplexes;
+    private List<String> cineplexNames;
+    
     
     // Constructor
     Company(){
     	this.cineplexes = new ArrayList<Cineplex>();
+    	this.cineplexNames = new ArrayList<String>();
     	this.openCompanyFile();
     }
 
     
     // Getters
-    public String getCompanyName(){return this.companyName;}
-    public List<Cineplex> getCineplexes(){return this.cineplexes;}
+    public String getCompanyName() {return this.companyName;}
+    public List<Cineplex> getCineplexes() {return this.cineplexes;}
+    public List<String> getCineplexNames() {return this.cineplexNames;} 
 
 
     // Setters
@@ -26,13 +30,22 @@ public class Company {
     
     public void addCineplexes(String cineplexName){
     	Cineplex cineplex = new Cineplex(cineplexName);
-    	cineplexes.add(cineplex); 
+    	this.cineplexes.add(cineplex); 
+    	this.cineplexNames.add(cineplex.getCineplexName());
     }
     
     
-    // Others
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+	// Initializers: Below code used only for the very first run of the app
     // File Reader
     public void openCompanyFile() {
 		try {
@@ -42,7 +55,7 @@ public class Company {
 			if (filePath == null) {
 				throw new IOException("Cannot find root");
 			} else {
-				filePath = filePath + "/data/company.txt";
+				filePath = filePath + "/data/company/company.txt";
 			}
 			
 			// Open file and traverse it
@@ -81,17 +94,3 @@ public class Company {
 }
 
 
-// Driver app for testing
-class CompanyApp {
-	public static void main(String[] args) {
-		Company myCompany = new Company();
-		System.out.println(myCompany.getCompanyName());
-		System.out.println(myCompany.getCineplexes());
-		System.out.println(myCompany.getCineplexes().get(0).getCinemas());
-		System.out.println(myCompany.getCineplexes().get(0).getCinemas().get(0).getCinemaLayout());
-			
-		System.out.println(SystemSettingsManager.getInstance().getPrice("FRI"));
-		SystemSettingsManager.getInstance().displayMenu();
-		System.out.println("end of program");
-	}
-}

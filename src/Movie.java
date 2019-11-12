@@ -19,7 +19,7 @@ public class Movie implements Serializable{
     private int totalReviewNo;
     private float totalReviewScore;
     private ShowingStatus showingStatus = ShowingStatus.COMING_SOON;
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
     private long ticketsSold;
     private double grossProfit;
     private static final long serialVersionUID = 5L;
@@ -138,11 +138,11 @@ public class Movie implements Serializable{
         this.showingStatus = showingStatus;
     }
 
-    public LocalDateTime getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDateTime releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

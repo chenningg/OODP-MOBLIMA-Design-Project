@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cinema {
+public class Cinema implements Cloneable, Serializable {
 	// Attributes
 	private String cinemaID;
 	private int hallNo;
@@ -12,12 +12,18 @@ public class Cinema {
 	private List<String> cinemaLayout;
 	
 	
+	
+	
 	// Constructor	
 	public Cinema(String cinemaID) {
 		this.cinemaLayout = new ArrayList<String>();
 		this.setCinemaID(cinemaID);			
 		this.openCinemaFile(cinemaID);
 	}
+	
+	public Object clone() throws CloneNotSupportedException { 
+		return super.clone(); 
+	} 
 
 	
 	// Getters
@@ -46,16 +52,22 @@ public class Cinema {
 	public void setCinemaLayout(List<String> list) {this.cinemaLayout = list;}
 	
 	
-	// Others
-	public void updateOccupiedSeatsNo(int seatsBooked) {
-		if (this.totalSeatNo - (this.occupiedSeatsNo+seatsBooked) < 0) {
-			System.out.println("Not enough seats left in the cinema");
-		} else {
-			this.occupiedSeatsNo+=seatsBooked;
-		}
-	}
+	// CRUD methods
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// Initializers: Below code used only for the very first run of the app
     // File Reader
     public void openCinemaFile(String cinemaID) {
 		try {

@@ -67,34 +67,39 @@ public class StaffApp {
         int input;
         boolean loginStatus=true;
 
-        System.out.println("==================== MOBLIMA STAFF APP ====================\n" +
-                "| 1. View Top 5 Movies                                     |\n" +
-                "| 2. Configure System Settings                             |\n" +
-                "| 3. Movie Database                                        |\n" +
-                "| 4. Showtime Database                                     |\n" +
-                "| 5. Logout                                                |\n" +
-                "===========================================================");
+
 
         System.out.println("Enter Choice: ");
-        input = sc.nextInt();
-        switch(input){
-            case 1:
-                MovieManager mm = MovieManager.getInstance();
-                mm.viewTop5Staff();
-                break;
-            case 2:
-                SystemSettingsManager.getInstance().displayMenu();
-                break;
-            case 3:
-                MovieManager.getInstance().movieMenu();
-                break;
-            case 4:
-                ShowtimeManager.getInstance().showtimeMenu();
-                break;
-            case 5:
-                loginStatus=new StaffManager().logout();
-                break;
-        }
+
+        do{
+            System.out.println("==================== MOBLIMA STAFF APP ====================\n" +
+                    "| 1. View Top 5 Movies                                     |\n" +
+                    "| 2. Configure System Settings                             |\n" +
+                    "| 3. Movie Database                                        |\n" +
+                    "| 4. Showtime Database                                     |\n" +
+                    "| 5. Logout                                                |\n" +
+                    "===========================================================");
+            input = sc.nextInt();
+            switch(input){
+                case 1:
+                    MovieManager mm = MovieManager.getInstance();
+                    mm.viewTop5Staff();
+                    break;
+                case 2:
+                    SystemSettingsManager.getInstance().displayMenu();
+                    break;
+                case 3:
+                    MovieManager.getInstance().movieMenu();
+                    break;
+                case 4:
+                    ShowtimeManager.getInstance().showtimeMenu();
+                    break;
+                case 5:
+                    loginStatus=new StaffManager().logout();
+                    break;
+            }
+        }while(input != 5);
+
         return loginStatus;
     }
 

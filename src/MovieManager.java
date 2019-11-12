@@ -2,9 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -12,8 +12,8 @@ import java.util.*;
 
 class MovieManager {
     //Variables
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
-    private Scanner sc = new Scanner(System.in);
+    private ArrayList<Movie> movies;
+    Scanner sc = new Scanner(System.in);
     Movie m = new Movie();
 
     //Singleton
@@ -26,6 +26,7 @@ class MovieManager {
             this.movies = serializedObject;
         } else {
             this.movies = new ArrayList<>();
+            this.saveObject();
         }
     }
 
@@ -39,15 +40,16 @@ class MovieManager {
 
     //Methods
     public void movieMenu() {
-        System.out.println("==================== MOVIE STAFF APP ====================\n" +
-                           "| 1. Read From File                                        |\n" +
-                           "| 2. Create Showtime Entry                                 |\n" +
-                           "| 3. Update Showtime Entry                                 |\n" +
-                           "| 4. Delete Showtime Entry                                 |\n" +
-                           "| 5. Back                                                  |\n" +
-                           "===========================================================");
+
         int choice;
         do {
+            System.out.println("==================== MOVIE STAFF APP ====================\n" +
+                               "| 1. Read From File                                     |\n" +
+                               "| 2. Create Movie Entry                                 |\n" +
+                               "| 3. Update Movie Entry                                 |\n" +
+                               "| 4. Delete Movie Entry                                 |\n" +
+                               "| 5. Back                                               |\n" +
+                               "=========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -58,6 +60,7 @@ class MovieManager {
                     this.addMovie();
                     break;
                 case 3:
+
                     this.editMovie();
                     break;
                 case 4:
@@ -76,21 +79,23 @@ class MovieManager {
      */
     public void viewTop5Cust(){
         ShowtimeManager sm = ShowtimeManager.getInstance();
-
-        System.out.println("==================== View Top 5 Movies =====================\n" +
-                           "| 1. By Sales                                              |\n" +
-                           "| 2. By Tickets Sold                                       |\n" +
-                           "| 3. By Reviews                                            |\n" +
-                           "| 4. Back                                                  |\n" +
-                           "===========================================================");
-
         int choice;
         do{
+            System.out.println("==================== View Top 5 Movies =====================\n" +
+                    "| 1. By Sales                                              |\n" +
+                    "| 2. By Tickets Sold                                       |\n" +
+                    "| 3. By Reviews                                            |\n" +
+                    "| 4. Back                                                  |\n" +
+                    "===========================================================");
             choice= sc.nextInt();
             switch (choice){
                 case 1:
                     ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
                     top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
+                    if(top5Sales.size()==0){
+                        System.out.println("No Available Movies.");
+                        break;
+                    }
                     for(int i=0;i<5;i++) {
                         System.out.println(i+1 +". "+top5Sales.get(i).getTitle());
                     }
@@ -140,15 +145,16 @@ class MovieManager {
      */
     public void viewTop5Staff(){
 
-        System.out.println("==================== View Top 5 Movies =====================\n" +
-                "| 1. By Sales                                              |\n" +
-                "| 2. By Tickets Sold                                       |\n" +
-                "| 3. By Reviews                                            |\n" +
-                "| 4. Back                                                  |\n" +
-                "===========================================================");
+
 
         int choice;
         do{
+            System.out.println("==================== View Top 5 Movies =====================\n" +
+                    "| 1. By Sales                                              |\n" +
+                    "| 2. By Tickets Sold                                       |\n" +
+                    "| 3. By Reviews                                            |\n" +
+                    "| 4. Back                                                  |\n" +
+                    "===========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -214,6 +220,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a movie:");
                     int option1 = sc.nextInt();
+                    if(option1<1 || option1 >= nowShowing.size()){
+                        break;
+                    }
                     displayMovieDetails(nowShowing.get(option1-1));
                     submovieMenu(nowShowing.get(option1-1));
                     break;
@@ -229,6 +238,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a movie:");
                     int option2 = sc.nextInt();
+                    if(option2<1 || option2 >= comingSoon.size()){
+                        break;
+                    }
                     displayMovieDetails(comingSoon.get(option2-1));
                     break;
                 case 3:
@@ -239,7 +251,10 @@ class MovieManager {
                     }
                     System.out.println("Choose a cinema:");
                     int option3 = sc.nextInt();
-                    sm.displayMoviesfromCineplex(cineplexes.get(option3-1));
+                    if(option3<1 || option3 >= cineplexes.size()){
+                        break;
+                    }
+                    sm.displayMoviesfromCineplex(cineplexes.get(option3-1).getCineplexID());
                     break;
                 case 4:
                     String title = sc.next();
@@ -249,6 +264,9 @@ class MovieManager {
                     }
                     System.out.println("Choose a movie:");
                     int option4 = sc.nextInt();
+                    if(option4<1 || option4 >= searchMovies(title).size()){
+                        break;
+                    }
                     submovieMenu(searchMovies(title).get(option4-1));
                     break;
                 case 5:
@@ -400,8 +418,8 @@ class MovieManager {
 
         System.out.println("Enter release date (format DD/MM/YYYY): ");
         String releaseDate = sc.next();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-        LocalDateTime date = LocalDateTime.parse(releaseDate, dateFormat);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(releaseDate, dateFormat);
         newMovie.setReleaseDate(date);
 
         movies.add(newMovie);
@@ -416,7 +434,7 @@ class MovieManager {
                 throw new IOException("Cannot find root");
             } else {
                 // read active movies
-                filePath = filePath + "/data/movies/active" + movieID + ".txt";
+                filePath = filePath + "/data/initialisation/movies/" + movieID + ".txt";
             }
 
             // Open file and traverse it
@@ -426,13 +444,26 @@ class MovieManager {
             int i = 0;
 
             do {
+                newMovie.setMovieReviews(new ArrayList<Review>());
+                newMovie.setGrossProfit(0);
+                newMovie.setTicketsSold(0);
+                newMovie.setAverageReviewScore(0);
+                newMovie.setTotalReviewNo(0);
+                newMovie.setTotalReviewScore(0);
+
                 inputLine = brStream.readLine(); // read in a line
                 if (inputLine == null) {break;} // end of file
 
                 switch (i) {
                     case 0:
                         //1st line of file is movieID
+                        if(movies.contains(getMovieByID(movieID))){
+                            System.out.println("Movie already exists.");
+                            inputLine =null;
+                            break;
+                        }
                         newMovie.setMovieID(movieID);
+                        break;
                     case 1:
                         //2st line of file is title
                         newMovie.setTitle(inputLine);
@@ -467,13 +498,13 @@ class MovieManager {
                         newMovie.setMovieRating(MovieRating.valueOf(inputLine));
                         break;
                     case 7:
-                        //8th line of file is movieformats
-                        ArrayList<MovieFormat> movieformats = new ArrayList<MovieFormat>();
-                        String[] mflist = inputLine.split(", ?");
-                        for(int j=0;j<mflist.length;j++){
-                            movieformats.add(MovieFormat.valueOf(mflist[j]));
+                        //8th line of file is movieFormats
+                        ArrayList<MovieFormat> movieFormats = new ArrayList<MovieFormat>();
+                        String[] mfList = inputLine.split(", ?");
+                        for(int j=0;j<mfList.length;j++){
+                            movieFormats.add(MovieFormat.valueOf(mfList[j]));
                         }
-                        newMovie.setMovieFormats(movieformats);
+                        newMovie.setMovieFormats(movieFormats);
                         break;
                     case 8:
                         //9th line of file is movieDuration
@@ -487,14 +518,17 @@ class MovieManager {
                         //11th line of file is release date
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                         String dateInString = inputLine;
-                        LocalDateTime dateTime = this.dateTimeParser(dateInString);
+                        LocalDate dateTime = LocalDate.parse(dateInString,formatter);
                         newMovie.setReleaseDate(dateTime);
                         System.out.println("Movie release date read and added!");
                         break;
                 }
                 i++;
             } while (inputLine != null);
+            this.movies.add(newMovie);
+            this.saveObject();
         }
+
         catch ( FileNotFoundException e ) {
             System.out.println( "Error opening the input file!" + e.getMessage() );
             System.exit( 0 );
@@ -509,116 +543,140 @@ class MovieManager {
     public void editMovie() {
         System.out.println("Enter movieID: ");
         String movieID = sc.next();
-        for (Movie movie : movies) {
-            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
-                int choice;
-                do {
-                    System.out.println("(1) Edit movieID");
-                    System.out.println("(2) Edit title");
-                    System.out.println("(3) Edit genres (genres will be overwritten)");
-                    System.out.println("(4) Edit director");
-                    System.out.println("(5) Edit cast (cast will be overwritten)");
-                    System.out.println("(6) Edit synopsis");
-                    System.out.println("(7) Edit rating");
-                    System.out.println("(8) Edit formats (formats will be overwritten)");
-                    System.out.println("(9) Edit duration");
-                    System.out.println("(10) Edit showing status");
-                    System.out.println("(11) Edit release date");
-                    System.out.println("(12) End edits");
-                    choice = sc.nextInt();
+//        for (Movie movie : movies) {
+        Movie movie = this.findMovie(movieID);
+        if (movie != null) {
+            int choice;
+            do {
+                System.out.println("(1) Edit movieID");
+                System.out.println("(2) Edit title");
+                System.out.println("(3) Edit genres (genres will be overwritten)");
+                System.out.println("(4) Edit director");
+                System.out.println("(5) Edit cast (cast will be overwritten)");
+                System.out.println("(6) Edit synopsis");
+                System.out.println("(7) Edit rating");
+                System.out.println("(8) Edit formats (formats will be overwritten)");
+                System.out.println("(9) Edit duration");
+                System.out.println("(10) Edit showing status");
+                System.out.println("(11) Edit release date");
+                System.out.println("(12) End edits");
+                choice = sc.nextInt();
 
-                    switch (choice) {
-                        case 1:
-                            System.out.println("Enter new movieID: ");
-                            String newMovieID = sc.next();
-                            movie.setMovieID(newMovieID);
-                            break;
-                        case 2:
-                            System.out.println("Enter new title: ");
-                            String newTitle = sc.next();
-                            movie.setTitle(newTitle);
-                            break;
-                        case 3:
-                            System.out.println("Enter number of genres: ");
-                            ArrayList<Genre> Genres = new ArrayList<>();
-                            int numGenres = sc.nextInt();
-                            for (int i = 0; i < numGenres; i++) {
-                                System.out.println("Enter the genre: ");
-                                String userGenre = sc.next();
-                                Genres.add(Genre.valueOf(userGenre));
-                            }
-                            movie.setGenres(Genres);
-                            break;
-                        case 4:
-                            System.out.println("Enter director: ");
-                            String newDirector = sc.next();
-                            movie.setDirector(newDirector);
-                            break;
-                        case 5:
-                            System.out.println("Enter number of cast members: ");
-                            int castSize = sc.nextInt();
-                            ArrayList<String> newCastList = new ArrayList<>();
-                            for (int i = 0; i < castSize; i++) {
-                                System.out.println("Enter cast member: ");
-                                String newCast = sc.next();
-                                newCastList.add(newCast);
-                            }
-                            movie.setCast(newCastList);
-                            break;
-                        case 6:
-                            System.out.println("Enter new synopsis: ");
-                            String newSynopsis = sc.next();
-                            movie.setSynopsis(newSynopsis);
-                            break;
-                        case 7:
-                            System.out.println("Enter new rating: ");
-                            String newRating = sc.next();
-                            movie.setMovieRating(MovieRating.valueOf(newRating));
-                            break;
-                        case 8:
-                            System.out.println("Enter new formats: ");
-                            ArrayList<MovieFormat> newFormats = new ArrayList<>();
-                            int newFormatLength = sc.nextInt();
-                            for (int i = 0; i < newFormatLength; i++) {
-                                System.out.println("Enter movie format: ");
-                                String newFormat = sc.next();
-                                newFormats.add(MovieFormat.valueOf(newFormat));
-                            }
-                            movie.setMovieFormats(newFormats);
-                            break;
-                        case 9:
-                            System.out.println("Enter new duration: ");
-                            int newDuration = sc.nextInt();
-                            movie.setMovieDuration(newDuration);
-                            break;
-                        case 10:
-                            System.out.println("Enter new showing status: ");
-                            String newShowStatus = sc.next();
-                            movie.setShowingStatus(ShowingStatus.valueOf(newShowStatus));
-                            break;
-                        case 11:
-                            System.out.println("Enter new release date: ");
-                            String newReleaseDate = sc.next();
-                            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-                            LocalDateTime date = LocalDateTime.parse(newReleaseDate, dateFormat);
-                            movie.setReleaseDate(date);
-                            break;
-                    }
-                } while (choice < 12);
-                break;
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter new movieID: ");
+                        String newMovieID = sc.next();
+                        movie.setMovieID(newMovieID);
+                        break;
+                    case 2:
+                        System.out.println("Enter new title: ");
+                        String newTitle = sc.next();
+                        movie.setTitle(newTitle);
+                        break;
+                    case 3:
+                        System.out.println("Enter number of genres: ");
+                        ArrayList<Genre> Genres = new ArrayList<>();
+                        int numGenres = sc.nextInt();
+                        for (int i = 0; i < numGenres; i++) {
+                            System.out.println("Enter the genre: ");
+                            String userGenre = sc.next();
+                            Genres.add(Genre.valueOf(userGenre));
+                        }
+                        movie.setGenres(Genres);
+                        break;
+                    case 4:
+                        System.out.println("Enter director: ");
+                        String newDirector = sc.next();
+                        movie.setDirector(newDirector);
+                        break;
+                    case 5:
+                        System.out.println("Enter number of cast members: ");
+                        int castSize = sc.nextInt();
+                        ArrayList<String> newCastList = new ArrayList<>();
+                        for (int i = 0; i < castSize; i++) {
+                            System.out.println("Enter cast member: ");
+                            String newCast = sc.next();
+                            newCastList.add(newCast);
+                        }
+                        movie.setCast(newCastList);
+                        break;
+                    case 6:
+                        System.out.println("Enter new synopsis: ");
+                        String newSynopsis = sc.next();
+                        movie.setSynopsis(newSynopsis);
+                        break;
+                    case 7:
+                        System.out.println("Enter new rating: ");
+                        String newRating = sc.next();
+                        movie.setMovieRating(MovieRating.valueOf(newRating));
+                        break;
+                    case 8:
+                        System.out.println("Enter new formats: ");
+                        ArrayList<MovieFormat> newFormats = new ArrayList<>();
+                        int newFormatLength = sc.nextInt();
+                        for (int i = 0; i < newFormatLength; i++) {
+                            System.out.println("Enter movie format: ");
+                            String newFormat = sc.next();
+                            newFormats.add(MovieFormat.valueOf(newFormat));
+                        }
+                        movie.setMovieFormats(newFormats);
+                        break;
+                    case 9:
+                        System.out.println("Enter new duration: ");
+                        int newDuration = sc.nextInt();
+                        movie.setMovieDuration(newDuration);
+                        break;
+                    case 10:
+                        System.out.println("Enter new showing status: ");
+                        String newShowStatus = sc.next();
+                        movie.setShowingStatus(ShowingStatus.valueOf(newShowStatus));
+                        break;
+                    case 11:
+                        System.out.println("Enter new release date: ");
+                        String newReleaseDate = sc.next();
+                        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+                        LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
+                        movie.setReleaseDate(date);
+                        break;
+                }
+            } while (choice != 12);
+//                break;
             }
+        else{
+            System.out.println("Movie not found.");
         }
+        this.saveObject();
     }
 
     public void deleteMovie() {
         System.out.println("Enter movieID to be deleted: ");
         String delMovieID = sc.next();
-        for (Movie movie : movies)
-            if (movie.getMovieID().equalsIgnoreCase(delMovieID)) {
-                movies.remove(movie);
-                System.out.println("Movie deleted");
-                break;
+        Movie foundMovie = this.findMovie(delMovieID);
+        if(foundMovie!=null){
+            movies.remove(foundMovie);
+            System.out.println("Movie deleted");
+        }
+        else{
+            System.out.println("Movie does not exist.");
+        }
+        this.saveObject();
+    }
+
+    private Movie findMovie(String movieID) {
+        MovieManager movieManager = MovieManager.getInstance();
+        ArrayList<Movie> moviesInMovieManager = movieManager.getMovies();
+        for (Movie movie : moviesInMovieManager)
+        {
+            String movieTitle = movie.getMovieID();
+            if(movieTitle==null){
+                return null;
             }
+            if (movieTitle.equalsIgnoreCase(movieID))
+            {
+                return movie;
+            }
+        }
+        return null; // if movie not found
     }
 
     public void peekMovie() {

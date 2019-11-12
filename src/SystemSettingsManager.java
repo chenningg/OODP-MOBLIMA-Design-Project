@@ -3,18 +3,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class SystemSettingsManager {
+	// Attributes
 	private SystemSettings systemSettings;
-	
 	private static SystemSettingsManager single_instance = null;
-	
-	private SystemSettingsManager() {
-		SystemSettings serializedObject = this.deSerialize();
-		if (serializedObject != null) {
-			this.systemSettings = serializedObject;
-		} else {
-			this.systemSettings = new SystemSettings();
-		}
-	}
 	
 	public static SystemSettingsManager getInstance() {
 		if (single_instance == null)
@@ -22,6 +13,20 @@ public class SystemSettingsManager {
 		return single_instance;
 	}
 	
+	
+	// Constructor
+	private SystemSettingsManager() {
+		SystemSettings serializedObject = this.load();
+		if (serializedObject != null) {
+			this.systemSettings = serializedObject;
+		} else {
+			this.systemSettings = new SystemSettings();
+			this.save();
+		}
+	}
+
+
+	// Public exposed methods to app
 	public double getPrice(String key) {
 		return this.systemSettings.getPrice(key);
 	}
@@ -33,7 +38,6 @@ public class SystemSettingsManager {
 			return 0;
 		}
 	}
-	
 	
 	public void displayMenu() {
 		Scanner sc = new Scanner(System.in);
@@ -74,11 +78,13 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 		
 		System.out.println("Back to StaffApp......");
-		this.serialize();
+		this.save();
 		sc.close();
 	}
 	
-	public void viewSystemSetting(Scanner sc) {
+	
+	// Private CRUD methods
+	private void viewSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
@@ -133,7 +139,7 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");
 	}
 	
-	public void addSystemSetting(Scanner sc) {
+	private void addSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
@@ -211,7 +217,7 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");
 	}
 	
-	public void changeSystemSetting(Scanner sc) {
+	private void changeSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
@@ -334,7 +340,7 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");
 	}
 		
-	public void deleteSystemSetting(Scanner sc) {
+	private void deleteSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
@@ -423,14 +429,15 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");		
 	}
 
-	public void serialize() {
+	
+	// Private Serialization and Deserialization
+	private void save() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		SerializerHelper.serializeObject(this.systemSettings, filePath);
 	}
 	
-	public SystemSettings deSerialize() {
+	private SystemSettings load() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		return (SystemSettings) SerializerHelper.deSerializeObject(filePath);
-		
 	}
 }
