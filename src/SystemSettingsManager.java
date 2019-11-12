@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class SystemSettingsManager {
+class SystemSettingsManager {
 	// Attributes
 	private SystemSettings systemSettings;
 	private static SystemSettingsManager single_instance = null;

@@ -4,12 +4,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class ShowtimeManager {
+class ShowtimeManager {
 	// Attributes
 	private List<Showtime> showtimes;
-
+    private Scanner sc = new Scanner(System.in);
     private static ShowtimeManager single_instance = null;
 
+    public static ShowtimeManager getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new ShowtimeManager();
+        return single_instance;
+    }
     private ShowtimeManager() {
         List<Showtime> serializedObject = this.load();
         if (serializedObject != null) {
@@ -20,12 +26,7 @@ public class ShowtimeManager {
         }
     }
 
-    public static ShowtimeManager getInstance()
-    {
-        if (single_instance == null)
-            single_instance = new ShowtimeManager();
-        return single_instance;
-    }
+
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////
