@@ -3,8 +3,10 @@ import java.util.Scanner;
 public class CustomerApp {
 	// Attributes
     private static CustomerApp single_instance = null;
+    
+    private Scanner sc = new Scanner(System.in);
 
-    private CustomerApp(){}
+    CustomerApp(){}
 
     public static CustomerApp getInstance()
     {
@@ -13,8 +15,7 @@ public class CustomerApp {
         return single_instance;
     }
 	
-    
-    public void displayCustomerMenu(Scanner sc) {
+    public void displayCustomerMenu() {
 		int choice;
     	
 		
