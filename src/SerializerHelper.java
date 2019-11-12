@@ -1,9 +1,6 @@
 import java.io.*;
 
 public class SerializerHelper {
-
-    // Methods
-
     public static void serializeObject(Object object, String filename) {
         try {
             FileOutputStream fileOut = new FileOutputStream(filename);
@@ -11,7 +8,7 @@ public class SerializerHelper {
             out.writeObject(object);
             out.close();
             fileOut.close();
-            System.out.println("Serialised object stored as " + filename);
+            // System.out.println("Serialised object stored as " + filename);
         }
         catch (IOException i) {
             i.printStackTrace();
@@ -27,7 +24,7 @@ public class SerializerHelper {
             objectInputStream.close();
             bufferedInputStream.close();
             fileInputStream.close();
-            System.out.println("Object has been read in!");
+            // System.out.println("Object has been read in!");
             return object;
         }
         catch (FileNotFoundException f) {
