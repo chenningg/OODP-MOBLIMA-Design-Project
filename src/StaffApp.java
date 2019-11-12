@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class StaffApp {
 	// Attributes
     private static StaffApp single_instance = null;
+    
+    private Scanner sc = new Scanner(System.in);
 
     private StaffApp(){}
 
@@ -16,16 +18,16 @@ public class StaffApp {
 
     
     // Public exposed methods to app
-    public void displayLoginMenu(Scanner sc) {
+    public void displayLoginMenu() {
     	boolean loggedIn = false;
     	boolean quit = false;
 		int choice;
 		
 		do {
-	        System.out.println("==================== MOBLIMA STAFF APP ====================\n"+
-	                "| 1. Login                                                |\n"+
-	                "| 0. Back to MOBLIMA APP                                  |\n"+
-	                "===========================================================");
+	        System.out.println(	"==================== MOBLIMA STAFF APP ====================\n"+
+				                "| 1. Login                                                |\n"+
+				                "| 0. Back to MOBLIMA APP                                  |\n"+
+				                "===========================================================");
 	        System.out.println("Enter choice: ");
 			choice = sc.nextInt();
 			
@@ -41,7 +43,7 @@ public class StaffApp {
                 
                 if (authenticate) {
                 	loggedIn = true;
-                	this.displayLoggedInMenu(sc);
+                	this.displayLoggedInMenu();
                 	quit = true;
                 } else {
                 	System.out.println("Invalid Username or Password, please try again.");
@@ -57,17 +59,17 @@ public class StaffApp {
     
     
     // Private methods
-    private void displayLoggedInMenu(Scanner sc) {
+    private void displayLoggedInMenu() {
 		int choice;
 		
 		do {
-            System.out.println("==================== MOBLIMA STAFF APP ====================\n" +
-                    "| 1. View Top 5 Movies                                     |\n" +
-                    "| 2. Configure System Settings                             |\n" +
-                    "| 3. Movie Database                                        |\n" +
-                    "| 4. Showtime Database                                     |\n" +
-                    "| 0. Logout from StaffApp                                  |\n" +
-                    "===========================================================");
+            System.out.println(	"==================== MOBLIMA STAFF APP ====================\n" +
+			                    "| 1. View Top 5 Movies                                     |\n" +
+			                    "| 2. Configure System Settings                             |\n" +
+			                    "| 3. Movie Database                                        |\n" +
+			                    "| 4. Showtime Database                                     |\n" +
+			                    "| 0. Logout from StaffApp                                  |\n" +
+			                    "===========================================================");
             System.out.println("Enter choice: ");
 			choice = sc.nextInt();
 			
@@ -76,7 +78,7 @@ public class StaffApp {
                 MovieManager.getInstance().viewTop5Staff();
 				break;
 			case 2:
-				SystemSettingsManager.getInstance().displayMenu(sc);
+				SystemSettingsManager.getInstance().displayMenu();
 				break;
 			case 3:
 				MovieManager.getInstance().movieMenuStaff();

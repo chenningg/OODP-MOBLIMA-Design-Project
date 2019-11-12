@@ -25,6 +25,7 @@ class MovieManager {
         return single_instance;
     }
     
+    
     // Constructor
     private MovieManager() {
         ArrayList<Movie> serializedObject = this.loadObject();
@@ -35,53 +36,203 @@ class MovieManager {
             this.saveObject();
         }
     }
-
     
-	////////////////////////////////////////////////////////////////////////////////////////////
-    
-    // Still editing
-    // Must pass control over to other managers
-    // Do not keep the checking within here, only keep the logic
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 	// Public exposed methods to app
     public void movieMenuStaff() {
-
         int choice;
+        
         do {
             System.out.println("=================== MOVIE MENU (STAFF) ==================\n" +
-                               "| 1. Read From File                                     |\n" +
-                               "| 2. Create Movie Entry                                 |\n" +
-                               "| 3. Update Movie Entry                                 |\n" +
-                               "| 4. Delete Movie Entry                                 |\n" +
+                               "| 1. View Movies 										|\n" +
+                               "| 2. Add Movies		                                 	|\n" +
+                               "| 3. Edit Movies	                                    |\n" +
+                               "| 4. Delete Movies	                                    |\n" +
                                "| 0. Back to StaffApp......                             |\n" +
                                "=========================================================");
+            System.out.println("Enter choice: ");
             choice = sc.nextInt();
+            
             switch (choice) {
                 case 1:
-                    System.out.println("Enter movieID to be read from file: ");
-                    this.readMovie(sc.next());
+                    this.viewMovies("Staff");
                     break;
                 case 2:
-                    this.addMovie();
+                    this.addMovies();
                     break;
                 case 3:
-                    this.editMovie();
+                    this.editMovies();
                     break;
                 case 4:
-                    this.deleteMovie();
+                    this.deleteMovies();
                     break;
-                case 5:
+                case 0:
+                	System.out.println("Back to StaffApp......");
                     break;
                 default:
-                    System.out.println("Please enter a number between 1-5.");
+                    System.out.println("Please enter a number between 0-4.");
                     break;
             }
-        } while (choice != 5);
+        } while (choice != 0);
     }
+    
+    
+    
+    private void viewMovies(String appType) {
+    	int choice;
+    	
+    	if (appType.equals("Staff")) {
+            System.out.println(	"=================== MOVIE MENU (STAFF) ==================\n" +
+			                    "| 1. View Movies 						       			 |\n" +
+			                    "| 2. Add Movies		                                 |\n" +
+			                    "| 3. Edit Movies	                                     |\n" +
+			                    "| 4. End movie showing	                                 |\n" +
+			                    "| 0. Back to StaffApp......                             |\n" +
+			                    "=========================================================");
+			
+            System.out.println("Enter choice: ");
+			choice = sc.nextInt();
+ 
+			do {
+				
+			} while (choice != 0);
+    		
+    		
+    		
+    		
+    		
+    		
+    	} else if (appType.equals("Customer")) {
+    		
+    	} 
+    	
+        try {
+            Movie newMovie = new Movie();
+            // Get filepath
+            String filePath = ProjectRootPathFinder.findProjectRootPath();
+            if (filePath == null) {
+                throw new IOException("Cannot find root");
+            } else {
+                // read active movies
+                filePath = filePath + "/data/initialisation/movies/" + movieID + ".txt";
+            }
+
+            // Open file and traverse it
+            FileReader frStream = new FileReader( filePath );
+            BufferedReader brStream = new BufferedReader( frStream );
+            String inputLine;
+            int i = 0;
+
+            do {
+                newMovie.setMovieReviews(new ArrayList<Review>());
+                newMovie.setGrossProfit(0);
+                newMovie.setTicketsSold(0);
+                newMovie.setAverageReviewScore(0);
+                newMovie.setTotalReviewNo(0);
+                newMovie.setTotalReviewScore(0);
+
+                inputLine = brStream.readLine(); // read in a line
+                if (inputLine == null) {break;} // end of file
+
+                switch (i) {
+                    case 0:
+                        //1st line of file is movieID
+                        if(movies.contains(getMovieByID(movieID))){
+                            System.out.println("Movie already exists.");
+                            inputLine =null;
+                            break;
+                        }
+                        newMovie.setMovieID(movieID);
+                        break;
+                    case 1:
+                        //2st line of file is title
+                        newMovie.setTitle(inputLine);
+                        break;
+                    case 2:
+                        //3rd line of file is genres
+                        ArrayList<Genre> genreList = new ArrayList<Genre>();
+                        String[] genres = inputLine.split(", ?");
+                        for(int j=0;j<genres.length;j++){
+                            genreList.add(Genre.valueOf(genres[j]));
+                        }
+                        newMovie.setGenres(genreList);
+                        break;
+                    case 3:
+                        //4th line of file is director
+                        newMovie.setDirector(inputLine);
+                        break;
+                    case 4:
+                        //5th line of file is cast
+                        ArrayList<String> castList = new ArrayList<String>();
+                        for(int j=0;j<inputLine.split(", ?").length;j++){
+                            castList.add(inputLine.split(", ?")[j]);
+                        }
+                        newMovie.setCast(castList);
+                        break;
+                    case 5:
+                        //6th line of file is synopsis
+                        newMovie.setSynopsis(inputLine);
+                        break;
+                    case 6:
+                        //7th line of file is movieRating
+                        newMovie.setMovieRating(MovieRating.valueOf(inputLine));
+                        break;
+                    case 7:
+                        //8th line of file is movieFormats
+                        ArrayList<MovieFormat> movieFormats = new ArrayList<MovieFormat>();
+                        String[] mfList = inputLine.split(", ?");
+                        for(int j=0;j<mfList.length;j++){
+                            movieFormats.add(MovieFormat.valueOf(mfList[j]));
+                        }
+                        newMovie.setMovieFormats(movieFormats);
+                        break;
+                    case 8:
+                        //9th line of file is movieDuration
+                        newMovie.setMovieDuration(Integer.parseInt(inputLine));
+                        break;
+                    case 9:
+                        //10th line of file is showing status
+                        newMovie.setShowingStatus(ShowingStatus.valueOf(inputLine));
+                        break;
+                    case 10:
+                        //11th line of file is release date
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        String dateInString = inputLine;
+                        LocalDate dateTime = LocalDate.parse(dateInString,formatter);
+                        newMovie.setReleaseDate(dateTime);
+                        System.out.println("Movie release date read and added!");
+                        break;
+                }
+                i++;
+            } while (inputLine != null);
+            this.movies.add(newMovie);
+            this.saveObject();
+        }
+
+        catch ( FileNotFoundException e ) {
+            System.out.println( "Error opening the input file!" + e.getMessage() );
+            System.exit( 0 );
+        }
+        catch ( IOException e ) {
+            System.out.println( "IO Error!" + e.getMessage() );
+            e.printStackTrace();
+            System.exit( 0 );
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     /***
@@ -202,6 +353,28 @@ class MovieManager {
         }while(choice!=4);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void displayMovies(){
         Scanner sc = new Scanner(System.in);
         int choice;
@@ -363,7 +536,7 @@ class MovieManager {
 
 //CRUD - CREATE READ UPDATE DELETE MOVIE
 
-    public void addMovie() {
+    private void addMovies() {
         Movie newMovie = new Movie();
         ArrayList<Genre> genreList = new ArrayList<>();
         ArrayList<String> castList = new ArrayList<>();
@@ -431,122 +604,8 @@ class MovieManager {
         movies.add(newMovie);
     }
 
-    public void readMovie(String movieID) {
-        try {
-            Movie newMovie = new Movie();
-            // Get filepath
-            String filePath = ProjectRootPathFinder.findProjectRootPath();
-            if (filePath == null) {
-                throw new IOException("Cannot find root");
-            } else {
-                // read active movies
-                filePath = filePath + "/data/initialisation/movies/" + movieID + ".txt";
-            }
 
-            // Open file and traverse it
-            FileReader frStream = new FileReader( filePath );
-            BufferedReader brStream = new BufferedReader( frStream );
-            String inputLine;
-            int i = 0;
-
-            do {
-                newMovie.setMovieReviews(new ArrayList<Review>());
-                newMovie.setGrossProfit(0);
-                newMovie.setTicketsSold(0);
-                newMovie.setAverageReviewScore(0);
-                newMovie.setTotalReviewNo(0);
-                newMovie.setTotalReviewScore(0);
-
-                inputLine = brStream.readLine(); // read in a line
-                if (inputLine == null) {break;} // end of file
-
-                switch (i) {
-                    case 0:
-                        //1st line of file is movieID
-                        if(movies.contains(getMovieByID(movieID))){
-                            System.out.println("Movie already exists.");
-                            inputLine =null;
-                            break;
-                        }
-                        newMovie.setMovieID(movieID);
-                        break;
-                    case 1:
-                        //2st line of file is title
-                        newMovie.setTitle(inputLine);
-                        break;
-                    case 2:
-                        //3rd line of file is genres
-                        ArrayList<Genre> genreList = new ArrayList<Genre>();
-                        String[] genres = inputLine.split(", ?");
-                        for(int j=0;j<genres.length;j++){
-                            genreList.add(Genre.valueOf(genres[j]));
-                        }
-                        newMovie.setGenres(genreList);
-                        break;
-                    case 3:
-                        //4th line of file is director
-                        newMovie.setDirector(inputLine);
-                        break;
-                    case 4:
-                        //5th line of file is cast
-                        ArrayList<String> castList = new ArrayList<String>();
-                        for(int j=0;j<inputLine.split(", ?").length;j++){
-                            castList.add(inputLine.split(", ?")[j]);
-                        }
-                        newMovie.setCast(castList);
-                        break;
-                    case 5:
-                        //6th line of file is synopsis
-                        newMovie.setSynopsis(inputLine);
-                        break;
-                    case 6:
-                        //7th line of file is movieRating
-                        newMovie.setMovieRating(MovieRating.valueOf(inputLine));
-                        break;
-                    case 7:
-                        //8th line of file is movieFormats
-                        ArrayList<MovieFormat> movieFormats = new ArrayList<MovieFormat>();
-                        String[] mfList = inputLine.split(", ?");
-                        for(int j=0;j<mfList.length;j++){
-                            movieFormats.add(MovieFormat.valueOf(mfList[j]));
-                        }
-                        newMovie.setMovieFormats(movieFormats);
-                        break;
-                    case 8:
-                        //9th line of file is movieDuration
-                        newMovie.setMovieDuration(Integer.parseInt(inputLine));
-                        break;
-                    case 9:
-                        //10th line of file is showing status
-                        newMovie.setShowingStatus(ShowingStatus.valueOf(inputLine));
-                        break;
-                    case 10:
-                        //11th line of file is release date
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        String dateInString = inputLine;
-                        LocalDate dateTime = LocalDate.parse(dateInString,formatter);
-                        newMovie.setReleaseDate(dateTime);
-                        System.out.println("Movie release date read and added!");
-                        break;
-                }
-                i++;
-            } while (inputLine != null);
-            this.movies.add(newMovie);
-            this.saveObject();
-        }
-
-        catch ( FileNotFoundException e ) {
-            System.out.println( "Error opening the input file!" + e.getMessage() );
-            System.exit( 0 );
-        }
-        catch ( IOException e ) {
-            System.out.println( "IO Error!" + e.getMessage() );
-            e.printStackTrace();
-            System.exit( 0 );
-        }
-    }
-
-    public void editMovie() {
+    private void editMovies() {
         System.out.println("Enter movieID: ");
         String movieID = sc.next();
 //        for (Movie movie : movies) {
@@ -654,7 +713,7 @@ class MovieManager {
         this.saveObject();
     }
 
-    public void deleteMovie() {
+    private void deleteMovies() {
         System.out.println("Enter movieID to be deleted: ");
         String delMovieID = sc.next();
         Movie foundMovie = this.findMovie(delMovieID);
@@ -709,6 +768,7 @@ class MovieManager {
         Date date = formatter.parse(dateString);
         return date;
     }
+    
     private LocalDateTime dateTimeParser(String dateTimeString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
