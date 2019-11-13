@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Company implements Serializable {
 	// Attributes
-	private static final long serialVersionUID = 9L;
     private String companyName;
     private List<Cineplex> cineplexes;
     private List<String> cineplexNames;
