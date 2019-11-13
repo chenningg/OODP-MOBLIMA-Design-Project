@@ -44,7 +44,7 @@ public class DataInitialiser {
 				
 				// Movie ID
 				inputLine = brStream.readLine();
-				newMovie.setMovieID("movie_" + IDHelper.getLatestID("movie"));
+				newMovie.setMovieID(IDHelper.getLatestID("movie"));
 				
 				// Movie title
 				inputLine = brStream.readLine();
