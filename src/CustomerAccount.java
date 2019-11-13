@@ -1,8 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerAccount{
+public class CustomerAccount implements Serializable{
 
+	private static final long serialVersionUID = 7L;
 	private String name=null;
     private String mobileNo;
     private String email;
@@ -11,6 +13,12 @@ public class CustomerAccount{
 
 	//constructor
     CustomerAccount(){}
+    
+    CustomerAccount(String name, String email, String mobileNo){
+    	this.email= email;
+    	this.mobileNo= mobileNo;
+    	this.name= name;
+    }
     
     public void addBooking(Booking booking) {
     	bookingHistory.add(booking);

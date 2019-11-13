@@ -1,13 +1,9 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.Scanner;
 
-public class CustomerManager implements ResetSelf {
+public class CustomerManager implements ResetSelf{
 
-	private Map<String,String> emailToMobileNo = new HashMap<String,String>();
-	private Map<String, CustomerAccount> mobileToCustomer= new HashMap<String,CustomerAccount>();
-	Scanner sc= new Scanner(System.in);
+	private CustomerLookup customerLookup;
+	private Scanner sc= new Scanner(System.in);
 	private CustomerAccount cust;
 
 
@@ -15,7 +11,15 @@ public class CustomerManager implements ResetSelf {
 	private static CustomerManager single_instance = null;
 	
 	//constructor
-	private CustomerManager() {}
+	CustomerManager(){
+		CustomerLookup serializedObject = this.load();
+		if (serializedObject != null) {
+			this.customerLookup = serializedObject;
+		} else {
+			this.customerLookup = new CustomerLookup();
+			this.save();
+		}
+	}
 	
 	public static CustomerManager getInstance()
 	{
@@ -31,7 +35,7 @@ public class CustomerManager implements ResetSelf {
 		String email= sc.next();
 		//checks if email valid, then retrieves booking history of associated account
 		if (validateEmail(email))
-			printBookingHistory(mobileToCustomer.get(emailToMobileNo.get(email)));
+			printBookingHistory(customerLookup.getCustfromEmail(email));
 		}
 	
 	public void printPastBookingByMobile() {
@@ -39,23 +43,20 @@ public class CustomerManager implements ResetSelf {
 		String mobileNo= sc.next();
 		//checks if mobileNo valid, then prints booking history of associated account
 		if (validateMobileNo(mobileNo))
-			printBookingHistory(mobileToCustomer.get(mobileNo));
+			printBookingHistory(customerLookup.getCustfromMobile(mobileNo));
 	}
 	
 	public void printBookingHistory(CustomerAccount custToPrint) {
-		System.out.println("Previous Bookings:");
-		//prints each booking held in customerAccount
-		for (int i=0;i<custToPrint.getBookingHistory().size();i++) {
-			
-			// Get booking from customer history and display it
-			custToPrint.getBookingHistory().get(i).displayBooking();
-		}
-		if (custToPrint.getBookingHistory().size()==0)
+		if (custToPrint==null)
 			System.out.println("No records found.\n");
-	}
-	
-	public List<Booking> getBookingHistory(CustomerAccount customerAccount) {
-		return customerAccount.getBookingHistory();
+		else {
+			System.out.println("Previous Bookings:");
+			//prints each booking held in customerAccount
+			for (int i=0;i<custToPrint.getBookingHistory().size();i++) {
+				// Get booking from customer history and display it
+				custToPrint.getBookingHistory().get(i).displayBooking();
+			}
+		}
 	}
 	
 	// Validate mobile number of user, check if all numeric and is 8 digits long (Assume Singapore)
@@ -104,25 +105,22 @@ public class CustomerManager implements ResetSelf {
 		CustomerAccount currCustomer;
 		
 		//if current customer exists, addBooking to customerAccount
-		if (mobileToCustomer.containsKey(mobileNo)) {
-			currCustomer = mobileToCustomer.get(mobileNo);
+		if (customerLookup.getMobileHash().containsKey(mobileNo)) {
+			currCustomer = customerLookup.getCustfromMobile(mobileNo);
 		}
 			
 		//else, create newCustomer and addBooking
 		else {
-			currCustomer= new CustomerAccount();
-			currCustomer.setEmail(email);
-			currCustomer.setMobileNo(mobileNo);
-			currCustomer.setName(name);
-			
-			emailToMobileNo.put(email, mobileNo);
-			mobileToCustomer.put(mobileNo, currCustomer);
+			currCustomer= new CustomerAccount(name,email,mobileNo);
+			customerLookup.update(email, mobileNo,currCustomer);
 		}
+		save();
 		setCust(currCustomer);
 	}
 	
 	public void storeBooking(Booking booking) {
 		getCust().addBooking(booking);
+		save();
 		resetSelf();
 	}
 	
@@ -139,4 +137,14 @@ public class CustomerManager implements ResetSelf {
 		this.cust = cust;
 	}
 
+	//saver and loaders
+	private CustomerLookup load() {
+			String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/CustomerManager/customerlookup.dat";
+			return (CustomerLookup) SerializerHelper.deSerializeObject(filePath);
+		}
+	
+	private void save() {
+		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/CustomerManager/customerlookup.dat";
+		SerializerHelper.serializeObject(this.customerLookup, filePath);
+	}
 }
