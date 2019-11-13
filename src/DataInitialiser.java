@@ -137,24 +137,21 @@ public class DataInitialiser {
 		File[] files = getAllFiles(folderPath);
 		Queue<Cinema> cinemaInstances = new LinkedList<>(); // If not null we add it to next showtime added
 		
+		// Load any cinemas that are premade for showtime (Map cinema to showtime on first come first served basis)
+		String cinemaPath = basePath + "/cinemas";
+		File[] cinemas = getAllFiles(cinemaPath);
+		
+		for (File cinemaFile : cinemas) {
+			cinemaInstances.add(initialiseCinemaData("AAA", cinemaFile.getPath()));
+		}
+		
 		// Go through each file and load them into actual data storage path
 		for (int i = 0; i < files.length; i++)
 		{
-			String filePath = files[i].getPath();
+			String filePath = files[i].getPath();	
 			
-			ArrayList<String> filePathParts = new ArrayList<String>(Arrays.asList(filePath.split("/")));		
-			
-			try {
-				// If it's a cinema instance for showtime, create an instance of it, add to queue
-				if (filePathParts.get(filePathParts.size() - 1).charAt(0) == 'c') {
-					
-					// Create new instance of cinema and add it to the queue
-					cinemaInstances.add(initialiseCinemaData("AAA", filePath));		
-					continue; // Go to next file
-				}
-				
-				// If NOT cinema, then assign any queued cinemas to it if queue size != 0
-				// Open file and traverse it						
+			try {				
+				// Open file and traverse it				
 				FileReader frStream = new FileReader( filePath );
 				BufferedReader brStream = new BufferedReader( frStream );
 				String inputLine;
