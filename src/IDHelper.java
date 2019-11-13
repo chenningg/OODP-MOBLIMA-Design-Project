@@ -8,7 +8,7 @@ import java.io.IOException;
 public class IDHelper {
 	public static String getLatestID(String fileName) {
 	    	
-		String latestID = String.format("%08ld", 00000000);
+		String latestID = String.format("%08d", 00000000);
 		
 		try {
 			// Get filepath
@@ -27,7 +27,7 @@ public class IDHelper {
 	
 			inputLine = brStream.readLine(); // read in a line
 			if (inputLine == null) {
-				latestID = String.format("%08ld", 00000000);
+				latestID = String.format("%08d", 00000000);
 			}
 			else {
 				latestID = inputLine;
@@ -39,7 +39,7 @@ public class IDHelper {
 			FileWriter fwStream = new FileWriter(filePath, false); // Overwrite file
 		    BufferedWriter bwStream = new BufferedWriter(fwStream);
 		    
-		    String newLatestID = String.format("%08ld", Integer.valueOf(latestID) + 1);
+		    String newLatestID = String.format("%08d", Integer.valueOf(latestID) + 1);
 		    
 		    bwStream.write(newLatestID);
 			
