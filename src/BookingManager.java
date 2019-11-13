@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -367,12 +366,12 @@ class BookingManager implements ResetSelf {
     	getBooking().setDateTime(getShowtime().getDateTime());
     	
     	// Update booking's movieName, cineplexName and hallNo
-    	getBooking().setMovieName(showtime.getMovie().getTitle());
-    	getBooking().setCineplexName(showtime.getCineplex().getCineplexName());
+    	getBooking().setMovieName(showtime.getMovieID());
+    	getBooking().setCineplexName(showtime.getCineplexName());
     	getBooking().setHallNo(showtime.getCinema().getHallNo());
     	
     	// Finally, we can generate a unique ID for this booking
-    	getBooking().setBookingID();
+    	getBooking().setBookingID(IDHelper.getLatestID("booking"));
     	
     	// We store the booking in our CustomerAccount
     	CustomerManager.getInstance().storeBooking(getBooking());
