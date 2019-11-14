@@ -5,22 +5,22 @@ public class Showtime implements Serializable {
     private static final long serialVersionUID = 2L;
     private String showtimeID;
     private LocalDateTime dateTime;
-    private Movie movie;
+    private String movieID;
     private MovieFormat movieFormat;
     private Cinema cinema;
-    private Cineplex cineplex;
+    private String cineplexName;
     private CinemaStatus cinemaStatus;
 
 
     //Methods
 
     public void updateCinemaStatus() {
-    	double percentageFilled = getCinema().getOccupiedSeatsNo() / getCinema().getTotalSeatNo();
+    	double percentageFilled = (double) getCinema().getOccupiedSeatsNo() / (double) getCinema().getTotalSeatNo();
 
-    	if (percentageFilled <= 50.0) {
+    	if (percentageFilled <= 0.50) {
     		setCinemaStatus(CinemaStatus.AVAILABLE);
     	}
-    	else if (percentageFilled < 100.0) {
+    	else if (percentageFilled < 1) {
     		setCinemaStatus(CinemaStatus.SELLING_FAST);
     	}
     	else {
@@ -33,19 +33,19 @@ public class Showtime implements Serializable {
 
     public String getShowtimeID() {return showtimeID;}
     public LocalDateTime getDateTime() {return dateTime;}
-    public Movie getMovie() {return movie;}
+    public String getMovieID() {return movieID;}
     public MovieFormat getMovieFormat() {return movieFormat;}
     public Cinema getCinema() {return cinema;}
-    public Cineplex getCineplex() {return cineplex;}
+    public String getCineplexName() {return cineplexName;}
     public CinemaStatus getCinemaStatus() {return cinemaStatus;}
 
     //Setters
     public void setShowtimeID(String showtimeID) {this.showtimeID = showtimeID;}
     public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
-    public void setMovie(Movie movie) {this.movie = movie;}
+    public void setMovie(String movieID) {this.movieID = movieID;}
     public void setMovieFormat(MovieFormat movieFormat) {this.movieFormat = movieFormat;}
     public void setCinema(Cinema cinema) {this.cinema = cinema;}
-    public void setCineplex(Cineplex cineplex) {this.cineplex = cineplex;}
+    public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
     public void setCinemaStatus(CinemaStatus cinemaStatus) {this.cinemaStatus = cinemaStatus;}
 
 }
