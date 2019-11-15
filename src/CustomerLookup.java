@@ -6,7 +6,7 @@ public class CustomerLookup implements Serializable{
 	
 	private static final long serialVersionUID = 8L;
 	private Map<String, CustomerAccount> mobileHash;
-	private Map<String,CustomerAccount> emailHash;
+	private Map<String, CustomerAccount> emailHash;
 
 	//Singleton
 	private static CustomerLookup single_instance = null;

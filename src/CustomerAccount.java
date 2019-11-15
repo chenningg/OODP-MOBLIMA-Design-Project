@@ -6,9 +6,10 @@ public class CustomerAccount implements Serializable{
 
 	private static final long serialVersionUID = 7L;
 	private String name=null;
+	private String customerID;
     private String mobileNo;
     private String email;
-    private List<Booking> bookingHistory= new ArrayList<Booking>();
+    private List<String> bookingHistory= new ArrayList<String>();
    
 
 	//constructor
@@ -20,12 +21,12 @@ public class CustomerAccount implements Serializable{
     	this.name= name;
     }
     
-    public void addBooking(Booking booking) {
-    	bookingHistory.add(booking);
+    public void addBookingID(String bookingID) {
+    	bookingHistory.add(bookingID);
     }
     
     
-    public List<Booking> getBookingHistory() {
+    public List<String> getBookingHistoryID() {
     	return bookingHistory;
     }
     
@@ -52,6 +53,14 @@ public class CustomerAccount implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
 	}
 	
 
