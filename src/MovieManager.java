@@ -69,7 +69,7 @@ class MovieManager {
         } while (choice != 0);
     }
 
-    private void viewMovies(String appType) {
+    public void viewMovies(String appType) {
         int choice;
 
         if (appType.equals("Staff")) {
@@ -147,38 +147,38 @@ class MovieManager {
                 switch (choice) {
                     case 1:
                         List<Movie> allMovies = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("COMING_SOON")||
-                                movies.get(i).getShowingStatus().equalsString("PREVIEW")||
-                                movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
-                                allMovies.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("COMING_SOON")||
+                                entry.getValue().getShowingStatus().equalsString("PREVIEW")||
+                                entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+                                allMovies.add(entry.getValue());
                             }
                         }
                         this.selectMovie(allMovies,appType);
                         break;
                     case 2:
                         List<Movie> comingSoon = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("COMING_SOON")){
-                                comingSoon.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("COMING_SOON")){
+                                comingSoon.add(entry.getValue());
                             }
                         }
                         this.selectMovie(comingSoon,appType);
                         break;
                     case 3:
                         List<Movie> preview = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("PREVIEW")){
-                                preview.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("PREVIEW")){
+                                preview.add(entry.getValue());
                             }
                         }
                         this.selectMovie(preview,appType);
                         break;
                     case 4:
                         List<Movie> nowShowing = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
-                                nowShowing.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+                                nowShowing.add(entry.getValue());
                             }
                         }
                         this.selectMovie(nowShowing,appType);
@@ -194,9 +194,9 @@ class MovieManager {
         }
     }
 
-    public void subMovieMenu(Movie movie,String apptype){
+    public void subMovieMenu(Movie movie,String appType){
         boolean exit = false;
-        if(apptype == "Staff") {
+        if(appType == "Staff") {
             System.out.println(" 1. Display/Edit Showtimes\n" +
                     " 2. Edit Movie\n" +
                     " 3. Remove Movie\n" +
@@ -208,7 +208,7 @@ class MovieManager {
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
-                        ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(), "Staff");
+                        ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(), appType);
                         exit = true;
                     case 2:
                         this.editMovies(movie);
@@ -225,7 +225,7 @@ class MovieManager {
                 }
             }
         }
-        else if(apptype == "Cust"){
+        else if(appType.equals("Customer")){
             System.out.println(" 1. Display Showtimes\n" +
                     " 2. View Reviews\n" +
                     " 0. Back");
@@ -235,7 +235,7 @@ class MovieManager {
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
-                        ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(), "Cust");
+                        ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(),appType);
                         exit = true;
                     case 2:
                         ReviewManager.getInstance().displayReview(movie);
@@ -489,7 +489,7 @@ class MovieManager {
      */
     public void viewTop5Cust() {
         int choice;
-        String apptype = "Cust";
+        String apptype = "Customer";
         do{
             System.out.println("==================== View Top 5 Movies =====================\n" +
                     "| 1. By Sales                                              |\n" +
@@ -654,140 +654,13 @@ class MovieManager {
         movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
     }
 
+    public void updateReview(String movieID,float reviewScore){
+        Movie movie = movies.get(movieID);
+        movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
+        movie.setTotalReviewScore(movie.getTotalReviewScore()+reviewScore);
+        movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
+    }
+
+
+
 }
-
-
-//private Movie findMovie() {
-//        String movieTitle = sc.next();
-//        ArrayList<Movie> moviesInMovieManager = MovieManager.getInstance().getMovies();
-//        for (Movie movie : moviesInMovieManager)
-//        {
-//            if(movieTitle.equalsIgnoreCase(movie.getTitle())) {
-//                return movie;
-//            }
-//            else{
-//                System.out.println("Movie not found!");
-//                return null;
-//            }
-//        }
-//        return null;
-//    }
-
-//public void peekMovie() {
-//        System.out.println("Last movie added was: " + movies.get(movies.size()-1).getTitle());
-//        }
-
-//{
-//        try {
-//        Movie newMovie = new Movie();
-//        // Get filepath
-//        String filePath = ProjectRootPathFinder.findProjectRootPath();
-//        if (filePath == null) {
-//        throw new IOException("Cannot find root");
-//        } else {
-//        // read active movies
-//        filePath = filePath + "/data/initialisation/movies/" + movieID + ".txt";
-//        }
-//
-//        // Open file and traverse it
-//        FileReader frStream = new FileReader( filePath );
-//        BufferedReader brStream = new BufferedReader( frStream );
-//        String inputLine;
-//        int i = 0;
-//
-//        do {
-//        newMovie.setMovieReviews(new ArrayList<Review>());
-//        newMovie.setGrossProfit(0);
-//        newMovie.setTicketsSold(0);
-//        newMovie.setAverageReviewScore(0);
-//        newMovie.setTotalReviewNo(0);
-//        newMovie.setTotalReviewScore(0);
-//
-//        inputLine = brStream.readLine(); // read in a line
-//        if (inputLine == null) {break;} // end of file
-//
-//        switch (i) {
-//        case 0:
-//        //1st line of file is movieID
-//        if(movies.contains(getMovieByID(movieID))){
-//        System.out.println("Movie already exists.");
-//        inputLine =null;
-//        break;
-//        }
-//        newMovie.setMovieID(movieID);
-//        break;
-//        case 1:
-//        //2st line of file is title
-//        newMovie.setTitle(inputLine);
-//        break;
-//        case 2:
-//        //3rd line of file is genres
-//        ArrayList<Genre> genreList = new ArrayList<Genre>();
-//        String[] genres = inputLine.split(", ?");
-//        for(int j=0;j<genres.length;j++){
-//        genreList.add(Genre.valueOf(genres[j]));
-//        }
-//        newMovie.setGenres(genreList);
-//        break;
-//        case 3:
-//        //4th line of file is director
-//        newMovie.setDirector(inputLine);
-//        break;
-//        case 4:
-//        //5th line of file is cast
-//        ArrayList<String> castList = new ArrayList<String>();
-//        for(int j=0;j<inputLine.split(", ?").length;j++){
-//        castList.add(inputLine.split(", ?")[j]);
-//        }
-//        newMovie.setCast(castList);
-//        break;
-//        case 5:
-//        //6th line of file is synopsis
-//        newMovie.setSynopsis(inputLine);
-//        break;
-//        case 6:
-//        //7th line of file is movieRating
-//        newMovie.setMovieRating(MovieRating.valueOf(inputLine));
-//        break;
-//        case 7:
-//        //8th line of file is movieFormats
-//        ArrayList<MovieFormat> movieFormats = new ArrayList<MovieFormat>();
-//        String[] mfList = inputLine.split(", ?");
-//        for(int j=0;j<mfList.length;j++){
-//        movieFormats.add(MovieFormat.valueOf(mfList[j]));
-//        }
-//        newMovie.setMovieFormats(movieFormats);
-//        break;
-//        case 8:
-//        //9th line of file is movieDuration
-//        newMovie.setMovieDuration(Integer.parseInt(inputLine));
-//        break;
-//        case 9:
-//        //10th line of file is showing status
-//        newMovie.setShowingStatus(ShowingStatus.valueOf(inputLine));
-//        break;
-//        case 10:
-//        //11th line of file is release date
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        String dateInString = inputLine;
-//        LocalDate dateTime = LocalDate.parse(dateInString,formatter);
-//        newMovie.setReleaseDate(dateTime);
-//        System.out.println("Movie release date read and added!");
-//        break;
-//        }
-//        i++;
-//        } while (inputLine != null);
-//        this.movies.add(newMovie);
-//        this.saveObject();
-//        }
-//
-//        catch ( FileNotFoundException e ) {
-//        System.out.println( "Error opening the input file!" + e.getMessage() );
-//        System.exit( 0 );
-//        }
-//        catch ( IOException e ) {
-//        System.out.println( "IO Error!" + e.getMessage() );
-//        e.printStackTrace();
-//        System.exit( 0 );
-//        }
-//        }

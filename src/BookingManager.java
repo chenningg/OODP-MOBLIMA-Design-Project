@@ -376,7 +376,7 @@ class BookingManager implements ResetSelf {
     	getBooking().setBookingID(IDHelper.getLatestID("booking"));
     	
     	// We store the booking in our CustomerAccount
-    	CustomerManager.getInstance().storeBooking(getBooking());
+    	CustomerManager.getInstance().storeBooking(getBooking().getBookingID());
     	
     	// We can then send this booking off to store as a serialized file
     	String filePath = ProjectRootPathFinder.findProjectRootPath();
