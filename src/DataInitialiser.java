@@ -363,6 +363,7 @@ public class DataInitialiser {
 		this.resetFolders("reviews");
 		this.resetID("movie_id.txt");
 		this.resetID("showtime_id.txt");
+		this.resetID("review_id.txt");
 		
 		System.out.println("All data reset");
 	}
@@ -416,6 +417,11 @@ class Main {
 		// Initialise data
 		DataInitialiser dataInitialiser = new DataInitialiser();
 		
+		
+		
+		
+/*	USE THIS TO INITIALIZE	*/
+		
 		// Get project root
 		String initialisationFolderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/initialisation";
 		
@@ -437,8 +443,8 @@ class Main {
 		
 		System.out.println("Initialized!");
 
+/*	USE THIS TO DELETE	*/		
 		
-//		DataInitialiser dataInitialiser = new DataInitialiser();
 //		dataInitialiser.resetAllData();
 	}
 }
