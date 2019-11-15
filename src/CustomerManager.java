@@ -178,15 +178,15 @@ public class CustomerManager implements ResetSelf{
 	public void loadCustomers(){
 		String folderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/customers";
 		File[] files= getAllFiles(folderPath);
-		
-		for (int i=0; i<files.length;i++)
-		{
-			String filePath= files[i].getPath();
-			setCust((CustomerAccount) SerializerHelper.deSerializeObject(filePath));
-			emailHash.put(getCust().getEmail(), getCust().getCustomerID());
-			mobileHash.put(getCust().getmobileNo(), getCust().getCustomerID());
-			idHash.put(getCust().getCustomerID(), getCust());
-		}
+		if (files!=null)
+			for (int i=0; i<files.length;i++)
+			{
+				String filePath= files[i].getPath();
+				setCust((CustomerAccount) SerializerHelper.deSerializeObject(filePath));
+				emailHash.put(getCust().getEmail(), getCust().getCustomerID());
+				mobileHash.put(getCust().getmobileNo(), getCust().getCustomerID());
+				idHash.put(getCust().getCustomerID(), getCust());
+			}
 		
 	}
 	
