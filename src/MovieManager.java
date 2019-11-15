@@ -630,18 +630,6 @@ class MovieManager {
         System.out.println("Movies Saved!");
     }
 
-    private Date dateParser(String dateString) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = formatter.parse(dateString);
-        return date;
-    }
-    
-    private LocalDateTime dateTimeParser(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
-        return dateTime;
-    }
-
     public Movie getMoviebyID(String movieID){
         return movies.get(movieID);
     }
