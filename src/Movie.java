@@ -15,7 +15,7 @@ public class Movie implements Serializable{
     private MovieRating movieRating;
     private List<MovieFormat> movieFormats;
     private int movieDuration;
-    private List<Review> movieReviews;
+    private List<String> reviews;
     private float averageReviewScore;
     private int totalReviewNo;
     private float totalReviewScore;
@@ -30,29 +30,29 @@ public class Movie implements Serializable{
     	this.genres = new ArrayList<Genre>();
     	this.cast = new ArrayList<String>();
     	this.movieFormats = new ArrayList<MovieFormat>();
-    	this.movieReviews = new ArrayList<Review>();
+    	this.reviews = new ArrayList<String>();
     	
     }
 
     
     // Getters
-    public String getMovieID() {return movieID;}    
-    public String getTitle() {return title;}
-    public List<Genre> getGenres() {return genres;}
-    public String getDirector() {return director;}
-    public List<String> getCast() {return cast;}
-    public String getSynopsis() {return synopsis;}
-    public MovieRating getMovieRating() {return movieRating;}
-    public List<MovieFormat> getMovieFormats() {return movieFormats;}
-    public float getMovieDuration() {return movieDuration;}
-    public List<Review> getMovieReviews() {return movieReviews;}
-    public float getAverageReviewScore() {return averageReviewScore;}
-    public int getTotalReviewNo() {return totalReviewNo;}
-    public float getTotalReviewScore() {return totalReviewScore;}
-    public ShowingStatus getShowingStatus() {return showingStatus;}
-    public LocalDate getReleaseDate() {return releaseDate;}
-    public long getTicketsSold() {return ticketsSold;}
-    public double getGrossProfit() {return grossProfit;}
+    public String getMovieID() {return this.movieID;}    
+    public String getTitle() {return this.title;}
+    public List<Genre> getGenres() {return this.genres;}
+    public String getDirector() {return this.director;}
+    public List<String> getCast() {return this.cast;}
+    public String getSynopsis() {return this.synopsis;}
+    public MovieRating getMovieRating() {return this.movieRating;}
+    public List<MovieFormat> getMovieFormats() {return this.movieFormats;}
+    public float getMovieDuration() {return this.movieDuration;}
+    public List<String> getReviews() {return this.reviews;}
+    public float getAverageReviewScore() {return this.averageReviewScore;}
+    public int getTotalReviewNo() {return this.totalReviewNo;}
+    public float getTotalReviewScore() {return this.totalReviewScore;}
+    public ShowingStatus getShowingStatus() {return this.showingStatus;}
+    public LocalDate getReleaseDate() {return this.releaseDate;}
+    public long getTicketsSold() {return this.ticketsSold;}
+    public double getGrossProfit() {return this.grossProfit;}
 
 
     // Setters
@@ -65,7 +65,7 @@ public class Movie implements Serializable{
     public void setMovieRating(MovieRating movieRating) {this.movieRating = movieRating;}
     public void setMovieFormats(ArrayList<MovieFormat> movieFormats) {this.movieFormats = movieFormats;}
     public void setMovieDuration(int movieDuration) {this.movieDuration = movieDuration;}
-    public void setMovieReviews(ArrayList<Review> movieReviews) {this.movieReviews = movieReviews;}
+    public void setReviews(ArrayList<String> reviews) {this.reviews = reviews;}
     public void setAverageReviewScore(float averageReviewScore) {this.averageReviewScore = averageReviewScore;}
     public void setTotalReviewNo(int totalReviewNo) {this.totalReviewNo = totalReviewNo;}
     public void setTotalReviewScore(float totalReviewScore) {this.totalReviewScore = totalReviewScore;}
@@ -77,8 +77,8 @@ public class Movie implements Serializable{
     
     
     // 
-    public void addMovieReview(Review review) {
-        this.movieReviews.add(review);
+    public void addMovieReview(String reviewID) {
+        this.reviews.add(reviewID);
     }
 
 }

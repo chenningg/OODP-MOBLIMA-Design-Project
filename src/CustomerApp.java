@@ -38,64 +38,38 @@ public class CustomerApp {
 		
 		
 		do {
-	    	System.out.println("================= MOBLIMA CUSTOMER APP =================\n" +
-	                "1. View movie listings \n" +
-	                "2. Leave review\n" +
-	                "3. View top 5\n" +
-	                "4. Check booking history\n" +
-	                "0. Quit\n");
-	    	
+            System.out.println(	"=================== MOBLIMA CUSTOMER APP ===================\n" +
+			                    "| 1. View movie listings						    		|\n" +
+			                    "| 2. View top 5		 						    		|\n" +
+			                    "| 3. Check booking history						    		|\n" +
+				                "| 0. Back to MOBLIMA APP......                             |\n" +
+				                "============================================================");    
+            
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
             
             switch(choice){
-                case 1://view movie listings
-                	mm.displayMovies();
+                case 1:
+//                	mm.displayMovies(); CODE IS NOT IN YET
                     break;
-
-                case 2://leave review
-                	String searchterm;
-                	int searchSize;
-                	
-                    System.out.println("Enter search term: ");
-                    searchterm = sc.next();
-                    
-                    searchSize = MovieManager.getInstance().searchMovies(searchterm).size();
-                    
-                    //search for movie using searchterm
-                    if(searchSize == 0){
-                        System.out.println("No Movies found.");
-                        break;
-                    }
-                    
-                    //print out movies containing searchterm
-                    for(int i=0;i<searchSize;i++){
-                        System.out.println(i+1+". "+mm.searchMovies(searchterm).get(i));
-                    }
-                    
-                    //let user choose movie
-                    do{
-                        System.out.println("Enter choice of movie(1-" + searchSize+": ");
-                        choice = sc.nextInt();
-
-                    }while(choice <1 || choice>searchSize);
-                    rm.createReview(mm.searchMovies(searchterm).get(choice-1));
-                    break;
-
-                case 3://view top 5
+                case 2:
                 	mm.viewTop5Cust();
                     break;
 
-                case 4://check booking history
-                	int emailOrMobile;
+                case 3:
+                	int subchoice;
                 	
                 	do {
-	                	System.out.print("Enter 1,2 or 3: \n"
-	                			+ "1. Check via email address\n"
-	                			+ "2. Check via mobile number\n"
-	                			+ "0. Back to CustomerApp\n");
-	                	emailOrMobile= sc.nextInt();
-	                	switch (emailOrMobile) {
+                        System.out.println(	"=========== SEARCH BOOKING HISTORY =============\n" +
+			                    "| 1. Check via email address					    		|\n" +
+			                    "| 2. Check via mobile number 					    		|\n" +
+				                "| 0. Back to CustomerApp......                             |\n" +
+				                "============================================================");                    		
+                		
+                        System.out.println("Enter choice: ");
+                        subchoice = sc.nextInt();
+                        
+	                	switch (subchoice) {
 	                	case 1:
 	                		cm.printPastBookingByEmail();
 	                		break;
@@ -109,17 +83,17 @@ public class CustomerApp {
                 			System.out.println("Invalid choice. Please choose between 0-2.");
                 			break;
 	                	}
-                	}while(emailOrMobile!=0);
+                	} while (subchoice!=0);
                 	
                     break;
                 case 0:
                 	System.out.println("Back to MOBLIMA APP......");
                 	break;
                 default: 
-                	System.out.println("Invalid choice. Please choose between 0-4.");
+                	System.out.println("Invalid choice. Please choose between 0-3.");
                 	break;
 	            }
-	        } while(choice != 0);
+	        } while (choice != 0);
 		}
     }
 	

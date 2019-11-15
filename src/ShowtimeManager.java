@@ -94,7 +94,7 @@ class ShowtimeManager {
     }
     
     
-    private void showtimeMenuStaff() {
+    public void showtimeMenuStaff() {
         int choice;
         
         System.out.println("Enter the showtimeID you would like to view/update/remove: ");
