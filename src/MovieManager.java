@@ -651,9 +651,6 @@ class MovieManager {
     }
 
     public void updateShowtimes(String movieID, String showtimeID) {
-        Movie movie = movies.get(movieID);
-        List<String> showtimeIDs = movie.getShowtimeIDs();
-        showtimeIDs.add(showtimeID);
-        movie.setShowtimeIDs(showtimeIDs);
+        this.movies.get(movieID).addShowtimeID(showtimeID);
     }
 }
