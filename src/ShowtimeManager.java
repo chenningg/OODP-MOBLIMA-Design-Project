@@ -42,7 +42,6 @@ public class ShowtimeManager {
     // Public exposed methods to app
     public void getMovieShowtimes(String movieID, String appType) {
         List<String> relevantShowtimeIDs = MovieManager.getInstance().getMoviebyID(movieID).getShowtimeIDs();
-        System.out.println(relevantShowtimeIDs);
         List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
         for (String showtimeID : relevantShowtimeIDs) {
             Showtime showtime = this.showtimes.get(showtimeID);
@@ -65,7 +64,7 @@ public class ShowtimeManager {
             }
 
             if (appType.equalsIgnoreCase("Staff")) {
-                System.out.println("==================== SHOWTIMES  ====================\n" +
+                System.out.println("==================== SHOWTIMES  =====================\n" +
                                     "| 1. View/Update/Remove Specific Showtime          |\n" +
                                     "| 2. Create New Showtime                           |\n" +
                                     "| 0. Back to Showtimes List                        |\n" +
@@ -75,7 +74,10 @@ public class ShowtimeManager {
 
                 switch (choice) {
                     case 1:
-                        this.showtimeMenuStaff();
+                        System.out.println("Enter option: ");
+                        int option = sc.nextInt() - 1;
+                        String showtimeID = relevantShowtimeIDs.get(option);
+                        this.showtimeMenuStaff(showtimeID);
                         break;
                     case 2:
                         this.createShowtime();
@@ -91,15 +93,18 @@ public class ShowtimeManager {
             }
             else if (appType.equalsIgnoreCase("Customer")) {
                 System.out.println("==================== SHOWTIMES  ====================\n" +
-                        "| 1. View Specific Showtime (Details / Booking)    |\n" +
-                        "| 0. Back to MovieManager                          |\n" +
-                        "====================================================");
+                                    "| 1. View Specific Showtime (Details / Booking)    |\n" +
+                                    "| 0. Back to MovieManager                          |\n" +
+                                    "====================================================");
                 System.out.println("Enter choice:");
                 choice = sc.nextInt();
 
                 switch (choice) {
                     case 1:
-                        this.showtimeMenuCustomer();
+                        System.out.println("Enter option: ");
+                        int option = sc.nextInt() - 1;
+                        String showtimeID = relevantShowtimeIDs.get(option);
+                        this.showtimeMenuCustomer(showtimeID);
                         break;
                     case 0:
                         System.out.println("Back to Showtimes List......");
@@ -115,16 +120,13 @@ public class ShowtimeManager {
         } while (choice != 0);
     }
 
-    private void showtimeMenuCustomer() {
+    private void showtimeMenuCustomer(String selectedShowtimeID) {
         int choice;
-
-        System.out.println("Enter the showtimeID you would like to view/book: ");
-        String selectedShowtimeID = sc.next();
 
         do {
             System.out.println(	"================== SHOWTIME CUSTOMER APP ===================\n" +
-                                "| 1. View ALL Details						                |\n" +
-                                "| 2. Book Showtime 				                        |\n" +
+                                "| 1. View ALL Details                                      |\n" +
+                                "| 2. Book Showtime                                         |\n" +
                                 "| 0. Back to MovieManager                                  |\n" +
                                 "===========================================================");
             System.out.println("Enter choice: ");
@@ -150,17 +152,14 @@ public class ShowtimeManager {
         } while (choice != 0);
     }
 
-    private void showtimeMenuStaff() {
+    private void showtimeMenuStaff(String showtimeID) {
         int choice;
-
-        System.out.println("Enter the showtimeID you would like to view/update/remove: ");
-        String selectedShowtimeID = sc.next();
 
         do {
             System.out.println(	"==================== SHOWTIME STAFF APP ====================\n" +
-            					"| 1. View ALL Details						                |\n" +
-			            		"| 2. Update   						                        |\n" +
-			                    "| 3. Remove 						                        |\n" +
+            					"| 1. View ALL Details                                      |\n" +
+			            		"| 2. Update                                                |\n" +
+			                    "| 3. Remove                                                |\n" +
 			                    "| 0. Back to MovieManager                                  |\n" +
 			                    "===========================================================");
             System.out.println("Enter choice: ");
@@ -168,13 +167,13 @@ public class ShowtimeManager {
 
             switch (choice) {
                 case 1:
-                    this.viewShowtime(selectedShowtimeID);
+                    this.viewShowtime(showtimeID);
                     break;
                 case 2:
-                	this.updateShowtime(selectedShowtimeID);
+                	this.updateShowtime(showtimeID);
                     break;
                 case 3:
-                	this.deleteShowtime(selectedShowtimeID);
+                	this.deleteShowtime(showtimeID);
                     break;
                 case 0:
                 	System.out.println("Back to ShowtimesList......");
@@ -208,12 +207,12 @@ public class ShowtimeManager {
         if (showtimeToUpdate != null) {
             do {
                 System.out.println(	"================= UPDATE SHOWTIME STAFF APP ================\n" +
-                                    "| 1. Showtime Date Time      				                |\n" +
+                                    "| 1. Showtime Date Time                                    |\n" +
                                     "| 2. Movie ID                                              |\n" +
-                                    "| 3. Cinema 						                        |\n" +
-                                    "| 4. Cineplex Name 				                        |\n" +
-                                    "| 5. Cinema Status 				                        |\n" +
-                                    "| 6. Movie Format					                        |\n" +
+                                    "| 3. Cinema                                                |\n" +
+                                    "| 4. Cineplex Name                                         |\n" +
+                                    "| 5. Cinema Status                                         |\n" +
+                                    "| 6. Movie Format                                          |\n" +
                                     "| 0. Back to Showtime Staff App                            |\n" +
                                     "===========================================================");
                 System.out.println("Enter choice: ");
@@ -221,27 +220,36 @@ public class ShowtimeManager {
 
                 switch (choice) {
                     case 1:
+                        System.out.println("Enter new Showtime datetime: ");
                         String newDateTime = sc.next();
                         showtimeToUpdate.setDateTime(this.dateTimeParser(newDateTime));
                         break;
                     case 2:
+                        System.out.println("Enter new movie ID: ");
                         String newMovieID = sc.next();
                         showtimeToUpdate.setMovieID(newMovieID);
                         break;
                     case 3:
+                        System.out.println("Enter new cinema ID: ");
                         String newCinemaID = sc.next();
                         Cinema newCinema = CompanyManager.getInstance().getNewCinema(newCinemaID);
                         showtimeToUpdate.setCinema(newCinema);
+                        break;
                     case 4:
+                        System.out.println("Enter new cineplex name: ");
                         String cineplexName = sc.next();
                         showtimeToUpdate.setCineplexName(cineplexName);
                         break;
                     case 5:
+                        System.out.println("Enter new cinema status: ");
                         showtimeToUpdate.setCinemaStatus(CinemaStatus.valueOf(sc.next()));
                         break;
                     case 6:
+                        System.out.println("Enter new movie format: ");
                         showtimeToUpdate.setMovieFormat(MovieFormat.valueOf(sc.next()));
                         break;
+                    case 0:
+                        System.out.println("Going back to Showtime Staff App ...");
                     default:
                         System.out.println("Please enter an option 0 - 6!");
                         break;
