@@ -82,9 +82,6 @@ public class StaffApp {
 			case 3:
 				MovieManager.getInstance().movieMenuStaff();
 				break;
-			case 4:
-				ShowtimeManager.getInstance().showtimeMenuStaff(sc);
-				break;
 			case 0:
 				System.out.println("Logging out from StaffApp......");
 				break;
