@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-class ShowtimeManager {
+public class ShowtimeManager {
 	// Attributes
     // HashMap of showtimeID to showtime object
 	private Map <String, Showtime> showtimes = new HashMap<>();

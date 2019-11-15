@@ -56,6 +56,7 @@ public class ReviewManager {
         } while (choice != 0);
     }
 
+
     public ArrayList<Review> getReviews(Movie movie) {
         return movie.getMovieReviews();
     }
