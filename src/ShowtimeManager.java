@@ -42,9 +42,10 @@ public class ShowtimeManager {
     // Public exposed methods to app
     public void getMovieShowtimes(String movieID, String appType) {
         List<String> relevantShowtimeIDs = MovieManager.getInstance().getMoviebyID(movieID).getShowtimeIDs();
-        List<Showtime> relevantShowtimes = new ArrayList<>();
-        for (String showtimeIDs : relevantShowtimeIDs) {
-            Showtime showtime = this.showtimes.get(showtimeIDs);
+        System.out.println(relevantShowtimeIDs);
+        List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
+        for (String showtimeID : relevantShowtimeIDs) {
+            Showtime showtime = this.showtimes.get(showtimeID);
             relevantShowtimes.add(showtime);
         }
 
