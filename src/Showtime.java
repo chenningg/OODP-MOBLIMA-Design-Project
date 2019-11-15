@@ -42,7 +42,7 @@ public class Showtime implements Serializable {
     //Setters
     public void setShowtimeID(String showtimeID) {this.showtimeID = showtimeID;}
     public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
-    public void setMovie(String movieID) {this.movieID = movieID;}
+    public void setMovieID(String movieID) {this.movieID = movieID;}
     public void setMovieFormat(MovieFormat movieFormat) {this.movieFormat = movieFormat;}
     public void setCinema(Cinema cinema) {this.cinema = cinema;}
     public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}

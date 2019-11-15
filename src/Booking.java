@@ -1,9 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.io.*;
 
 public class Booking implements Serializable {
@@ -43,60 +41,6 @@ public class Booking implements Serializable {
     	System.out.println("=============================================================================");
     }
     
-    // Gets the latest ID for this booking from file
-    public String getLatestID() {
-    	
-    	String latestID = String.format("%08ld", 00000000);
-    	
-    	try {
-			// Get filepath
-			String filePath = ProjectRootPathFinder.findProjectRootPath();
-			
-			if (filePath == null) {
-				throw new IOException("Cannot find root");
-			} else {
-				filePath = filePath + "/data/ids/booking_id.txt";
-			}
-			
-			// Open file and traverse it						
-			FileReader frStream = new FileReader( filePath );
-			BufferedReader brStream = new BufferedReader( frStream );
-			String inputLine;
-
-			inputLine = brStream.readLine(); // read in a line
-			if (inputLine == null) {
-				latestID = String.format("%08ld", 00000000);
-			}
-			else {
-				latestID = inputLine;
-			}
-			
-			brStream.close(); // Close file
-			
-			// Open file in write mode
-			FileWriter fwStream = new FileWriter(filePath, false); // Overwrite file
-		    BufferedWriter bwStream = new BufferedWriter(fwStream);
-		    
-		    String newLatestID = String.format("%08ld", Integer.valueOf(latestID) + 1);
-		    
-		    bwStream.write(newLatestID);
-			
-		    bwStream.close(); // Close file
-		    
-		    return latestID;
-			
-		} catch ( FileNotFoundException e ) {
-			System.out.println( "Error opening the input file!" + e.getMessage() );
-			System.exit( 0 );
-		} catch ( IOException e ) {
-			System.out.println( "IO Error!" + e.getMessage() );
-			e.printStackTrace();
-			System.exit( 0 );
-		}
-    	
-		return latestID;           
-    }
-    
     
     // Getters
     
@@ -111,10 +55,7 @@ public class Booking implements Serializable {
 	
 	// Setters
 	
-	public void setBookingID() {
-		this.bookingID = getLatestID();
-	}
-	
+	public void setBookingID(String latestID) {this.bookingID = latestID;}	
 	public void setTickets(ArrayList<Ticket> tickets) {this.tickets = tickets;}
 	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
     public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
