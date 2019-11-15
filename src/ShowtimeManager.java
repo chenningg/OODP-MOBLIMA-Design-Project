@@ -7,7 +7,7 @@ import java.util.*;
 public class ShowtimeManager {
 	// Attributes
     // HashMap of showtimeID to showtime object
-	private Map <String, Showtime> showtimes = new HashMap<>();
+	private Map <String, Showtime> showtimes = new HashMap<String, Showtime>();
 
 	private Scanner sc = new Scanner(System.in);
 
@@ -44,8 +44,8 @@ public class ShowtimeManager {
     public void getMovieShowtimes(String movieID, String appType) {
         List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
 
-        for (Map.Entry showtimeElement : showtimes.entrySet()) {
-            Showtime relevantShowtime = (Showtime) showtimeElement.getValue();
+        for (Map.Entry<String, Showtime> showtimeElement : showtimes.entrySet()) {
+            Showtime relevantShowtime = showtimeElement.getValue();
             if (relevantShowtime.getMovieID().equals(movieID)) {
                 relevantShowtimes.add(relevantShowtime);
             }
@@ -57,7 +57,8 @@ public class ShowtimeManager {
             int j;
             if (relevantShowtimes.size() == 0) {
                 System.out.println("No showtimes found");
-            } else {
+            }
+            else {
                 for (j = 0; j < relevantShowtimes.size(); j++) {
                     System.out.println("Showtime " + (j + 1) + ": showtimeID = " + relevantShowtimes.get(j).getShowtimeID());
                     System.out.println(relevantShowtimes.get(j).getCineplexName() + ", Cinema " + relevantShowtimes.get(j).getCinema().getCinemaID() + ", Hall No. " + relevantShowtimes.get(j).getCinema().getHallNo());
@@ -270,19 +271,19 @@ public class ShowtimeManager {
 	// Private Serialization and Deserialization
 
     private Map <String,Showtime> load() {
-        Map <String,Showtime> loadedShowtimes = new HashMap<>();
-        File folder = new File("/data/showtimes");
+        Map <String, Showtime> loadedShowtimes = new HashMap<String, Showtime>();
+        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes");
 
         File[] listOfFiles = folder.listFiles();
-        if(listOfFiles.length==0){
-            return null;
+        if(listOfFiles != null){
+	        for (File listOfFile : listOfFiles) {
+	            String fileID = listOfFile.getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
+	            String filepath = listOfFile.getPath();
+	            Showtime newShowtime = (Showtime)SerializerHelper.deSerializeObject(filepath);
+	            loadedShowtimes.put(fileID, newShowtime);
+	        }
         }
-        for (File listOfFile : listOfFiles) {
-            loadedShowtimes.keySet().add(listOfFile.getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1]);
-            String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/" + listOfFile.getName().split("_")[0] + ".dat";
-            loadedShowtimes.values().add((Showtime) SerializerHelper.deSerializeObject(filepath));
-        }
-
+        
         return loadedShowtimes;
     }
 

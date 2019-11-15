@@ -608,18 +608,20 @@ class MovieManager {
     }
 
     public HashMap<String,Movie> loadObject() {
-        HashMap<String,Movie> loadedMovies = new HashMap<>();
-        File folder = new File("/data/movies");
+        HashMap<String, Movie> loadedMovies = new HashMap<String, Movie>();
+        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/movies");
 
         File[] listOfFiles = folder.listFiles();
-        if(listOfFiles.length==0){
-            return null;
+        
+        if(listOfFiles != null){
+        	for(int i=0;i<listOfFiles.length;i++){
+        		String filepath = listOfFiles[i].getPath(); // Returns full path incl file name and type
+        		Movie newMovie = (Movie)SerializerHelper.deSerializeObject(filepath);
+        		String fileID = listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
+                loadedMovies.put(fileID, newMovie);
+            }
         }
-        for(int i=0;i<listOfFiles.length;i++){
-            loadedMovies.keySet().add(listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1]);
-            String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/"+listOfFiles[i].getName().split("_")[0]+".dat";
-            loadedMovies.values().add((Movie)SerializerHelper.deSerializeObject(filepath));
-        }
+        
         System.out.println("Movies loaded!");
         return loadedMovies;
     }

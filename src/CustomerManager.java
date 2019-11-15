@@ -181,13 +181,13 @@ public class CustomerManager implements ResetSelf{
 		if (files!=null)
 			for (int i=0; i<files.length;i++)
 			{
-				String filePath= files[i].getPath();
-				setCust((CustomerAccount) SerializerHelper.deSerializeObject(filePath));
-				emailHash.put(getCust().getEmail(), getCust().getCustomerID());
-				mobileHash.put(getCust().getmobileNo(), getCust().getCustomerID());
-				idHash.put(getCust().getCustomerID(), getCust());
+				String filePath = files[i].getPath();
+				CustomerAccount newCust = (CustomerAccount)(SerializerHelper.deSerializeObject(filePath));
+				
+				emailHash.put(newCust.getEmail(), newCust.getCustomerID());
+				mobileHash.put(newCust.getMobileNo(), newCust.getCustomerID());
+				idHash.put(newCust.getCustomerID(), newCust);
 			}
-		
 	}
 	
 	
