@@ -29,8 +29,7 @@ class MovieManager {
         if (serializedObject != null) {
             this.movies = serializedObject;
         } else {
-            this.movies = new ArrayList<>();
-            this.saveObject();
+            this.movies = new HashMap<String,Movie>();
         }
     }
     
@@ -88,40 +87,41 @@ class MovieManager {
             do {
                 switch (choice) {
                     case 1:
-                        this.selectMovie(movies,appType);
+                        List<Movie> movieList = new ArrayList<>(movies.values());
+                        this.selectMovie(movieList,appType);
                         break;
                     case 2:
                         List<Movie> comingSoon = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("COMING_SOON")){
-                                comingSoon.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("COMING_SOON")){
+                                comingSoon.add(entry.getValue());
                             }
                         }
                         this.selectMovie(comingSoon,appType);
                         break;
                     case 3:
                         List<Movie> preview = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("PREVIEW")){
-                                preview.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("PREVIEW")){
+                                preview.add(entry.getValue());
                             }
                         }
                         this.selectMovie(preview,appType);
                         break;
                     case 4:
                         List<Movie> nowShowing = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("NOW_SHOWING")){
-                                nowShowing.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+                                nowShowing.add(entry.getValue());
                             }
                         }
                         this.selectMovie(nowShowing,appType);
                         break;
                     case 5:
                         List<Movie> endShowing = new ArrayList<Movie>();
-                        for(int i=0;i<movies.size();i++){
-                            if(movies.get(i).getShowingStatus().equalsString("END_OF_SHOWING")){
-                                endShowing.add(movies.get(i));
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("END_OF_SHOWING")){
+                                endShowing.add(entry.getValue());
                             }
                         }
                         this.selectMovie(endShowing,appType);
@@ -610,10 +610,15 @@ class MovieManager {
     public HashMap<String,Movie> loadObject() {
         HashMap<String,Movie> loadedMovies = new HashMap<>();
         File folder = new File("/data/movies");
-        File[] listOfFiles = folder.listFiles();
-        for(int i=0;i<listOfFiles.length;i++){
-            loadedMovies.keySet().add(listOfFiles[i].getName());
 
+        File[] listOfFiles = folder.listFiles();
+        if(listOfFiles.length==0){
+            return null;
+        }
+        for(int i=0;i<listOfFiles.length;i++){
+            loadedMovies.keySet().add(listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1]);
+            String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/"+listOfFiles[i].getName().split("_")[0]+".dat";
+            loadedMovies.values().add((Movie)SerializerHelper.deSerializeObject(filepath));
         }
 
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
@@ -639,7 +644,18 @@ class MovieManager {
         return dateTime;
     }
 
+    private Movie getMoviebyID(String movieID){
+        return movies.get(movieID);
+    }
 
+    private void updateGrossProfit(String movieID,double grossProfit){
+        movies.get(movieID).setGrossProfit(movies.get(movieID).getGrossProfit() + grossProfit);
+    }
+
+    private void updateTicketsSold(String movieID,long ticketsSold){
+        movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
+    }
+    
 }
 
 
