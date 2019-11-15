@@ -42,13 +42,11 @@ public class ShowtimeManager {
 
     // Public exposed methods to app
     public void getMovieShowtimes(String movieID, String appType) {
-        List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
-
-        for (Map.Entry<String, Showtime> showtimeElement : showtimes.entrySet()) {
-            Showtime relevantShowtime = showtimeElement.getValue();
-            if (relevantShowtime.getMovieID().equals(movieID)) {
-                relevantShowtimes.add(relevantShowtime);
-            }
+        List<String> relevantShowtimeIDs = MovieManager.getInstance().getMoviebyID(movieID).getShowtimeIDs();
+        List<Showtime> relevantShowtimes = new ArrayList<>();
+        for (String showtimeIDs : relevantShowtimeIDs) {
+            Showtime showtime = this.showtimes.get(showtimeIDs);
+            relevantShowtimes.add(showtime);
         }
 
         int choice = 0; // required to initialise
@@ -264,6 +262,7 @@ public class ShowtimeManager {
         String cineplexName;
         CinemaStatus cinemaStatus;
         MovieFormat movieFormat;
+        List<Showtime> showtimes;
 
         System.out.println("Enter Showtime DateTime: ");
         showtimeDateTime = this.dateTimeParser(sc.next());
@@ -288,12 +287,11 @@ public class ShowtimeManager {
         showtime.setCinemaStatus(cinemaStatus);
         showtime.setMovieFormat(movieFormat);
 
+        MovieManager.getInstance().updateShowtimes(movieID, showtimeID);
         this.showtimes.put(showtimeID, showtime); // add new entry to hashmap
         this.save(showtime, showtimeID); // serialize file
         System.out.println("New showtime created!");
         System.out.println("Going back to showtime staff app ...");
-
-
     }
 
     public void deleteShowtime(String showtimeID) {

@@ -23,6 +23,7 @@ public class Movie implements Serializable{
     private LocalDate releaseDate;
     private long ticketsSold;
     private double grossProfit;
+    private List<String> showtimeIDs;
     
 
     // Constructor
@@ -73,10 +74,16 @@ public class Movie implements Serializable{
     public void setReleaseDate(LocalDate releaseDate) {this.releaseDate = releaseDate;}
     public void setTicketsSold(long ticketsSold) {this.ticketsSold = ticketsSold;}
     public void setGrossProfit(double grossProfit) {this.grossProfit = grossProfit;}
- 
-    
-    
-    // 
+
+    public List<String> getShowtimeIDs() {
+        return showtimeIDs;
+    }
+
+    public void setShowtimeIDs(List<String> showtimeIDs) {
+        this.showtimeIDs = showtimeIDs;
+    }
+
+    //
     public void addMovieReview(String reviewID) {
         this.reviews.add(reviewID);
     }
