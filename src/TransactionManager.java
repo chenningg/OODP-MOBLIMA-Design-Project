@@ -124,7 +124,7 @@ public class TransactionManager implements ResetSelf {
 		
 		// Print net total
 		System.out.println("----------------------------------------------------------------------------------");
-		System.out.printf("%-70s%-10.2f", "NET TOTAL (INCL. GST)", getTransaction().getTotalPrice());
+		System.out.printf("%-70s%-10.2f\n", "NET TOTAL (INCL. GST)", getTransaction().getTotalPrice());
 	}
 	
 	
