@@ -1,5 +1,5 @@
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Review implements Serializable {
     //Attributes
@@ -7,11 +7,11 @@ public class Review implements Serializable {
     private String reviewerName;
     private String reviewTitle;
     private String reviewBody;
+    private String movieID;
     private double score;
-    private LocalDate reviewDate;
+    private LocalDateTime reviewDateTime;
 
 
-    //Methods
     //Getters
     public String getReviewID() {
         return reviewID;
@@ -23,12 +23,17 @@ public class Review implements Serializable {
     public String getReviewBody() {
         return reviewBody;
     }
+    public String getMovieID() {
+    	return movieID;
+    }
     public double getScore() {
         return score;
     }
-    public LocalDate getReviewDate() {
-        return reviewDate;
+    public LocalDateTime getreviewDateTime() {
+        return reviewDateTime;
     }
+    
+    
     //Setters
     public void setReviewID(String reviewID) {
         this.reviewID = reviewID;
@@ -40,10 +45,13 @@ public class Review implements Serializable {
     public void setReviewBody(String reviewBody) {
         this.reviewBody = reviewBody;
     }
+    public void setMovieID(String movieID) {
+    	this.movieID = movieID;
+    }
     public void setScore(double score) {
         this.score = score;
     }
-    public void setReviewDate(LocalDate reviewDate) {
-        this.reviewDate = reviewDate;
+    public void setReviewDateTime(LocalDateTime reviewDateTime) {
+        this.reviewDateTime = reviewDateTime;
     }
 }
