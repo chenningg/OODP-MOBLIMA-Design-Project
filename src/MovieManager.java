@@ -251,7 +251,8 @@ class MovieManager {
     }
 
 
-    public List<Movie> searchMovies(String apptype){
+    public List<Movie> searchMovies(String appType){
+        System.out.println("Please enter a search term: ");
         String movieTitle = sc.next();
         List<Movie> foundMovies = new ArrayList<>();
         String lowerCaseName = movieTitle.toLowerCase();
@@ -266,24 +267,24 @@ class MovieManager {
             System.out.println("No such movie found!");
             return null;
         }
-        selectMovie(foundMovies,apptype);
+        selectMovie(foundMovies,appType);
         return foundMovies;
     }
 
-    public Movie selectMovie(List<Movie> movieselect,String apptype) {
-        for (int i = 0; i < movieselect.size(); i++) {
-            System.out.println(i + 1 + ". " + movieselect.get(i).getTitle());
+    public Movie selectMovie(List<Movie> movieSelect,String appType) {
+        for (int i = 0; i < movieSelect.size(); i++) {
+            System.out.println(i + 1 + ". " + movieSelect.get(i).getTitle());
         }
         int choice;
         do {
-            choice = sc.nextInt();
+            System.out.println("Choose a movie (Enter 0 to exit): ");
+            choice = sc.nextInt()+1;
             if(choice==0)
                 return null;
-            System.out.println("Choose a movie (Enter 0 to exit): ");
-        }while(choice<1 || choice >= movieselect.size());
-        displayMovieDetails(movieselect.get(choice));
-        subMovieMenu(movieselect.get(choice),apptype);
-        return movieselect.get(choice);
+        }while(choice<1 || choice >= movieSelect.size());
+        displayMovieDetails(movieSelect.get(choice));
+        subMovieMenu(movieSelect.get(choice),appType);
+        return movieSelect.get(choice);
     }
 
     public void displayMovieDetails(Movie movie) {
