@@ -197,7 +197,7 @@ public class ReviewManager {
                 loadedReviews.put(fileID, newReview);
             }
         }
-        
+
         return loadedReviews;
     }    
 }
