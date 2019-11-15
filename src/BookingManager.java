@@ -52,12 +52,14 @@ class BookingManager implements ResetSelf {
     		// Show the seating plan
         	displaySeats(getSeatingPlan());
         	
-        	System.out.println("Please choose a choice:");
-        	System.out.println("1. Select a seat");
-        	System.out.println("2. Deselect a seat");
-        	System.out.println("3. Confirm and go to ticket selection");
-        	System.out.println("0. Exit");
-
+        	System.out.println("==================== SEAT BOOKING ====================\n"+
+								"| 1. Select a seat                                   |\n"+
+								"| 2. Deselect a seat                                 |\n"+
+								"| 3. Confirm and proceed to ticket selection         |\n"+
+								"| 0. Exit			                                  |\n"+
+								"======================================================");
+        	System.out.println("Please select a choice:");
+        	
         	switch(sc.nextInt()) {
         		case 0: // Exit, reset everything
         			exit = true;
@@ -345,11 +347,11 @@ class BookingManager implements ResetSelf {
     	}
     	
     	// We then update the current showtime REFERENCE with the new seating plan, and update the showtime fill status
-    	showtime.getCinema().setCinemaLayout(getSeatingPlan());
-    	showtime.updateCinemaStatus();
+    	getShowtime().getCinema().setCinemaLayout(getSeatingPlan());
+    	getShowtime().updateCinemaStatus();
     	
     	// Save the new showtimes status
-    	ShowtimeManager.getInstance().save();
+    	ShowtimeManager.getInstance().save(getShowtime(), getShowtime().getShowtimeID());
     	
     	// We create a new booking and fill it up with the finalized information before storing it
     	setBooking(new Booking());
@@ -366,7 +368,7 @@ class BookingManager implements ResetSelf {
     	getBooking().setDateTime(getShowtime().getDateTime());
     	
     	// Update booking's movieName, cineplexName and hallNo
-    	getBooking().setMovieName(showtime.getMovieID());
+    	getBooking().setMovieID(showtime.getMovieID());
     	getBooking().setCineplexName(showtime.getCineplexName());
     	getBooking().setHallNo(showtime.getCinema().getHallNo());
     	
@@ -374,7 +376,7 @@ class BookingManager implements ResetSelf {
     	getBooking().setBookingID(IDHelper.getLatestID("booking"));
     	
     	// We store the booking in our CustomerAccount
-    	CustomerManager.getInstance().storeBooking(getBooking());
+    	CustomerManager.getInstance().storeBooking(getBooking().getBookingID());
     	
     	// We can then send this booking off to store as a serialized file
     	String filePath = ProjectRootPathFinder.findProjectRootPath();
