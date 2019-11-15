@@ -15,12 +15,12 @@ public class Showtime implements Serializable {
     //Methods
 
     public void updateCinemaStatus() {
-    	double percentageFilled = getCinema().getOccupiedSeatsNo() / getCinema().getTotalSeatNo();
+    	double percentageFilled = (double) getCinema().getOccupiedSeatsNo() / (double) getCinema().getTotalSeatNo();
 
-    	if (percentageFilled <= 50.0) {
+    	if (percentageFilled <= 0.50) {
     		setCinemaStatus(CinemaStatus.AVAILABLE);
     	}
-    	else if (percentageFilled < 100.0) {
+    	else if (percentageFilled < 1) {
     		setCinemaStatus(CinemaStatus.SELLING_FAST);
     	}
     	else {
