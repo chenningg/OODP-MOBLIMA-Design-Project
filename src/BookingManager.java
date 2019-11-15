@@ -95,8 +95,8 @@ class BookingManager implements ResetSelf {
     	String[] symbols = {" ", "X", "S"}; // Symbols for seat status display
     	
     	// Iterate through List of Strings
-    	for (int row = 0; row < getSeatingPlan().size(); row++) {
-    		rowRef = getSeatingPlan().get(row);
+    	for (int row = 0; row < list.size(); row++) {
+    		rowRef = list.get(row);
     		
     		// Check if this row has seats. If not, just print whole row straight.
     		if (!(Character.isAlphabetic(rowRef.charAt(0)))) { // No seats
