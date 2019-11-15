@@ -105,18 +105,13 @@ public class DataInitialiser {
 				LocalDate releaseDate = LocalDate.parse(inputLine, formatter);
 				newMovie.setReleaseDate(releaseDate);
 				
-				// Showtime ids
+				// Set showtime IDs list to be empty at first
 				newMovie.setShowtimeIDs(new ArrayList<String>());
 				
 				brStream.close(); // Close file
 				
 				// Now that we have a new movie, we add it to our movies array and initialize it.
 				movies.add(newMovie);
-				
-				// Finally, serialize the movie file
-				String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + newMovie.getMovieID() + ".dat";
-				
-				SerializerHelper.serializeObject(newMovie, storagePath);
 				
 			} catch ( FileNotFoundException e ) {
 				System.out.println( "File not found!" + e.getMessage() );
@@ -134,7 +129,7 @@ public class DataInitialiser {
 	
 	
 	// Loads showtime data
-	public void initialiseShowtimeData(List<Movie> movies, String basePath) {
+	public List<Movie> initialiseShowtimeData(List<Movie> movies, String basePath) {
 		
 		String folderPath = basePath + "/showtimes";
 		File[] files = getAllFiles(folderPath);
@@ -170,15 +165,16 @@ public class DataInitialiser {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 				newShowtime.setDateTime(LocalDateTime.parse(inputLine, formatter));
 				
-				// Showtime movie_id
+				// Showtime movie_id. Add it to the movie list of showtimes too.
 				inputLine = brStream.readLine(); // Movie name
 				for (Movie movie : movies) {
-					if (movie.getTitle() == inputLine) {
+					if (movie.getTitle().equals(inputLine)) {
 						newShowtime.setMovieID(movie.getMovieID());
+						movie.addShowtimeID(newShowtime.getShowtimeID());
 						break;
 					}
 				}
-				
+
 				// Showtime movie format
 				inputLine = brStream.readLine();
 				newShowtime.setMovieFormat(MovieFormat.valueOf(inputLine));
@@ -219,6 +215,8 @@ public class DataInitialiser {
 				System.exit( 0 );
 			}
 		}
+
+		return movies;
 	}
 	
 	
@@ -293,9 +291,16 @@ class Main {
 		
 		// Movies
 		List<Movie> movieList = dataInitialiser.initialiseMovieData(initialisationFolderPath);
-		
+
 		// Showtimes initialisation, store MOVIE ID (NOT INSTANCE) of movie and a new INSTANCE of cinema
-		dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
+		List<Movie> movieList2 = dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
+		
+		// Finally, serialize the movie files with showtimes included
+		for (int i = 0; i < movieList2.size(); i++) {
+			String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + movieList2.get(i).getMovieID() + ".dat";
+			SerializerHelper.serializeObject(movieList2.get(i), storagePath);
+		}
+		
 		
 		System.out.println("Initialized!");
 	}
