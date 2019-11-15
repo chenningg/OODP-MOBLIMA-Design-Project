@@ -7,7 +7,7 @@ public class Review implements Serializable {
     private String reviewerName;
     private String reviewTitle;
     private String reviewBody;
-    private float score;
+    private double score;
     private LocalDate reviewDate;
 
 
@@ -23,7 +23,7 @@ public class Review implements Serializable {
     public String getReviewBody() {
         return reviewBody;
     }
-    public float getScore() {
+    public double getScore() {
         return score;
     }
     public LocalDate getReviewDate() {
@@ -40,7 +40,7 @@ public class Review implements Serializable {
     public void setReviewBody(String reviewBody) {
         this.reviewBody = reviewBody;
     }
-    public void setScore(float score) {
+    public void setScore(double score) {
         this.score = score;
     }
     public void setReviewDate(LocalDate reviewDate) {

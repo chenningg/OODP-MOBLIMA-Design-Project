@@ -30,16 +30,16 @@ public class ShowtimeManager {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     // Still editing
     // Must pass control over to other managers
     // Do not keep the checking within here, only keep the logic
     // How should we handle scanners? Pass it on and on or create in each class
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    
 
-    
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     // Public exposed methods to app
     public void getMovieShowtimes(String movieID, String appType) {
         List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
@@ -114,7 +114,7 @@ public class ShowtimeManager {
             }
         } while (choice != 0);
     }
-    
+
     private void showtimeMenuCustomer() {
         int choice;
 
@@ -152,10 +152,10 @@ public class ShowtimeManager {
 
     private void showtimeMenuStaff() {
         int choice;
-        
+
         System.out.println("Enter the showtimeID you would like to view/update/remove: ");
         String selectedShowtimeID = sc.next();
-        
+
         do {
             System.out.println(	"==================== SHOWTIME STAFF APP ====================\n" +
             					"| 1. View ALL Details						                |\n" +
@@ -165,7 +165,7 @@ public class ShowtimeManager {
 			                    "===========================================================");
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
-            
+
             switch (choice) {
                 case 1:
                     this.viewShowtime(selectedShowtimeID);
@@ -185,8 +185,8 @@ public class ShowtimeManager {
             }
         } while (choice != 0);
     }
-    
-    
+
+
     private void viewShowtime(String selectedShowtimeID) {
         Showtime selectedShowtime = this.showtimes.get(selectedShowtimeID);
 
@@ -201,7 +201,7 @@ public class ShowtimeManager {
         System.out.println("Cinema Layout: ");
         selectedShowtime.getCinema().printCinemaLayout();
     }
-    
+
     private void updateShowtime(String showtimeID) {
         int choice;
         Showtime showtimeToUpdate = this.showtimes.get(showtimeID);
@@ -323,7 +323,7 @@ public class ShowtimeManager {
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         return dateTime;
     }
-    
+
 	// Private Serialization and Deserialization
 
     private Map <String,Showtime> load() {
@@ -339,7 +339,7 @@ public class ShowtimeManager {
 	            loadedShowtimes.put(fileID, newShowtime);
 	        }
         }
-        
+
         return loadedShowtimes;
     }
 

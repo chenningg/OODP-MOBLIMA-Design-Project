@@ -1,14 +1,20 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ReviewManager {
     // prevents errors
-    Scanner sc = new Scanner(System.in);
-    private Review review = null;
+    private Scanner sc = new Scanner(System.in);
+    private Map<String, Review> reviews;
+
     private static ReviewManager single_instance = null;
 
     private ReviewManager() {
+    	this.reviews = new HashMap<String, Review>();
+    	this.reviews = this.load();
     }
 
     public static ReviewManager getInstance() {
@@ -16,46 +22,115 @@ public class ReviewManager {
             single_instance = new ReviewManager();
         return single_instance;
     }
-
-    public void createReview(Movie movie) {
-        Review submittedReview = new Review();
-        int choice;
-        do {
-            System.out.println("1. Enter your name: ");
-            System.out.println("2. Enter title of review: ");
-            System.out.println("3. Enter review text: ");
-            System.out.println("4. Enter score: ");
-            System.out.println("5. Submit review");
-            System.out.println("0. Back");
+    
+    
+	// Public exposed methods to app
+    public void reviewMenu(String movieID) {
+    	int choice;
+    	
+    	do {
+            System.out.println(	"===================== REVIEW PORTAL =====================\n" +
+			                    "| 1. Leave a review	 						    	 |\n" +
+				                "| 0. Back to Movie Listings	                         |\n" +
+				                "=========================================================");    	
+    	
+            System.out.println("Enter choice: ");
             choice = sc.nextInt();
-
+            
             switch (choice) {
-                case 1:
-                    System.out.println("Enter here: ");
-                    String reviewTitle = sc.next();
-                    submittedReview.setReviewTitle(reviewTitle);
-                    break;
-                case 2:
-                    System.out.println("Enter here: ");
-                    String reviewBody = sc.next();
-                    submittedReview.setReviewBody(reviewBody);
-                    break;
-                case 3:
-                    System.out.println("Enter score of 1-5: ");
-                    float reviewScore = sc.nextFloat();
-                    submittedReview.setScore(reviewScore);
-                    break;
-                case 4:
-                    System.out.println("Review submitted!");
-                    movie.addMovieReview(submittedReview);
-                    break;
-                default:
-                    System.out.println("Please enter correct input!");
-                    break;
+	            case 1:
+	            	this.addReview(movieID);
+	            	choice = 0;
+	            	break;
+	            case 0:
+	            	System.out.println("Back to Movie Listings......");
+	            	break;
+            	default:
+            		System.out.println("Invalid choice. Please enter a number between 0-1");
             }
+            
+    	} while (choice != 0);
+    }
+    
+    public void printReviews(ArrayList<String> reviewIDs) {
+    	int i=1;
+    	
+    	for (String reviewID : reviewIDs) {
+    		Review review = this.reviews.get(reviewID);
+    		
+    		System.out.println("================ REVIEW " + i + " ================");
+            System.out.println("Your current review: ");
+            System.out.println("Name: " + review.getReviewerName());
+            System.out.println("Title: " + review.getReviewTitle() + "     Score: " + review.getScore() + "/5");
+            System.out.println("Review body: " + review.getReviewBody());
+            System.out.println("");
+            
+            i++;
+    	}
+    	
+    }
+    
+    
+	// Private CRUD methods    
+    private String addReview(String movieID) {
+    	Review review = new Review();
+    	
+    	////////////// INPUT VALIDATION NEEDED
+ 	
+        System.out.println("Enter your name: ");
+        review.setReviewerName(sc.next());
+        
+        System.out.println("Enter title of review: ");
+        review.setReviewTitle(sc.next());
+        
+        System.out.println("Enter review: ");
+        review.setReviewBody(sc.next());
+        
+        System.out.println("Enter a movie score between 0-5: ");
+        review.setScore(sc.nextDouble());
+        
+        int choice;
+        
+        do {
+            System.out.println(	"========================= ADD REVIEW ====================\n" +
+			                    "| 1. Submit review	   						    	 	 |\n" +
+			                    "| 2. Edit review	   						    	 	 |\n" +
+				                "| 0. Discard review, back to ReviewPortal               |\n" +
+				                "=========================================================");            	
+            
+            System.out.println("Your current review: ");
+            System.out.println("Name: " + review.getReviewerName());
+            System.out.println("Title: " + review.getReviewTitle());
+            System.out.println("Review body: " + review.getReviewBody());
+            System.out.println("Score: " + review.getScore());
+            
+            System.out.println("Enter choice: ");
+            choice = sc.nextInt();
+        
+            switch (choice) {
+            case 1:
+            	String reviewID = IDHelper.getLatestID("review");
+            	review.setReviewID(reviewID);
+            	this.save(review);
+            	MovieManager.getInstance().updateReview(movieID, reviewID, review.getScore());
+            	
+            	this.reviews.put(review.getReviewID(), review);
+            	
+            	System.out.println("Review created! Back to ReviewPortal......");
+            	break;
+            case 2:
+            	this.editReview(review);
+            	break;
+            case 0:
+            	System.out.println("Review discarded. Back to ReviewPortal......");
+            	break;
+        	default:
+        		System.out.println("Invalid choice. Please enter a number between 0-2");
+        		break;
+            }
+        
         } while (choice != 0);
     }
-
 
     public ArrayList<Review> getReviews(Movie movie) {
         return movie.getMovieReviews();
@@ -75,7 +150,7 @@ public class ReviewManager {
     }
 
     public void setReview(Review review) {
-        this.review = review;
+        review = review;
     }
 
 
@@ -85,4 +160,13 @@ public class ReviewManager {
             System.out.println(i + 1 + ". " + reviewList.get(i));
         }
     }
+   */
+}
+
+
+
+class testApp {
+	public static void main(String[] args) {
+		ReviewManager.getInstance();
+	}
 }

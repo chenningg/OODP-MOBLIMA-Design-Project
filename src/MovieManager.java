@@ -63,7 +63,7 @@ class MovieManager {
                 	System.out.println("Back to StaffApp......");
                     break;
                 default:
-                    System.out.println("Please enter a number between 1-3.");
+                    System.out.println("Invalid choice. Please enter a number between 1-3.");
                     break;
             }
         } while (choice != 0);
