@@ -41,7 +41,7 @@ class ShowtimeManager {
 
     
     // Public exposed methods to app
-    private void getMovieShowtimes(String movieID, String appType) {
+    public void getMovieShowtimes(String movieID, String appType) {
         List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
 
         for (Map.Entry showtimeElement : showtimes.entrySet()) {

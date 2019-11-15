@@ -317,7 +317,7 @@ class MovieManager {
         ArrayList<String> castList = new ArrayList<>();
         ArrayList<MovieFormat> formatList = new ArrayList<>();
 
-        newMovie.setMovieID(IDHelper.getLatestID("movie"););
+        newMovie.setMovieID(IDHelper.getLatestID("movie"));
         System.out.println("Enter movie title: ");
         newMovie.setTitle(sc.next());
 
