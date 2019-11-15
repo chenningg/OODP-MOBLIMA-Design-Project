@@ -29,19 +29,19 @@ public class SerializerHelper {
         }
         catch (FileNotFoundException f) {
             System.out.println("FileNotFoundException caught!");
-            f.printStackTrace();
+//            f.printStackTrace();
             return null;
         }
         catch (IOException i)
         {
             System.out.println("IOException caught!");
-            i.printStackTrace();
+//            i.printStackTrace();
             return null;
         }
         catch (ClassNotFoundException c)
         {
             System.out.println("Class not found!");
-            c.printStackTrace();
+//            c.printStackTrace();
             return null;
         }
     }

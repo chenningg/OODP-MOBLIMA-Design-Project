@@ -383,32 +383,28 @@ class MovieManager {
     private void editMovies(Movie movie) {
         int choice;
         do {
-            System.out.println("(1) Edit movieID");
-            System.out.println("(2) Edit title");
-            System.out.println("(3) Edit genres (genres will be overwritten)");
-            System.out.println("(4) Edit director");
-            System.out.println("(5) Edit cast (cast will be overwritten)");
-            System.out.println("(6) Edit synopsis");
-            System.out.println("(7) Edit rating");
-            System.out.println("(8) Edit formats (formats will be overwritten)");
-            System.out.println("(9) Edit duration");
-            System.out.println("(10) Edit showing status");
-            System.out.println("(11) Edit release date");
-            System.out.println("(12) End edits");
+            System.out.println("=================== EDIT MOVIES (STAFF) ==================\n" +
+                    "| 1. Edit Title      	                                 |\n" +
+                    "| 2. Edit Genres (Overwritten)       	        		 |\n" +
+                    "| 3. Edit Director	                                     |\n" +
+                    "| 4. Edit Cast (Overwritten)                            |\n" +
+                    "| 5. Edit Synopsis                                      |\n" +
+                    "| 6. Edit Rating                                        |\n" +
+                    "| 7. Edit Formats (Overwritten)                         |\n" +
+                    "| 8. Edit Duration                                      |\n" +
+                    "| 9. Edit Showing Status                                |\n" +
+                    "| 10. Edit Release Date                                 |\n" +
+                    "| 0. Back to Customer Movie Menu......                  |\n" +
+                    "=========================================================");
+            System.out.println("Enter choice: ");
             choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
-                    System.out.println("Enter new movieID: ");
-                    String newMovieID = sc.next();
-                    movie.setMovieID(newMovieID);
+                    String title = sc.next();
+                    movie.setMovieID(title);
                     break;
                 case 2:
-                    System.out.println("Enter new title: ");
-                    String newTitle = sc.next();
-                    movie.setTitle(newTitle);
-                    break;
-                case 3:
                     System.out.println("Enter number of genres: ");
                     ArrayList<Genre> Genres = new ArrayList<>();
                     int numGenres = sc.nextInt();
@@ -419,12 +415,9 @@ class MovieManager {
                     }
                     movie.setGenres(Genres);
                     break;
+                case 3:
+                    movie.setDirector(sc.next());
                 case 4:
-                    System.out.println("Enter director: ");
-                    String newDirector = sc.next();
-                    movie.setDirector(newDirector);
-                    break;
-                case 5:
                     System.out.println("Enter number of cast members: ");
                     int castSize = sc.nextInt();
                     ArrayList<String> newCastList = new ArrayList<>();
@@ -435,17 +428,17 @@ class MovieManager {
                     }
                     movie.setCast(newCastList);
                     break;
-                case 6:
+                case 5:
                     System.out.println("Enter new synopsis: ");
                     String newSynopsis = sc.next();
                     movie.setSynopsis(newSynopsis);
                     break;
-                case 7:
+                case 6:
                     System.out.println("Enter new rating: ");
                     String newRating = sc.next();
                     movie.setMovieRating(MovieRating.valueOf(newRating));
                     break;
-                case 8:
+                case 7:
                     System.out.println("Enter new formats: ");
                     ArrayList<MovieFormat> newFormats = new ArrayList<>();
                     int newFormatLength = sc.nextInt();
@@ -456,24 +449,24 @@ class MovieManager {
                     }
                     movie.setMovieFormats(newFormats);
                     break;
-                case 9:
+                case 8:
                     System.out.println("Enter new duration: ");
                     int newDuration = sc.nextInt();
                     movie.setMovieDuration(newDuration);
                     break;
-                case 10:
+                case 9:
                     System.out.println("Enter new showing status: ");
                     String newShowStatus = sc.next();
                     movie.setShowingStatus(ShowingStatus.valueOf(newShowStatus));
                     break;
-                case 11:
+                case 10:
                     System.out.println("Enter new release date: ");
                     String newReleaseDate = sc.next();
                     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
                     LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
                     movie.setReleaseDate(date);
                     break;
-                case 12:
+                case 0:
                     System.out.println("End of edit\n" +
                             "Back to Staff Sub Menu");
                     break;
