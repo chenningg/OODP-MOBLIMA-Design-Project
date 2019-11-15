@@ -216,7 +216,7 @@ class MovieManager {
                     case 3:
                         this.removeMovie(movie);
                     case 4:
-                        ReviewManager.getInstance().displayReview(movie);
+                        ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
                     case 0:
                         exit = true;
@@ -238,7 +238,7 @@ class MovieManager {
                         ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(),appType);
                         exit = true;
                     case 2:
-                        ReviewManager.getInstance().displayReview(movie);
+                        ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
                     case 0:
                         exit = true;
@@ -530,7 +530,7 @@ class MovieManager {
                 case 3:
                     ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies.values());
                     for(int i=top5Reviews.size()-1;i>=0;i--){
-                        if(top5Reviews.get(i).getMovieReviews().size() <= 1){
+                        if(top5Reviews.get(i).getReviews().size() <= 1){
                             top5Reviews.remove(i);
                         }
                     }
@@ -585,7 +585,7 @@ class MovieManager {
                 case 3:
                     ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies.values());
                     for(int i=top5Reviews.size()-1;i>=0;i--){
-                        if(top5Reviews.get(i).getMovieReviews().size() <= 1){
+                        if(top5Reviews.get(i).getReviews().size() <= 1){
                             top5Reviews.remove(i);
                         }
                     }
@@ -645,10 +645,11 @@ class MovieManager {
         movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
     }
 
-    public void updateReview(String movieID,float reviewScore){
+    public void updateReview(String movieID, String reviewID, double reviewScore){
         Movie movie = movies.get(movieID);
         movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
         movie.setTotalReviewScore(movie.getTotalReviewScore()+reviewScore);
+        movie.addMovieReview(reviewID);
         movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
     }
 

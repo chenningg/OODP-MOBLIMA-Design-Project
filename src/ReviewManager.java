@@ -52,7 +52,7 @@ public class ReviewManager {
     	} while (choice != 0);
     }
     
-    public void printReviews(ArrayList<String> reviewIDs) {
+    public void printReviews(List<String> reviewIDs) {
     	int i=1;
     	
     	for (String reviewID : reviewIDs) {
@@ -72,7 +72,7 @@ public class ReviewManager {
     
     
 	// Private CRUD methods    
-    private String addReview(String movieID) {
+    private void addReview(String movieID) {
     	Review review = new Review();
     	
     	////////////// INPUT VALIDATION NEEDED
@@ -131,41 +131,74 @@ public class ReviewManager {
         
         } while (choice != 0);
     }
+    
+    private void editReview(Review review) {
+    	int choice;
+    	
+    	do {
+            System.out.println(	"======================== EDIT REVIEW ====================\n" +
+				                "| 1. Edit Name		   						    	 	 |\n" +
+				                "| 2. Edit Title	   						    	 	 |\n" +
+				                "| 3. Edit Review Body	   						    	 |\n" +
+				                "| 4. Edit Score	   						    	 	 |\n" +			                
+				                "| 0. Finish Editing Review 				             |\n" +
+				                "=========================================================");    		
 
-    public ArrayList<Review> getReviews(Movie movie) {
-        return movie.getMovieReviews();
+            System.out.println("Enter choice: ");
+            choice = sc.nextInt();
+            
+            switch (choice) {
+            case 1:
+                System.out.println("Enter your name: ");
+                review.setReviewerName(sc.next());
+            	break;
+            case 2:
+                System.out.println("Enter title of review: ");
+                review.setReviewTitle(sc.next());
+            	break;
+            case 3:
+                System.out.println("Enter review: ");
+                review.setReviewBody(sc.next());
+            	break;
+            case 4: 
+                System.out.println("Enter a movie score between 0-5: ");
+                review.setScore(sc.nextDouble());   
+            	break;
+            case 0:
+            	System.out.println("Review discarded. Back to AddReview......");
+            	break;
+        	default:
+        		System.out.println("Invalid choice. Please enter a number between 0-4");
+        		break;
+            } 
+    	} while (choice != 0);       
     }
-
-    public float getAverageReviewScore(Movie movie) {
-        ArrayList<Review> reviews = movie.getMovieReviews();
-        float sum = 0;
-        for (Review review : reviews) {
-            sum += review.getScore();
-        }
-        return sum / reviews.size();
-    }
-
-    public Review getReview() {
-        return review;
-    }
-
-    public void setReview(Review review) {
-        review = review;
-    }
-
-
-    public void displayReview(Movie movie) {
-        ArrayList<Review> reviewList = getReviews(movie);
-        for (int i = 0; i < reviewList.size(); i++) {
-            System.out.println(i + 1 + ". " + reviewList.get(i));
-        }
-    }
-}
-
-
-
-class testApp {
-	public static void main(String[] args) {
-		ReviewManager.getInstance();
+    
+    
+    
+    
+	// Private Serialization and Deserialization
+	private void save(Review review) {
+		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/reviews/" + review.getReviewID() + ".dat";
+		SerializerHelper.serializeObject(review, filePath);
 	}
+    
+    public HashMap<String,Review> load() {
+        HashMap<String, Review> loadedReviews = new HashMap<String, Review>();
+        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/movies");
+
+        File[] listOfFiles = folder.listFiles();
+        
+        if(listOfFiles != null){
+          for(int i=0;i<listOfFiles.length;i++){
+            String filepath = listOfFiles[i].getPath(); // Returns full path incl file name and type
+            Review newReview = (Review)SerializerHelper.deSerializeObject(filepath);
+            String fileID = listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
+                loadedReviews.put(fileID, newReview);
+            }
+        }
+
+        return loadedReviews;
+    }    
 }
+
