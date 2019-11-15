@@ -48,7 +48,7 @@ public class ShowtimeManager {
             relevantShowtimes.add(showtime);
         }
 
-        int choice = 0; // required to initialise
+        int choice; // required to initialise
         do {
             System.out.println("These are some details for the showtimes you are looking for: ");
             int j;
@@ -65,10 +65,10 @@ public class ShowtimeManager {
 
             if (appType.equalsIgnoreCase("Staff")) {
                 System.out.println("==================== SHOWTIMES  ====================\n" +
-                        "| 1. View/Update/Remove Specific Showtime          |\n" +
-                        "| 2. Create New Showtime                           |\n" +
-                        "| 0. Back to MovieManager                          |\n" +
-                        "====================================================");
+                                    "| 1. View/Update/Remove Specific Showtime          |\n" +
+                                    "| 2. Create New Showtime                           |\n" +
+                                    "| 0. Back to Showtimes List                        |\n" +
+                                    "====================================================");
                 System.out.println("Enter choice:");
                 choice = sc.nextInt();
 
@@ -107,7 +107,9 @@ public class ShowtimeManager {
                         System.out.println("Invalid choice. Please choose between 0-1");
                         break;
                 }
-
+            }
+            else {
+                choice = 0;
             }
         } while (choice != 0);
     }
@@ -316,7 +318,7 @@ public class ShowtimeManager {
      * @return DateTime object
      */
     private LocalDateTime dateTimeParser(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         return dateTime;
     }
@@ -330,18 +332,37 @@ public class ShowtimeManager {
         File[] listOfFiles = folder.listFiles();
         if(listOfFiles != null){
 	        for (File listOfFile : listOfFiles) {
+                String filepath = listOfFile.getPath();
+                Showtime newShowtime = (Showtime)SerializerHelper.deSerializeObject(filepath);
 	            String fileID = listOfFile.getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
-	            String filepath = listOfFile.getPath();
-	            Showtime newShowtime = (Showtime)SerializerHelper.deSerializeObject(filepath);
 	            loadedShowtimes.put(fileID, newShowtime);
 	        }
         }
 
         return loadedShowtimes;
     }
+    /*
+    public HashMap<String,Review> load() {
+        HashMap<String, Review> loadedReviews = new HashMap<String, Review>();
+        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/reviews");
+
+        File[] listOfFiles = folder.listFiles();
+
+        if(listOfFiles != null){
+            for(int i=0;i<listOfFiles.length;i++){
+                String filepath = listOfFiles[i].getPath(); // Returns full path incl file name and type
+                Review newReview = (Review)SerializerHelper.deSerializeObject(filepath);
+                String fileID = listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
+                loadedReviews.put(fileID, newReview);
+            }
+        }
+        return loadedReviews;
+    }
+
+     */
 
     public void save(Object objectToSave, String showtimeID) {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/" + showtimeID+ ".dat";
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_" + showtimeID + ".dat";
         SerializerHelper.serializeObject(objectToSave, filepath);
     }
 }
