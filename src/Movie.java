@@ -16,9 +16,9 @@ public class Movie implements Serializable{
     private List<MovieFormat> movieFormats;
     private int movieDuration;
     private List<String> reviews;
-    private float averageReviewScore;
+    private double averageReviewScore;
     private int totalReviewNo;
-    private float totalReviewScore;
+    private double totalReviewScore;
     private ShowingStatus showingStatus;
     private LocalDate releaseDate;
     private long ticketsSold;
@@ -44,11 +44,11 @@ public class Movie implements Serializable{
     public String getSynopsis() {return this.synopsis;}
     public MovieRating getMovieRating() {return this.movieRating;}
     public List<MovieFormat> getMovieFormats() {return this.movieFormats;}
-    public float getMovieDuration() {return this.movieDuration;}
+    public double getMovieDuration() {return this.movieDuration;}
     public List<String> getReviews() {return this.reviews;}
-    public float getAverageReviewScore() {return this.averageReviewScore;}
+    public double getAverageReviewScore() {return this.averageReviewScore;}
     public int getTotalReviewNo() {return this.totalReviewNo;}
-    public float getTotalReviewScore() {return this.totalReviewScore;}
+    public double getTotalReviewScore() {return this.totalReviewScore;}
     public ShowingStatus getShowingStatus() {return this.showingStatus;}
     public LocalDate getReleaseDate() {return this.releaseDate;}
     public long getTicketsSold() {return this.ticketsSold;}
@@ -66,9 +66,9 @@ public class Movie implements Serializable{
     public void setMovieFormats(ArrayList<MovieFormat> movieFormats) {this.movieFormats = movieFormats;}
     public void setMovieDuration(int movieDuration) {this.movieDuration = movieDuration;}
     public void setReviews(ArrayList<String> reviews) {this.reviews = reviews;}
-    public void setAverageReviewScore(float averageReviewScore) {this.averageReviewScore = averageReviewScore;}
+    public void setAverageReviewScore(double averageReviewScore) {this.averageReviewScore = averageReviewScore;}
     public void setTotalReviewNo(int totalReviewNo) {this.totalReviewNo = totalReviewNo;}
-    public void setTotalReviewScore(float totalReviewScore) {this.totalReviewScore = totalReviewScore;}
+    public void setTotalReviewScore(double totalReviewScore) {this.totalReviewScore = totalReviewScore;}
     public void setShowingStatus(ShowingStatus showingStatus) {this.showingStatus = showingStatus;}
     public void setReleaseDate(LocalDate releaseDate) {this.releaseDate = releaseDate;}
     public void setTicketsSold(long ticketsSold) {this.ticketsSold = ticketsSold;}
