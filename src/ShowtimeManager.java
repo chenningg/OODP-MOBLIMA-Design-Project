@@ -286,7 +286,7 @@ public class ShowtimeManager {
         return loadedShowtimes;
     }
 
-    private void save(Object objectToSave, String showtimeID) {
+    public void save(Object objectToSave, String showtimeID) {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/" + showtimeID+ ".dat";
         SerializerHelper.serializeObject(objectToSave, filepath);
     }
