@@ -3,6 +3,9 @@
 *.bin
 /.bin/
 
+# Mac files
+*.DS_Store
+
 # Log file
 *.log
 

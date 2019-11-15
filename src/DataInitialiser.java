@@ -175,7 +175,6 @@ public class DataInitialiser {
 					}
 				}
 
-				System.out.println(".");
 				// Showtime movie format
 				inputLine = brStream.readLine();
 				newShowtime.setMovieFormat(MovieFormat.valueOf(inputLine));
