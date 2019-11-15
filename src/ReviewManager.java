@@ -1,4 +1,6 @@
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +90,8 @@ public class ReviewManager {
         System.out.println("Enter a movie score between 0-5: ");
         review.setScore(sc.nextDouble());
         
+        review.setReviewDateTime(LocalDateTime.now());
+        
         int choice;
         
         do {
@@ -102,6 +106,7 @@ public class ReviewManager {
             System.out.println("Title: " + review.getReviewTitle());
             System.out.println("Review body: " + review.getReviewBody());
             System.out.println("Score: " + review.getScore());
+            System.out.println("DateTime: " + review.getreviewDateTime());
             
             System.out.println("Enter choice: ");
             choice = sc.nextInt();

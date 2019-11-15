@@ -20,7 +20,7 @@ public class DataInitialiser {
 	}
 	
 	
-	// Loads movie data
+	// Initialize movie data
 	public List<Movie> initialiseMovieData(String basePath) {
 		
 		String folderPath = basePath + "/movies";
@@ -128,7 +128,7 @@ public class DataInitialiser {
 	}
 	
 	
-	// Loads showtime data
+	// Initialize showtime data
 	public List<Movie> initialiseShowtimeData(List<Movie> movies, String basePath) {
 		
 		String folderPath = basePath + "/showtimes";
@@ -220,6 +220,94 @@ public class DataInitialiser {
 	}
 	
 	
+	// Initialize review data
+	public List<Movie> initialiseReviewData(List<Movie> movies, String basePath) {
+		
+		String folderPath = basePath + "/reviews";
+		File[] files = getAllFiles(folderPath);
+
+		// Go through each file and load them into actual data storage path
+		for (int i = 0; i < files.length; i++)
+		{
+			String filePath = files[i].getPath();	
+			
+			try {				
+				// Open file and traverse it				
+				FileReader frStream = new FileReader( filePath );
+				BufferedReader brStream = new BufferedReader( frStream );
+				String inputLine;
+				
+				Review newReview = new Review();
+				
+				// Review ID
+				newReview.setReviewID(IDHelper.getLatestID("review"));
+				
+				
+				// Review movie_id. Add it to the movie list of showtimes too.
+				inputLine = brStream.readLine(); // Movie name
+				for (Movie movie : movies) {
+					if (movie.getTitle() == inputLine) {
+						newReview.setMovieID(movie.getMovieID());
+						movie.addMovieReview(newReview.getReviewID());
+						break;
+					}
+				}
+				
+				// Review title
+				inputLine = brStream.readLine();
+				newReview.setReviewTitle(inputLine);
+				
+				// Reviewer name
+				inputLine = brStream.readLine();
+				newReview.setReviewerName(inputLine);
+				
+				// Review Title
+				inputLine = brStream.readLine();
+				newReview.setReviewTitle(inputLine);				
+				
+				// Review 
+				inputLine = brStream.readLine();
+				newReview.setReviewBody(inputLine);
+				
+				// Review score
+				inputLine = brStream.readLine();
+				newReview.setScore(Double.parseDouble(inputLine));
+				
+				// Review Datetime
+				inputLine = brStream.readLine();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");	
+				newReview.setReviewDateTime(LocalDateTime.parse(inputLine, formatter));				
+				
+				
+				brStream.close(); // Close file				
+				
+				// Serialize showtime file
+				String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/reviews/review_" + newReview.getReviewID() + ".dat";
+				
+				SerializerHelper.serializeObject(newReview, storagePath);
+			    
+			} catch ( FileNotFoundException e ) {
+				System.out.println( "File not found!" + e.getMessage() );
+				System.exit( 0 );
+			} catch ( IOException e ) {
+				System.out.println( "IO Error!" + e.getMessage() );
+				e.printStackTrace();
+				System.exit( 0 );
+			}
+		}
+		
+		return movies;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public Cinema initialiseCinemaData(String cinemaID, String filePath) {
 		Cinema newCinema = new Cinema(cinemaID);
 		
@@ -278,11 +366,62 @@ public class DataInitialiser {
 		
 		return newCinema;
     }	
+
+
+	public void resetAllData() {
+		this.resetFolders("movies");
+		this.resetFolders("showtimes");
+		this.resetFolders("reviews");
+		this.resetID("movie_id.txt");
+		this.resetID("showtime_id.txt");
+		
+		System.out.println("All data reset");
+	}
+
+	public void resetFolders(String folderName) {
+		String root = ProjectRootPathFinder.findProjectRootPath();
+		
+		File dir = new File(root + "/data/" + folderName);
+		
+		for(File file: dir.listFiles()) 
+		    if (!file.isDirectory()) 
+		        file.delete();
+	}
+	
+
+	public void resetID(String fileName) {
+		BufferedWriter bw = null;
+		String root = ProjectRootPathFinder.findProjectRootPath();
+		root = root + "/data/ids/" + fileName;
+		
+		try {
+	         // Specify the file name and path here
+			 File file = new File(root);
+	
+			 // This logic will make sure that the file gets created if it is not present at the specified location
+			 if (!file.exists()) {
+			    file.createNewFile();
+			 }
+	
+			 FileWriter fw = new FileWriter(file);
+			 bw = new BufferedWriter(fw);
+			 bw.write("");
+	
+        } catch (IOException ioe) {
+        	 ioe.printStackTrace();
+		} finally { 
+			   try {
+			      if(bw!=null)
+				 bw.close();
+			   } catch(Exception ex){
+			       System.out.println("Error in closing the BufferedWriter"+ex);
+			   }
+		}
+	}
 }
 
 class Main {
 	public static void main(String[] args) {
-			
 		// Get project root
 		String initialisationFolderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/initialisation";
 		
@@ -295,6 +434,9 @@ class Main {
 		// Showtimes initialisation, store MOVIE ID (NOT INSTANCE) of movie and a new INSTANCE of cinema
 		List<Movie> movieList2 = dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
 		
+//		// Reviews initialisation, store REVIEW ID (NOT INSTANCE) of review in movie
+//		movieList = dataInitialiser.initialiseReviewData(movieList, initialisationFolderPath);
+		
 		// Finally, serialize the movie files with showtimes included
 		for (int i = 0; i < movieList2.size(); i++) {
 			String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + movieList2.get(i).getMovieID() + ".dat";
@@ -303,5 +445,9 @@ class Main {
 		
 		
 		System.out.println("Initialized!");
+
+
+//		DataInitialiser dataInitialiser = new DataInitialiser();
+//		dataInitialiser.resetAllData();
 	}
 }
