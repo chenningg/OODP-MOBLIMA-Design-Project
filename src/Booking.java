@@ -13,7 +13,7 @@ public class Booking implements Serializable {
     private List<Ticket> tickets = new ArrayList<Ticket>();
     private Transaction transaction;
     private LocalDateTime dateTime;
-    private String movieName;
+    private String movieID;
     private int hallNo;
     private String cineplexName;
 
@@ -25,7 +25,7 @@ public class Booking implements Serializable {
     	System.out.println("=============================================================================");
     	System.out.printf("Booking ID: %s\n", getBookingID());
     	System.out.printf("Cineplex: %s\n", getCineplexName());
-    	System.out.printf("Movie: %s\n", getMovieName());
+    	System.out.printf("Movie: %s\n", MovieManager.getInstance().getMovieByID(getMovieID()));
     	System.out.printf("Hall: %d\n", getHallNo());
     	
     	// Print showtime date and time
@@ -48,7 +48,7 @@ public class Booking implements Serializable {
 	public List<Ticket> getTickets() {return tickets;}
 	public Transaction getTransaction() {return transaction;}
     public LocalDateTime getDateTime() {return dateTime;}
-	public String getMovieName() {return movieName;}
+	public String getMovieID() {return movieID;}
 	public int getHallNo() {return hallNo;}
 	public String getCineplexName() {return cineplexName;}
 	
@@ -59,7 +59,7 @@ public class Booking implements Serializable {
 	public void setTickets(ArrayList<Ticket> tickets) {this.tickets = tickets;}
 	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
     public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
-	public void setMovieName(String movieName) {this.movieName = movieName;}
+	public void setMovieID(String movieID) {this.movieID = movieID;}
 	public void setHallNo(int hallNo) {this.hallNo = hallNo;}
 	public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
 }
