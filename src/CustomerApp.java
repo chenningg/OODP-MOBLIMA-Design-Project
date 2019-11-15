@@ -86,16 +86,20 @@ public class CustomerApp {
                 	mm.viewTop5Cust();
                     break;
 
-                case 4://check booking history
-                	int emailOrMobile;
+                case 3:
+                	int subchoice;
                 	
                 	do {
-	                	System.out.print("Enter 1,2 or 3: \n"
-	                			+ "1. Check via email address\n"
-	                			+ "2. Check via mobile number\n"
-	                			+ "0. Back to CustomerApp\n");
-	                	emailOrMobile= sc.nextInt();
-	                	switch (emailOrMobile) {
+                        System.out.println(	"=========== SEARCH BOOKING HISTORY =============\n" +
+			                    "| 1. Check via email address					    		|\n" +
+			                    "| 2. Check via mobile number 					    		|\n" +
+				                "| 0. Back to CustomerApp......                             |\n" +
+				                "============================================================");                    		
+                		
+                        System.out.println("Enter choice: ");
+                        subchoice = sc.nextInt();
+                        
+	                	switch (subchoice) {
 	                	case 1:
 	                		cm.printPastBookingByEmail();
 	                		break;
@@ -109,17 +113,17 @@ public class CustomerApp {
                 			System.out.println("Invalid choice. Please choose between 0-2.");
                 			break;
 	                	}
-                	}while(emailOrMobile!=0);
+                	} while (subchoice!=0);
                 	
                     break;
                 case 0:
                 	System.out.println("Back to MOBLIMA APP......");
                 	break;
                 default: 
-                	System.out.println("Invalid choice. Please choose between 0-4.");
+                	System.out.println("Invalid choice. Please choose between 0-3.");
                 	break;
 	            }
-	        } while(choice != 0);
+	        } while (choice != 0);
 		}
     }
 	
