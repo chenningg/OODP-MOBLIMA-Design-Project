@@ -7,6 +7,7 @@ class BookingManager implements ResetSelf {
     // Variables
     private List<String> seatingPlan;
     private List<String> selectedSeats = new ArrayList<String>();
+    private HashMap<Integer, Integer> colChecker = new HashMap<Integer, Integer>(); // Checks for seat's columns and stores them. SEAT COL : INDEX in string
     private HashMap<Character, ArrayList<Integer>> rowChecker = new HashMap<Character, ArrayList<Integer>>(); // Checks if a seat has been booked in a specific row
     private Scanner sc = new Scanner(System.in);
     private Booking booking = null; // Current booking to make
@@ -36,6 +37,48 @@ class BookingManager implements ResetSelf {
     	setShowtime(baseShowtime); // Contain reference to selected showtime
     	setSeatingPlan(copySeatingPlan(baseShowtime.getCinema().getCinemaLayout()));
 
+    	// Go through the seating plan and populate the seat columns : index hashmap
+    	// Iterate through List of Strings
+    	for (int row = 0; row < getSeatingPlan().size(); row++) {
+    		String rowRef = getSeatingPlan().get(row);
+    		
+    		// Check if row is null
+    		if (rowRef == null || rowRef.length() == 0) {
+    			System.out.println();
+    			continue;
+    		}
+    		
+    		// Check if this row has a number. If it has immediately stop as it is the seat columns indicator row.
+    		Boolean found = false;
+    		int col = 0;
+    		while (col < rowRef.length()) {
+    			int item = rowRef.charAt(col);
+    			
+    			// First occurrence of number, we hit the column indicator row
+        		if (Character.isDigit(item)) {
+        			found = true;
+        			String seatColumn = Character.toString(item);
+        			
+        			// Check next item, if it's number use that instead, as it could be 14 (2 digit number)
+        			if (col + 1 < rowRef.length()) {
+        				if (Character.isDigit(rowRef.charAt(col+1))) {
+        					// If it's digit, use its index as the number
+        					seatColumn = seatColumn + Character.toString(rowRef.charAt(col+1)); // New 2 digit number
+        					col++;
+        				}
+        			}
+        			
+        			getColChecker().put(Integer.valueOf(seatColumn), col); // Put in seat col : index
+        		}
+        		
+        		col++;
+    		}
+
+    		if (found) {
+    			break; // Terminate
+    		}
+    	}
+    	
     	
     	// Show them booking menu until they exit
     	exit = false;
@@ -92,11 +135,17 @@ class BookingManager implements ResetSelf {
     public void displaySeats(List<String> list) {
     	char item;
     	String rowRef;
-    	String[] symbols = {" ", "X", "S"}; // Symbols for seat status display
+    	String[] symbols = {"0", "1", "S"}; // Symbols for seat status display
     	
     	// Iterate through List of Strings
-    	for (int row = 0; row < getSeatingPlan().size(); row++) {
-    		rowRef = getSeatingPlan().get(row);
+    	for (int row = 0; row < list.size(); row++) {
+    		rowRef = list.get(row);
+    		
+    		// Check if row is null
+    		if (rowRef == null || rowRef.length() == 0) {
+    			System.out.println();
+    			continue;
+    		}
     		
     		// Check if this row has seats. If not, just print whole row straight.
     		if (!(Character.isAlphabetic(rowRef.charAt(0)))) { // No seats
@@ -115,6 +164,7 @@ class BookingManager implements ResetSelf {
         				System.out.printf(Character.toString(item));
         			}
         		}
+    			System.out.println(); // Newline
     		}
     	}
     }
@@ -154,6 +204,7 @@ class BookingManager implements ResetSelf {
 			getRowChecker().get(seatRow).add(seatCol);
 			
 			// Update seating plan
+			System.out.println("Seat selection " + selection + " added!");
 	    	updateSeatingPlan(selection, "addSelection");
 		}
 		
@@ -168,63 +219,55 @@ class BookingManager implements ResetSelf {
 			// If seatID entered is valid, check if seat exists
 			char seatRow = seatID.charAt(0); // Alphabet row of seatID
 			int seatCol = Integer.valueOf(seatID.substring(1, seatID.length())); // Integer column of seatID
-			int seatCount = 0; // Count of seat index in a row
 			String rowRef;
 			
 			// Iterate through rows of seating plan to find seat row alphabet
 			for (int row = 1; row < getSeatingPlan().size(); row++) {				
 				rowRef = getSeatingPlan().get(row);
 				
-				// If we find a match for seat row
-				if (rowRef.charAt(0) == seatRow) {
+				// Check if row is null
+	    		if (rowRef == null || rowRef.length() == 0) {
+	    			continue;
+	    		}
+				
+				// If we find a match for seat row && seatCol exists in this cinema (i.e. no overshot)
+	    		
+				if (rowRef.charAt(0) == seatRow && getColChecker().containsKey(seatCol)) {
 					
-					// We then check if seat exists at the specified column. Ignore 0 index as it's the row alphabet.
-					for (int col = 1; col < rowRef.length(); col++) {
-						
-						// When we encounter a digit (aka a seat) add it to seatCount and match against seatCol.
-						if (Character.isDigit(rowRef.charAt(col))) {
-							seatCount += 1;
-							
-							// Check if current seat we are at matches seatCol of selected seat (aka seat exists)
-							if (seatCol == seatCount) {
+					int index = getColChecker().get(seatCol);
+					
+					// Seat column required is within index
+					if (index < rowRef.length()) {
+						// If unoccupied
+						if (rowRef.charAt(index) == '0') {
+							if (rowChecker.containsKey(seatRow)) {
+								ArrayList<Integer> rowSeats= rowChecker.get(seatRow);
 								
-								// Check if seat is unoccupied
-								if (rowRef.charAt(col) == '0') {
-									
-									// Check if there are existing bookings in this row. 
-									// Only allow selection if current selection is adjacent to any existing bookings.
-									if (rowChecker.containsKey(seatRow)) {
-										ArrayList<Integer> rowSeats= rowChecker.get(seatRow);
-										
-										// Selected seat column must be +/- one of any existing entry
-										for (int i = 0; i < rowSeats.size(); i++) {
-											if (Math.abs(rowSeats.get(i) - seatCol) == 1) {
-												// Seat exists, is unoccupied, and is adjacent to a previous selection, allow selection.
-												return true;
-											}
-										}
-										
-										// Seat is not adjacent to previous selections in the same row, return false
-										System.out.println("Seat selection invalid. Please do not leave spaces between seats.");
-										return false;
-									}
-									// Seat exists, and is unoccupied. No previous selection in row, allow selection.
-									else {
+								// Selected seat column must be +/- one of any existing entry
+								for (int i = 0; i < rowSeats.size(); i++) {
+									if (Math.abs(rowSeats.get(i) - seatCol) == 1) {
+										// Seat exists, is unoccupied, and is adjacent to a previous selection, allow selection.
 										return true;
-									}					
+									}
 								}
-								// Seat is already occupied, disallow selection
-								else {
-									System.out.println("Seat selection invalid. This seat has already been selected or is otherwise occupied.");
-									return false;
-								}		
+								
+								// Seat is not adjacent to previous selections in the same row, return false
+								System.out.println("Seat selection invalid. Please do not leave spaces between seats.");
+								return false;
+							}
+							else {
+								return true; // Row has not been booked before, and the seat is unoccupied.
 							}
 						}
+						// Seat is already occupied, disallow selection
+						else {
+							System.out.println("Seat selection invalid. This seat has already been selected or is otherwise occupied.");
+							return false;
+						}
 					}
-				}
+				}	 	
 			}
-		}
-
+		} 	
     	// If we reach here, either the input is invalid, the row doesn't exist, or the column of seat doesn't exist.
     	System.out.println("Invalid seatID input. Please try again.");
     	return false;
@@ -245,7 +288,7 @@ class BookingManager implements ResetSelf {
 			getSelectedSeats().remove(selection);
 			
 			// Remove the seat from rowChecker
-			getRowChecker().get(seatRow).remove(seatCol);
+			getRowChecker().get(seatRow).remove((Integer)seatCol);
 			
 			// If the row is empty after removing this seat, then remove row entry from rowChecker
 			if (getRowChecker().get(seatRow).size() <= 0) {
@@ -253,6 +296,7 @@ class BookingManager implements ResetSelf {
 			}
 			
 			// Update seating plan
+			System.out.println("Seat selection " + selection + " removed!");
 			updateSeatingPlan(selection, "deleteSelection");
 		}
 		
@@ -319,21 +363,22 @@ class BookingManager implements ResetSelf {
 		// Iterate until we find the seat's row and col index position in the seatingPlan List
     	for (int row = 0; row < getSeatingPlan().size(); row++) {
     		String rowRef = getSeatingPlan().get(row);
+    		
+    		// Check if row is null
+    		if (rowRef == null || rowRef.length() == 0) {
+    			System.out.println();
+    			continue;
+    		}
+    		
+    		// Found seat row
     		if (rowRef.charAt(0) == seatRow) {
-    			int seatCount = 0; // Counts seats from start of row
-    		 	for (int col = 1; col < rowRef.length(); col++) {
-    		 		if (Character.isDigit(rowRef.charAt(col))) {
-    		 			seatCount += 1;
-    		 			if (seatCount == seatCol) {
-    		 				// Modify the row string to include the seat's new status
-    		 				String updatedRow = rowRef.substring(0, col) + seatModifier + rowRef.substring(col+1);
-    		 				
-    		 				// Replace current row
-    		 				rowRef = updatedRow;
-    		 				return; // Terminate function
-    		 			}
-    		 		}
-	    		}
+    			int index = getColChecker().get(seatCol);
+    			
+ 				String updatedRow = rowRef.substring(0, index) + seatModifier + rowRef.substring(index+1);
+ 				
+ 				// Replace current row
+ 				getSeatingPlan().set(row, updatedRow);
+ 				return; // Terminate function
     		}
     	}
     }
@@ -396,6 +441,7 @@ class BookingManager implements ResetSelf {
 		setSeatingPlan(null);
     	getSelectedSeats().clear();
 		getRowChecker().clear();
+		getColChecker().clear();
 		exit = true;
     }
     
@@ -412,4 +458,5 @@ class BookingManager implements ResetSelf {
     public List<String> getSeatingPlan() {return seatingPlan;}
 	public List<String> getSelectedSeats() {return selectedSeats;}
 	public HashMap<Character, ArrayList<Integer>> getRowChecker() {return rowChecker;}
+	public HashMap<Integer, Integer> getColChecker() {return colChecker;}
 }
