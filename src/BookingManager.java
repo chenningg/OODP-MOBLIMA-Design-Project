@@ -18,7 +18,9 @@ class BookingManager implements ResetSelf {
     // Singleton & Constructor
  	private static BookingManager single_instance = null;
  	
- 	private BookingManager() {}
+ 	private BookingManager() {
+ 		resetSelf();
+ 	}
 	
 	public static BookingManager getInstance()
 	{
@@ -388,7 +390,7 @@ class BookingManager implements ResetSelf {
     public void makeBooking() {
     	// Since booking is confirmed, we update all selected seats to be confirmed seats (occupied)
     	for (int i = 0; i < getSelectedSeats().size(); i++) {
-    		updateSeatingPlan(getSelectedSeats().get(i), "confirmBooking");
+    		updateSeatingPlan(getSelectedSeats().get(i), "confirmSelection");
     	}
     	
     	// We then update the current showtime REFERENCE with the new seating plan, and update the showtime fill status
@@ -432,6 +434,7 @@ class BookingManager implements ResetSelf {
     	// Finally, reset this instance
     	resetSelf();
     }
+
     
     
     // Resets all variables of this singleton instance (e.g. if user presses back)

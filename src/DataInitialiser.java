@@ -417,9 +417,6 @@ class Main {
 		// Initialise data
 		DataInitialiser dataInitialiser = new DataInitialiser();
 		
-		
-		
-		
 /*	USE THIS TO INITIALIZE	*/
 		
 		// Get project root
