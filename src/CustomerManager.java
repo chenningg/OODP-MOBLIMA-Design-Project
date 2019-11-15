@@ -63,14 +63,15 @@ public class CustomerManager implements ResetSelf{
 			printBookingHistory(mobileToCustomer(mobileNo));
 	}
 	
-	public void printBookingHistory(CustomerAccount custToPrint) {
+	public void printBookingHistory(CustomerAccount custToPrint) {//given customer account, print booking history
 		Booking booking;
-		if (custToPrint==null)
+		if (custToPrint==null) //prints no records if customer doesnt exist
 			System.out.println("No records found.\n");
 		else {
 			System.out.println("Previous Bookings:");
+			//get list of booking IDs of customer and searches for each associated booking file
 			for (int i=0;i<custToPrint.getBookingHistoryID().size();i++) {
-				//search directory for each booking file according to ID
+				//search directory for booking file according to each ID
 				booking= loadBooking(custToPrint.getBookingHistoryID().get(i));
 				
 				if (booking!=null)
@@ -83,16 +84,20 @@ public class CustomerManager implements ResetSelf{
 	public Booking loadBooking(String bookingID) {
 		Booking booking=null;
 		
+		//looks in bookings folder for past bookings
 		String folderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/bookings";
 		File[] files= getAllFiles(folderPath);
-		
-		for (int i=0; i<files.length;i++)
-		{
-			String filePath= files[i].getPath();
-			if (filePath.contains(bookingID))
-				booking= (Booking)SerializerHelper.deSerializeObject(filePath);
-		}
-		return booking;
+		if (files!=null) {
+			for (int i=0; i<files.length;i++)
+			{
+				String filePath= files[i].getPath();
+				if (filePath.contains(bookingID))
+					booking= (Booking)SerializerHelper.deSerializeObject(filePath);
+			}
+			return booking;
+			}
+		else
+			return null;
 	}
 	
 	// Validate mobile number of user, check if all numeric and is 8 digits long (Assume Singapore)
@@ -201,9 +206,13 @@ public class CustomerManager implements ResetSelf{
 	
 	// Loads all text files in the specified folder and returns the list of files
 	public File[] getAllFiles(String folderPath) {
-		
+		try {
 		// Finds folder and gets a list of all files in folder
 		File directory = new File(folderPath);
 		return(directory.listFiles());
+		} 
+		catch (Exception e) {
+			return null;
+		}
 	}	
 }
