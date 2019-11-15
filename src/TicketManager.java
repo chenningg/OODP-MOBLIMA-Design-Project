@@ -70,8 +70,8 @@ public class TicketManager implements ResetSelf {
     		}
     		// Clear selected tickets but try again  	
     		else if (choice == ticketChoices+1) { 		
-    			resetSelf();
-    			System.out.printf("Ticket selections cleared.");
+    			clearTicketSelection();
+    			System.out.println("Ticket selections cleared.");
     		}
     		// Check all seats have tickets, then proceed to payment
     		else if (choice == ticketChoices+2) { 		
@@ -166,6 +166,12 @@ public class TicketManager implements ResetSelf {
     	MovieManager.getInstance().updateTicketsSold(currMovieID, getSelectedTickets().size());
     	
     	resetSelf();
+    }
+    
+    // Clear tickets, doesn't clear other info
+    private void clearTicketSelection() {
+    	getSelectedTickets().clear();
+    	getTicketCount().clear();
     }
     
     
