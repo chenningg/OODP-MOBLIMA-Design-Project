@@ -15,7 +15,7 @@ public class Cineplex implements Serializable {
 		this.cinemas = new ArrayList<Cinema>();
 		this.cinemaIDs = new ArrayList<String>();
 		this.setCineplexID(cineplexID);
-		this.openCinemaFile(cineplexID);
+		this.openCineplexFile(cineplexID);
 	}
 
 
@@ -37,18 +37,9 @@ public class Cineplex implements Serializable {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// Initializers: Below code used only for the very first run of the app
     // File Reader
-    public void openCinemaFile(String cineplexID) {
+    public void openCineplexFile(String cineplexID) {
 		try {
 			// Get filepath
 			String filePath = ProjectRootPathFinder.findProjectRootPath();
