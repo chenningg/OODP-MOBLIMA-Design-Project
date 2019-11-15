@@ -40,7 +40,7 @@ public class CustomerApp {
 		do {
 	    	System.out.println("================= MOBLIMA CUSTOMER APP =================\n" +
 	                "1. View movie listings \n" +
-	                "2. Leave review\n" +
+//	                "2. Leave review\n" +
 	                "3. View top 5\n" +
 	                "4. Check booking history\n" +
 	                "0. Quit\n");
@@ -50,37 +50,37 @@ public class CustomerApp {
             
             switch(choice){
                 case 1://view movie listings
-                	mm.displayMovies();
+                	mm.viewMovies("Customer");
                     break;
 
-                case 2://leave review
-                	String searchterm;
-                	int searchSize;
-                	
-                    System.out.println("Enter search term: ");
-                    searchterm = sc.next();
-                    
-                    searchSize = MovieManager.getInstance().searchMovies(searchterm).size();
-                    
-                    //search for movie using searchterm
-                    if(searchSize == 0){
-                        System.out.println("No Movies found.");
-                        break;
-                    }
-                    
-                    //print out movies containing searchterm
-                    for(int i=0;i<searchSize;i++){
-                        System.out.println(i+1+". "+mm.searchMovies(searchterm).get(i));
-                    }
-                    
-                    //let user choose movie
-                    do{
-                        System.out.println("Enter choice of movie(1-" + searchSize+": ");
-                        choice = sc.nextInt();
-
-                    }while(choice <1 || choice>searchSize);
-                    rm.createReview(mm.searchMovies(searchterm).get(choice-1));
-                    break;
+//                case 2://leave review
+//                	String searchterm;
+//                	int searchSize;
+//
+//                    System.out.println("Enter search term: ");
+//                    searchterm = sc.next();
+//
+//                    searchSize = MovieManager.getInstance().searchMovies(searchterm).size();
+//
+//                    //search for movie using searchterm
+//                    if(searchSize == 0){
+//                        System.out.println("No Movies found.");
+//                        break;
+//                    }
+//
+//                    //print out movies containing searchterm
+//                    for(int i=0;i<searchSize;i++){
+//                        System.out.println(i+1+". "+mm.searchMovies(searchterm).get(i));
+//                    }
+//
+//                    //let user choose movie
+//                    do{
+//                        System.out.println("Enter choice of movie(1-" + searchSize+": ");
+//                        choice = sc.nextInt();
+//
+//                    }while(choice <1 || choice>searchSize);
+//                    rm.createReview(mm.searchMovies(searchterm).get(choice-1));
+//                    break;
 
                 case 3://view top 5
                 	mm.viewTop5Cust();
