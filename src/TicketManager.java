@@ -8,7 +8,7 @@ import java.time.format.TextStyle;
 
 public class TicketManager implements ResetSelf {
 	
-	// Variables
+	// Attributes
     private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
     private Map<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
     private Map<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();

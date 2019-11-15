@@ -6,7 +6,7 @@ public class CustomerApp {
     
     private Scanner sc = new Scanner(System.in);
 
-    CustomerApp(){}
+    private CustomerApp(){}
 
     public static CustomerApp getInstance()
     {
