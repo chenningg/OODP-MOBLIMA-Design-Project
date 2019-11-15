@@ -366,7 +366,7 @@ class BookingManager implements ResetSelf {
     	getBooking().setDateTime(getShowtime().getDateTime());
     	
     	// Update booking's movieName, cineplexName and hallNo
-    	getBooking().setMovieName(showtime.getMovieID());
+    	getBooking().setMovieID(showtime.getMovieID());
     	getBooking().setCineplexName(showtime.getCineplexName());
     	getBooking().setHallNo(showtime.getCinema().getHallNo());
     	
