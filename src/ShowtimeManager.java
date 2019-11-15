@@ -66,7 +66,7 @@ public class ShowtimeManager {
                 }
             }
 
-            if (appType.equalsIgnoreCase("staff")) {
+            if (appType.equalsIgnoreCase("Staff")) {
                 System.out.println("==================== SHOWTIMES  ====================\n" +
                         "| 1. View/Update/Remove Specific Showtime          |\n" +
                         "| 2. Create New Showtime                           |\n" +
@@ -91,10 +91,65 @@ public class ShowtimeManager {
                 }
 
             }
+            else if (appType.equalsIgnoreCase("Customer")) {
+                System.out.println("==================== SHOWTIMES  ====================\n" +
+                        "| 1. View Specific Showtime (Details / Booking)    |\n" +
+                        "| 0. Back to MovieManager                          |\n" +
+                        "====================================================");
+                System.out.println("Enter choice:");
+                choice = sc.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        this.showtimeMenuCustomer();
+                        break;
+                    case 0:
+                        System.out.println("Back to Showtimes List......");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please choose between 0-1");
+                        break;
+                }
+
+            }
         } while (choice != 0);
     }
     
-    
+    private void showtimeMenuCustomer() {
+        int choice;
+
+        System.out.println("Enter the showtimeID you would like to view/book: ");
+        String selectedShowtimeID = sc.next();
+
+        do {
+            System.out.println(	"================== SHOWTIME CUSTOMER APP ===================\n" +
+                                "| 1. View ALL Details						                |\n" +
+                                "| 2. Book Showtime 				                        |\n" +
+                                "| 0. Back to MovieManager                                  |\n" +
+                                "===========================================================");
+            System.out.println("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    this.viewShowtime(selectedShowtimeID);
+                    break;
+                case 2:
+                    System.out.println("Enter showtime to book: ");
+                    String showtimeID = sc.next();
+                    Showtime showtime = this.findShowtime(showtimeID);
+                    BookingManager.getInstance().startSeatSelection(showtime);
+                    break;
+                case 0:
+                    System.out.println("Back to Showtimes List......");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please choose between 0-3.");
+                    break;
+            }
+        } while (choice != 0);
+    }
+
     private void showtimeMenuStaff() {
         int choice;
         
@@ -133,22 +188,18 @@ public class ShowtimeManager {
     
     
     private void viewShowtime(String selectedShowtimeID) {
-    	int i;
-    	for (Map.Entry showtimeElement : this.showtimes.entrySet()) {
-    	    Showtime selectedShowtime = (Showtime) showtimeElement.getValue();
-    		if (selectedShowtime.getShowtimeID().equalsIgnoreCase(selectedShowtimeID)) {
-    			System.out.println("Here are all the details:");
-    			System.out.println("ShowtimeID = " + selectedShowtime.getShowtimeID());
-    			System.out.println(selectedShowtime.getCineplexName() + ", Cinema " + selectedShowtime.getCinema().getCinemaID() + ", Hall No. " + selectedShowtime.getCinema().getHallNo());
-    			System.out.println("Movie Format: " + selectedShowtime.getMovieFormat());
-    			System.out.println("Date/Time: " + selectedShowtime.getDateTime());
-    			System.out.println("Cinema Status: " + selectedShowtime.getCinemaStatus());
-    			System.out.println("Total Seats: " + selectedShowtime.getCinema().getTotalSeatNo() + ", Occupied Seats: " + selectedShowtime.getCinema().getOccupiedSeatsNo());
-    			System.out.println("Cinema Type: " + selectedShowtime.getCinema().getCinemaType());
-    			System.out.println("Cinema Layout: ");
-    			selectedShowtime.getCinema().printCinemaLayout(); 			
-    		}
-    	}
+        Showtime selectedShowtime = this.showtimes.get(selectedShowtimeID);
+
+        System.out.println("Here are all the details:");
+        System.out.println("ShowtimeID = " + selectedShowtime.getShowtimeID());
+        System.out.println(selectedShowtime.getCineplexName() + ", Cinema " + selectedShowtime.getCinema().getCinemaID() + ", Hall No. " + selectedShowtime.getCinema().getHallNo());
+        System.out.println("Movie Format: " + selectedShowtime.getMovieFormat());
+        System.out.println("Date/Time: " + selectedShowtime.getDateTime());
+        System.out.println("Cinema Status: " + selectedShowtime.getCinemaStatus());
+        System.out.println("Total Seats: " + selectedShowtime.getCinema().getTotalSeatNo() + ", Occupied Seats: " + selectedShowtime.getCinema().getOccupiedSeatsNo());
+        System.out.println("Cinema Type: " + selectedShowtime.getCinema().getCinemaType());
+        System.out.println("Cinema Layout: ");
+        selectedShowtime.getCinema().printCinemaLayout();
     }
     
     private void updateShowtime(String showtimeID) {
@@ -255,6 +306,11 @@ public class ShowtimeManager {
         else {
             System.out.println("Showtime does not exist!");
         }
+    }
+
+    public Showtime findShowtime(String showtimeID) {
+        Showtime showtime = (Showtime) this.showtimes.get(showtimeID);
+        return showtime;
     }
 
     /***
