@@ -105,6 +105,9 @@ public class DataInitialiser {
 				LocalDate releaseDate = LocalDate.parse(inputLine, formatter);
 				newMovie.setReleaseDate(releaseDate);
 				
+				// Showtime ids
+				newMovie.setShowtimeIDs(new ArrayList<String>());
+				
 				brStream.close(); // Close file
 				
 				// Now that we have a new movie, we add it to our movies array and initialize it.
@@ -293,5 +296,7 @@ class Main {
 		
 		// Showtimes initialisation, store MOVIE ID (NOT INSTANCE) of movie and a new INSTANCE of cinema
 		dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
+		
+		System.out.println("Initialized!");
 	}
 }
