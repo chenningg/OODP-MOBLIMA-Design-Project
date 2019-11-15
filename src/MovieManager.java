@@ -653,6 +653,10 @@ class MovieManager {
         movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
     }
 
-
-
+    public void updateShowtimes(String movieID, String showtimeID) {
+        Movie movie = movies.get(movieID);
+        List<String> showtimeIDs = movie.getShowtimeIDs();
+        showtimeIDs.add(showtimeID);
+        movie.setShowtimeIDs(showtimeIDs);
+    }
 }
