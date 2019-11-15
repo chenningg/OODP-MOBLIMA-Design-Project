@@ -620,10 +620,8 @@ class MovieManager {
             String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/"+listOfFiles[i].getName().split("_")[0]+".dat";
             loadedMovies.values().add((Movie)SerializerHelper.deSerializeObject(filepath));
         }
-
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
         System.out.println("Movies loaded!");
-        return (HashMap<String,Movie>) SerializerHelper.deSerializeObject(filepath);
+        return loadedMovies;
     }
 
     public void saveObject(String movieID) {
@@ -655,7 +653,7 @@ class MovieManager {
     private void updateTicketsSold(String movieID,long ticketsSold){
         movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
     }
-    
+
 }
 
 
