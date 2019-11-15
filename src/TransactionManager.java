@@ -109,22 +109,22 @@ public class TransactionManager implements ResetSelf {
 		
 		// Print out selected ticket prices inclusive of GST and total amount
 		System.out.println("Please check your booking details below:");
-		System.out.printf("%-20s%-20s%-20s%-s\n", "Item", "Unit Price", "Quantity", "Net Price");
+		System.out.printf("%-50s%-10s%-10s%-10s\n", "Item", "Unit Price", "Quantity", "Net Price");
 		for (Map.Entry<TicketType, Integer> item : ticketCount.entrySet()) {
 			
 			// Item and quantity
-			System.out.printf("%-20s%-20.2fx%-19d", item.getKey().toString() + " TICKET", ticketPrices.get(item.getKey()), item.getValue());
+			System.out.printf("%-50s%-10.2fx%-9d", item.getKey().toString() + " TICKET", ticketPrices.get(item.getKey()), item.getValue());
 			
 			// Net price (item price multiplied by amount of items)
-			System.out.printf("%-.2f\n", ticketPrices.get(item.getKey()) * item.getValue());            			
+			System.out.printf("%-10.2f\n", ticketPrices.get(item.getKey()) * item.getValue());            			
 		}
 		
 		// Booking fee
-		System.out.printf("%-20s%-20.2fx%-19d%-.2f\n", "BOOKING FEE", SystemSettingsManager.getInstance().getPrice("BOOKING"), 1, SystemSettingsManager.getInstance().getPrice("BOOKING"));
+		System.out.printf("%-50s%-10.2fx%-9d%-10.2f\n", "BOOKING FEE", SystemSettingsManager.getInstance().getPrice("BOOKING"), 1, SystemSettingsManager.getInstance().getPrice("BOOKING"));
 		
 		// Print net total
 		System.out.println("----------------------------------------------------------------------------------");
-		System.out.printf("%-60s%-.2f", "NET TOTAL (INCL. GST)", getTransaction().getTotalPrice());
+		System.out.printf("%-70s%-10.2f", "NET TOTAL (INCL. GST)", getTransaction().getTotalPrice());
 	}
 	
 	

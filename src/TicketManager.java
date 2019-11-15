@@ -49,7 +49,8 @@ public class TicketManager implements ResetSelf {
     		ticketsLeft = maxTickets - getSelectedTickets().size();
     		
     		// Prints out ticket type selection menu
-    		System.out.printf("You have selected %d seats. %d tickets remaining to select:\n", ticketsLeft);
+    		System.out.println("============================ SEAT BOOKING =============================");
+    		System.out.printf("You have selected %d seat(s). %d ticket(s) remaining to select:\n", selectedSeats.size(), ticketsLeft);
     		
     		for (int i = 1; i <= ticketChoices; i++) {
     			System.out.printf("%d. %s\n", i, TicketType.values()[i-1].toString());
@@ -57,7 +58,9 @@ public class TicketManager implements ResetSelf {
     		System.out.printf("%d. Clear selected tickets\n", ticketChoices+1);
     		System.out.printf("%d. Proceed to payment\n", ticketChoices+2);
     		System.out.println("0. Back to seats selection");		
+    		System.out.println("=======================================================================");
     		
+    		System.out.println("Please select a choice:");
     		choice = sc.nextInt();
     		
     		// Clear selected tickets and ticketCount, return to seats
@@ -143,7 +146,7 @@ public class TicketManager implements ResetSelf {
     	    
     	    // Update price based on day of week
     	    String day = showtime.getDateTime().getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-    	    prices.put(type, prices.get(type) + priceList.getPrice(day));
+    	    prices.put(type, prices.get(type) + priceList.getPrice(day.toUpperCase()));
     	    
     	    // Update price based on movie format
     	    prices.put(type, prices.get(type) + priceList.getPrice(showtime.getMovieFormat().toString()));
