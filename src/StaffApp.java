@@ -67,7 +67,6 @@ public class StaffApp {
 			                    "| 1. View Top 5 Movies                                     |\n" +
 			                    "| 2. Configure System Settings                             |\n" +
 			                    "| 3. Movie Database                                        |\n" +
-			                    "| 4. Showtime Database                                     |\n" +
 			                    "| 0. Logout from StaffApp                                  |\n" +
 			                    "===========================================================");
             System.out.println("Enter choice: ");
@@ -90,7 +89,7 @@ public class StaffApp {
 				System.out.println("Logging out from StaffApp......");
 				break;
 			default:
-				System.out.println("Invalid choice. Please choose between 0-4.");
+				System.out.println("Invalid choice. Please choose between 0-3.");
 				break;
 			}
 		} while (choice != 0);

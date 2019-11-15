@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -12,7 +9,8 @@ import java.util.*;
 
 class MovieManager {
 	// Attributes 
-    private List<Movie> movies;
+
+    private Map<String,Movie> movies = new HashMap<>();
     private Scanner sc = new Scanner(System.in);
 
     private static MovieManager single_instance = null;
@@ -27,7 +25,7 @@ class MovieManager {
     
     // Constructor
     private MovieManager() {
-        ArrayList<Movie> serializedObject = this.loadObject();
+        HashMap<String,Movie> serializedObject = this.loadObject();
         if (serializedObject != null) {
             this.movies = serializedObject;
         } else {
@@ -259,10 +257,14 @@ class MovieManager {
         String lowerCaseName = movieTitle.toLowerCase();
 
         // for-each loop
-        for (Movie movie : movies) {
+        for (Movie movie : movies.values()) {
             if (movie.getTitle().toLowerCase().contains(lowerCaseName)) {
                 foundMovies.add(movie);
             }
+        }
+        if(foundMovies.size() == 0){
+            System.out.println("No such movie found!");
+            return null;
         }
         selectMovie(foundMovies,apptype);
         return foundMovies;
@@ -299,14 +301,7 @@ class MovieManager {
         }
     }
 
-    public Movie getMovieByID(String movieID) {
-        for (Movie movie : movies) {
-            if (movie.getMovieID().equalsIgnoreCase(movieID)) {
-                return movie;
-            }
-        }
-        return null;
-    }
+
 
 
 //CRUD - CREATE READ UPDATE DELETE MOVIE
@@ -317,7 +312,7 @@ class MovieManager {
         ArrayList<String> castList = new ArrayList<>();
         ArrayList<MovieFormat> formatList = new ArrayList<>();
 
-        newMovie.setMovieID(IDHelper.getLatestID("movie"););
+        newMovie.setMovieID(IDHelper.getLatestID("movie"));
         System.out.println("Enter movie title: ");
         newMovie.setTitle(sc.next());
 
@@ -375,7 +370,7 @@ class MovieManager {
         LocalDate date = LocalDate.parse(releaseDate, dateFormat);
         newMovie.setReleaseDate(date);
 
-        movies.add(newMovie);
+        movies.put(newMovie.getMovieID(),newMovie);
     }
 
 
@@ -481,12 +476,12 @@ class MovieManager {
             }
         } while (choice != 0);
 //
-        this.saveObject();
+        this.saveObject(movie.getMovieID());
     }
 
     private void removeMovie(Movie movie) {
         movie.setShowingStatus(ShowingStatus.END_OF_SHOWING);
-        this.saveObject();
+        this.saveObject(movie.getMovieID());
     }
 
     /***
@@ -506,7 +501,7 @@ class MovieManager {
             choice= sc.nextInt();
             switch (choice){
                 case 1:
-                    ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
+                    ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies.values());
                     top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
                     if(top5Sales.size()==0){
                         System.out.println("No Available Movies.");
@@ -521,7 +516,7 @@ class MovieManager {
                     subMovieMenu(top5Sales.get(input1-1),apptype);
                     break;
                 case 2:
-                    ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies);
+                    ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies.values());
                     top5Tickets.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
                     for(int i=0;i<5;i++) {
                         System.out.println(i+1 +". "+top5Tickets.get(i).getTitle());
@@ -532,7 +527,7 @@ class MovieManager {
                     subMovieMenu(top5Tickets.get(input2-1),apptype);
                     break;
                 case 3:
-                    ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies.values());
                     for(int i=top5Reviews.size()-1;i>=0;i--){
                         if(top5Reviews.get(i).getMovieReviews().size() <= 1){
                             top5Reviews.remove(i);
@@ -573,21 +568,21 @@ class MovieManager {
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies);
+                    ArrayList<Movie> top5Sales = new ArrayList<Movie>(movies.values());
                     top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
                     for (int i = 0; i < 5; i++) {
                         System.out.println(i + 1 + ". " + top5Sales.get(i).getTitle());
                     }
                     break;
                 case 2:
-                    ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies);
+                    ArrayList<Movie> top5Tickets = new ArrayList<Movie>(movies.values());
                     top5Tickets.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
                     for (int i = 0; i < 5; i++) {
                         System.out.println(i + 1 + ". " + top5Tickets.get(i).getTitle());
                     }
                     break;
                 case 3:
-                    ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies);
+                    ArrayList<Movie> top5Reviews = new ArrayList<Movie>(movies.values());
                     for(int i=top5Reviews.size()-1;i>=0;i--){
                         if(top5Reviews.get(i).getMovieReviews().size() <= 1){
                             top5Reviews.remove(i);
@@ -608,17 +603,26 @@ class MovieManager {
     }
 
     public List<Movie> getMovies() {
-        return movies;
+        List<Movie> movieList = new ArrayList<>(movies.values());
+        return movieList;
     }
 
-    public ArrayList<Movie> loadObject() {
+    public HashMap<String,Movie> loadObject() {
+        HashMap<String,Movie> loadedMovies = new HashMap<>();
+        File folder = new File("/data/movies");
+        File[] listOfFiles = folder.listFiles();
+        for(int i=0;i<listOfFiles.length;i++){
+            loadedMovies.keySet().add(listOfFiles[i].getName());
+
+        }
+
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
         System.out.println("Movies loaded!");
-        return (ArrayList<Movie>) SerializerHelper.deSerializeObject(filepath);
+        return (HashMap<String,Movie>) SerializerHelper.deSerializeObject(filepath);
     }
 
-    public void saveObject() {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movies.dat";
+    public void saveObject(String movieID) {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_"+movieID+".dat";
         SerializerHelper.serializeObject(this.movies, filepath);
         System.out.println("Movies Saved!");
     }
@@ -634,6 +638,7 @@ class MovieManager {
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
         return dateTime;
     }
+
 
 }
 
