@@ -1,12 +1,11 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ReviewManager {
-    // prevents errors
+	// Attributes
     private Scanner sc = new Scanner(System.in);
     private Map<String, Review> reviews;
 
@@ -185,7 +184,7 @@ public class ReviewManager {
     
     public HashMap<String,Review> load() {
         HashMap<String, Review> loadedReviews = new HashMap<String, Review>();
-        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/movies");
+        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/reviews");
 
         File[] listOfFiles = folder.listFiles();
         
@@ -197,7 +196,6 @@ public class ReviewManager {
                 loadedReviews.put(fileID, newReview);
             }
         }
-
         return loadedReviews;
     }    
 }

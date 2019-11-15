@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Transaction {
+	// Attributes
     private String transactionID;
     private String creditCardNo;
     private List<Ticket> ticketList;

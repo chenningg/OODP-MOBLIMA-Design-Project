@@ -3,16 +3,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomerLookup implements Serializable{
-	
-	private static final long serialVersionUID = 8L;
+	// Attributes
 	private Map<String, CustomerAccount> mobileHash;
 	private Map<String, CustomerAccount> emailHash;
 
-	//Singleton
 	private static CustomerLookup single_instance = null;
 	
-	//constructor
-	CustomerLookup(){
+	private CustomerLookup(){
 		this.setMobileHash();
 		this.setEmailHash();
 	}

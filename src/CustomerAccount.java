@@ -3,8 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerAccount implements Serializable{
-
-	private static final long serialVersionUID = 7L;
+	// Attributes
 	private String name=null;
 	private String customerID;
     private String mobileNo;
@@ -12,7 +11,7 @@ public class CustomerAccount implements Serializable{
     private List<String> bookingHistory= new ArrayList<String>();
    
 
-	//constructor
+	// Constructor
     CustomerAccount(){}
     
     CustomerAccount(String name, String email, String mobileNo){

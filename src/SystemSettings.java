@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class SystemSettings implements Serializable {
 	// Attributes
-	private static final long serialVersionUID = 1L;
 	private Map<String, Map<Object, Object>> systemInfoHash;	
 	private List<String> systemInfoList;
 

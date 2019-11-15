@@ -2,7 +2,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Showtime implements Serializable {
-    private static final long serialVersionUID = 2L;
     private String showtimeID;
     private LocalDateTime dateTime;
     private String movieID;
