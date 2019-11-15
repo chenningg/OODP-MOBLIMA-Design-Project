@@ -30,12 +30,12 @@ public class CustomerAccount implements Serializable{
     	return bookingHistory;
     }
     
-	public String getmobileNo() {
-		return email;
+	public String getMobileNo() {
+		return mobileNo;
 	}
 
 	public String getEmail() {
-		return mobileNo;
+		return email;
 	}
 
 
