@@ -418,9 +418,13 @@ class Main {
 		DataInitialiser dataInitialiser = new DataInitialiser();
 		
 /*	USE THIS TO INITIALIZE	*/
-		
 		// Get project root
 		String initialisationFolderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/initialisation";
+		
+		// Delete all
+		dataInitialiser.resetAllData();
+		
+		System.out.println("Reset all!");
 		
 		// Movies
 		List<Movie> movieList = dataInitialiser.initialiseMovieData(initialisationFolderPath);
@@ -439,8 +443,5 @@ class Main {
 		
 		System.out.println("Initialized!");
 
-/*	USE THIS TO DELETE	*/		
-		
-//		dataInitialiser.resetAllData();
 	}
 }
