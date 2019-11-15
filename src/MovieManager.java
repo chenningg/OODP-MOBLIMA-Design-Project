@@ -642,15 +642,15 @@ class MovieManager {
         return dateTime;
     }
 
-    Movie getMoviebyID(String movieID){
+    public Movie getMoviebyID(String movieID){
         return movies.get(movieID);
     }
 
-    private void updateGrossProfit(String movieID,double grossProfit){
+    public void updateGrossProfit(String movieID,double grossProfit){
         movies.get(movieID).setGrossProfit(movies.get(movieID).getGrossProfit() + grossProfit);
     }
 
-    private void updateTicketsSold(String movieID,long ticketsSold){
+    public void updateTicketsSold(String movieID,long ticketsSold){
         movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
     }
 

@@ -46,9 +46,11 @@ public class TransactionManager implements ResetSelf {
 		
 		// Prompt user to enter email and mobile number or cancel
 		while (!exit) {
-			System.out.println("Please select a choice:");
-			System.out.println("1. Enter payment details");
-    		System.out.println("0. Back to ticket selection");		
+			System.out.println("================ PAYMENT CONFIRMATION ================\n"+
+								"| 1. Enter payment details                           |\n"+
+								"| 0. Back to ticket selection                        |\n"+
+								"======================================================");
+			System.out.println("Please select a choice:");	
     		
     		choice = sc.nextInt();
     		
@@ -287,9 +289,9 @@ public class TransactionManager implements ResetSelf {
 		BookingManager.getInstance().getBooking().setTransaction(getTransaction());
 		CustomerManager.getInstance().updateCustomer(getBookerName(), getBookerEmail(), getBookerMobileNo());
 		
-		// Update movie's total grossings
-		Movie currMovie = BookingManager.getInstance().getShowtime().getMovie();
-		currMovie.setGrossProfit(currMovie.getGrossProfit() + getTransaction().getTotalPrice());
+		// Update movie's total grossing
+		String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
+		MovieManager.getInstance().updateGrossProfit(currMovieID, getTransaction().getTotalPrice());
 		
 		resetSelf();
 	}
