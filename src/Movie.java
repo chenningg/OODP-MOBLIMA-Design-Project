@@ -58,7 +58,7 @@ public class Movie implements Serializable{
         System.out.printf("Rating: %s\n", getMovieRating().toString());
         
         // Duration
-        System.out.printf("Duration: %dminutes\n", getMovieDuration());
+        System.out.printf("Duration: %dm\n", getMovieDuration());
         
         // Movie formats
         System.out.print("Movie Formats: ");
