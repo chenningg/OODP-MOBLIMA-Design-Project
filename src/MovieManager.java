@@ -42,6 +42,10 @@ class MovieManager {
                                "=========================================================");
 
             System.out.println("Enter choice: ");
+            while(!sc.hasNextInt()) {
+                System.out.println("Please enter a number!");
+                sc.next();
+            }
             choice = sc.nextInt();
             
             switch (choice) {
