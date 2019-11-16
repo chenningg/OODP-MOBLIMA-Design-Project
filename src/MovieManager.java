@@ -222,7 +222,7 @@ class MovieManager {
                 }
             }while(choice != 0);
         }
-        else if(appType.equals("Customer")){
+        else if(appType.equals("Customer") && !movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)){
             int choice;
             do{
                 System.out.println(" 1. Display Showtimes\n" +
