@@ -40,7 +40,6 @@ public class Booking implements Serializable {
     		}
     	}
     	System.out.println();
-    	System.out.println("=============================================================================");
     }
     
     

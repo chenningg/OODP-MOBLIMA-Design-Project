@@ -187,10 +187,9 @@ public class ShowtimeManager {
         else {
             do {
                 System.out.println("================== SHOWTIME CUSTOMER APP ===================\n" +
-                        "| 1. View ALL Details                                      |\n" +
-                        "| 2. Book Showtime                                         |\n" +
-                        "| 0. Back to MovieManager                                  |\n" +
-                        "===========================================================");
+                        " 1. View ALL Details                                      \n" +
+                        " 2. Book Showtime                                         \n" +
+                        " 0. Back to MovieManager                                  ");
                 System.out.println("Enter choice: ");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
@@ -222,11 +221,10 @@ public class ShowtimeManager {
 
         do {
             System.out.println(	"==================== SHOWTIME STAFF APP ====================\n" +
-            					"| 1. View ALL Details                                      |\n" +
-			            		"| 2. Update                                                |\n" +
-			                    "| 3. Remove                                                |\n" +
-			                    "| 0. Back to MovieManager                                  |\n" +
-			                    "===========================================================");
+            					" 1. View ALL Details                                      \n" +
+			            		" 2. Update                                                \n" +
+			                    " 3. Remove                                                \n" +
+			                    " 0. Back to MovieManager                                  ");
             System.out.println("Enter choice: ");
             while(!sc.hasNextInt()) {
                 System.out.println("Please enter a number!");
@@ -276,14 +274,14 @@ public class ShowtimeManager {
         if (showtimeToUpdate != null) {
             do {
                 System.out.println(	"================= UPDATE SHOWTIME STAFF APP ================\n" +
-                                    "| 1. Showtime Date Time                                    |\n" +
-                                    "| 2. Movie ID                                              |\n" +
-                                    "| 3. Cinema                                                |\n" +
-                                    "| 4. Cineplex Name                                         |\n" +
-                                    "| 5. Cinema Status                                         |\n" +
-                                    "| 6. Movie Format                                          |\n" +
-                                    "| 0. Back to Showtime Staff App                            |\n" +
-                                    "===========================================================");
+                                    " 1. Showtime Date Time                                    \n" +
+                                    " 2. Movie ID                                              \n" +
+                                    " 3. Cinema                                                \n" +
+                                    " 4. Cineplex Name                                         \n" +
+                                    " 5. Cinema Status                                         \n" +
+                                    "6. Movie Format                                          \n" +
+                                    " 0. Back to Showtime Staff App                            ");
+
                 System.out.println("Enter choice: ");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
@@ -482,25 +480,6 @@ public class ShowtimeManager {
 
         return loadedShowtimes;
     }
-    /*
-    public HashMap<String,Review> load() {
-        HashMap<String, Review> loadedReviews = new HashMap<String, Review>();
-        File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/reviews");
-
-        File[] listOfFiles = folder.listFiles();
-
-        if(listOfFiles != null){
-            for(int i=0;i<listOfFiles.length;i++){
-                String filepath = listOfFiles[i].getPath(); // Returns full path incl file name and type
-                Review newReview = (Review)SerializerHelper.deSerializeObject(filepath);
-                String fileID = listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
-                loadedReviews.put(fileID, newReview);
-            }
-        }
-        return loadedReviews;
-    }
-
-     */
 
     public void save(Object objectToSave, String showtimeID) {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_" + showtimeID + ".dat";

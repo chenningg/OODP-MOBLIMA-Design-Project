@@ -47,12 +47,11 @@ class SystemSettingsManager {
 		
 		do {
 	        System.out.println("=================== SystemSettings Menu ===================\n"+
-	                "| 1. View Setting                                          |\n"+
-	                "| 2. Add Setting                                           |\n"+
-	                "| 3. Change Setting                                        |\n"+
-	                "| 4. Delete Setting                                        |\n"+
-	                "| 0. Back to StaffApp                                      |\n"+
-	                "===========================================================");			
+	                " 1. View Setting                                         \n"+
+	                " 2. Add Setting                                           \n"+
+	                " 3. Change Setting                                        \n"+
+	                " 4. Delete Setting                                        \n"+
+	                " 0. Back to StaffApp                                      ");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 			
@@ -89,16 +88,15 @@ class SystemSettingsManager {
 		
 		do {
 	        System.out.println(	"=================== View SystemSettings ===================\n"+
-	                		   	"| 1. All Price References                                  |\n"+
-	                		   	"| 2. Holiday References                                    |\n"+
-				                "| 3. Default Prices                                        |\n"+
-				                "| 4. Day-of-the-Week Prices                                |\n"+
-				                "| 5. Holiday Prices                                        |\n"+
-				                "| 6. Movie Format Prices                                   |\n"+
-				                "| 7. Ticket Type Prices                                    |\n"+
-				                "| 8. Cinema Type Prices                                    |\n"+
-				                "| 0. Back to SystemSettings Menu                           |\n"+
-				                "===========================================================");					
+	                		   	" 1. All Price References                                  \n"+
+	                		   	" 2. Holiday References                                    \n"+
+				                " 3. Default Prices                                        \n"+
+				                " 4. Day-of-the-Week Prices                                \n"+
+				                " 5. Holiday Prices                                        \n"+
+				                " 6. Movie Format Prices                                   \n"+
+				                " 7. Ticket Type Prices                                    \n"+
+				                " 8. Cinema Type Prices                                    \n"+
+				                " 0. Back to SystemSettings Menu                           ");
 			System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
@@ -142,12 +140,11 @@ class SystemSettingsManager {
 		
 		do {
 	        System.out.println(	"==================== Add SystemSettings ===================\n"+
-			        		   	"| 1. New Holiday Reference                                 |\n"+
-			        		   	"| 2. New Movie Format                                      |\n"+
-				                "| 3. New Ticket Type                                       |\n"+
-				                "| 4. New Cinema Type                                       |\n"+
-				                "| 0. Back to SystemSettings Menu                           |\n"+
-				                "===========================================================");					
+			        		   	" 1. New Holiday Reference                                 \n"+
+			        		   	" 2. New Movie Format                                      \n"+
+				                " 3. New Ticket Type                                       \n"+
+				                " 4. New Cinema Type                                       \n"+
+				                " 0. Back to SystemSettings Menu                           ");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -219,15 +216,14 @@ class SystemSettingsManager {
 		
 		do {
 	        System.out.println(	"=================== Change SystemSettings ==================\n"+
-			        		   	"| 1. Holiday Reference                                     |\n"+
-			        		   	"| 2. Movie Format Prices                                   |\n"+
-				                "| 3. Ticket Type Prices                                    |\n"+
-				                "| 4. Cinema Type Prices                                    |\n"+
-				                "| 5. Day-of-the-Week Prices                                |\n"+
-				                "| 6. Holiday Prices                                        |\n"+
-				                "| 7. Default Prices                                        |\n"+
-				                "| 0. Back to SystemSettings Menu                           |\n"+
-				                "===========================================================");		
+			        		   	" 1. Holiday Reference                                     \n"+
+			        		   	" 2. Movie Format Prices                                   \n"+
+				                " 3. Ticket Type Prices                                    \n"+
+				                " 4. Cinema Type Prices                                    \n"+
+				                " 5. Day-of-the-Week Prices                                \n"+
+				                " 6. Holiday Prices                                        \n"+
+				                " 7. Default Prices                                        \n"+
+				                " 0. Back to SystemSettings Menu                           ");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -342,12 +338,11 @@ class SystemSettingsManager {
 		
 		do {
 	        System.out.println(	"=================== Delete SystemSettings ==================\n"+
-			        		   	"| 1. Holiday Reference                                     |\n"+
-			        		   	"| 2. Movie Format 											|\n"+
-				                "| 3. Ticket Type                                    		|\n"+
-				                "| 4. Cinema Type 		                                    |\n"+
-				                "| 0. Back to SystemSettings Menu                           |\n"+
-				                "===========================================================");					
+			        		   	" 1. Holiday Reference                                     \n"+
+			        		   	" 2. Movie Format 											\n"+
+				                " 3. Ticket Type                                    		\n"+
+				                " 4. Cinema Type 		                                    \n"+
+				                " 0. Back to SystemSettings Menu                           ");
 	        System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
