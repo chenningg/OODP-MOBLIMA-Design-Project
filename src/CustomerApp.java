@@ -42,7 +42,7 @@ public class CustomerApp {
                 	MovieManager.getInstance().viewMovies("Customer");
                     break;
                 case 2://view top 5
-                	MovieManager.getInstance().viewTop5Cust();
+                	MovieManager.getInstance().viewTop5("Customer");
                     break;
 
                 case 3:

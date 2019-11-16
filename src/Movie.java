@@ -64,7 +64,7 @@ public class Movie implements Serializable{
         System.out.print("Movie Formats: ");
         for (int j = 0; j < getMovieFormats().size(); j++) {
         	System.out.print(getMovieFormats().get(j).toString());      	
-        	if (j+1 < getGenres().size()) {
+        	if (j+1 < getMovieFormats().size()) {
         		System.out.print(", ");
         	}
         }
