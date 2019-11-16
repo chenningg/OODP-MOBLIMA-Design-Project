@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompanyManager {
 	// Attributes
@@ -24,7 +25,9 @@ public class CompanyManager {
 			single_instance = new CompanyManager();
 		return single_instance;
 	}
-	
+	public Company getCompany(){
+		return company;
+	}
 	public Cinema getNewCinema(String cinemaID) {
 		int i;
 		int noOfCineplex = this.company.getCineplexes().size();
@@ -34,13 +37,17 @@ public class CompanyManager {
 			
 			if (cineplex.getCinemaIDs().contains(cinemaID)) {
 				int cinemaIndex = cineplex.getCinemaIDs().indexOf(cinemaID);
-				try {
-					System.out.println(cineplex.getCinemas().get(cinemaIndex).getCinemaID());
-					return (Cinema) cineplex.getCinemas().get(cinemaIndex).clone();
-				} catch (CloneNotSupportedException e1) {
-					System.out.println("Unable to clone cinema");
-					e1.printStackTrace();
-				}
+
+				Cinema newCinema = new Cinema(cinemaID);
+				Cinema oldCinema = cineplex.getCinemas().get(cinemaIndex);
+
+				newCinema.setCinemaID(oldCinema.getCinemaID());
+				newCinema.setHallNo(oldCinema.getHallNo());
+				newCinema.setCinemaType(oldCinema.getCinemaType());
+				newCinema.setTotalSeatNo(oldCinema.getTotalSeatNo());
+				newCinema.setOccupiedSeatsNo(oldCinema.getOccupiedSeatsNo());
+				newCinema.setCinemaLayout(oldCinema.getCinemaLayout());
+				return newCinema;
 			}
 		}
 		

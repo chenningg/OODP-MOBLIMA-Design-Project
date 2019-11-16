@@ -40,6 +40,9 @@ public class Booking implements Serializable {
     		}
     	}
     	System.out.println();
+
+    	// print transaction id
+		System.out.println("Transaction ID: " + getTransactionID());
     }
     
     
