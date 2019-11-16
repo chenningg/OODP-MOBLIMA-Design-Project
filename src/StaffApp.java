@@ -29,6 +29,10 @@ public class StaffApp {
 				                "| 0. Back to MOBLIMA APP                                  |\n"+
 				                "===========================================================");
 	        System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
 			
 			switch (choice) {
@@ -70,6 +74,10 @@ public class StaffApp {
 			                    "| 0. Logout from StaffApp                                  |\n" +
 			                    "===========================================================");
             System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
 			
 			switch (choice) {
