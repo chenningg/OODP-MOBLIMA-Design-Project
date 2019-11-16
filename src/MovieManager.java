@@ -362,6 +362,10 @@ class MovieManager {
             System.out.println(i+1 +". " +Genre.values()[i].toString());
         }
         System.out.println("Enter number of genres: ");
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer number.");
+    		sc.next(); // Remove newline character
+        }
         int numGenres = sc.nextInt();
         for (int i=0;i<numGenres;i++)
         {
@@ -579,12 +583,11 @@ class MovieManager {
                 case 2:
                     ArrayList<Genre> Genres = new ArrayList<>();
                     System.out.println("List of Genres:");
-
                     for(int i=0;i<Genre.values().length;i++){
                         System.out.println(i+1 +". " +Genre.values()[i].toString());
                     }
                     System.out.println("Enter number of genres: ");
-                    while (!sc.hasNextInt()) {
+                while (!sc.hasNextInt()) {
                     	System.out.println("Invalid input type. Please enter an integer value.");
                 		sc.next(); // Remove newline character
                     }
