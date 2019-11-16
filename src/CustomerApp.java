@@ -49,6 +49,7 @@ public class CustomerApp {
             if (!sc.hasNextInt()) {
         		System.out.println("Invalid input type. Please choose a choice from 0-3.");
         		sc.next(); // Remove newline character
+        		choice = -1;
         		continue;
         	}
             
@@ -77,6 +78,7 @@ public class CustomerApp {
                         if (!sc.hasNextInt()) {
                     		System.out.println("Invalid input type. Please choose a choice from 0-2.");
                     		sc.next(); // Remove newline character
+                    		subchoice = -1;
                     		continue;
                     	}
                         
