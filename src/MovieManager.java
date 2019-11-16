@@ -209,6 +209,7 @@ class MovieManager {
 			                        "| 2. Edit Movie 						       		      |\n" +
 			                        "| 3. Remove Movie		                                  |\n" +
 			                        "| 4. View Reviews	                                      |\n" +
+			                        "| 5. Delete Reviews	                                  |\n" +
 			                        "| 0. Back to Movie Listings			                  |\n" +
 			                        "==========================================================");            	
 
@@ -232,11 +233,14 @@ class MovieManager {
                     case 4:
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
+                    case 5:
+                    	ReviewManager.getInstance().deleteReview(movie.getReviews());
+                    	break;
                     case 0:
                     	System.out.println("Back to Movie Listings......");
                         break;
                     default:
-                        System.out.println("Please enter a number between 0-4");
+                        System.out.println("Please enter a number between 0-5");
                 }
             }while(choice != 0);
         }
@@ -850,10 +854,6 @@ class MovieManager {
 	                } else if (subchoice >= top5.size()) {
 	             	   System.out.println("Invalid input. Please enter a number between 0 and " + top5.size());
 	                } else {
-//	                	for (int i=0;i < Math.min(5, top5.size()); i++) {
-//	                		top5.get(i).displayMovieDetails();
-//	                	}
-	                	
 	                	top5.get(subchoice).displayMovieDetails();
 	                	subMovieMenu(top5.get(subchoice),appType);
 	                    subchoice = -1;
@@ -865,10 +865,6 @@ class MovieManager {
 			
     	} while (choice != 0);
     }
-//    public List<Movie> getMovies() {
-//        List<Movie> movieList = new ArrayList<>(movies.values());
-//        return movieList;
-//    }
 
     public void load() {
         File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/movies");
@@ -902,15 +898,23 @@ class MovieManager {
         movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
     }
 
-    public void updateReview(String movieID, String reviewID, double reviewScore){
-        Movie movie = movies.get(movieID);
-        movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
-        movie.setTotalReviewScore(movie.getTotalReviewScore()+reviewScore);
-        System.out.println(movie.getTotalReviewScore());
-        System.out.println(reviewScore);
-        movie.addMovieReview(reviewID);
-        movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
-        this.save(movie);
+    public void updateReview(String movieID, String reviewID, double reviewScore, String function){
+        if (function.equals("add")) {
+        	Movie movie = movies.get(movieID);
+            movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
+            movie.setTotalReviewScore(movie.getTotalReviewScore()+reviewScore);
+            movie.addMovieReview(reviewID);
+            movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
+            this.saveObject(movie);        	
+        } else if (function.equals("remove")) {
+        	Movie movie = movies.get(movieID);
+            movie.setTotalReviewNo(movie.getTotalReviewNo()-1);
+            movie.setTotalReviewScore(movie.getTotalReviewScore()-reviewScore);
+            movie.removeMovieReview(reviewID);
+            movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
+            this.saveObject(movie);        	        	
+        }
+
     }
 
     public void updateShowtimes(String movieID, String showtimeID) {

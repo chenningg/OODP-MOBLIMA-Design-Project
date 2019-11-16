@@ -26,37 +26,6 @@ public class ReviewManager {
     
     
 	// Public exposed methods to app
-//    public void reviewMenu(String movieID) {
-//    	int choice;
-//    	
-//    	do {
-//            System.out.println(	"===================== REVIEW PORTAL =====================\n" +
-//			            		"| 1. View reviews	 						    		 |\n" +
-//			            		"| 2. Leave a review	 						    	 |\n" +
-//				                "| 0. Back to Movie Listings	                         |\n" +
-//				                "=========================================================");    	
-//    	
-//            System.out.println("Enter choice: ");
-//            choice = sc.nextInt();
-//            
-//            switch (choice) {
-//	            case 1: 
-//	            	this.printReview(movieID);
-//	            	break;
-//	            case 2:
-//	            	this.addReview(movieID);
-//	            	choice = 0;
-//	            	break;
-//	            case 0:
-//	            	System.out.println("Back to Movie Listings......");
-//	            	break;
-//            	default:
-//            		System.out.println("Invalid choice. Please enter a number between 0-1");
-//            }
-//            
-//    	} while (choice != 0);
-//    }
-    
     public void printReviews(List<String> reviewIDs) {
     	int i=0;
     	
@@ -65,7 +34,6 @@ public class ReviewManager {
     		Review review = this.reviews.get(reviewID);
     		
     		System.out.println("================ REVIEW " + i + " ================");
-            System.out.println("Your current review: ");
             System.out.println("Name: " + review.getReviewerName());
             System.out.println("Title: " + review.getReviewTitle());
             System.out.println("Score: " + review.getScore() + "/5");
@@ -122,7 +90,7 @@ public class ReviewManager {
             	String reviewID = IDHelper.getLatestID("review");
             	review.setReviewID(reviewID);
             	this.save(review);
-            	MovieManager.getInstance().updateReview(movieID, reviewID, review.getScore());
+            	MovieManager.getInstance().updateReview(movieID, reviewID, review.getScore(), "add");
             	
             	this.reviews.put(review.getReviewID(), review);
             	
@@ -141,6 +109,36 @@ public class ReviewManager {
             }
         
         } while (choice != 0);
+    }
+    
+    
+    public void deleteReview(List<String> reviewIDs) {
+    	this.printReviews(reviewIDs);
+    	System.out.println("");
+    	
+    	int choice;
+    	
+    	do {
+        	System.out.println("Which review would you like to delete? Input 0 to go back to MovieChoices");
+        	
+        	choice = sc.nextInt();
+        	
+        	if (choice == 0) {
+        		System.out.println("Back to MovieChoices......");
+        		return;
+        	} else if (choice <= reviewIDs.size()) {
+            	String reviewID = reviewIDs.get(choice-1);       		
+        		MovieManager.getInstance().updateReview(this.reviews.get(reviewID).getMovieID(), reviewID, this.reviews.get(reviewID).getScore(), "remove");
+
+        		String root = ProjectRootPathFinder.findProjectRootPath();
+        		File file = new File(root + "/data/reviews/review_" + reviewID + ".dat");
+        		file.delete();
+        		this.reviews = this.load();        		
+        		choice = 0;
+        	} else {
+        		System.out.println("Invalid input. Please give a number between 0-" + reviewIDs.size());
+        	}    		
+    	} while (choice != 0);
     }
     
     
@@ -189,8 +187,7 @@ public class ReviewManager {
     }
     
     
-    
-    
+
 	// Private Serialization and Deserialization
 	private void save(Review review) {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/reviews/review_" + review.getReviewID() + ".dat";

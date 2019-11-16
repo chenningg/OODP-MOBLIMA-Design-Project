@@ -136,6 +136,15 @@ public class Movie implements Serializable{
         this.reviews.add(reviewID);
     }
     
+    public void removeMovieReview(String reviewID) {
+    	int i;
+    	
+    	for (i=0;i<this.getReviews().size(); i++)
+    		if (this.getReviews().get(i).equals(reviewID)) {
+    			this.reviews.remove(i);
+    		}
+    }
+    
     public void addShowtimeID(String showtimeID) {
     	this.showtimeIDs.add(showtimeID);
     }
