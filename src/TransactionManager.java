@@ -52,11 +52,10 @@ public class TransactionManager implements ResetSelf {
 								"======================================================");
 			System.out.println("Please select a choice:");	
     		
-			if (!sc.hasNextInt()) {
-        		System.out.println("Invalid input type. Please choose a choice from 0-1.");
+			while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
         		sc.next(); // Remove newline character
-        		continue;
-        	}
+            }
 			
     		choice = sc.nextInt();
     		sc.nextLine(); // Clears \n
@@ -69,10 +68,9 @@ public class TransactionManager implements ResetSelf {
     			case 1: // Get payment details
     				System.out.println("Please enter your name:");
     				
-    				if(!sc.hasNext()) { // Not a string
+    				while (!sc.hasNext()) { // Not a string
     					sc.next(); // Remove newline character
     					System.out.println("Invalid input! Please try again.");
-    					continue; // Terminate
     				}
     				
     				input = sc.nextLine();
@@ -98,10 +96,9 @@ public class TransactionManager implements ResetSelf {
     						// Same for mobileNo
         					System.out.println("Please enter your mobile number (no country code):");
         					
-        					if(!sc.hasNext()) { // Not a string
+        					while (!sc.hasNext()) { // Not a string
             					sc.next(); // Remove newline character
             					System.out.println("Invalid input! Please try again.");
-            					continue; // Terminate
             				}
         					
         					input = sc.next();
@@ -112,10 +109,9 @@ public class TransactionManager implements ResetSelf {
         						// Finally, get the credit card number
         						System.out.println("Please enter your credit card number (no dashes):");
         						
-        						if(!sc.hasNext()) { // Not a string
+        						while (!sc.hasNext()) { // Not a string
         	    					sc.next(); // Remove newline character
         	    					System.out.println("Invalid input! Please try again.");
-        	    					continue; // Terminate
         	    				}
         						
             					input = sc.next();

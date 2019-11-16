@@ -29,13 +29,27 @@ public class StaffApp {
 				                "| 0. Back to MOBLIMA APP                                  |\n"+
 				                "===========================================================");
 	        System.out.println("Enter choice: ");
+      
+	        while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+
 			choice = sc.nextInt();
 			
 			switch (choice) {
 			case 1: 
                 System.out.println("Username: ");
+                while (!sc.hasNext()) {
+                	System.out.println("Invalid input type. Please try again!");
+            		sc.next(); // Remove newline character
+                }
                 String username = sc.next();
                 System.out.println("Password: ");
+                while (!sc.hasNext()) {
+                	System.out.println("Invalid input type. Please try again!");
+            		sc.next(); // Remove newline character
+                }
                 String password = sc.next();
                 
                 boolean authenticate = StaffManager.getInstance().login(username, password);
@@ -70,6 +84,12 @@ public class StaffApp {
 			                    "| 0. Logout from StaffApp                                  |\n" +
 			                    "===========================================================");
             System.out.println("Enter choice: ");
+
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+
 			choice = sc.nextInt();
 			
 			switch (choice) {
