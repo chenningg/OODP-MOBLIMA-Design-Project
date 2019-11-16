@@ -195,12 +195,15 @@ class MovieManager {
         if(appType.equals("Staff")) {
             int choice;
             do{
-                System.out.println(" 1. Display/Edit Showtimes\n" +
-                        " 2. Edit Movie\n" +
-                        " 3. Remove Movie\n" +
-                        " 4. View Reviews\n" +
-                        " 0. Back");
-                System.out.println("Enter your choice: ");
+                System.out.println(	"====================== MOVIE CHOICES =====================\n" +
+			                        "| 1. Display/Edit Showtimes                              |\n" +
+			                        "| 2. Edit Movie 						       		      |\n" +
+			                        "| 3. Remove Movie		                                  |\n" +
+			                        "| 4. View Reviews	                                      |\n" +
+			                        "| 0. Back to Movie Listings			                  |\n" +
+			                        "==========================================================");            	
+
+                System.out.println("Enter choice: ");
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -216,20 +219,25 @@ class MovieManager {
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
                     case 0:
+                    	System.out.println("Back to Movie Listings......");
                         break;
                     default:
-                        System.out.println("Please enter a number between 1-4");
+                        System.out.println("Please enter a number between 0-4");
                 }
             }while(choice != 0);
         }
         else if(appType.equals("Customer")){
             int choice;
             do{
-                System.out.println(" 1. Display Showtimes\n" +
-                        " 2. View Reviews\n" +
-                        " 0. Back");
+                System.out.println(	"====================== MOVIE CHOICES =====================\n" +
+			                        "| 1. Display Showtimes                                   |\n" +
+			                        "| 2. View Reviews 						       		      |\n" +
+			                        "| 0. Back to Movie Listings			                  |\n" +
+			                        "==========================================================");       
+
                 System.out.println("Enter your choice: ");
                 choice = sc.nextInt();
+                
                 switch (choice) {
                     case 1:
                         ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(),appType);
@@ -238,11 +246,12 @@ class MovieManager {
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
                     case 0:
+                    	System.out.println("Back to Movie Listings......");
                         break;
                     default:
-                        System.out.println("Please enter a number between 1-2");
+                        System.out.println("Please enter a number between 0-2");
                 }
-            }while(choice != 0);
+            } while(choice != 0);
 
         }
     }
@@ -277,8 +286,14 @@ class MovieManager {
             do {
                 System.out.println("Choose a movie (Enter 0 to exit): ");
                 choice = sc.nextInt()-1;
-                if(choice==-1)
+                             
+                
+                if(choice==-1) {
                     return null;
+                } else if (choice < 0 || choice >= movieSelect.size()) {
+                	System.out.println("Invalid choice. Please enter a number between 0 and " + movieSelect.size());
+                } 
+                
             }while(choice  < 0 || choice >= movieSelect.size());
             displayMovieDetails(movieSelect.get(choice));
             subMovieMenu(movieSelect.get(choice),appType);
@@ -295,6 +310,18 @@ class MovieManager {
     public void displayMovieDetails(Movie movie) {
         System.out.print("Movie Title: ");
         System.out.println(movie.getTitle());
+        System.out.print("Genres: ");
+        for (int i=0; i<movie.getGenres().size();i++) 
+        	System.out.print(movie.getGenres().get(i)+ ", ");
+        System.out.println();
+        System.out.print("Rating:");
+        System.out.println(movie.getMovieRating());
+        System.out.print("Duration:");
+        System.out.println(movie.getMovieDuration()+ " minutes");
+        System.out.print("Movie Formats:");
+        for (int i=0; i<movie.getMovieFormats().size();i++) 
+        	System.out.print(movie.getMovieFormats().get(i)+ ", ");
+        System.out.println();
         System.out.print("Showing Status: ");
         System.out.println(movie.getShowingStatus());
         System.out.print("Synopsis: ");
@@ -303,8 +330,10 @@ class MovieManager {
         System.out.println(movie.getDirector());
         System.out.print("Cast: ");
         for(int i=0;i<movie.getCast().size();i++){
-            System.out.println(movie.getCast().get(i));
+            System.out.print(movie.getCast().get(i)+ ", ");
         }
+
+        System.out.println();
     }
 
 
@@ -383,6 +412,8 @@ class MovieManager {
     private void editMovies(Movie movie) {
         int choice;
         do {
+        	System.out.println("Currently selected movie details:");
+        	displayMovieDetails(movie);
             System.out.println("=================== EDIT MOVIES (STAFF) ==================\n" +
                     "| 1. Edit Title      	                                 |\n" +
                     "| 2. Edit Genres (Overwritten)       	        		 |\n" +
@@ -398,39 +429,51 @@ class MovieManager {
                     "=========================================================");
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
-
+            sc.nextLine();
             switch (choice) {
                 case 1:
-                    String title = sc.next();
-                    movie.setMovieID(title);
+                	System.out.println("Enter new title");
+                    String title = sc.nextLine();
+                    movie.setTitle(title);
                     break;
                 case 2:
                     System.out.println("Enter number of genres: ");
+                
+                    for (Genre genre : Genre.values()) {
+                    	System.out.println(genre.toString());
+                    }
+                
                     ArrayList<Genre> Genres = new ArrayList<>();
+                
+                    System.out.println("Enter number of genres: ");                              
                     int numGenres = sc.nextInt();
+                
                     for (int i = 0; i < numGenres; i++) {
-                        System.out.println("Enter the genre: ");
-                        String userGenre = sc.next();
+                        System.out.println("Enter the genre, press 'ENTER' after each entry: ");
+                        String userGenre = sc.next().toUpperCase();
                         Genres.add(Genre.valueOf(userGenre));
                     }
                     movie.setGenres(Genres);
                     break;
                 case 3:
-                    movie.setDirector(sc.next());
+                	System.out.println("Enter revised director name");
+                    movie.setDirector(sc.nextLine());
+                    break;
                 case 4:
                     System.out.println("Enter number of cast members: ");
                     int castSize = sc.nextInt();
+                    sc.nextLine();
                     ArrayList<String> newCastList = new ArrayList<>();
                     for (int i = 0; i < castSize; i++) {
                         System.out.println("Enter cast member: ");
-                        String newCast = sc.next();
+                        String newCast = sc.nextLine();
                         newCastList.add(newCast);
                     }
                     movie.setCast(newCastList);
                     break;
                 case 5:
                     System.out.println("Enter new synopsis: ");
-                    String newSynopsis = sc.next();
+                    String newSynopsis = sc.nextLine();
                     movie.setSynopsis(newSynopsis);
                     break;
                 case 6:
@@ -439,9 +482,10 @@ class MovieManager {
                     movie.setMovieRating(MovieRating.valueOf(newRating));
                     break;
                 case 7:
-                    System.out.println("Enter new formats: ");
+                    System.out.println("Enter number of formats: ");
                     ArrayList<MovieFormat> newFormats = new ArrayList<>();
                     int newFormatLength = sc.nextInt();
+                    sc.nextLine();
                     for (int i = 0; i < newFormatLength; i++) {
                         System.out.println("Enter movie format: ");
                         String newFormat = sc.next();
@@ -462,7 +506,7 @@ class MovieManager {
                 case 10:
                     System.out.println("Enter new release date: ");
                     String newReleaseDate = sc.next();
-                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
                     movie.setReleaseDate(date);
                     break;
@@ -490,12 +534,12 @@ class MovieManager {
         int choice;
         String apptype = "Customer";
         do{
-            System.out.println("==================== View Top 5 Movies =====================\n" +
-                    "| 1. By Sales                                              |\n" +
-                    "| 2. By Tickets Sold                                       |\n" +
-                    "| 3. By Reviews                                            |\n" +
-                    "| 0. Back to CustomerApp                                   |\n" +
-                    "===========================================================");
+            System.out.println(	"==================== View Top 5 Movies =====================\n" +
+			                    "| 1. By Sales                                              |\n" +
+			                    "| 2. By Tickets Sold                                       |\n" +
+			                    "| 3. By Reviews                                            |\n" +
+			                    "| 0. Back to CustomerApp                                   |\n" +
+			                    "===========================================================");
             System.out.println("Enter choice:");
             choice= sc.nextInt();
             switch (choice){
@@ -584,12 +628,12 @@ class MovieManager {
 
         int choice;
         do{
-            System.out.println("==================== View Top 5 Movies =====================\n" +
-                    "| 1. By Sales                                              |\n" +
-                    "| 2. By Tickets Sold                                       |\n" +
-                    "| 3. By Reviews                                            |\n" +
-                    "| 0. Back to StaffApp                                      |\n" +
-                    "===========================================================");
+            System.out.println(	"==================== View Top 5 Movies =====================\n" +
+			                    "| 1. By Sales                                              |\n" +
+			                    "| 2. By Tickets Sold                                       |\n" +
+			                    "| 3. By Reviews                                            |\n" +
+			                    "| 0. Back to StaffApp                                      |\n" +
+			                    "===========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
