@@ -61,6 +61,13 @@ public class TicketManager implements ResetSelf {
     		System.out.println("=======================================================================");
     		
     		System.out.println("Please select a choice:");
+    		
+    		if (!sc.hasNextInt()) {
+        		System.out.printf("Invalid input type. Please input a choice from 0-%d.\n", ticketChoices+2);
+        		sc.next(); // Remove newline character
+        		continue;
+        	}
+    		
     		choice = sc.nextInt();
     		
     		// Clear selected tickets and ticketCount, return to seats
