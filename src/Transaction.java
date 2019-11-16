@@ -2,8 +2,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Transaction {
+public class Transaction implements Serializable {
 	// Attributes
     private String transactionID;
     private String creditCardNo;

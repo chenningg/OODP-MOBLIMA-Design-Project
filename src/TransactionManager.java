@@ -1,10 +1,9 @@
 import java.util.Scanner;
 import java.util.Map;
 import java.util.List;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TransactionManager implements ResetSelf, Serializable {
+public class TransactionManager implements ResetSelf {
 	
 	private Transaction transaction = null;
 	private String bookerName;
@@ -54,7 +53,7 @@ public class TransactionManager implements ResetSelf, Serializable {
 			System.out.println("Please select a choice:");	
     		
     		choice = sc.nextInt();
-    		sc.nextLine();
+    		sc.nextLine(); // Clears \n
     		
     		switch (choice) {
     			case 0: // Exit
@@ -133,9 +132,10 @@ public class TransactionManager implements ResetSelf, Serializable {
 	
 	// Validate user's name, check if all alphabets
 	public Boolean validateName(String name) {
-		char[] chars = name.toCharArray();
+		String checkName = name.replaceAll("[^a-zA-Z]","");
+		char[] chars = checkName.toCharArray();
 
-		if (name.length() > 50) {
+		if (name.length() > 80) {
 			System.out.println("Sorry, we are not able to store such a long name. Please input a shorter name.");
 			return false;
 		}
@@ -289,14 +289,16 @@ public class TransactionManager implements ResetSelf, Serializable {
 		// Fill up booking details
 		getTransaction().setTransactionID();
 		getTransaction().setCreditCardNo(getBookerCreditCard());
-		BookingManager.getInstance().getBooking().setTransaction(getTransaction());
+		BookingManager.getInstance().getBooking().setTransactionID(getTransaction().getTransactionID());
 		CustomerManager.getInstance().updateCustomer(getBookerName(), getBookerEmail(), getBookerMobileNo());
 		
 		// Update movie's total grossing
 		String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
 		MovieManager.getInstance().updateGrossProfit(currMovieID, getTransaction().getTotalPrice());
 		
-		resetSelf();
+		// Serialize transaction
+		String savePath = ProjectRootPathFinder.findProjectRootPath() + "/data/transactions/transaction_" + getTransaction().getTransactionID() + ".dat"; 
+		SerializerHelper.serializeObject(getTransaction(), savePath);
 	}
 	
 	
