@@ -278,7 +278,6 @@ public class DataInitialiser {
 						
 						movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
 				        movie.setTotalReviewScore(movie.getTotalReviewScore()+newReview.getScore());
-				        movie.addMovieReview(newReview.getReviewID());
 				        movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());						
 						
 						newReview.setMovieID(movie.getMovieID());
@@ -442,13 +441,10 @@ class Main {
 		// Movies
 		List<Movie> movieList = dataInitialiser.initialiseMovieData(initialisationFolderPath);
 
-		// Showtimes initialisation, store MOVIE ID (NOT INSTANCE) of movie and a new INSTANCE of cinema
+		// Showtimes initialisation
 		movieList = dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
 		
-//		// Reviews initialisation, store REVIEW ID (NOT INSTANCE) of review in movie
-//		movieList = dataInitialiser.initialiseReviewData(movieList, initialisationFolderPath);
-		
-		// Showtimes initialisation, store MOVIE ID (NOT INSTANCE) of movie and a new INSTANCE of cinema
+		// Reviews initialisation
 		movieList = dataInitialiser.initialiseReviewData(movieList, initialisationFolderPath);		
 		
 		// Finally, serialize the movie files with showtimes included
