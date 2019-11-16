@@ -105,11 +105,10 @@ class BookingManager implements ResetSelf {
 								"======================================================");
         	System.out.println("Please select a choice:");
         	
-        	if (!sc.hasNextInt()) {
-        		System.out.println("Invalid input type. Please choose a choice from 0-3.");
+        	while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
         		sc.next(); // Remove newline character
-        		continue;
-        	}
+            }
         	
         	switch(sc.nextInt()) {
         		case 0: // Exit, reset everything
@@ -194,10 +193,9 @@ class BookingManager implements ResetSelf {
     public void addSeatSelection() {
 		System.out.println("Please enter a seat selection (e.g. C6):");
 		
-		if(!sc.hasNext()) { // Not a string
+		while (!sc.hasNext()) { // Not a string
 			sc.next(); // Remove newline character
-			System.out.println("Invalid input! Please entry a valid seat ID.");
-			return; // Terminate
+			System.out.println("Invalid input! Please enter a valid seat ID.");
 		}
 		
 		String selection = sc.next().toUpperCase();
