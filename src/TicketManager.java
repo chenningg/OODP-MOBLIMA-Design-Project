@@ -9,7 +9,7 @@ import java.time.format.TextStyle;
 public class TicketManager implements ResetSelf {
 	
 	// Attributes
-    private ArrayList<Ticket> selectedTickets = new ArrayList<Ticket>();
+    private List<Ticket> selectedTickets = new ArrayList<Ticket>();
     private Map<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
     private Map<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();
     private Scanner sc = new Scanner(System.in);
@@ -164,9 +164,8 @@ public class TicketManager implements ResetSelf {
     	// Update movie's ticket sales info
     	String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
     	MovieManager.getInstance().updateTicketsSold(currMovieID, getSelectedTickets().size());
-    	
-    	resetSelf();
     }
+
     
     // Clear tickets, doesn't clear other info
     private void clearTicketSelection() {
@@ -185,7 +184,7 @@ public class TicketManager implements ResetSelf {
     
     
     // Getters
- 	public ArrayList<Ticket> getSelectedTickets() {return selectedTickets;}
+ 	public List<Ticket> getSelectedTickets() {return selectedTickets;}
  	public Map<TicketType, Integer> getTicketCount() {return ticketCount;}
  	public Map<TicketType, Double> getTicketPrices() {return ticketPrices;}
 }
