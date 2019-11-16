@@ -286,12 +286,6 @@ public class DataInitialiser {
 						break;
 					}
 				}
-				
-
-
-				
-				
-		        
 				brStream.close(); // Close file				
 				
 				// Serialize showtime file
