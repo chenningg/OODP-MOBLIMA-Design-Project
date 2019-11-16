@@ -248,7 +248,7 @@ class MovieManager {
                 }
             }while(choice != 0);
         }
-        else if(appType.equals("Customer")){
+        else if(appType.equals("Customer") && !movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)){
             int choice;
             do{
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
@@ -740,8 +740,13 @@ class MovieManager {
 	                } else if (subchoice >= top5.size()) {
 	             	   System.out.println("Invalid input. Please enter a number between 0 and " + top5.size());
 	                } else {
-	                    displayMovieDetails(top5.get(subchoice));
-	                    subMovieMenu(top5.get(subchoice),apptype);
+//	                	for (int i=0;i < Math.min(5, top5.size()); i++) {
+//	                		top5.get(i).displayMovieDetails();
+//	                	}
+	                	
+	                	top5.get(subchoice).displayMovieDetails();
+	                	subMovieMenu(top5.get(subchoice),apptype);
+	                    subchoice = -1;
 	                }
 	            } while (subchoice != -1);
 			}
