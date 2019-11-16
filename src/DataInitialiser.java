@@ -5,9 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-
+import java.util.Random;
 
 public class DataInitialiser {
 		
@@ -132,21 +130,22 @@ public class DataInitialiser {
 	public List<Movie> initialiseShowtimeData(List<Movie> movies, String basePath) {
 		
 		String folderPath = basePath + "/showtimes";
-		File[] files = getAllFiles(folderPath);
-		Queue<Cinema> cinemaInstances = new LinkedList<>(); // If not null we add it to next showtime added
+		File[] showtimeFiles = getAllFiles(folderPath);
 		
-		// Load any cinemas that are premade for showtime (Map cinema to showtime on first come first served basis)
+		// Load any cinemas that are premade for showtime
 		String cinemaPath = basePath + "/cinemas";
-		File[] cinemas = getAllFiles(cinemaPath);
+		File[] cinemaFiles = getAllFiles(cinemaPath);
 		
-		for (File cinemaFile : cinemas) {
-			cinemaInstances.add(initialiseCinemaData("AAA", cinemaFile.getPath()));
+		List<String> cinemas = new ArrayList<String>();
+		
+		for (File cinemaFile : cinemaFiles) {
+			cinemas.add(cinemaFile.getName());
 		}
 		
-		// Go through each file and load them into actual data storage path
-		for (int i = 0; i < files.length; i++)
+		// Go through each showtime file and load them into actual data storage path
+		for (int i = 0; i < showtimeFiles.length; i++)
 		{
-			String filePath = files[i].getPath();	
+			String filePath = showtimeFiles[i].getPath();	
 			
 			try {				
 				// Open file and traverse it				
@@ -167,8 +166,9 @@ public class DataInitialiser {
 				
 				// Showtime movie_id. Add it to the movie list of showtimes too.
 				inputLine = brStream.readLine(); // Movie name
+				String movieName = inputLine;
 				for (Movie movie : movies) {
-					if (movie.getTitle().equals(inputLine)) {
+					if (movie.getTitle().equals(movieName)) {
 						newShowtime.setMovieID(movie.getMovieID());
 						movie.addShowtimeID(newShowtime.getShowtimeID());
 						break;
@@ -180,16 +180,36 @@ public class DataInitialiser {
 				newShowtime.setMovieFormat(MovieFormat.valueOf(inputLine));
 				
 				// Showtime cinema instance
-				// If there are existing cinemas, map them to current showtime first. (filled cinema)
 				// If no existing cinemas to map, then initialize from base cinema file (empty cinema)
 				inputLine = brStream.readLine(); // CinemaID
+				Cinema newCinema;
 				
-				if (cinemaInstances.size() > 0) { // Existing cinemas exist
-					newShowtime.setCinema(cinemaInstances.poll()); // Retrieves first cinema in queue
+				// Existing premade cinemas exist, take from premade cinema files
+				if (cinemas.contains(showtimeFiles[i].getName())) { 
+					String cinemaFilePath = basePath + "/cinemas/" + showtimeFiles[i].getName();
+					newCinema = initialiseCinemaData(inputLine, cinemaFilePath);
 				}
 				else { // No existing cinemas, we make new base cinema from cinema base files (cinema_ID, filepath)
 					String cinemaFilePath = ProjectRootPathFinder.findProjectRootPath() + "/data/cinemas/cinema_" + inputLine + ".txt";
-					newShowtime.setCinema(initialiseCinemaData(inputLine, cinemaFilePath));
+					newCinema = initialiseCinemaData(inputLine, cinemaFilePath);
+				}
+				
+				// Set showtime cinema to new cinema
+				newShowtime.setCinema(newCinema);
+				
+				// Update movie's ticket sale and some arbitrary gross profits
+				int cinemaType = newCinema.getCinemaType().ordinal();
+				List<Double> ticketPricing = Arrays.asList(20.0, 10.0);
+				
+				for (Movie movie : movies) {
+					if (movie.getTitle().equals(movieName)) {
+						long ticketsSold = (long)newShowtime.getCinema().getOccupiedSeatsNo();
+						movie.setTicketsSold(movie.getTicketsSold() + ticketsSold);
+						
+						// Randomize pricing and add
+						movie.setGrossProfit(movie.getGrossProfit() + ((double)ticketsSold * (ticketPricing.get(cinemaType) + (int)(Math.random()*((4-1)+1))+1)));
+						break;
+					}
 				}
 				
 				// Showtime cineplex name
@@ -447,7 +467,7 @@ class Main {
 		// Reviews initialisation
 		movieList = dataInitialiser.initialiseReviewData(movieList, initialisationFolderPath);		
 		
-		// Finally, serialize the movie files with showtimes included
+		// Finally, serialize the movie files with showtimes, ticket sales and gross profit included
 		for (int i = 0; i < movieList.size(); i++) {
 			String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + movieList.get(i).getMovieID() + ".dat";
 			SerializerHelper.serializeObject(movieList.get(i), storagePath);
