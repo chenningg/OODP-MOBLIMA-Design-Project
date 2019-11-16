@@ -16,43 +16,33 @@ public class CustomerApp {
     }
 	
     public void displayCustomerMenu() {
-		int choice;
-    	
-		
-        //Instantiate Objects
-        MovieManager mm = MovieManager.getInstance();
-        ReviewManager rm= ReviewManager.getInstance();
-        CustomerManager cm= CustomerManager.getInstance();
-
-
-        
-        
-    	////////////////////////////////////////////////////////////////////////////////////////////
-        
-        // Still editing
-        // Must pass control over to other managers
-        // Do not keep the checking within here, only keep the logic
-        // How should we handle scanners? Pass it on and on or create in each class
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////
-		
+		int choice;		
 		
 		do {
-	    	System.out.println("================= MOBLIMA CUSTOMER APP =================\n" +
-	                "1. View movie listings \n" +
-	                "2. View top 5\n" +
-	                "3. Check booking history\n" +
-	                "0. Quit\n");
+            System.out.println(	"============== MOBLIMA CUSTOMER APP ================\n" +
+			                    "| 1. View movie listings					        |\n" +
+			                    "| 2. View top 5                                    |\n" +
+			                    "| 3. Check booking history                         |\n" +
+			                    "| 0. Back to MOBLIMA APP                           |\n" +
+			                    "====================================================");
 	    	
             System.out.println("Enter choice: ");
+            
+            if (!sc.hasNextInt()) {
+        		System.out.println("Invalid input type. Please choose a choice from 0-3.");
+        		sc.next(); // Remove newline character
+        		choice = -1;
+        		continue;
+        	}
+            
             choice = sc.nextInt();
             
             switch(choice){
                 case 1://view movie listings
-                	mm.viewMovies("Customer");
+                	MovieManager.getInstance().viewMovies("Customer");
                     break;
                 case 2://view top 5
-                	mm.viewTop5Cust();
+                	MovieManager.getInstance().viewTop5Cust();
                     break;
 
                 case 3:
@@ -66,14 +56,22 @@ public class CustomerApp {
 				                "============================================================");                    		
                 		
                         System.out.println("Enter choice: ");
+                        
+                        if (!sc.hasNextInt()) {
+                    		System.out.println("Invalid input type. Please choose a choice from 0-2.");
+                    		sc.next(); // Remove newline character
+                    		subchoice = -1;
+                    		continue;
+                    	}
+                        
                         subchoice = sc.nextInt();
                         
 	                	switch (subchoice) {
 	                	case 1:
-	                		cm.printPastBookingByEmail();
+	                		CustomerManager.getInstance().printPastBookingByEmail();
 	                		break;
 	                	case 2:
-	                		cm.printPastBookingByMobile();
+	                		CustomerManager.getInstance().printPastBookingByMobile();
 	                		break;
 	                	case 0:
 	                		System.out.println("Back to CustomerApp......");

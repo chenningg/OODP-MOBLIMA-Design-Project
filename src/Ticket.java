@@ -1,4 +1,6 @@
-public class Ticket {
+import java.io.Serializable;
+
+public class Ticket implements Serializable {
     private TicketType ticketType;
     private Double ticketPrice;
     private String seatID;

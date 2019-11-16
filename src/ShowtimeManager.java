@@ -108,20 +108,21 @@ public class ShowtimeManager {
             }
             else if (appType.equalsIgnoreCase("Customer")) {
                 Movie movie = MovieManager.getInstance().getMoviebyID(movieID);
-                if (movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)) { choice= 0;}
+                if (movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)) {
+                	choice= 0;
+                }
                 else {
                     System.out.println("==================== SHOWTIMES  ====================\n" +
                             "| 1. View Specific Showtime (Details / Booking)    |\n" +
                             "| 0. Back to MovieManager                          |\n" +
                             "====================================================");
-                }
                 System.out.println("Enter choice:");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
                     sc.next();
                 }
                 choice = sc.nextInt();
-
+                }
                 switch (choice) {
                     case 1:
                         System.out.println("Enter choice of showtime: ");
@@ -138,7 +139,7 @@ public class ShowtimeManager {
                         this.showtimeMenuCustomer(showtimeID);
                         break;
                     case 0:
-                        System.out.println("Back to Showtimes List......");
+                        System.out.println("Back to MovieManager......");
                         break;
                     default:
                         System.out.println("Invalid choice. Please choose between 0-1");
@@ -156,7 +157,8 @@ public class ShowtimeManager {
 
         String movieID = this.showtimes.get(selectedShowtimeID).getMovieID();
         Movie movie = MovieManager.getInstance().getMoviebyID(movieID);
-        if (!movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)) {
+        if (movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)) {}
+        else {
             do {
                 System.out.println("================== SHOWTIME CUSTOMER APP ===================\n" +
                         "| 1. View ALL Details                                      |\n" +

@@ -33,7 +33,61 @@ public class Movie implements Serializable{
     	this.movieFormats = new ArrayList<MovieFormat>();
     	this.reviews = new ArrayList<String>();
     	this.showtimeIDs = new ArrayList<String>();
+    	this.averageReviewScore = 0;
+    	this.totalReviewNo = 0;
+    	this.totalReviewScore = 0;
+    }
+    
+    
+    // Methods
+    public void displayMovieDetails() {
+    	// Title
+    	System.out.printf("Movie Title: %s\n", getTitle());
     	
+    	// Genres
+        System.out.printf("Genres: ");
+        for (int i = 0; i < getGenres().size(); i++) {
+        	System.out.print(getGenres().get(i).toString());
+        	if (i+1 < getGenres().size()) {
+        		System.out.print(", ");
+        	}
+        }
+        System.out.println();
+        	
+        // Rating
+        System.out.printf("Rating: %s\n", getMovieRating().toString());
+        
+        // Duration
+        System.out.printf("Duration: %dm\n", getMovieDuration());
+        
+        // Movie formats
+        System.out.print("Movie Formats: ");
+        for (int j = 0; j < getMovieFormats().size(); j++) {
+        	System.out.print(getMovieFormats().get(j).toString());      	
+        	if (j+1 < getGenres().size()) {
+        		System.out.print(", ");
+        	}
+        }
+        System.out.println();
+        	
+        // Showing status
+        System.out.printf("Showing Status: %s\n", getShowingStatus().toString());
+
+        // Synopsis
+        System.out.printf("Synopsis: %s\n", getSynopsis());
+
+        // Director
+        System.out.printf("Director: %s\n", getDirector());
+
+        // Cast
+        System.out.print("Cast: ");
+        for (int k = 0; k < getCast().size(); k++) {
+        	System.out.print(getCast().get(k));      	
+        	if (k+1 < getCast().size()) {
+        		System.out.print(", ");
+        	}
+        }
+        System.out.println();
     }
 
     
@@ -46,7 +100,7 @@ public class Movie implements Serializable{
     public String getSynopsis() {return this.synopsis;}
     public MovieRating getMovieRating() {return this.movieRating;}
     public List<MovieFormat> getMovieFormats() {return this.movieFormats;}
-    public double getMovieDuration() {return this.movieDuration;}
+    public int getMovieDuration() {return this.movieDuration;}
     public List<String> getReviews() {return this.reviews;}
     public double getAverageReviewScore() {return this.averageReviewScore;}
     public int getTotalReviewNo() {return this.totalReviewNo;}

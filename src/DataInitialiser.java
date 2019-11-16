@@ -248,7 +248,6 @@ public class DataInitialiser {
 				for (Movie movie : movies) {
 					if (movie.getTitle().equals(inputLine)) {
 						newReview.setMovieID(movie.getMovieID());
-						movie.addMovieReview(newReview.getReviewID());
 						break;
 					}
 				}
@@ -274,7 +273,18 @@ public class DataInitialiser {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");	
 				newReview.setReviewDateTime(LocalDateTime.parse(inputLine, formatter));			
 				
-				
+				for (Movie movie : movies) {
+					if (movie.getMovieID().equals(newReview.getMovieID())) {
+						
+						movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
+				        movie.setTotalReviewScore(movie.getTotalReviewScore()+newReview.getScore());
+				        movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());						
+						
+						newReview.setMovieID(movie.getMovieID());
+						movie.addMovieReview(newReview.getReviewID());
+						break;
+					}
+				}
 				brStream.close(); // Close file				
 				
 				// Serialize showtime file
@@ -361,9 +371,12 @@ public class DataInitialiser {
 		this.resetFolders("movies");
 		this.resetFolders("showtimes");
 		this.resetFolders("reviews");
+		this.resetFolders("transactions");
+		this.resetFolders("bookings");
 		this.resetID("movie_id.txt");
 		this.resetID("showtime_id.txt");
 		this.resetID("review_id.txt");
+		this.resetID("booking_id.txt");
 		
 		System.out.println("All data reset");
 	}
@@ -428,16 +441,16 @@ class Main {
 		// Movies
 		List<Movie> movieList = dataInitialiser.initialiseMovieData(initialisationFolderPath);
 
-		// Showtimes initialisation, store MOVIE ID (NOT INSTANCE) of movie and a new INSTANCE of cinema
-		List<Movie> movieList2 = dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
+		// Showtimes initialisation
+		movieList = dataInitialiser.initialiseShowtimeData(movieList, initialisationFolderPath);
 		
-		// Reviews initialisation, store REVIEW ID (NOT INSTANCE) of review in movie
-		movieList = dataInitialiser.initialiseReviewData(movieList, initialisationFolderPath);
+		// Reviews initialisation
+		movieList = dataInitialiser.initialiseReviewData(movieList, initialisationFolderPath);		
 		
 		// Finally, serialize the movie files with showtimes included
-		for (int i = 0; i < movieList2.size(); i++) {
-			String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + movieList2.get(i).getMovieID() + ".dat";
-			SerializerHelper.serializeObject(movieList2.get(i), storagePath);
+		for (int i = 0; i < movieList.size(); i++) {
+			String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + movieList.get(i).getMovieID() + ".dat";
+			SerializerHelper.serializeObject(movieList.get(i), storagePath);
 		}
 		
 		System.out.println("Initialized!");

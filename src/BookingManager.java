@@ -105,6 +105,12 @@ class BookingManager implements ResetSelf {
 								"======================================================");
         	System.out.println("Please select a choice:");
         	
+        	if (!sc.hasNextInt()) {
+        		System.out.println("Invalid input type. Please choose a choice from 0-3.");
+        		sc.next(); // Remove newline character
+        		continue;
+        	}
+        	
         	switch(sc.nextInt()) {
         		case 0: // Exit, reset everything
         			exit = true;
@@ -187,6 +193,13 @@ class BookingManager implements ResetSelf {
     // Add a seat selection. We need to check that all seats added are adjacent to each other, and are unoccupied.
     public void addSeatSelection() {
 		System.out.println("Please enter a seat selection (e.g. C6):");
+		
+		if(!sc.hasNext()) { // Not a string
+			sc.next(); // Remove newline character
+			System.out.println("Invalid input! Please entry a valid seat ID.");
+			return; // Terminate
+		}
+		
 		String selection = sc.next().toUpperCase();
 		
 		// Check if seat selection is allowable. If it is, update rowChecker and selectedSeats
@@ -403,9 +416,10 @@ class BookingManager implements ResetSelf {
     	// We create a new booking and fill it up with the finalized information before storing it
     	setBooking(new Booking());
     	
-    	// We now fill up the booking's tickets, transaction, bookerName, bookerMobileNo and bookerEmail
+    	// We now fill up the booking's tickets, transactionID, bookerName, bookerMobileNo and bookerEmail
     	// Note that this also resets both these Managers (calls their respective reset functions)
     	// In these functions, we also update the movie's ticket sales and gross profits
+    	// These also store the transaction as a serialized object
     	TicketManager.getInstance().confirmTicketSelection();
     	TransactionManager.getInstance().confirmTransaction(); 	
     	
@@ -425,13 +439,21 @@ class BookingManager implements ResetSelf {
     	// We store the booking in our CustomerAccount
     	CustomerManager.getInstance().storeBooking(getBooking().getBookingID());
     	
+    	// Print confirmation
+    	System.out.println("Booking confirmed! Your booking details:");
+    	getBooking().displayBooking();
+    	System.out.println("You may want to print out a copy for your reference.");
+    	System.out.println("Returning back to main screen...");
+    	
     	// We can then send this booking off to store as a serialized file
     	String filePath = ProjectRootPathFinder.findProjectRootPath();
-    	filePath = filePath + "/data/bookings/booking_" + getBooking().getBookingID() + ".txt";
+    	filePath = filePath + "/data/bookings/booking_" + getBooking().getBookingID() + ".dat";
     	
     	SerializerHelper.serializeObject(getBooking(), filePath);
-    	
-    	// Finally, reset this instance
+    	   	
+    	// Finally, reset this instance and all instances
+    	TicketManager.getInstance().resetSelf();
+    	TransactionManager.getInstance().resetSelf(); 	
     	resetSelf();
     }
 
