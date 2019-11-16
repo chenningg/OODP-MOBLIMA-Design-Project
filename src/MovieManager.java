@@ -253,9 +253,9 @@ class MovieManager {
             do{
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
 			                        "| 1. Display Showtimes                                   |\n" +
-			                        "| 2. View Reviews 						       		      |\n" +
-			                        "| 3. Leave Review 						       		      |\n" +
-			                        "| 0. Back to Movie Listings			                  |\n" +
+			                        "| 2. View Reviews                                        |\n" +
+			                        "| 3. Leave Review                                        |\n" +
+			                        "| 0. Back to Movie Listings                              |\n" +
 			                        "==========================================================");       
 
                 System.out.println("Enter your choice: ");
@@ -624,11 +624,140 @@ class MovieManager {
         this.saveObject(movie);
     }
 
-    /***
-     * Displays Top 5 Movies menu for Customers
-     */
+    
+    
+    
+    public void viewTop5(String apptype) {
+    	int choice;
+    	int subchoice;
+    	
+    	do {
+    		if (apptype.equals("Customer")) {
+                System.out.println(	"==================== View Top 5 Movies =====================\n" +
+	                    "| 1. By Sales                                              |\n" +
+	                    "| 2. By Tickets Sold                                       |\n" +
+	                    "| 3. By Reviews                                            |\n" +
+	                    "| 0. Back to CustomerApp                                   |\n" +
+	                    "===========================================================");
+    		} else if (apptype.equals("Staff")) {
+                System.out.println(	"==================== View Top 5 Movies =====================\n" +
+	                    "| 1. By Sales                                              |\n" +
+	                    "| 2. By Tickets Sold                                       |\n" +
+	                    "| 3. By Reviews                                            |\n" +
+	                    "| 0. Back to StaffApp                                      |\n" +
+	                    "===========================================================");    			
+    		}
+    		
+			System.out.println("Enter choice:");
+			choice= sc.nextInt();
+    		
+			ArrayList<Movie> top5 = new ArrayList<Movie>();
+    		
+			switch (choice) {
+				case 1:
+	                for(Map.Entry<String,Movie> entry : movies.entrySet()){
+	                    if(entry.getValue().getShowingStatus().equalsString("PREVIEW")||
+	                            entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+	                        top5.add(entry.getValue());
+	                    }
+	                }	
+	                top5.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
+			
+                    if(top5.size()==0){
+                        System.out.println("No Available Movies.");
+                        break;
+                    } else {
+                       for (int i=0;i<Math.min(5, top5.size());i++) {
+                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" \t\t\t(Sales:  "+ top5.get(i).getGrossProfit()+")");
+                       }
+                    }
+                    
+                    break;
+				case 2:
+                    for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                        if(entry.getValue().getShowingStatus().equalsString("PREVIEW")||
+                                entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+                            top5.add(entry.getValue());
+                        }
+                    }
+                    top5.sort(Comparator.comparingLong(Movie::getTicketsSold).reversed());
+					
+                    if(top5.size()==0){
+                        System.out.println("No Available Movies.");
+                        break;
+                    } else {
+                       for (int i=0;i<Math.min(5, top5.size());i++) {
+                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" \t\t\t(Tickets Sold:  "+ top5.get(i).getTicketsSold()+")");
+                       }
+                    }					
+                    
+					break;
+				case 3:
+                    for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                        if(entry.getValue().getShowingStatus().equalsString("PREVIEW")||
+                                entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+                            top5.add(entry.getValue());
+                        }
+                    }
+                    for(int i=top5.size()-1;i>=0;i--){
+                        if(top5.get(i).getReviews().size() <= 1){
+                        	top5.remove(i);
+                        }
+                    }
+                    top5.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
+                    
+                    if(top5.size()==0){
+                        System.out.println("No Available Movies.");
+                        break;
+                    } else {
+                       for (int i=0;i<Math.min(5, top5.size());i++) {
+                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" \t\t\t(Review Score:  "+ top5.get(i).getAverageReviewScore()+")");
+                       }
+                    }
+					
+					break;
+				case 0:
+					if (apptype.equals("Customer")) {
+						System.out.println("Back to CustomerApp......");
+					} else if (apptype.equals("Staff")) {
+						System.out.println("Back to StaffApp......");
+					}
+
+					break;
+				default:
+					System.out.println("Invalid input. Please enter a number between 0-3");
+					break;
+			}
+			
+			if ( (choice >=1 || choice <= 3) && apptype.equals("Customer") ) {
+	            do {
+	                System.out.println("Choose a movie (Press 0 to exit): ");
+	                subchoice = sc.nextInt()-1;        
+	                
+	                if (subchoice == -1) {
+	             	   System.out.println("Back to CustomerApp......");
+	                    break;
+	                } else if (subchoice >= top5.size()) {
+	             	   System.out.println("Invalid input. Please enter a number between 0 and " + top5.size());
+	                } else {
+	                    displayMovieDetails(top5.get(subchoice));
+	                    subMovieMenu(top5.get(subchoice),apptype);
+	                }
+	            } while (subchoice != -1);
+			}
+			
+			
+			
+    	} while (choice != 0);
+    }
+    
+    
+    
+/*
     public void viewTop5Cust() {
         int choice;
+        int numberToList;
+        
         String apptype = "Customer";
         do{
             System.out.println(	"==================== View Top 5 Movies =====================\n" +
@@ -639,6 +768,7 @@ class MovieManager {
 			                    "===========================================================");
             System.out.println("Enter choice:");
             choice= sc.nextInt();
+            
             switch (choice){
                 case 1:
                     ArrayList<Movie> top5Sales = new ArrayList<Movie>();
@@ -649,13 +779,18 @@ class MovieManager {
                         }
                     }
                     top5Sales.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
+                    
                     if(top5Sales.size()==0){
                         System.out.println("No Available Movies.");
                         break;
+                    } else if (top5Sales.size() > 5) {
+                    	numberToList = 5;
+                    } else {
+                    	numberToList = top5Sales.size();
                     }
                     int input1;
                    do{
-                       for(int i=0;i<5;i++) {
+                       for(int i=0;i<numberToList;i++) {
                            System.out.println(i+1 +". "+top5Sales.get(i).getTitle() +" \t\t\t(Sales:  "+ top5Sales.get(i).getGrossProfit()+")");
                        }
                        System.out.println("Choose a movie (Press 0 to exit): ");
@@ -680,10 +815,14 @@ class MovieManager {
                     if(top5Tickets.size()==0){
                         System.out.println("No Available Movies.");
                         break;
+                    } else if (top5Tickets.size() > 5) {
+                    	numberToList = 5;
+                    } else {
+                    	numberToList = top5Tickets.size();
                     }
                     int input2;
                     do{
-                        for(int i=0;i<5;i++) {
+                        for(int i=0;i<numberToList;i++) {
                             System.out.println(i+1 +". "+top5Tickets.get(i).getTitle() +" \t\t\t(Tickets Sold:  "+ top5Tickets.get(i).getTicketsSold()+")");
                         }
                         System.out.println("Choose a movie (Press 0 to exit): ");
@@ -713,11 +852,15 @@ class MovieManager {
                     top5Reviews.sort(Comparator.comparingDouble(Movie::getAverageReviewScore).reversed());
                     if(top5Reviews.size()==0){
                         System.out.println("No Available Movies.");
-                        break;
+                        break; 
+                    } else if (top5Reviews.size() > 5) {
+                    	numberToList = 5;
+                    } else {
+                    	numberToList = top5Reviews.size();
                     }
                     int input3;
                     do{
-                        for(int i=0;i<5;i++) {
+                        for(int i=0;i<numberToList;i++) {
                             System.out.println(i+1 +". "+top5Reviews.get(i).getTitle() +" \t\t\t(Review Score:  "+ top5Reviews.get(i).getAverageReviewScore()+")");
                         }
                         System.out.println("Choose a movie (Press 0 to exit): ");
@@ -739,9 +882,9 @@ class MovieManager {
 
     }
 
-    /***
-     * Displays Top 5 Movies menu for Staff
-     */
+*/
+
+/*
     public void viewTop5Staff(){
 
         int choice;
@@ -810,6 +953,8 @@ class MovieManager {
             }
         }while(choice!=0);
     }
+    
+*/
 
     public List<Movie> getMovies() {
         List<Movie> movieList = new ArrayList<>(movies.values());
