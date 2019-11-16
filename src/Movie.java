@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class Movie implements Serializable{
     private long ticketsSold;
     private double grossProfit;
     private List<String> showtimeIDs;
-    
+
 
     // Constructor
     public Movie(){
@@ -141,5 +140,4 @@ public class Movie implements Serializable{
     	this.showtimeIDs.add(showtimeID);
     }
 
-    
 }
