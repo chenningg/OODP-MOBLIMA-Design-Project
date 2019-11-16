@@ -33,14 +33,14 @@ public class CustomerManager implements ResetSelf{
 	
 	
 	//searching accounts
-	public CustomerAccount emailToCustomer(String email) {
+	private CustomerAccount emailToCustomer(String email) {
 		if (idHash.containsKey(emailHash.get(email)))
 			return idHash.get(emailHash.get(email));
 		else
 			return null;
 	}
 	
-	public CustomerAccount mobileToCustomer(String mobileNo) {
+	private CustomerAccount mobileToCustomer(String mobileNo) {
 		if (idHash.containsKey(mobileHash.get(mobileNo)))
 			return idHash.get(mobileHash.get(mobileNo));
 		else 
@@ -63,7 +63,7 @@ public class CustomerManager implements ResetSelf{
 			printBookingHistory(mobileToCustomer(mobileNo));
 	}
 	
-	public void printBookingHistory(CustomerAccount custToPrint) {//given customer account, print booking history
+	private void printBookingHistory(CustomerAccount custToPrint) {//given customer account, print booking history
 		Booking booking;
 		if (custToPrint==null) //prints no records if customer doesnt exist
 			System.out.println("No records found.\n");
@@ -81,7 +81,7 @@ public class CustomerManager implements ResetSelf{
 	}
 	
 	//search directory for booking files
-	public Booking loadBooking(String bookingID) {
+	private Booking loadBooking(String bookingID) {
 		Booking booking=null;
 		
 		//looks in bookings folder for past bookings
@@ -175,7 +175,7 @@ public class CustomerManager implements ResetSelf{
 	}
 	
 	//Loads Customer Data
-	public void loadCustomers(){
+	private void loadCustomers(){
 		String folderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/customers";
 		File[] files= getAllFiles(folderPath);
 		if (files!=null)

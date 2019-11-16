@@ -399,6 +399,8 @@ class MovieManager {
     private void editMovies(Movie movie) {
         int choice;
         do {
+        	System.out.println("Currently selected movie details:");
+        	displayMovieDetails(movie);
             System.out.println("=================== EDIT MOVIES (STAFF) ==================\n" +
                     "| 1. Edit Title      	                                 |\n" +
                     "| 2. Edit Genres (Overwritten)       	        		 |\n" +
@@ -414,29 +416,33 @@ class MovieManager {
                     "=========================================================");
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
-
+            sc.nextLine();
             switch (choice) {
                 case 1:
-                    String title = sc.next();
-                    movie.setMovieID(title);
+                	System.out.println("Enter new title");
+                    String title = sc.nextLine();
+                    movie.setTitle(title);
                     break;
                 case 2:
                     for (Genre genre : Genre.values()) {
                     	System.out.println(genre.toString());
                     }
-                    
-                    System.out.println("Enter number of genres: ");
+                
                     ArrayList<Genre> Genres = new ArrayList<>();
+                
+                    System.out.println("Enter number of genres: ");                              
                     int numGenres = sc.nextInt();
+                
                     for (int i = 0; i < numGenres; i++) {
                         System.out.println("Enter the genre: ");
-                        String userGenre = sc.next();
+                        String userGenre = sc.next().toUpperCase();
                         Genres.add(Genre.valueOf(userGenre));
                     }
                     movie.setGenres(Genres);
                     break;
                 case 3:
-                    movie.setDirector(sc.next());
+                	System.out.println("Enter revised director name");
+                    movie.setDirector(sc.nextLine());
                 case 4:
                     System.out.println("Enter number of cast members: ");
                     int castSize = sc.nextInt();
@@ -450,7 +456,7 @@ class MovieManager {
                     break;
                 case 5:
                     System.out.println("Enter new synopsis: ");
-                    String newSynopsis = sc.next();
+                    String newSynopsis = sc.nextLine();
                     movie.setSynopsis(newSynopsis);
                     break;
                 case 6:
