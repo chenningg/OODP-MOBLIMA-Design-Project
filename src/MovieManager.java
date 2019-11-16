@@ -312,7 +312,7 @@ class MovieManager {
         int choice,subChoice;
         do{
             for (int i = 0; i < movieSelect.size(); i++) {
-                System.out.println(i + 1 + ". " + movieSelect.get(i).getTitle());
+                System.out.println(i + 1 + ". " + movieSelect.get(i).getTitle() + " (" + movieSelect.get(i).getShowingStatus().toString() + ")");
             }
             
             do {
