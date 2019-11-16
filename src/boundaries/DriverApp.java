@@ -9,10 +9,9 @@ public class DriverApp {
 		
 		do {
 	        System.out.println("======================= MOBLIMA APP =======================\n"+
-	                "| 1. Customer App                                          |\n"+
-	                "| 2. Staff App                                             |\n"+
-	                "| 0. Quit App                                              |\n"+
-	                "===========================================================");
+	                " 1. Customer App                                          \n"+
+	                " 2. Staff App                                             \n"+
+	                " 0. Quit App                                              ");
 		
 	        System.out.println("Enter choice: ");
 	        choice = sc.nextInt();
