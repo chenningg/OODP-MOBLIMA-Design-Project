@@ -54,9 +54,10 @@ public class ReviewManager {
     }
     
     public void printReviews(List<String> reviewIDs) {
-    	int i=1;
+    	int i=0;
     	
     	for (String reviewID : reviewIDs) {
+    		i++;
     		Review review = this.reviews.get(reviewID);
     		
     		System.out.println("================ REVIEW " + i + " ================");
@@ -65,9 +66,12 @@ public class ReviewManager {
             System.out.println("Title: " + review.getReviewTitle() + "     Score: " + review.getScore() + "/5");
             System.out.println("Review body: " + review.getReviewBody());
             System.out.println("");
-            
-            i++;
     	}
+    	
+    	if (i==0) {
+    		System.out.println("No reviews found");
+    	}
+    	
     	
     }
     
