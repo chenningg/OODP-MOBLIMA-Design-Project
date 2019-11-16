@@ -51,7 +51,7 @@ public class SystemSettingsManager {
 		int choice;
 		
 		do {
-	        System.out.println("=================== movie_entities.SystemSettings Menu ===================\n"+
+	        System.out.println("=================== SystemSettings Menu ===================\n"+
 	                " 1. View Setting                                         \n"+
 	                " 2. Add Setting                                           \n"+
 	                " 3. Change Setting                                        \n"+
@@ -92,7 +92,7 @@ public class SystemSettingsManager {
 		int choice;
 		
 		do {
-	        System.out.println(	"=================== View movie_entities.SystemSettings ===================\n"+
+	        System.out.println(	"=================== View SystemSettings ===================\n"+
 	                		   	" 1. All Price References                                  \n"+
 	                		   	" 2. Holiday References                                    \n"+
 				                " 3. Default Prices                                        \n"+
@@ -144,7 +144,7 @@ public class SystemSettingsManager {
 		int choice;
 		
 		do {
-	        System.out.println(	"==================== Add movie_entities.SystemSettings ===================\n"+
+	        System.out.println(	"==================== Add SystemSettings ===================\n"+
 			        		   	" 1. New Holiday Reference                                 \n"+
 			        		   	" 2. New Movie Format                                      \n"+
 				                " 3. New Ticket Type                                       \n"+
@@ -220,7 +220,7 @@ public class SystemSettingsManager {
 		int choice;
 		
 		do {
-	        System.out.println(	"=================== Change movie_entities.SystemSettings ==================\n"+
+	        System.out.println(	"=================== Change SystemSettings ==================\n"+
 			        		   	" 1. Holiday Reference                                     \n"+
 			        		   	" 2. Movie Format Prices                                   \n"+
 				                " 3. Ticket Type Prices                                    \n"+
@@ -228,7 +228,7 @@ public class SystemSettingsManager {
 				                " 5. Day-of-the-Week Prices                                \n"+
 				                " 6. Holiday Prices                                        \n"+
 				                " 7. Default Prices                                        \n"+
-				                " 0. Back to movie_entities.SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           ");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -335,19 +335,19 @@ public class SystemSettingsManager {
 			}
 		} while (choice!=0);
 		
-		System.out.println("Back to movie_entities.SystemSettings Menu......");
+		System.out.println("Back to SystemSettings Menu......");
 	}
 		
 	private void deleteSystemSetting(Scanner sc) {
 		int choice;
 		
 		do {
-	        System.out.println(	"=================== Delete movie_entities.SystemSettings ==================\n"+
+	        System.out.println(	"=================== Delete SystemSettings ==================\n"+
 			        		   	" 1. Holiday Reference                                     \n"+
 			        		   	" 2. Movie Format 											\n"+
 				                " 3. Ticket Type                                    		\n"+
 				                " 4. Cinema Type 		                                    \n"+
-				                " 0. Back to movie_entities.SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           ");
 	        System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
@@ -423,7 +423,7 @@ public class SystemSettingsManager {
 			}
 		} while (choice!=0);
 		
-		System.out.println("Back to movie_entities.SystemSettings Menu......");
+		System.out.println("Back to SystemSettings Menu......");
 	}
 
 	

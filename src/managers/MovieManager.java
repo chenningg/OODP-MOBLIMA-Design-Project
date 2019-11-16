@@ -780,7 +780,7 @@ public class MovieManager {
                         break;
                     } else {
                        for (int i=0;i<Math.min(5, top5.size());i++) {
-                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" \t\t\t(Sales:  "+ top5.get(i).getGrossProfit()+")");
+                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" (Sales:  "+ top5.get(i).getGrossProfit()+")");
                        }
                     }
                     
@@ -799,7 +799,7 @@ public class MovieManager {
                         break;
                     } else {
                        for (int i=0;i<Math.min(5, top5.size());i++) {
-                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" \t\t\t(Tickets Sold:  "+ top5.get(i).getTicketsSold()+")");
+                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" (Tickets Sold:  "+ top5.get(i).getTicketsSold()+")");
                        }
                     }					
                     
@@ -823,7 +823,7 @@ public class MovieManager {
                         break;
                     } else {
                        for (int i=0;i<Math.min(5, top5.size());i++) {
-                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" \t\t\t(Review Score:  "+ top5.get(i).getAverageReviewScore()+")");
+                           System.out.println(i+1 +". "+top5.get(i).getTitle() +" (Review Score:  "+ top5.get(i).getAverageReviewScore()+")");
                        }
                     }
 					
@@ -841,7 +841,7 @@ public class MovieManager {
 					break;
 			}
 			
-			if ( (choice >=1 || choice <= 3) && appType.equals("Customer") ) {
+			if ( (choice >=1 && choice <= 3) && appType.equals("Customer") ) {
 	            do {
 	                System.out.println("Choose a movie (Press 0 to exit): ");
 	                
@@ -853,7 +853,7 @@ public class MovieManager {
 	                subchoice = sc.nextInt()-1;        
 	                
 	                if (subchoice == -1) {
-	             	   System.out.println("Back to CustomerApp......");
+	             	   System.out.println("Back to Top 5......");
 	                    break;
 	                } else if (subchoice >= top5.size()) {
 	             	   System.out.println("Invalid input. Please enter a number between 0 and " + top5.size());
