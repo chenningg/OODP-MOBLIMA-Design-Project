@@ -59,14 +59,6 @@ public class Cinema implements Cloneable, Serializable {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	// Initializers: Below code used only for the very first run of the app
     // File Reader
     public void openCinemaFile(String cinemaID) {

@@ -28,12 +28,10 @@ public class CustomerApp {
 	    	
             System.out.println("Enter choice: ");
             
-            if (!sc.hasNextInt()) {
-        		System.out.println("Invalid input type. Please choose a choice from 0-3.");
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
         		sc.next(); // Remove newline character
-        		choice = -1;
-        		continue;
-        	}
+            }
             
             choice = sc.nextInt();
             
@@ -57,12 +55,10 @@ public class CustomerApp {
                 		
                         System.out.println("Enter choice: ");
                         
-                        if (!sc.hasNextInt()) {
-                    		System.out.println("Invalid input type. Please choose a choice from 0-2.");
+                        while (!sc.hasNextInt()) {
+                        	System.out.println("Invalid input type. Please enter an integer value.");
                     		sc.next(); // Remove newline character
-                    		subchoice = -1;
-                    		continue;
-                    	}
+                        }
                         
                         subchoice = sc.nextInt();
                         

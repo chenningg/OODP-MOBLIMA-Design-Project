@@ -20,8 +20,8 @@ public class Movie implements Serializable{
     private double totalReviewScore;
     private ShowingStatus showingStatus;
     private LocalDate releaseDate;
-    private long ticketsSold;
-    private double grossProfit;
+    private long ticketsSold = 0;
+    private double grossProfit = 0.0;
     private List<String> showtimeIDs;
 
 
