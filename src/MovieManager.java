@@ -312,8 +312,9 @@ class MovieManager {
         int choice,subChoice;
         do{
             for (int i = 0; i < movieSelect.size(); i++) {
-                System.out.println(i + 1 + ". " + movieSelect.get(i).getTitle());
+                System.out.println(i + 1 + ". " + movieSelect.get(i).getTitle() + " (" + movieSelect.get(i).getShowingStatus().toString() + ")");
             }
+            
             do {
                 System.out.println("Choose a movie (Enter 0 to exit): ");
                 
@@ -334,48 +335,21 @@ class MovieManager {
                 } 
                 
             }while(choice  < 0 || choice >= movieSelect.size());
-            displayMovieDetails(movieSelect.get(choice));
+            
+            movieSelect.get(choice).displayMovieDetails();
             subMovieMenu(movieSelect.get(choice),appType);
             System.out.println("Enter 0 to return to Movie Menu \t\n" +
                     "Enter 1-9 to return to list of movies:");
             subChoice = sc.nextInt();
+            
             if(subChoice == 0){
                 break;
             }
+            
         }while(subChoice != 0);
+        
         return movieSelect.get(choice);
     }
-
-    public void displayMovieDetails(Movie movie) {
-        System.out.print("Movie Title: ");
-        System.out.println(movie.getTitle());
-        System.out.print("Genres: ");
-        for (int i=0; i<movie.getGenres().size();i++) 
-        	System.out.print(movie.getGenres().get(i)+ ", ");
-        System.out.println();
-        System.out.print("Rating:");
-        System.out.println(movie.getMovieRating());
-        System.out.print("Duration:");
-        System.out.println(movie.getMovieDuration()+ " minutes");
-        System.out.print("Movie Formats:");
-        for (int i=0; i<movie.getMovieFormats().size();i++) 
-        	System.out.print(movie.getMovieFormats().get(i)+ ", ");
-        System.out.println();
-        System.out.print("Showing Status: ");
-        System.out.println(movie.getShowingStatus());
-        System.out.print("Synopsis: ");
-        System.out.println(movie.getSynopsis());
-        System.out.print("Director: ");
-        System.out.println(movie.getDirector());
-        System.out.print("Cast: ");
-        for(int i=0;i<movie.getCast().size();i++){
-            System.out.print(movie.getCast().get(i)+ ", ");
-        }
-
-        System.out.println();
-    }
-
-
 
 
 //CRUD - CREATE READ UPDATE DELETE MOVIE
@@ -472,7 +446,7 @@ class MovieManager {
         int choice;
         do {
         	System.out.println("Currently selected movie details:");
-        	displayMovieDetails(movie);
+        	movie.displayMovieDetails();
             System.out.println("=================== EDIT MOVIES (STAFF) ==================\n" +
                     "| 1. Edit Title      	                                 |\n" +
                     "| 2. Edit Genres (Overwritten)       	        		 |\n" +
@@ -625,7 +599,8 @@ class MovieManager {
                        if(input1 == -1){
                            break;
                        }
-                       displayMovieDetails(top5Sales.get(input1));
+                       
+                       top5Sales.get(input1).displayMovieDetails();
                        subMovieMenu(top5Sales.get(input1),apptype);
                    }while(input1 != -1);
                     break;
@@ -652,7 +627,9 @@ class MovieManager {
                         if(input2 == -1){
                             break;
                         }
-                        displayMovieDetails(top5Tickets.get(input2));
+                        
+                        top5Tickets.get(input2).displayMovieDetails();
+
                         subMovieMenu(top5Tickets.get(input2),apptype);
                     }while(input2 != -1);
                     break;
@@ -684,7 +661,7 @@ class MovieManager {
                         if(input3 == -1){
                             break;
                         }
-                        displayMovieDetails(top5Reviews.get(input3));
+                        top5Reviews.get(input3).displayMovieDetails();
                         subMovieMenu(top5Reviews.get(input3),apptype);
                     }while(input3 != -1);
                     break;
