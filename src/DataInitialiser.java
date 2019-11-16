@@ -372,9 +372,12 @@ public class DataInitialiser {
 		this.resetFolders("movies");
 		this.resetFolders("showtimes");
 		this.resetFolders("reviews");
+		this.resetFolders("transactions");
+		this.resetFolders("bookings");
 		this.resetID("movie_id.txt");
 		this.resetID("showtime_id.txt");
 		this.resetID("review_id.txt");
+		this.resetID("booking_id.txt");
 		
 		System.out.println("All data reset");
 	}
