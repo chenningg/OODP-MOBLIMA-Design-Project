@@ -295,6 +295,18 @@ class MovieManager {
     public void displayMovieDetails(Movie movie) {
         System.out.print("Movie Title: ");
         System.out.println(movie.getTitle());
+        System.out.print("Genres: ");
+        for (int i=0; i<movie.getGenres().size();i++) 
+        	System.out.print(movie.getGenres().get(i)+ ", ");
+        System.out.println();
+        System.out.print("Rating:");
+        System.out.println(movie.getMovieRating());
+        System.out.print("Duration:");
+        System.out.println(movie.getMovieDuration()+ " minutes");
+        System.out.print("Movie Formats:");
+        for (int i=0; i<movie.getMovieFormats().size();i++) 
+        	System.out.print(movie.getMovieFormats().get(i)+ ", ");
+        System.out.println();
         System.out.print("Showing Status: ");
         System.out.println(movie.getShowingStatus());
         System.out.print("Synopsis: ");
@@ -303,8 +315,9 @@ class MovieManager {
         System.out.println(movie.getDirector());
         System.out.print("Cast: ");
         for(int i=0;i<movie.getCast().size();i++){
-            System.out.println(movie.getCast().get(i));
+            System.out.print(movie.getCast().get(i)+ ", ");
         }
+        System.out.println();
     }
 
 
@@ -408,11 +421,11 @@ class MovieManager {
                     movie.setTitle(title);
                     break;
                 case 2:
-                    System.out.println("Enter number of genres, press 'ENTER' key after each entry: ");
+                    System.out.println("Enter number of genres: ");
                     ArrayList<Genre> Genres = new ArrayList<>();
                     int numGenres = sc.nextInt();
                     for (int i = 0; i < numGenres; i++) {
-                        System.out.println("Enter the genre: ");
+                        System.out.println("Enter the genre, press 'ENTER' after each entry: ");
                         String userGenre = sc.next().toUpperCase();
                         Genres.add(Genre.valueOf(userGenre));
                     }
@@ -421,13 +434,15 @@ class MovieManager {
                 case 3:
                 	System.out.println("Enter revised director name");
                     movie.setDirector(sc.nextLine());
+                    break;
                 case 4:
                     System.out.println("Enter number of cast members: ");
                     int castSize = sc.nextInt();
+                    sc.nextLine();
                     ArrayList<String> newCastList = new ArrayList<>();
                     for (int i = 0; i < castSize; i++) {
                         System.out.println("Enter cast member: ");
-                        String newCast = sc.next();
+                        String newCast = sc.nextLine();
                         newCastList.add(newCast);
                     }
                     movie.setCast(newCastList);
@@ -443,9 +458,10 @@ class MovieManager {
                     movie.setMovieRating(MovieRating.valueOf(newRating));
                     break;
                 case 7:
-                    System.out.println("Enter new formats: ");
+                    System.out.println("Enter number of formats: ");
                     ArrayList<MovieFormat> newFormats = new ArrayList<>();
                     int newFormatLength = sc.nextInt();
+                    sc.nextLine();
                     for (int i = 0; i < newFormatLength; i++) {
                         System.out.println("Enter movie format: ");
                         String newFormat = sc.next();
@@ -466,7 +482,7 @@ class MovieManager {
                 case 10:
                     System.out.println("Enter new release date: ");
                     String newReleaseDate = sc.next();
-                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate date = LocalDate.parse(newReleaseDate, dateFormat);
                     movie.setReleaseDate(date);
                     break;
