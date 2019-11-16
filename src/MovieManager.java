@@ -317,37 +317,41 @@ class MovieManager {
         ArrayList<Genre> genreList = new ArrayList<>();
         ArrayList<String> castList = new ArrayList<>();
         ArrayList<MovieFormat> formatList = new ArrayList<>();
+        int numGenres;
 
         newMovie.setMovieID(IDHelper.getLatestID("movie"));
         System.out.println("Enter movie title: ");
-        newMovie.setTitle(sc.next());
-
+        sc.nextLine();
+        String title = sc.nextLine();
+        newMovie.setTitle(title);
         System.out.println("Enter number of genres: ");
-        int numGenres = sc.nextInt();
-        System.out.println("Enter the genres: ");
+        numGenres = sc.nextInt();
+
         for (int i=0;i<numGenres;i++)
         {
-            System.out.println("Enter the genre: ");
+            System.out.println("Enter genre " + i+1 + ": ");
             String userGenre = sc.next();
             genreList.add(Genre.valueOf(userGenre));
         }
         newMovie.setGenres(genreList);
 
         System.out.println("Enter director name: ");
-        newMovie.setDirector(sc.next());
+        sc.nextLine();
+        newMovie.setDirector(sc.nextLine());
 
         System.out.println("Enter length of cast: ");
         int castLength = sc.nextInt();
+        sc.nextLine();
         for (int i=0;i<castLength;i++)
         {
             System.out.println("Enter cast member: ");
-            String castName = sc.next();
+            String castName = sc.nextLine();
             castList.add(castName);
         }
         newMovie.setCast(castList);
 
         System.out.println("Enter synopsis: ");
-        newMovie.setSynopsis(sc.next());
+        newMovie.setSynopsis(sc.nextLine());
 
         System.out.println("Enter movie rating: ");
         String movieRating = sc.next();
@@ -377,6 +381,7 @@ class MovieManager {
         newMovie.setReleaseDate(date);
 
         movies.put(newMovie.getMovieID(),newMovie);
+        this.saveObject(newMovie.getMovieID());
     }
 
 
