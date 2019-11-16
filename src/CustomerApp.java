@@ -53,7 +53,7 @@ public class CustomerApp {
                 	mm.viewMovies("Customer");
                     break;
                 case 2://view top 5
-                	mm.viewTop5Cust();
+                	mm.viewTop5("Customer");
                     break;
 
                 case 3:
