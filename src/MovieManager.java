@@ -905,14 +905,14 @@ class MovieManager {
             movie.setTotalReviewScore(movie.getTotalReviewScore()+reviewScore);
             movie.addMovieReview(reviewID);
             movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
-            this.saveObject(movie);        	
+            this.save(movie);
         } else if (function.equals("remove")) {
         	Movie movie = movies.get(movieID);
             movie.setTotalReviewNo(movie.getTotalReviewNo()-1);
             movie.setTotalReviewScore(movie.getTotalReviewScore()-reviewScore);
             movie.removeMovieReview(reviewID);
             movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
-            this.saveObject(movie);        	        	
+            this.save(movie);
         }
 
     }
