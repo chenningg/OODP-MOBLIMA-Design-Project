@@ -77,6 +77,14 @@ class MovieManager {
                                    "=========================================================");
 
                 System.out.println("Enter choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-5.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -136,6 +144,14 @@ class MovieManager {
                                    "| 0. Back to Customer Movie Menu......                   |\n" +
                                    "==========================================================");
                 System.out.println("Enter choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-5.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -200,6 +216,14 @@ class MovieManager {
 			                        "==========================================================");            	
 
                 System.out.println("Enter choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-4.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -228,10 +252,19 @@ class MovieManager {
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
 			                        "| 1. Display Showtimes                                   |\n" +
 			                        "| 2. View Reviews 						       		      |\n" +
+			                        "| 3. Leave Review 						       		      |\n" +
 			                        "| 0. Back to Movie Listings			                  |\n" +
 			                        "==========================================================");       
 
                 System.out.println("Enter your choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-2.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 
                 switch (choice) {
@@ -241,6 +274,8 @@ class MovieManager {
                     case 2:
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
+                    case 3:
+                    	ReviewManager.getInstance().addReview(movie.getMovieID());
                     case 0:
                     	System.out.println("Back to Movie Listings......");
                         break;
@@ -281,6 +316,14 @@ class MovieManager {
             }
             do {
                 System.out.println("Choose a movie (Enter 0 to exit): ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.printf("Invalid input type. Please choose a choice from 0-%d.", (movieSelect.size()));
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt()-1;
                              
                 
@@ -352,6 +395,11 @@ class MovieManager {
         System.out.println("Enter number of genres: ");
         numGenres = sc.nextInt();
 
+        for (Genre genre : Genre.values()) {
+        	System.out.print(genre.toString() + "    ");
+        }
+        System.out.println("");
+        
         for (int i=0;i<numGenres;i++)
         {
             System.out.println("Enter genre " + i+1 + ": ");
