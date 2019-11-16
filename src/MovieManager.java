@@ -228,6 +228,7 @@ class MovieManager {
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
 			                        "| 1. Display Showtimes                                   |\n" +
 			                        "| 2. View Reviews 						       		      |\n" +
+			                        "| 3. Leave Review 						       		      |\n" +
 			                        "| 0. Back to Movie Listings			                  |\n" +
 			                        "==========================================================");       
 
@@ -241,6 +242,8 @@ class MovieManager {
                     case 2:
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
+                    case 3:
+                    	ReviewManager.getInstance().addReview(movie.getMovieID());
                     case 0:
                     	System.out.println("Back to Movie Listings......");
                         break;
@@ -352,6 +355,11 @@ class MovieManager {
         System.out.println("Enter number of genres: ");
         numGenres = sc.nextInt();
 
+        for (Genre genre : Genre.values()) {
+        	System.out.print(genre.toString() + "    ");
+        }
+        System.out.println("");
+        
         for (int i=0;i<numGenres;i++)
         {
             System.out.println("Enter genre " + i+1 + ": ");
