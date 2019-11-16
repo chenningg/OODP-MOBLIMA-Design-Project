@@ -67,7 +67,7 @@ public class ShowtimeManager {
                 }
             }
 
-            if (appType.equalsIgnoreCase("Staff")) {
+            if (appType.equalsIgnoreCase("Staff") && relevantShowtimes.size()!=0) {
                 System.out.println("==================== SHOWTIMES  =====================\n" +
                                     "| 1. View/Update/Remove Specific Showtime          |\n" +
                                     "| 2. Create New Showtime                           |\n" +
@@ -95,7 +95,9 @@ public class ShowtimeManager {
                         this.showtimeMenuStaff(showtimeID);
                         break;
                     case 2:
-                        this.createShowtime();
+                        Showtime showtime = this.createShowtime(movieID);
+                        relevantShowtimes.add(showtime);
+                        relevantShowtimeIDs.add(showtime.getShowtimeID());
                         break;
                     case 0:
                         System.out.println("Back to Showtimes List......");
@@ -104,7 +106,31 @@ public class ShowtimeManager {
                         System.out.println("Invalid choice. Please choose between 0-1");
                         break;
                 }
-
+            }
+            else if (appType.equalsIgnoreCase("Staff") && relevantShowtimes.size() == 0) {
+                System.out.println("==================== SHOWTIMES  =====================\n" +
+                        "| 1. Create New Showtime                           |\n" +
+                        "| 0. Back to Showtimes List                        |\n" +
+                        "====================================================");
+                System.out.println("Enter choice:");
+                while(!sc.hasNextInt()) {
+                    System.out.println("Please enter a number!");
+                    sc.next();
+                }
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        Showtime showtime = this.createShowtime(movieID);
+                        relevantShowtimes.add(showtime);
+                        relevantShowtimeIDs.add(showtime.getShowtimeID());
+                        break;
+                    case 0:
+                        System.out.println("Back to Showtimes List......");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please choose between 0-1");
+                        break;
+                }
             }
             else if (appType.equalsIgnoreCase("Customer")) {
                 Movie movie = MovieManager.getInstance().getMoviebyID(movieID);
@@ -327,29 +353,21 @@ public class ShowtimeManager {
         }
     }
 
-    private void createShowtime() {
+    private Showtime createShowtime(String movieID) {
         String showtimeID = IDHelper.getLatestID("showtime");
-        LocalDateTime showtimeDateTime;
-        String movieID;
         String cinemaID;
         String cineplexName;
         CinemaStatus cinemaStatus;
         MovieFormat movieFormat;
-        List<Showtime> showtimes;
 
-        System.out.println("Enter Showtime DateTime: ");
+        System.out.println("Enter showtime datetime (dd/MM/yyyy-HH:mm): ");
         String newDateTime = sc.next();
         LocalDateTime localDateTime = this.dateTimeParser(newDateTime);
         while (localDateTime == null) {
-            System.out.println("Enter new Showtime datetime (dd/MM/yyyy-HH:mm): ");
+            System.out.println("Enter showtime datetime (dd/MM/yyyy-HH:mm): ");
             newDateTime = sc.next();
             localDateTime = this.dateTimeParser(newDateTime);
         }
-        showtimeDateTime = this.dateTimeParser(sc.next());
-
-        System.out.println("Enter movieID: ");
-        movieID = sc.next();
-
         System.out.println("Enter cinemaID: ");
         cinemaID = sc.next();
         Cinema cinema = CompanyManager.getInstance().getNewCinema(cinemaID);
@@ -360,10 +378,10 @@ public class ShowtimeManager {
         System.out.println("Enter cinema status: ");
         String cinemaStatusString = sc.next();
         while (!cinemaStatusValidator(cinemaStatusString)) {
-            System.out.println("Enter new movie format: ");
+            System.out.println("Enter cinema status: ");
             cinemaStatusString = sc.next();
         }
-        cinemaStatus = CinemaStatus.valueOf(sc.next());
+        cinemaStatus = CinemaStatus.valueOf(cinemaStatusString);
 
         System.out.println("Enter movie format: ");
         String movieFormatString = sc.next();
@@ -371,12 +389,12 @@ public class ShowtimeManager {
             System.out.println("Enter new movie format: ");
             movieFormatString = sc.next();
         }
-        movieFormat = MovieFormat.valueOf(sc.next());
+        movieFormat = MovieFormat.valueOf(movieFormatString);
 
         Showtime showtime = new Showtime();
         showtime.setShowtimeID(showtimeID);
         showtime.setMovieID(movieID);
-        showtime.setDateTime(showtimeDateTime);
+        showtime.setDateTime(localDateTime);
         showtime.setCinema(cinema);
         showtime.setCineplexName(cineplexName);
         showtime.setCinemaStatus(cinemaStatus);
@@ -387,6 +405,7 @@ public class ShowtimeManager {
         this.save(showtime, showtimeID); // serialize file
         System.out.println("New showtime created!");
         System.out.println("Going back to showtime staff app ...");
+        return showtime;
     }
 
     public void deleteShowtime(String showtimeID) {
