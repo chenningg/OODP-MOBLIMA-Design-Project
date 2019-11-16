@@ -31,11 +31,10 @@ class MovieManager {
         
         do {
             System.out.println("=================== MOVIE MENU (STAFF) ==================\n" +
-                               "| 1. View/ Edit Movies 						    		|\n" +
-                               "| 2. Add Movies		                                 	|\n" +
-                               "| 3. Search Movies (By Title)	                        |\n" +
-                               "| 0. Back to StaffApp......                             |\n" +
-                               "=========================================================");
+                               " 1. View/ Edit Movies 						    		\n" +
+                               " 2. Add Movies		                                 	\n" +
+                               " 3. Search Movies (By Title)	                        \n" +
+                               " 0. Back to StaffApp......                             ");
 
             System.out.println("Enter choice: ");
             while(!sc.hasNextInt()) {
@@ -69,13 +68,13 @@ class MovieManager {
         if (appType.equals("Staff")) {
             do {
                 System.out.println("=================== MOVIE MENU (STAFF) ==================\n" +
-                                   "| 1. List all movies	                                |\n" +
-                                   "| 2. Coming Soon 						       			|\n" +
-                                   "| 3. Preview		                                    |\n" +
-                                   "| 4. Now Showing	                                    |\n" +
-                                   "| 5. End of Showing                                     |\n" +
-                                   "| 0. Back to Staff Movie Menu......                     |\n" +
-                                   "=========================================================");
+                                   " 1. List all movies	                                \n" +
+                                   " 2. Coming Soon 						       			\n" +
+                                   " 3. Preview		                                    \n" +
+                                   " 4. Now Showing	                                    \n" +
+                                   " 5. End of Showing                                     \n" +
+                                   " 0. Back to Staff Movie Menu......                     ");
+
 
                 System.out.println("Enter choice: ");
                 
@@ -142,13 +141,12 @@ class MovieManager {
         } else if (appType.equals("Customer")) {
             do {
                 System.out.println("=================== MOVIE MENU (CUSTOMER) ================\n" +
-                                   "| 1. List all movies	                                 |\n" +
-                                   "| 2. Coming Soon 						       			 |\n" +
-                                   "| 3. Preview		                                     |\n" +
-                                   "| 4. Now Showing	                                     |\n" +
-                                   "| 5. Search Movies (By Title)                            |\n" +
-                                   "| 0. Back to Customer Movie Menu......                   |\n" +
-                                   "==========================================================");
+                                   " 1. List all movies	                                 \n" +
+                                   " 2. Coming Soon 						       			 \n" +
+                                   " 3. Preview		                                     \n" +
+                                   " 4. Now Showing	                                     \n" +
+                                   " 5. Search Movies (By Title)                            \n" +
+                                   " 0. Back to Customer Movie Menu......                   ");
                 System.out.println("Enter choice: ");
                 
                 while (!sc.hasNextInt()) {
@@ -212,13 +210,12 @@ class MovieManager {
             int choice;
             do{
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
-			                        "| 1. Display/Edit Showtimes                              |\n" +
-			                        "| 2. Edit Movie 						       		      |\n" +
-			                        "| 3. Remove Movie		                                  |\n" +
-			                        "| 4. View Reviews	                                      |\n" +
-			                        "| 5. Delete Reviews	                                  |\n" +
-			                        "| 0. Back to Movie Listings			                  |\n" +
-			                        "==========================================================");            	
+			                        " 1. Display/Edit Showtimes                              \n" +
+			                        " 2. Edit Movie 						       		      \n" +
+			                        " 3. Remove Movie		                                  \n" +
+			                        " 4. View Reviews	                                      \n" +
+			                        " 5. Delete Reviews	                                  \n" +
+			                        " 0. Back to Movie Listings			                  ");
 
                 System.out.println("Enter choice: ");
                 
@@ -255,11 +252,10 @@ class MovieManager {
             int choice;
             do{
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
-			                        "| 1. Display Showtimes                                   |\n" +
-			                        "| 2. View Reviews                                        |\n" +
-			                        "| 3. Leave Review                                        |\n" +
-			                        "| 0. Back to Movie Listings                              |\n" +
-			                        "==========================================================");       
+			                        " 1. Display Showtimes                                   \n" +
+			                        " 2. View Reviews                                        \n" +
+			                        " 3. Leave Review                                        \n" +
+			                        " 0. Back to Movie Listings                              ");
 
                 System.out.println("Enter your choice: ");
                 
@@ -521,10 +517,9 @@ class MovieManager {
             }
             System.out.println();
             System.out.println(	"========================= ADD MOVIE ====================\n" +
-                                "| 1. Submit movie                                      |\n" +
-                                "| 2. Edit movie                                        |\n" +
-                                "| 0. Discard movie, back to Movie Menu                 |\n" +
-                                "========================================================");
+                                " 1. Submit movie                                      \n" +
+                                " 2. Edit movie                                        \n" +
+                                " 0. Discard movie, back to Movie Menu                 ");
             System.out.println("Enter choice: ");
             
             while (!sc.hasNextInt()) {
@@ -564,18 +559,17 @@ class MovieManager {
         	System.out.println("Currently selected movie details:");
         	movie.displayMovieDetails();
             System.out.println("=================== EDIT MOVIES (STAFF) ==================\n" +
-                                "| 1. Edit Title      	                                  |\n" +
-                                "| 2. Edit Genres                      	        		  |\n" +
-                                "| 3. Edit Director	                                      |\n" +
-                                "| 4. Edit Cast                                           |\n" +
-                                "| 5. Edit Synopsis                                       |\n" +
-                                "| 6. Edit Rating                                         |\n" +
-                                "| 7. Edit Formats                                        |\n" +
-                                "| 8. Edit Duration                                       |\n" +
-                                "| 9. Edit Showing Status                                 |\n" +
-                                "| 10. Edit Release Date                                  |\n" +
-                                "| 0. Finish Editing Movie                                |\n" +
-                                "==========================================================");
+                                " 1. Edit Title      	                                  \n" +
+                                " 2. Edit Genres                      	        		  \n" +
+                                " 3. Edit Director	                                     \n" +
+                                " 4. Edit Cast                                           \n" +
+                                " 5. Edit Synopsis                                       \n" +
+                                " 6. Edit Rating                                         \n" +
+                                " 7. Edit Formats                                        \n" +
+                                " 8. Edit Duration                                       \n" +
+                                " 9. Edit Showing Status                                 \n" +
+                                " 10. Edit Release Date                                  \n" +
+                                " 0. Finish Editing Movie                                ");
             System.out.println("Enter choice: ");
             
             while (!sc.hasNextInt()) {
@@ -743,18 +737,16 @@ class MovieManager {
     	do {
     		if (appType.equals("Customer")) {
                 System.out.println(	"==================== View Top 5 Movies =====================\n" +
-                                    "| 1. By Sales                                              |\n" +
-                                    "| 2. By Tickets Sold                                       |\n" +
-                                    "| 3. By Reviews                                            |\n" +
-                                    "| 0. Back to CustomerApp                                   |\n" +
-                                    "============================================================");
+                                    " 1. By Sales                                              \n" +
+                                    " 2. By Tickets Sold                                       \n" +
+                                    " 3. By Reviews                                            \n" +
+                                    " 0. Back to CustomerApp                                   ");
     		} else if (appType.equals("Staff")) {
                 System.out.println(	"==================== View Top 5 Movies =====================\n" +
-                                    "| 1. By Sales                                              |\n" +
-                                    "| 2. By Tickets Sold                                       |\n" +
-                                    "| 3. By Reviews                                            |\n" +
-                                    "| 0. Back to StaffApp                                      |\n" +
-                                    "============================================================");
+                                    " 1. By Sales                                              \n" +
+                                    " 2. By Tickets Sold                                       \n" +
+                                    " 3. By Reviews                                            \n" +
+                                    " 0. Back to StaffApp                                      ");
     		}
     		
 			System.out.println("Enter choice:");

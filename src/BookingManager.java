@@ -98,11 +98,10 @@ class BookingManager implements ResetSelf {
         	displaySeats(getSeatingPlan());
         	
         	System.out.println("==================== SEAT BOOKING ====================\n"+
-								"| 1. Select a seat                                   |\n"+
-								"| 2. Deselect a seat                                 |\n"+
-								"| 3. Confirm and proceed to ticket selection         |\n"+
-								"| 0. Exit			                                  |\n"+
-								"======================================================");
+								" 1. Select a seat                                   |\n"+
+								" 2. Deselect a seat                                 |\n"+
+								" 3. Confirm and proceed to ticket selection         |\n"+
+								" 0. Exit			                                  ");
         	System.out.println("Please select a choice:");
         	
         	while (!sc.hasNextInt()) {

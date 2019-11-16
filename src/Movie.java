@@ -42,7 +42,13 @@ public class Movie implements Serializable{
     public void displayMovieDetails() {
     	// Title
     	System.out.printf("Movie Title: %s\n", getTitle());
-    	
+    	//Average Review Score
+        if(getTotalReviewNo()<=1){
+            System.out.println("Average Review Score: N/A");
+        }
+        else{
+            System.out.println("Average Review Score: " +getAverageReviewScore());
+        }
     	// Genres
         System.out.printf("Genres: ");
         for (int i = 0; i < getGenres().size(); i++) {

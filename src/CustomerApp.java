@@ -20,11 +20,10 @@ public class CustomerApp {
 		
 		do {
             System.out.println(	"============== MOBLIMA CUSTOMER APP ================\n" +
-			                    "| 1. View movie listings					        |\n" +
-			                    "| 2. View top 5                                    |\n" +
-			                    "| 3. Check booking history                         |\n" +
-			                    "| 0. Back to MOBLIMA APP                           |\n" +
-			                    "====================================================");
+			                    " 1. View movie listings					        \n" +
+			                    " 2. View top 5                                    \n" +
+			                    " 3. Check booking history                         \n" +
+			                    " 0. Back to MOBLIMA APP                           ");
 	    	
             System.out.println("Enter choice: ");
             
@@ -48,10 +47,9 @@ public class CustomerApp {
                 	
                 	do {
                         System.out.println(	"=========== SEARCH BOOKING HISTORY =============\n" +
-			                    "| 1. Check via email address					    		|\n" +
-			                    "| 2. Check via mobile number 					    		|\n" +
-				                "| 0. Back to CustomerApp......                             |\n" +
-				                "============================================================");                    		
+			                    " 1. Check via email address					    		\n" +
+			                    " 2. Check via mobile number 					    		\n" +
+				                " 0. Back to CustomerApp......                             ");
                 		
                         System.out.println("Enter choice: ");
                         

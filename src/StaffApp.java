@@ -78,11 +78,10 @@ public class StaffApp {
 		
 		do {
             System.out.println(	"==================== MOBLIMA STAFF APP ====================\n" +
-			                    "| 1. View Top 5 Movies                                     |\n" +
-			                    "| 2. Configure System Settings                             |\n" +
-			                    "| 3. Movie Database                                        |\n" +
-			                    "| 0. Logout from StaffApp                                  |\n" +
-			                    "===========================================================");
+			                    " 1. View Top 5 Movies                                     \n" +
+			                    " 2. Configure System Settings                             \n" +
+			                    " 3. Movie Database                                        \n" +
+			                    " 0. Logout from StaffApp                                  ");
             System.out.println("Enter choice: ");
 
             while (!sc.hasNextInt()) {

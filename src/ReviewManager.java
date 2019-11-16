@@ -70,10 +70,9 @@ public class ReviewManager {
         
         do {
             System.out.println(	"========================= ADD REVIEW ====================\n" +
-			                    "| 1. Submit review	   						    	 	 |\n" +
-			                    "| 2. Edit review	   						    	 	 |\n" +
-				                "| 0. Discard review, back to Movie Choices              |\n" +
-				                "=========================================================");            	
+			                    " 1. Submit review	   						    	 	 \n" +
+			                    " 2. Edit review	   						    	 	 \n" +
+				                " 0. Discard review, back to Movie Choices              ");
             
             System.out.println("Your current review: ");
             System.out.println("Name: " + review.getReviewerName());
@@ -148,12 +147,11 @@ public class ReviewManager {
     	
     	do {
             System.out.println(	"======================== EDIT REVIEW ====================\n" +
-				                "| 1. Edit Name		   						    	 	 |\n" +
-				                "| 2. Edit Title	   						    	 	 |\n" +
-				                "| 3. Edit Review Body	   						    	 |\n" +
-				                "| 4. Edit Score	   						    	 	 |\n" +			                
-				                "| 0. Finish Editing Review 				             |\n" +
-				                "=========================================================");    		
+				                " 1. Edit Name		   						    	 	 \n" +
+				                " 2. Edit Title	   						    	 	 \n" +
+				                " 3. Edit Review Body	   						    	\n" +
+				                " 4. Edit Score	   						    	 	 \n" +
+				                " 0. Finish Editing Review 				            ");
 
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
