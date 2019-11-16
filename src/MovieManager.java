@@ -251,9 +251,9 @@ class MovieManager {
             do{
                 System.out.println(	"====================== MOVIE CHOICES =====================\n" +
 			                        "| 1. Display Showtimes                                   |\n" +
-			                        "| 2. View Reviews 						       		      |\n" +
-			                        "| 3. Leave Review 						       		      |\n" +
-			                        "| 0. Back to Movie Listings			                  |\n" +
+			                        "| 2. View Reviews                                        |\n" +
+			                        "| 3. Leave Review                                        |\n" +
+			                        "| 0. Back to Movie Listings                              |\n" +
 			                        "==========================================================");       
 
                 System.out.println("Enter your choice: ");
