@@ -432,7 +432,7 @@ class MovieManager {
         System.out.println("Enter number of movie formats: ");
         while (!sc.hasNextInt()) {
         	System.out.println("Invalid input type. Please enter an integer value.");
-    		  sc.next(); // Remove newline character
+    		sc.next(); // Remove newline character
         }
         int formatLength = sc.nextInt();
         for (int i=0;i<formatLength;i++)
@@ -905,14 +905,14 @@ class MovieManager {
             movie.setTotalReviewScore(movie.getTotalReviewScore()+reviewScore);
             movie.addMovieReview(reviewID);
             movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
-            this.saveObject(movie);        	
+            this.save(movie);
         } else if (function.equals("remove")) {
         	Movie movie = movies.get(movieID);
             movie.setTotalReviewNo(movie.getTotalReviewNo()-1);
             movie.setTotalReviewScore(movie.getTotalReviewScore()-reviewScore);
             movie.removeMovieReview(reviewID);
             movie.setAverageReviewScore(movie.getTotalReviewScore()/movie.getTotalReviewNo());
-            this.saveObject(movie);        	        	
+            this.save(movie);
         }
 
     }
