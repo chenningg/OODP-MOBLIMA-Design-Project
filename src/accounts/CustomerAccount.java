@@ -40,13 +40,6 @@ public class CustomerAccount implements Serializable{
 	}
 
 
-	public void setMobileNo(String mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
     
     public String getName() {
 		return name;

@@ -109,7 +109,6 @@ public class ShowtimeManager {
                     case 2:
                         Showtime showtime = this.createShowtime(movieID);
                         relevantShowtimes.add(showtime);
-                        relevantShowtimeIDs.add(showtime.getShowtimeID());
                         break;
                     case 0:
                         System.out.println("Back to Showtimes List......");
@@ -289,7 +288,7 @@ public class ShowtimeManager {
                                     " 3. Cinema                                                \n" +
                                     " 4. Cineplex Name                                         \n" +
                                     " 5. Cinema Status                                         \n" +
-                                    "6. Movie Format                                          \n" +
+                                    " 6. Movie Format                                          \n" +
                                     " 0. Back to Showtime Staff App                            ");
 
                 System.out.println("Enter choice: ");
@@ -301,6 +300,7 @@ public class ShowtimeManager {
 
                 switch (choice) {
                     case 1:
+                        sc.nextLine();
                         System.out.println("Enter new Showtime datetime (dd/MM/yyyy HH:mm): ");
                         String newDateTime = sc.nextLine();
                         LocalDateTime localDateTime = this.dateTimeParser(newDateTime);
@@ -368,6 +368,7 @@ public class ShowtimeManager {
         CinemaStatus cinemaStatus;
         MovieFormat movieFormat;
 
+        sc.nextLine();
         System.out.println("Enter showtime datetime (dd/MM/yyyy HH:mm): ");
         String newDateTime = sc.nextLine();
         LocalDateTime localDateTime = this.dateTimeParser(newDateTime);
