@@ -33,7 +33,9 @@ public class Movie implements Serializable{
     	this.movieFormats = new ArrayList<MovieFormat>();
     	this.reviews = new ArrayList<String>();
     	this.showtimeIDs = new ArrayList<String>();
-    	
+    	this.totalReviewNo =0;
+    	this.totalReviewScore=0;
+    	this.averageReviewScore=0;
     }
 
     
