@@ -414,10 +414,9 @@ public class DataInitialiser {
 class Main {
 	public static void main(String[] args) {
 
-		// Initialise data
+		// Data initializer 
 		DataInitialiser dataInitialiser = new DataInitialiser();
 		
-/*	USE THIS TO INITIALIZE	*/
 		// Get project root
 		String initialisationFolderPath = ProjectRootPathFinder.findProjectRootPath() + "/data/initialisation";
 		

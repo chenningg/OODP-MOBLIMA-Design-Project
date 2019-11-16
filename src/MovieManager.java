@@ -195,12 +195,15 @@ class MovieManager {
         if(appType.equals("Staff")) {
             int choice;
             do{
-                System.out.println(" 1. Display/Edit Showtimes\n" +
-                        " 2. Edit Movie\n" +
-                        " 3. Remove Movie\n" +
-                        " 4. View Reviews\n" +
-                        " 0. Back");
-                System.out.println("Enter your choice: ");
+                System.out.println(	"====================== MOVIE CHOICES =====================\n" +
+			                        "| 1. Display/Edit Showtimes                              |\n" +
+			                        "| 2. Edit Movie 						       		      |\n" +
+			                        "| 3. Remove Movie		                                  |\n" +
+			                        "| 4. View Reviews	                                      |\n" +
+			                        "| 0. Back to Movie Listings			                  |\n" +
+			                        "==========================================================");            	
+
+                System.out.println("Enter choice: ");
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -216,20 +219,25 @@ class MovieManager {
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
                     case 0:
+                    	System.out.println("Back to Movie Listings......");
                         break;
                     default:
-                        System.out.println("Please enter a number between 1-4");
+                        System.out.println("Please enter a number between 0-4");
                 }
             }while(choice != 0);
         }
         else if(appType.equals("Customer")){
             int choice;
             do{
-                System.out.println(" 1. Display Showtimes\n" +
-                        " 2. View Reviews\n" +
-                        " 0. Back");
+                System.out.println(	"====================== MOVIE CHOICES =====================\n" +
+			                        "| 1. Display Showtimes                                   |\n" +
+			                        "| 2. View Reviews 						       		      |\n" +
+			                        "| 0. Back to Movie Listings			                  |\n" +
+			                        "==========================================================");       
+
                 System.out.println("Enter your choice: ");
                 choice = sc.nextInt();
+                
                 switch (choice) {
                     case 1:
                         ShowtimeManager.getInstance().getMovieShowtimes(movie.getMovieID(),appType);
@@ -238,11 +246,12 @@ class MovieManager {
                         ReviewManager.getInstance().printReviews(movie.getReviews());
                         break;
                     case 0:
+                    	System.out.println("Back to Movie Listings......");
                         break;
                     default:
-                        System.out.println("Please enter a number between 1-2");
+                        System.out.println("Please enter a number between 0-2");
                 }
-            }while(choice != 0);
+            } while(choice != 0);
 
         }
     }
@@ -277,8 +286,14 @@ class MovieManager {
             do {
                 System.out.println("Choose a movie (Enter 0 to exit): ");
                 choice = sc.nextInt()-1;
-                if(choice==-1)
+                             
+                
+                if(choice==-1) {
                     return null;
+                } else if (choice < 0 || choice >= movieSelect.size()) {
+                	System.out.println("Invalid choice. Please enter a number between 0 and " + movieSelect.size());
+                } 
+                
             }while(choice  < 0 || choice >= movieSelect.size());
             displayMovieDetails(movieSelect.get(choice));
             subMovieMenu(movieSelect.get(choice),appType);
@@ -305,6 +320,7 @@ class MovieManager {
         for(int i=0;i<movie.getCast().size();i++){
             System.out.println(movie.getCast().get(i));
         }
+        System.out.println("");
     }
 
 
@@ -408,9 +424,15 @@ class MovieManager {
                     movie.setTitle(title);
                     break;
                 case 2:
-                    System.out.println("Enter number of genres, press 'ENTER' key after each entry: ");
+                    for (Genre genre : Genre.values()) {
+                    	System.out.println(genre.toString());
+                    }
+                
                     ArrayList<Genre> Genres = new ArrayList<>();
+                
+                    System.out.println("Enter number of genres: ");                              
                     int numGenres = sc.nextInt();
+                
                     for (int i = 0; i < numGenres; i++) {
                         System.out.println("Enter the genre: ");
                         String userGenre = sc.next().toUpperCase();
@@ -494,12 +516,12 @@ class MovieManager {
         int choice;
         String apptype = "Customer";
         do{
-            System.out.println("==================== View Top 5 Movies =====================\n" +
-                    "| 1. By Sales                                              |\n" +
-                    "| 2. By Tickets Sold                                       |\n" +
-                    "| 3. By Reviews                                            |\n" +
-                    "| 0. Back to CustomerApp                                   |\n" +
-                    "===========================================================");
+            System.out.println(	"==================== View Top 5 Movies =====================\n" +
+			                    "| 1. By Sales                                              |\n" +
+			                    "| 2. By Tickets Sold                                       |\n" +
+			                    "| 3. By Reviews                                            |\n" +
+			                    "| 0. Back to CustomerApp                                   |\n" +
+			                    "===========================================================");
             System.out.println("Enter choice:");
             choice= sc.nextInt();
             switch (choice){
@@ -588,12 +610,12 @@ class MovieManager {
 
         int choice;
         do{
-            System.out.println("==================== View Top 5 Movies =====================\n" +
-                    "| 1. By Sales                                              |\n" +
-                    "| 2. By Tickets Sold                                       |\n" +
-                    "| 3. By Reviews                                            |\n" +
-                    "| 0. Back to StaffApp                                      |\n" +
-                    "===========================================================");
+            System.out.println(	"==================== View Top 5 Movies =====================\n" +
+			                    "| 1. By Sales                                              |\n" +
+			                    "| 2. By Tickets Sold                                       |\n" +
+			                    "| 3. By Reviews                                            |\n" +
+			                    "| 0. Back to StaffApp                                      |\n" +
+			                    "===========================================================");
             choice = sc.nextInt();
             switch (choice) {
                 case 1:
