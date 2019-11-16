@@ -768,7 +768,7 @@ class MovieManager {
 	                            entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
 	                        top5.add(entry.getValue());
 	                    }
-	                }	
+	                }
 	                top5.sort(Comparator.comparingDouble(Movie::getGrossProfit).reversed());
 			
                     if(top5.size()==0){
@@ -919,6 +919,8 @@ class MovieManager {
 
     public void updateShowtimes(String movieID, String showtimeID) {
         this.movies.get(movieID).addShowtimeID(showtimeID);
+
         this.save(this.movies.get(movieID));
+
     }
 }
