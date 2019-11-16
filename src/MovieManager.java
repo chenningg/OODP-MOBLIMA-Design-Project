@@ -7,7 +7,7 @@ import java.util.*;
 class MovieManager {
 	// Attributes 
 
-    private Map<String,Movie> movies = new HashMap<>();
+    private Map<String,Movie> movies;
     private Scanner sc = new Scanner(System.in);
 
     private static MovieManager single_instance = null;
@@ -22,12 +22,8 @@ class MovieManager {
     
     // Constructor
     private MovieManager() {
-        HashMap<String,Movie> serializedObject = this.loadObject();
-        if (serializedObject != null) {
-            this.movies = serializedObject;
-        } else {
-            this.movies = new HashMap<String,Movie>();
-        }
+    	this.movies= new HashMap<String,Movie>();
+    	this.loadObject();
     }
     
 
@@ -495,12 +491,12 @@ class MovieManager {
             }
         } while (choice != 0);
 //
-        this.saveObject(movie.getMovieID());
+        this.saveObject(movie);
     }
 
     private void removeMovie(Movie movie) {
         movie.setShowingStatus(ShowingStatus.END_OF_SHOWING);
-        this.saveObject(movie.getMovieID());
+        this.saveObject(movie);
     }
 
     /***
@@ -656,8 +652,7 @@ class MovieManager {
         return movieList;
     }
 
-    public HashMap<String,Movie> loadObject() {
-        HashMap<String, Movie> loadedMovies = new HashMap<String, Movie>();
+    public void loadObject() {
         File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/movies");
 
         File[] listOfFiles = folder.listFiles();
@@ -666,18 +661,14 @@ class MovieManager {
         	for(int i=0;i<listOfFiles.length;i++){
         		String filepath = listOfFiles[i].getPath(); // Returns full path incl file name and type
         		Movie newMovie = (Movie)SerializerHelper.deSerializeObject(filepath);
-        		String fileID = listOfFiles[i].getName().split("\\.(?=[^\\.]+$)")[0].split("_")[1];
-                loadedMovies.put(fileID, newMovie);
+                movies.put(newMovie.getMovieID(), newMovie);
             }
         }
-        
-        System.out.println("Movies loaded!");
-        return loadedMovies;
     }
 
-    public void saveObject(String movieID) {
-        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_"+movieID+".dat";
-        SerializerHelper.serializeObject(this.movies, filepath);
+    public void saveObject(Movie movie) {
+        String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_"+movie.getMovieID()+".dat";
+        SerializerHelper.serializeObject(movie, filepath);
         System.out.println("Movies Saved!");
     }
 
