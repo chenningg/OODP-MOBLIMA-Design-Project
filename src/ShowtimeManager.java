@@ -50,16 +50,17 @@ public class ShowtimeManager {
 
         int choice; // required to initialise
         do {
-            System.out.println("These are some details for the showtimes you are looking for: ");
+            System.out.println("These is the list of relevant showtimes: ");
             int j;
             if (relevantShowtimes.size() == 0) {
                 System.out.println("No showtimes found");
             }
             else {
                 for (j = 0; j < relevantShowtimes.size(); j++) {
-                    System.out.println("Showtime " + (j + 1) + ": showtimeID = " + relevantShowtimes.get(j).getShowtimeID());
-                    System.out.println(relevantShowtimes.get(j).getCineplexName() + ", Cinema " + relevantShowtimes.get(j).getCinema().getCinemaID() + ", Hall No. " + relevantShowtimes.get(j).getCinema().getHallNo());
-                    System.out.println("Movie Format: " + relevantShowtimes.get(j).getMovieFormat() + "          Date/Time: " + relevantShowtimes.get(j).getDateTime());
+                	System.out.println("");
+                    System.out.println((j + 1) + ".          " + relevantShowtimes.get(j).getCineplexName() + ", Cinema " + relevantShowtimes.get(j).getCinema().getCinemaID() + ", Hall No. " + relevantShowtimes.get(j).getCinema().getHallNo());
+                    System.out.println("            " + "Movie Format: " + relevantShowtimes.get(j).getMovieFormat() + "          Date/Time: " + relevantShowtimes.get(j).getDateTime());
+                    System.out.println("");
                 }
             }
 
@@ -74,7 +75,7 @@ public class ShowtimeManager {
 
                 switch (choice) {
                     case 1:
-                        System.out.println("Enter option: ");
+                        System.out.println("Enter choice of showtime: ");
                         int option = sc.nextInt() - 1;
                         String showtimeID = relevantShowtimeIDs.get(option);
                         this.showtimeMenuStaff(showtimeID);
@@ -92,16 +93,26 @@ public class ShowtimeManager {
 
             }
             else if (appType.equalsIgnoreCase("Customer")) {
-                System.out.println("==================== SHOWTIMES  ====================\n" +
-                                    "| 1. View Specific Showtime (Details / Booking)    |\n" +
-                                    "| 0. Back to MovieManager                          |\n" +
-                                    "====================================================");
+                Movie movie = MovieManager.getInstance().getMoviebyID(movieID);
+                if (movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)) {
+                    System.out.println("==================== SHOWTIMES  ====================\n" +
+                            "| 1. View Specific Showtime (Details)              |\n" +
+                            "| 0. Back to MovieManager                          |\n" +
+                            "====================================================");
+                }
+                else {
+                    System.out.println("==================== SHOWTIMES  ====================\n" +
+                            "| 1. View Specific Showtime (Details / Booking)    |\n" +
+                            "| 0. Back to MovieManager                          |\n" +
+                            "====================================================");
+                }
                 System.out.println("Enter choice:");
                 choice = sc.nextInt();
 
                 switch (choice) {
                     case 1:
-                        System.out.println("Enter option: ");
+                        System.out.println("Enter choice of showtime: ");
+
                         int option = sc.nextInt() - 1;
                         String showtimeID = relevantShowtimeIDs.get(option);
                         this.showtimeMenuCustomer(showtimeID);
@@ -123,33 +134,57 @@ public class ShowtimeManager {
     private void showtimeMenuCustomer(String selectedShowtimeID) {
         int choice;
 
-        do {
-            System.out.println(	"================== SHOWTIME CUSTOMER APP ===================\n" +
-                                "| 1. View ALL Details                                      |\n" +
-                                "| 2. Book Showtime                                         |\n" +
-                                "| 0. Back to MovieManager                                  |\n" +
-                                "===========================================================");
-            System.out.println("Enter choice: ");
-            choice = sc.nextInt();
+        String movieID = this.showtimes.get(selectedShowtimeID).getMovieID();
+        Movie movie = MovieManager.getInstance().getMoviebyID(movieID);
+        if (movie.getShowingStatus().equals(ShowingStatus.COMING_SOON)) {
+            do {
+                System.out.println("================== SHOWTIME CUSTOMER APP ===================\n" +
+                        "| 1. View ALL Details                                      |\n" +
+                        "| 0. Back to MovieManager                                  |\n" +
+                        "===========================================================");
+                System.out.println("Enter choice: ");
+                choice = sc.nextInt();
 
-            switch (choice) {
-                case 1:
-                    this.viewShowtime(selectedShowtimeID);
-                    break;
-                case 2:
-                    System.out.println("Enter showtime to book: ");
-                    String showtimeID = sc.next();
-                    Showtime showtime = this.findShowtime(showtimeID);
-                    BookingManager.getInstance().startSeatSelection(showtime);
-                    break;
-                case 0:
-                    System.out.println("Back to Showtimes List......");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please choose between 0-3.");
-                    break;
-            }
-        } while (choice != 0);
+                switch (choice) {
+                    case 1:
+                        this.viewShowtime(selectedShowtimeID);
+                        break;
+                    case 0:
+                        System.out.println("Back to Showtimes List......");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please choose between 0-3.");
+                        break;
+                }
+            } while (choice != 0);
+        }
+        else {
+            do {
+                System.out.println("================== SHOWTIME CUSTOMER APP ===================\n" +
+                        "| 1. View ALL Details                                      |\n" +
+                        "| 2. Book Showtime                                         |\n" +
+                        "| 0. Back to MovieManager                                  |\n" +
+                        "===========================================================");
+                System.out.println("Enter choice: ");
+                choice = sc.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        this.viewShowtime(selectedShowtimeID);
+                        break;
+                    case 2:
+                        Showtime showtime = this.findShowtime(selectedShowtimeID);
+                        BookingManager.getInstance().startSeatSelection(showtime);
+                        break;
+                    case 0:
+                        System.out.println("Back to Showtimes List......");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please choose between 0-3.");
+                        break;
+                }
+            } while (choice != 0);
+        }
     }
 
     private void showtimeMenuStaff(String showtimeID) {
