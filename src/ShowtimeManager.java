@@ -108,7 +108,7 @@ public class ShowtimeManager {
                         this.showtimeMenuCustomer(showtimeID);
                         break;
                     case 0:
-                        System.out.println("Back to Showtimes List......");
+                        System.out.println("Back to MovieManager......");
                         break;
                     default:
                         System.out.println("Invalid choice. Please choose between 0-1");

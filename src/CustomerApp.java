@@ -38,11 +38,18 @@ public class CustomerApp {
 		
 		
 		do {
-	    	System.out.println("================= MOBLIMA CUSTOMER APP =================\n" +
-	                "1. View movie listings \n" +
-	                "2. View top 5\n" +
-	                "3. Check booking history\n" +
-	                "0. Quit\n");
+	    	System.out.println(	"================= MOBLIMA CUSTOMER APP =================\n" +
+				                "| 1. View movie listings \n" +
+				                "2. View top 5\n" +
+				                "3. Check booking history\n" +
+				                "0. Quit\n");
+	    	
+            System.out.println(	"============== MOBLIMA CUSTOMER APP ================\n" +
+			                    "| 1. View moie listings					        |\n" +
+			                    "| 2. View top 5                                    |\n" +
+			                    "| 3. Check booking history                         |\n" +
+			                    "| 0. Back to MOBLIMA APP                           |\n" +
+			                    "====================================================");
 	    	
             System.out.println("Enter choice: ");
             choice = sc.nextInt();

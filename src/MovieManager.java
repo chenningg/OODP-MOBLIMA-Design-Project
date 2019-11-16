@@ -671,7 +671,6 @@ class MovieManager {
             }
         }
         
-        System.out.println("Movies loaded!");
         return loadedMovies;
     }
 
