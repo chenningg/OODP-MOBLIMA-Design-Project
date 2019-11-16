@@ -54,7 +54,6 @@ public class TransactionManager implements ResetSelf {
     		
     		choice = sc.nextInt();
     		sc.nextLine(); // Clears \n
-
     		
     		switch (choice) {
     			case 0: // Exit
