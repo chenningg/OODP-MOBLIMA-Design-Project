@@ -77,6 +77,14 @@ class MovieManager {
                                    "=========================================================");
 
                 System.out.println("Enter choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-5.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -136,6 +144,14 @@ class MovieManager {
                                    "| 0. Back to Customer Movie Menu......                   |\n" +
                                    "==========================================================");
                 System.out.println("Enter choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-5.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -200,6 +216,14 @@ class MovieManager {
 			                        "==========================================================");            	
 
                 System.out.println("Enter choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-4.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -233,6 +257,14 @@ class MovieManager {
 			                        "==========================================================");       
 
                 System.out.println("Enter your choice: ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.println("Invalid input type. Please choose a choice from 0-2.");
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt();
                 
                 switch (choice) {
@@ -284,6 +316,14 @@ class MovieManager {
             }
             do {
                 System.out.println("Choose a movie (Enter 0 to exit): ");
+                
+                if (!sc.hasNextInt()) {
+            		System.out.printf("Invalid input type. Please choose a choice from 0-%d.", (movieSelect.size()));
+            		sc.next(); // Remove newline character
+            		choice = -1;
+            		continue;
+            	}
+                
                 choice = sc.nextInt()-1;
                              
                 
