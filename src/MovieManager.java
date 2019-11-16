@@ -42,6 +42,10 @@ class MovieManager {
                                "=========================================================");
 
             System.out.println("Enter choice: ");
+            while(!sc.hasNextInt()) {
+                System.out.println("Please enter a number!");
+                sc.next();
+            }
             choice = sc.nextInt();
             
             switch (choice) {
@@ -80,11 +84,9 @@ class MovieManager {
 
                 System.out.println("Enter choice: ");
                 
-                if (!sc.hasNextInt()) {
+                while (!sc.hasNextInt()) {
             		System.out.println("Invalid input type. Please choose a choice from 0-5.");
             		sc.next(); // Remove newline character
-            		choice = -1;
-            		continue;
             	}
                 
                 choice = sc.nextInt();
@@ -147,11 +149,9 @@ class MovieManager {
                                    "==========================================================");
                 System.out.println("Enter choice: ");
                 
-                if (!sc.hasNextInt()) {
+                while (!sc.hasNextInt()) {
             		System.out.println("Invalid input type. Please choose a choice from 0-5.");
             		sc.next(); // Remove newline character
-            		choice = -1;
-            		continue;
             	}
                 
                 choice = sc.nextInt();
@@ -220,11 +220,9 @@ class MovieManager {
 
                 System.out.println("Enter choice: ");
                 
-                if (!sc.hasNextInt()) {
+                while (!sc.hasNextInt()) {
             		System.out.println("Invalid input type. Please choose a choice from 0-4.");
             		sc.next(); // Remove newline character
-            		choice = -1;
-            		continue;
             	}
                 
                 choice = sc.nextInt();
@@ -264,11 +262,9 @@ class MovieManager {
 
                 System.out.println("Enter your choice: ");
                 
-                if (!sc.hasNextInt()) {
+                while (!sc.hasNextInt()) {
             		System.out.println("Invalid input type. Please choose a choice from 0-2.");
             		sc.next(); // Remove newline character
-            		choice = -1;
-            		continue;
             	}
                 
                 choice = sc.nextInt();
@@ -324,11 +320,9 @@ class MovieManager {
             do {
                 System.out.println("Choose a movie (Enter 0 to exit): ");
                 
-                if (!sc.hasNextInt()) {
-            		System.out.printf("Invalid input type. Please choose a choice from 0-%d.", (movieSelect.size()));
+                while (!sc.hasNextInt()) {
+            		System.out.printf("Invalid input type. Please choose a choice from 0-%d.\n", (movieSelect.size()));
             		sc.next(); // Remove newline character
-            		choice = -1;
-            		continue;
             	}
                 
                 choice = sc.nextInt()-1;
@@ -346,6 +340,12 @@ class MovieManager {
             subMovieMenu(movieSelect.get(choice),appType);
             System.out.println("Enter 0 to return to Movie Menu \t\n" +
                     "Enter 1-9 to return to list of movies:");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please choose a choice from 0-9.");
+        		sc.next(); // Remove newline character
+            }
+            
             subChoice = sc.nextInt();
             
             if(subChoice == 0){
@@ -371,6 +371,12 @@ class MovieManager {
         String title = sc.nextLine();
         newMovie.setTitle(title);
         System.out.println("Enter number of genres: ");
+        
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer number.");
+    		sc.next(); // Remove newline character
+        }
+        
         int numGenres = sc.nextInt();
 
         for(int i=0;i<Genre.values().length;i++){
@@ -379,6 +385,12 @@ class MovieManager {
         for (int i=0;i<numGenres;i++)
         {
             System.out.println("Pick genre: ");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer.");
+        		sc.next(); // Remove newline character
+            }
+            
             int choice = sc.nextInt()-1;
             genreList.add(Genre.values()[choice]);
         }
@@ -389,6 +401,12 @@ class MovieManager {
         newMovie.setDirector(sc.nextLine());
 
         System.out.println("Enter number of cast members: ");
+        
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer value.");
+    		sc.next(); // Remove newline character
+        }
+        
         int castLength = sc.nextInt();
         sc.nextLine();
         for (int i=0;i<castLength;i++)
@@ -406,10 +424,22 @@ class MovieManager {
         for(int i=0;i<MovieRating.values().length;i++){
             System.out.println(i+1 + ". " +MovieRating.values()[i].toString());
         }
+        
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer value.");
+    		sc.next(); // Remove newline character
+        }
+        
         int movieRating = sc.nextInt()-1;
         newMovie.setMovieRating(MovieRating.values()[movieRating]);
 
         System.out.println("Enter number of movie formats: ");
+        
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer value.");
+    		sc.next(); // Remove newline character
+        }
+        
         int formatLength = sc.nextInt();
         for(int i=0;i<MovieFormat.values().length;i++){
             System.out.println(i+1 +". " +MovieFormat.values()[i].toString());
@@ -417,18 +447,36 @@ class MovieManager {
         for (int i=0;i<formatLength;i++)
         {
             System.out.println("Pick movie format: ");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+            
             int choice = sc.nextInt()-1;
             formatList.add(MovieFormat.values()[choice]);
         }
         newMovie.setMovieFormats(formatList);
 
         System.out.println("Enter movie duration: ");
+        
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer value in minutes.");
+    		sc.next(); // Remove newline character
+        }
+        
         newMovie.setMovieDuration(sc.nextInt());
 
         System.out.println("Pick showing status: ");
         for(int i=0;i<ShowingStatus.values().length;i++){
             System.out.println(i+1 + ". " +ShowingStatus.values()[i].toString());
         }
+        
+        while (!sc.hasNextInt()) {
+        	System.out.println("Invalid input type. Please enter an integer value.");
+    		sc.next(); // Remove newline character
+        }
+        
         int showStatus = sc.nextInt()-1;
         newMovie.setShowingStatus(ShowingStatus.values()[showStatus]);
 
@@ -477,6 +525,12 @@ class MovieManager {
                     "| 0. Discard movie, back to Movie Menu                 |\n" +
                     "========================================================");
             System.out.println("Enter choice: ");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value between 0-2.");
+        		sc.next(); // Remove newline character
+            }
+            
             choice1 = sc.nextInt();
 
             switch (choice1) {
@@ -523,6 +577,12 @@ class MovieManager {
                                 "| 0. Finish Editing Movie                                |\n" +
                                 "==========================================================");
             System.out.println("Enter choice: ");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value between 0-10.");
+        		sc.next(); // Remove newline character
+            }
+            
             choice = sc.nextInt();
             sc.nextLine();
             switch (choice) {
@@ -534,6 +594,12 @@ class MovieManager {
                 case 2:
                     ArrayList<Genre> Genres = new ArrayList<>();
                     System.out.println("Enter number of genres: ");
+                    
+                    while (!sc.hasNextInt()) {
+                    	System.out.println("Invalid input type. Please enter an integer value.");
+                		sc.next(); // Remove newline character
+                    }
+                    
                     int numGenres = sc.nextInt();
 
                     for(int i=0;i<Genre.values().length;i++){
@@ -542,6 +608,12 @@ class MovieManager {
                     for (int i=0;i<numGenres;i++)
                     {
                         System.out.println("Pick genre: ");
+                        
+                        while (!sc.hasNextInt()) {
+                        	System.out.println("Invalid input type. Please enter an integer value.");
+                    		sc.next(); // Remove newline character
+                        }
+                        
                         int genre = sc.nextInt()-1;
                         Genres.add(Genre.values()[genre]);
                     }
@@ -553,6 +625,12 @@ class MovieManager {
                     break;
                 case 4:
                     System.out.println("Enter number of cast members: ");
+                    
+                    while (!sc.hasNextInt()) {
+                    	System.out.println("Invalid input type. Please enter an integer value.");
+                		sc.next(); // Remove newline character
+                    }
+                    
                     int castSize = sc.nextInt();
                     sc.nextLine();
                     ArrayList<String> newCastList = new ArrayList<>();
@@ -573,20 +651,38 @@ class MovieManager {
                     for(int i=0;i<MovieRating.values().length;i++){
                         System.out.println(i+1 + ". " +MovieRating.values()[i].toString());
                     }
+                    
+                    while (!sc.hasNextInt()) {
+                    	System.out.println("Invalid input type. Please enter an integer value.");
+                		sc.next(); // Remove newline character
+                    }
+                    
                     int movieRating = sc.nextInt()-1;
                     movie.setMovieRating(MovieRating.values()[movieRating]);
                     break;
                 case 7:
-
                     ArrayList<MovieFormat> newFormats = new ArrayList<>();
                     System.out.println("Enter number of movie formats: ");
+                    
+                    while (!sc.hasNextInt()) {
+                    	System.out.println("Invalid input type. Please enter an integer value.");
+                		sc.next(); // Remove newline character
+                    }
+                    
                     int formatLength = sc.nextInt();
+                    
                     for(int i=0;i<MovieFormat.values().length;i++){
                         System.out.println(i+1 +". " +MovieFormat.values()[i].toString());
                     }
                     for (int i=0;i<formatLength;i++)
                     {
                         System.out.println("Pick new movie format: ");
+                        
+                        while (!sc.hasNextInt()) {
+                        	System.out.println("Invalid input type. Please enter an integer value.");
+                    		sc.next(); // Remove newline character
+                        }
+                        
                         int format = sc.nextInt()-1;
                         newFormats.add(MovieFormat.values()[format]);
                     }
@@ -594,6 +690,12 @@ class MovieManager {
                     break;
                 case 8:
                     System.out.println("Enter new duration: ");
+                    
+                    while (!sc.hasNextInt()) {
+                    	System.out.println("Invalid input type. Please enter an integer value.");
+                		sc.next(); // Remove newline character
+                    }
+                    
                     int newDuration = sc.nextInt();
                     movie.setMovieDuration(newDuration);
                     break;
@@ -602,6 +704,12 @@ class MovieManager {
                     for(int i=0;i<ShowingStatus.values().length;i++){
                         System.out.println(i+1 + ". " +ShowingStatus.values()[i].toString());
                     }
+                    
+                    while (!sc.hasNextInt()) {
+                    	System.out.println("Invalid input type. Please enter an integer value.");
+                		sc.next(); // Remove newline character
+                    }
+                    
                     int showStatus = sc.nextInt()-1;
                     movie.setShowingStatus(ShowingStatus.values()[showStatus]);
                     break;
@@ -653,6 +761,12 @@ class MovieManager {
     		}
     		
 			System.out.println("Enter choice:");
+			
+			while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+			
 			choice= sc.nextInt();
     		
 			ArrayList<Movie> top5 = new ArrayList<Movie>();
@@ -736,6 +850,12 @@ class MovieManager {
 			if ( (choice >=1 || choice <= 3) && apptype.equals("Customer") ) {
 	            do {
 	                System.out.println("Choose a movie (Press 0 to exit): ");
+	                
+	                while (!sc.hasNextInt()) {
+	                	System.out.println("Invalid input type. Please enter an integer value.");
+	            		sc.next(); // Remove newline character
+	                }
+	                
 	                subchoice = sc.nextInt()-1;        
 	                
 	                if (subchoice == -1) {

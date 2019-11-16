@@ -62,11 +62,10 @@ public class TicketManager implements ResetSelf {
     		
     		System.out.println("Please select a choice:");
     		
-    		if (!sc.hasNextInt()) {
-        		System.out.printf("Invalid input type. Please input a choice from 0-%d.\n", ticketChoices+2);
+    		while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
         		sc.next(); // Remove newline character
-        		continue;
-        	}
+            }
     		
     		choice = sc.nextInt();
     		
@@ -102,6 +101,11 @@ public class TicketManager implements ResetSelf {
     		// Add ticket selection based on its type. Update ticketCount and ticketSelection.
     		else if (choice >= 1 && choice <= ticketChoices) {
     			System.out.printf("How many %s tickets would you like to purchase? (Max %d):\n", TicketType.values()[choice-1].toString(), ticketsLeft);
+    			
+    			while (!sc.hasNextInt()) {
+                	System.out.println("Invalid input type. Please enter an integer value.");
+            		sc.next(); // Remove newline character
+                }
     			
     			int count = sc.nextInt();
 
