@@ -385,7 +385,7 @@ class MovieManager {
         ArrayList<Genre> genreList = new ArrayList<>();
         ArrayList<String> castList = new ArrayList<>();
         ArrayList<MovieFormat> formatList = new ArrayList<>();
-        int numGenres;
+        int numGenres,formatLength;
 
         newMovie.setMovieID(IDHelper.getLatestID("movie"));
         System.out.println("Enter movie title: ");
@@ -395,16 +395,17 @@ class MovieManager {
         System.out.println("Enter number of genres: ");
         numGenres = sc.nextInt();
 
-        for (Genre genre : Genre.values()) {
-        	System.out.print(genre.toString() + "    ");
+//        for (Genre genre : Genre.values()) {
+//        	System.out.println(genre.toString());
+//        }
+        for(int i=0;i<Genre.values().length;i++){
+            System.out.println(i+1 +". " +Genre.values()[i].toString());
         }
-        System.out.println("");
-        
         for (int i=0;i<numGenres;i++)
         {
-            System.out.println("Enter genre " + i+1 + ": ");
-            String userGenre = sc.next();
-            genreList.add(Genre.valueOf(userGenre));
+            System.out.println("Pick genre: ");
+            int choice = sc.nextInt()-1;
+            genreList.add(Genre.values()[choice]);
         }
         newMovie.setGenres(genreList);
 
@@ -426,26 +427,35 @@ class MovieManager {
         System.out.println("Enter synopsis: ");
         newMovie.setSynopsis(sc.nextLine());
 
-        System.out.println("Enter movie rating: ");
-        String movieRating = sc.next();
-        newMovie.setMovieRating(MovieRating.valueOf(movieRating));
+        System.out.println("Pick movie rating: ");
+        for(int i=0;i<MovieRating.values().length;i++){
+            System.out.println(i+1 + ". " +MovieRating.values()[i].toString());
+        }
+        int movieRating = sc.nextInt()-1;
+        newMovie.setMovieRating(MovieRating.values()[movieRating]);
 
         System.out.println("Enter number of movie formats: ");
-        int formatLength = sc.nextInt();
+        formatLength = sc.nextInt();
+        for(int i=0;i<MovieFormat.values().length;i++){
+            System.out.println(i+1 +". " +MovieFormat.values()[i].toString());
+        }
         for (int i=0;i<formatLength;i++)
         {
-            System.out.println("Enter movie format: ");
-            String format = sc.next();
-            formatList.add(MovieFormat.valueOf(format));
+            System.out.println("Pick movie format: ");
+            int choice = sc.nextInt()-1;
+            formatList.add(MovieFormat.values()[choice]);
         }
         newMovie.setMovieFormats(formatList);
 
         System.out.println("Enter movie duration: ");
         newMovie.setMovieDuration(sc.nextInt());
 
-        System.out.println("Enter showing status: ");
-        String showStatus = sc.next();
-        newMovie.setShowingStatus(ShowingStatus.valueOf(showStatus));
+        System.out.println("Pick showing status: ");
+        for(int i=0;i<ShowingStatus.values().length;i++){
+            System.out.println(i+1 + ". " +ShowingStatus.values()[i].toString());
+        }
+        int showStatus = sc.nextInt()-1;
+        newMovie.setShowingStatus(ShowingStatus.values()[showStatus]);
 
         System.out.println("Enter release date (format DD/MM/YYYY): ");
         String releaseDate = sc.next();
