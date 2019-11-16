@@ -16,26 +16,7 @@ public class CustomerApp {
     }
 	
     public void displayCustomerMenu() {
-		int choice;
-    	
-		
-        //Instantiate Objects
-        MovieManager mm = MovieManager.getInstance();
-        ReviewManager rm= ReviewManager.getInstance();
-        CustomerManager cm= CustomerManager.getInstance();
-
-
-        
-        
-    	////////////////////////////////////////////////////////////////////////////////////////////
-        
-        // Still editing
-        // Must pass control over to other managers
-        // Do not keep the checking within here, only keep the logic
-        // How should we handle scanners? Pass it on and on or create in each class
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////
-		
+		int choice;		
 		
 		do {
             System.out.println(	"============== MOBLIMA CUSTOMER APP ================\n" +
@@ -50,10 +31,10 @@ public class CustomerApp {
             
             switch(choice){
                 case 1://view movie listings
-                	mm.viewMovies("Customer");
+                	MovieManager.getInstance().viewMovies("Customer");
                     break;
                 case 2://view top 5
-                	mm.viewTop5Cust();
+                	MovieManager.getInstance().viewTop5Cust();
                     break;
 
                 case 3:
@@ -71,10 +52,10 @@ public class CustomerApp {
                         
 	                	switch (subchoice) {
 	                	case 1:
-	                		cm.printPastBookingByEmail();
+	                		CustomerManager.getInstance().printPastBookingByEmail();
 	                		break;
 	                	case 2:
-	                		cm.printPastBookingByMobile();
+	                		CustomerManager.getInstance().printPastBookingByMobile();
 	                		break;
 	                	case 0:
 	                		System.out.println("Back to CustomerApp......");
