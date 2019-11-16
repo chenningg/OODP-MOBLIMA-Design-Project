@@ -87,8 +87,15 @@ class MovieManager {
                 choice = sc.nextInt();
                 switch (choice) {
                     case 1:
-                        List<Movie> movieList = new ArrayList<>(movies.values());
-                        this.selectMovie(movieList,appType);
+                        List<Movie> allMovies = new ArrayList<Movie>();
+                        for(Map.Entry<String,Movie> entry : movies.entrySet()){
+                            if(entry.getValue().getShowingStatus().equalsString("COMING_SOON")||
+                                    entry.getValue().getShowingStatus().equalsString("PREVIEW")||
+                                    entry.getValue().getShowingStatus().equalsString("NOW_SHOWING")){
+                                allMovies.add(entry.getValue());
+                            }
+                        }
+                        this.selectMovie(allMovies,appType);
                         break;
                     case 2:
                         List<Movie> comingSoon = new ArrayList<Movie>();
