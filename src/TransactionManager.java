@@ -54,6 +54,7 @@ public class TransactionManager implements ResetSelf, Serializable {
 			System.out.println("Please select a choice:");	
     		
     		choice = sc.nextInt();
+    		sc.nextLine();
     		
     		switch (choice) {
     			case 0: // Exit
