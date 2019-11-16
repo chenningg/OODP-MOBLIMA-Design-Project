@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public class Movie implements Serializable{
     private double totalReviewScore;
     private ShowingStatus showingStatus;
     private LocalDate releaseDate;
-    private long ticketsSold;
-    private double grossProfit;
+    private long ticketsSold = 0;
+    private double grossProfit = 0.0;
     private List<String> showtimeIDs;
-    
+
 
     // Constructor
     public Movie(){
@@ -137,9 +136,17 @@ public class Movie implements Serializable{
         this.reviews.add(reviewID);
     }
     
+    public void removeMovieReview(String reviewID) {
+    	int i;
+    	
+    	for (i=0;i<this.getReviews().size(); i++)
+    		if (this.getReviews().get(i).equals(reviewID)) {
+    			this.reviews.remove(i);
+    		}
+    }
+    
     public void addShowtimeID(String showtimeID) {
     	this.showtimeIDs.add(showtimeID);
     }
 
-    
 }
