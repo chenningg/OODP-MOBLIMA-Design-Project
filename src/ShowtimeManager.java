@@ -53,16 +53,17 @@ public class ShowtimeManager {
         // displays showtimes to users
 
         do {
-            System.out.println("These are some details for the showtimes you are looking for: ");
+            System.out.println("These is the list of relevant showtimes: ");
             int j;
             if (relevantShowtimes.size() == 0) {
                 System.out.println("No showtimes found");
             }
             else {
                 for (j = 0; j < relevantShowtimes.size(); j++) {
-                    System.out.println("Showtime " + (j + 1) + ": showtimeID = " + relevantShowtimes.get(j).getShowtimeID());
-                    System.out.println(relevantShowtimes.get(j).getCineplexName() + ", Cinema " + relevantShowtimes.get(j).getCinema().getCinemaID() + ", Hall No. " + relevantShowtimes.get(j).getCinema().getHallNo());
-                    System.out.println("Movie Format: " + relevantShowtimes.get(j).getMovieFormat() + "          Date/Time: " + relevantShowtimes.get(j).getDateTime());
+                	System.out.println("");
+                    System.out.println((j + 1) + ".          " + relevantShowtimes.get(j).getCineplexName() + ", Cinema " + relevantShowtimes.get(j).getCinema().getCinemaID() + ", Hall No. " + relevantShowtimes.get(j).getCinema().getHallNo());
+                    System.out.println("            " + "Movie Format: " + relevantShowtimes.get(j).getMovieFormat() + "          Date/Time: " + relevantShowtimes.get(j).getDateTime());
+                    System.out.println("");
                 }
             }
 
