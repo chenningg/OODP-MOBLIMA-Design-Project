@@ -80,15 +80,14 @@ public class Cinema implements Cloneable, Serializable {
 
 	
 	// Setters
-	public void setCinemaID(String cinmaID) {this.cinemaID = cinmaID;}
+	public void setCinemaID(String cinemaID) {this.cinemaID = cinemaID;}
 	public void setHallNo(int hallNo) {this.hallNo = hallNo;}
 	public void setCinemaType(CinemaType cinemaType) {this.cinemaType = cinemaType;}
 	public void setTotalSeatNo(int totalSeatNo) {this.totalSeatNo = totalSeatNo;}
 	public void setOccupiedSeatsNo(int occupiedSeatsNo) {this.occupiedSeatsNo = occupiedSeatsNo;}
 	public void setCinemaLayout(List<String> list) {this.cinemaLayout = list;}
 	
-
-	
+  
 	// Initializers: Below code used only for the very first run of the app
     // File Reader
 

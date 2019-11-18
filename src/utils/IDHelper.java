@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Helps generate latest ID available so no overlap of ID exists.
+ */
 public class IDHelper {
 	public static String getLatestID(String fileName) {
 	    	
