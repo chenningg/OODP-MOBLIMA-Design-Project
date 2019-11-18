@@ -93,6 +93,12 @@ public class ReviewManager {
             System.out.println("DateTime: " + review.getreviewDateTime().format(formatter));
             System.out.println("");
             System.out.println("Enter choice: ");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+            
             choice = sc.nextInt();
         
             switch (choice) {
@@ -131,6 +137,11 @@ public class ReviewManager {
     	do {
         	System.out.println("Which review would you like to delete? Input 0 to go back to MovieChoices");
         	
+        	while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+        	
         	choice = sc.nextInt();
         	
         	if (choice == 0) {
@@ -166,6 +177,12 @@ public class ReviewManager {
                                 "=========================================================");
 
             System.out.println("Enter choice: ");
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+            
             choice = sc.nextInt();
             sc.nextLine();
             
