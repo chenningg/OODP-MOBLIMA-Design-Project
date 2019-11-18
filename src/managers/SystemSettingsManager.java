@@ -5,6 +5,7 @@ import utils.ProjectRootPathFinder;
 import utils.SerializerHelper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class SystemSettingsManager {
@@ -90,8 +91,13 @@ public class SystemSettingsManager {
 	                " 4. Delete Setting                                        \n"+
 	                " 0. Back to StaffApp                                      \n"+
 							   "==========================================================");
-			System.out.println("Enter choice: ");			
+			System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 			
 			switch (choice) {
 				case 1:
@@ -141,7 +147,12 @@ public class SystemSettingsManager {
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"===========================================================");
 			System.out.println("Enter choice:");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -191,8 +202,13 @@ public class SystemSettingsManager {
 			        		   	" 1. New Holiday Reference                                 \n"+
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"===========================================================");
-			System.out.println("Enter choice: ");			
+			System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -200,7 +216,11 @@ public class SystemSettingsManager {
 					String newHolidayName;
 					
 					System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
-					newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					newHolidayDate = this.dateParser(sc.nextLine());
+					while (newHolidayDate == null) {
+						System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
+						newHolidayDate = this.dateParser(sc.nextLine());
+					}
 					
 					System.out.println("Enter name of holiday: ");
 					newHolidayName = sc.next().toUpperCase();
@@ -237,8 +257,13 @@ public class SystemSettingsManager {
 				                " 7. Default Prices                                        \n"+
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"============================================================");
-			System.out.println("Enter choice: ");			
+			System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -247,8 +272,11 @@ public class SystemSettingsManager {
 					String newHolidayName;
 					
 					System.out.println("Enter date of holiday you want to change in format YYYY-MM-DD: ");
-					newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-					
+					newHolidayDate = this.dateParser(sc.next());
+					while (newHolidayDate == null) {
+						System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
+						newHolidayDate = this.dateParser(sc.nextLine());
+					}
 					System.out.println("Enter new name of holiday: ");
 					newHolidayName = sc.next().toUpperCase();
 					
@@ -264,6 +292,10 @@ public class SystemSettingsManager {
 					newMovieFormatName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newMovieFormatModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("movieFormat$", newMovieFormatName, newMovieFormatModifier);
@@ -278,6 +310,10 @@ public class SystemSettingsManager {
 					newTicketTypeName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newTicketTypeModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("ticketType$", newTicketTypeName, newTicketTypeModifier);
@@ -292,6 +328,10 @@ public class SystemSettingsManager {
 					newCinemaTypeName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newCinemaTypeModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("cinemaType$", newCinemaTypeName, newCinemaTypeModifier);	
@@ -306,6 +346,10 @@ public class SystemSettingsManager {
 					newDayOfWeekName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newDayOfWeekModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("dayOfWeek$", newDayOfWeekName, newDayOfWeekModifier);	
@@ -316,6 +360,10 @@ public class SystemSettingsManager {
 					double newHolidayModifier;
 					
 					System.out.println("Enter new price modifier for holidays: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newHolidayModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("holiday$", "HOLIDAY", newHolidayModifier);	
@@ -330,6 +378,10 @@ public class SystemSettingsManager {
 					newDefaultName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new default price: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newDefaultModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("default$", newDefaultName, newDefaultModifier);	
@@ -360,7 +412,12 @@ public class SystemSettingsManager {
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"============================================================");
 	        System.out.println("Enter choice:");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -373,8 +430,11 @@ public class SystemSettingsManager {
 						LocalDate newHolidayDate;
 						
 						System.out.println("Enter date of holiday you want to delete in format YYYY-MM-DD: ");
-						newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-						
+						newHolidayDate = this.dateParser(sc.next());
+						while (newHolidayDate == null) {
+							System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
+							newHolidayDate = this.dateParser(sc.nextLine());
+						}
 						this.systemSettings.deleteSetting("holidayReference", newHolidayDate);
 						this.systemSettings.viewSetting("holidayReference");
 						break;
@@ -409,5 +469,22 @@ public class SystemSettingsManager {
 	private SystemSettings load() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		return (SystemSettings) SerializerHelper.deSerializeObject(filePath);
+	}
+
+	/**
+	 * Helper function to parse date.
+	 * @param dateString date in string
+	 * @return date object.
+	 */
+	private LocalDate dateParser(String dateString) {
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date = LocalDate.parse(dateString, formatter);
+			return date;
+		}
+		catch (DateTimeParseException dtpe) {
+			System.out.println("Wrong date format entered!");
+			return null;
+		}
 	}
 }

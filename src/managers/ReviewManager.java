@@ -100,6 +100,10 @@ public class ReviewManager {
         review.setReviewBody(sc.nextLine());
         
         System.out.println("Enter a movie score between 0-5: ");
+        while(!sc.hasNextInt()) {
+            System.out.println("Please enter a number!");
+            sc.next();
+        }
         review.setScore(sc.nextDouble());
         
         review.setReviewDateTime(LocalDateTime.now());
@@ -122,6 +126,10 @@ public class ReviewManager {
             System.out.println("DateTime: " + review.getreviewDateTime().format(formatter));
             System.out.println("");
             System.out.println("Enter choice: ");
+            while(!sc.hasNextInt()) {
+                System.out.println("Please enter a number!");
+                sc.next();
+            }
             choice = sc.nextInt();
         
             switch (choice) {
@@ -164,7 +172,11 @@ public class ReviewManager {
     	
     	do {
         	System.out.println("Which review would you like to delete? Input 0 to go back to MovieChoices");
-        	
+
+            while(!sc.hasNextInt()) {
+                System.out.println("Please enter a number!");
+                sc.next();
+            }
         	choice = sc.nextInt();
         	
         	if (choice == 0) {
@@ -205,6 +217,10 @@ public class ReviewManager {
                                 "=========================================================");
 
             System.out.println("Enter choice: ");
+            while(!sc.hasNextInt()) {
+                System.out.println("Please enter a number!");
+                sc.next();
+            }
             choice = sc.nextInt();
             sc.nextLine();
             
@@ -223,6 +239,10 @@ public class ReviewManager {
             	break;
             case 4: 
                 System.out.println("Enter a movie score between 0-5: ");
+                while(!sc.hasNextInt()) {
+                    System.out.println("Please enter a number!");
+                    sc.next();
+                }
                 review.setScore(sc.nextDouble());   
             	break;
             case 0:
