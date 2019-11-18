@@ -14,18 +14,28 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Initialises data by reading in text files
+ */
 public class DataInitialiser {
-		
-	// Loads all text files in the specified folder and returns the list of files
+
+	/**
+	 * Loads all text files in the specified folder and returns the list of files
+	 * @param folderPath Folder path to be accessed.
+	 * @return Returns list of all files in folder.
+	 */
 	public File[] getAllFiles(String folderPath) {
 		
 		// Finds folder and gets a list of all files in folder
 		File directory = new File(folderPath);
 		return(directory.listFiles());
 	}
-	
-	
-	// Initialize movie data
+
+	/**
+	 * Initialize movie data
+	 * @param basePath Directory and path to find movie files
+	 * @return Return reference to movies for showtime use.
+	 */
 	public List<Movie> initialiseMovieData(String basePath) {
 		
 		String folderPath = basePath + "/movies";
@@ -131,9 +141,13 @@ public class DataInitialiser {
 		// Return a reference to movies for showtime use
 		return movies;
 	}
-	
-	
-	// Initialize showtime data
+
+	/**
+	 * Initialize showtime data
+	 * @param movies List of movies.
+	 * @param basePath Path to find folder.
+	 * @return Returns list of movies with showtime intialized.
+	 */
 	public List<Movie> initialiseShowtimeData(List<Movie> movies, String basePath) {
 		
 		String folderPath = basePath + "/showtimes";
@@ -245,9 +259,13 @@ public class DataInitialiser {
 
 		return movies;
 	}
-	
-	
-	// Initialize review data
+
+	/**
+	 * Initialize review data
+	 * @param movies List of Movies.
+	 * @param basePath Path to find review data.
+	 * @return Returns list of movies with reviews initialised.
+	 */
 	public List<Movie> initialiseReviewData(List<Movie> movies, String basePath) {
 		
 		String folderPath = basePath + "/reviews";
@@ -331,8 +349,13 @@ public class DataInitialiser {
 		
 		return movies;
 	}
-	
-	
+
+	/**
+	 * Intitalise Cinema data.
+	 * @param cinemaID Cinema ID to be initialised.
+	 * @param filePath Path to find Cinema files.
+	 * @return Returns Cinema after initialisation.
+	 */
 	public Cinema initialiseCinemaData(String cinemaID, String filePath) {
 		Cinema newCinema = new Cinema(cinemaID);
 		
@@ -392,12 +415,17 @@ public class DataInitialiser {
 		return newCinema;
     }
 
+	/**
+	 * Intialises system settings
+	 */
 	public void initialiseSystemFiles() {
 		CompanyManager.getInstance();
 		SystemSettingsManager.getInstance();
 	}
 
-
+	/**
+	 * Resets all datafiles
+	 */
 	public void resetAllData() {
 		// Initialise data		
 		this.resetFolders("movies");
@@ -417,6 +445,10 @@ public class DataInitialiser {
 		System.out.println("All data reset");
 	}
 
+	/**
+	 * Method to reset files
+	 * @param fileName Name of file to be resetted.
+	 */
 	public void resetFiles(String fileName) {
 		String root = ProjectRootPathFinder.findProjectRootPath();
 
@@ -433,8 +465,11 @@ public class DataInitialiser {
 		    if (!file.isDirectory()) 
 		        file.delete();
 	}
-	
 
+	/**
+	 * Reset ID for files created.
+	 * @param fileName Name of file to reset ID.
+	 */
 	public void resetID(String fileName) {
 		BufferedWriter bw = null;
 		String root = ProjectRootPathFinder.findProjectRootPath();
@@ -466,6 +501,9 @@ public class DataInitialiser {
 	}
 }
 
+/**
+ * Main argument to reset all data.
+ */
 class Reset {
 	public static void main(String[] args) {
 

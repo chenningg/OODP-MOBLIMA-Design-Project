@@ -2,11 +2,18 @@ package movie_entities;
 
 import java.io.Serializable;
 
+/**
+ * Ticket purchased by customer.
+ */
 public class Ticket implements Serializable {
     private TicketType ticketType;
     private Double ticketPrice;
     private String seatID;
 
+    /**
+     * Assigns type of ticket to ticket.
+     * @param ticketType Type of ticket. (e.g STANDARD,SENIOR)
+     */
     // Constructor
     public Ticket(TicketType ticketType) {
     	this.ticketType = ticketType;

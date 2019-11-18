@@ -16,21 +16,40 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+/**
+ * Manages showtimes.
+ */
 public class ShowtimeManager {
 	// Attributes
     // HashMap of showtimeID to showtime object
+    /**
+     * A HashMap mapping a String showtimeID to a Showtime object.
+     */
 	private Map <String, Showtime> showtimes = new HashMap<String, Showtime>();
 
 	private Scanner sc = new Scanner(System.in);
 
+    /**
+     * single_instance tracks whether ShowtimeManager has been instantiated before.
+     */
     private static ShowtimeManager single_instance = null;
 
+    /**
+     * Instantiates the ShowtimeManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of ShowtimeManager.
+     */
     public static ShowtimeManager getInstance()
     {
         if (single_instance == null)
             single_instance = new ShowtimeManager();
         return single_instance;
     }
+
+    /**
+     * Constructor of the ShowtimeManager. It will first try to load a serialized file of the class Showtime from
+     * the "database". If it fails, it will create the showtimes from the data files that we have preloaded
+     */
     private ShowtimeManager() {
         Map <String, Showtime> showtimeMap = this.load();
         if (showtimeMap != null) {
@@ -39,21 +58,17 @@ public class ShowtimeManager {
     }
 
 
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Still editing
-    // Must pass control over to other managers
-    // Do not keep the checking within here, only keep the logic
-    // How should we handle scanners? Pass it on and on or create in each class
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
     // Public exposed methods to app
-    public void getMovieShowtimes(String movieID, String appType) {
+
+    /**
+     * Retrieves a list of relevant showtimes pertaining to a specific movie. If relevant showtimes are found,
+     * they are printed to the user's console. Staff members are then able to update, remove or create new showtimes.
+     * Meanwhile, customers can view details or make a booking.
+     * @param movieID takes in a String movieID that identifies a particular movie.
+     * @param appType specifies different access levels, whether staff or customer. Depending on appType,
+     *                different menus are shown to the user.
+     */
+    void getMovieShowtimes(String movieID, String appType) {
         List<String> relevantShowtimeIDs = MovieManager.getInstance().getMoviebyID(movieID).getShowtimeIDs();
         List<Showtime> relevantShowtimes = new ArrayList<Showtime>();
         for (String showtimeID : relevantShowtimeIDs) {
@@ -61,7 +76,7 @@ public class ShowtimeManager {
             relevantShowtimes.add(showtime);
         }
 
-        int choice; // required to initialise
+        int choice;
         // displays showtimes to users
 
         do {
@@ -189,6 +204,12 @@ public class ShowtimeManager {
         } while (choice != 0);
     }
 
+    /**
+     * Sub-menu for customers that allow them to view details of a movie or book a showtime.
+     * Menu choices will call upon other methods.
+     * @param selectedShowtimeID provides an identifier for other method calls. Ensures that other method calls
+     *                           perform actions for that particular showtime.
+     */
     private void showtimeMenuCustomer(String selectedShowtimeID) {
         int choice;
 
@@ -228,6 +249,12 @@ public class ShowtimeManager {
         }
     }
 
+    /**
+     * Sub-menu for staff that allow them to view or edit details for a showtime. They can also remove a showtime.
+     * Menu choices will call upon other methods.
+     * @param showtimeID provides an identifier for other method calls. Ensures that other method calls
+     *                   perform actions for that particular showtime.
+     */
     private void showtimeMenuStaff(String showtimeID) {
         int choice;
 
@@ -266,6 +293,10 @@ public class ShowtimeManager {
     }
 
 
+    /**
+     * Prints out showtime details to the console.
+     * @param selectedShowtimeID is an identifier to find a specific showtime.
+     */
     private void viewShowtime(String selectedShowtimeID) {
         Showtime selectedShowtime = this.showtimes.get(selectedShowtimeID);
         DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd MMM yyyy, hh.mma");
@@ -281,6 +312,11 @@ public class ShowtimeManager {
         selectedShowtime.getCinema().printCinemaLayout();
     }
 
+    /**
+     * Allows staff member to update the attributes of a specific showtime. This updated showtime
+     * is updated in the hashmap and serialized again.
+     * @param showtimeID identifies a specific showtime to be accessed.
+     */
     private void updateShowtime(String showtimeID) {
         int choice;
         Showtime showtimeToUpdate = this.showtimes.get(showtimeID);
@@ -366,6 +402,12 @@ public class ShowtimeManager {
         }
     }
 
+    /**
+     * Creates a new Showtime object. Staff members are then prompted to enter the attributes of the showtime object.
+     * Newly created Showtime is added to hashmap and serialized.
+     * @param movieID identifies the Movie for which Showtime is added.
+     * @return Showtime object to the caller.
+     */
     private Showtime createShowtime(String movieID) {
         String showtimeID = IDHelper.getLatestID("showtime");
         String cinemaID;
@@ -443,7 +485,13 @@ public class ShowtimeManager {
         return showtime;
     }
 
-    public void deleteShowtime(String showtimeID) {
+    /**
+     * If a valid showtimeID was entered, its status is set to SOLD_OUT and is no longer visible to customers.
+     * This change is then updated and the Showtime object is re-serialized.
+     * Otherwise, users will be informed that the Showtime does not exist.
+     * @param showtimeID identifies the unique showtime to be accessed.
+     */
+    private void deleteShowtime(String showtimeID) {
         Showtime foundShowtime = this.showtimes.get(showtimeID);
         if (foundShowtime != null) {
             foundShowtime.setCinemaStatus(CinemaStatus.SOLD_OUT);
@@ -455,15 +503,19 @@ public class ShowtimeManager {
         }
     }
 
-    public Showtime findShowtime(String showtimeID) {
-        Showtime showtime = (Showtime) this.showtimes.get(showtimeID);
-        return showtime;
+    /**
+     * Helper method that returns a Showtime object given its unique showtimeID.
+     * @param showtimeID identifies specific Showtime object.
+     * @return Showtime object found.
+     */
+    private Showtime findShowtime(String showtimeID) {
+        return this.showtimes.get(showtimeID);
     }
 
-    /***
-     * Helper function to parse string to datetime
-     * @param dateTimeString string to be parsed
-     * @return DateTime object
+    /**
+     * Helper function to parse string to DateTime object.
+     * @param dateTimeString string to be parsed.
+     * @return LocalDateTime object.
      */
     private LocalDateTime dateTimeParser(String dateTimeString) {
         try {
@@ -477,6 +529,11 @@ public class ShowtimeManager {
         }
     }
 
+    /**
+     * Helper function to ensure that Enum entered is valid and does not crash the program.
+     * @param cinemaStatus String of the cinema status.
+     * @return boolean of whether cinemaStatus matches a valid enum.
+     */
     private boolean cinemaStatusValidator(String cinemaStatus) {
         try {
             CinemaStatus cinemaStatusEnum = CinemaStatus.valueOf(cinemaStatus);
@@ -488,6 +545,11 @@ public class ShowtimeManager {
         }
     }
 
+    /**
+     * Helper function to ensure that Enum entered is valid and does not crash the program.
+     * @param movieFormat String of the movie format.
+     * @return boolean of whether movieFormat matches a valid enum.
+     */
     private boolean movieFormatValidator(String movieFormat) {
         try {
             MovieFormat movieFormatEnum = MovieFormat.valueOf(movieFormat);
@@ -501,6 +563,11 @@ public class ShowtimeManager {
 
 	// Private Serialization and Deserialization
 
+    /**
+     * Helper function that deserializes showtime files stored in our "database", and adds it to a hashmap.
+     * @return HashMap that is used by the ShowtimeManager constructor to load the showtime files to its
+     *         HashMap attribute.
+     */
     private Map <String, Showtime> load() {
         Map <String, Showtime> loadedShowtimes = new HashMap<String, Showtime>();
         File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes");
@@ -518,8 +585,13 @@ public class ShowtimeManager {
         return loadedShowtimes;
     }
 
-    public void save(Object objectToSave, String showtimeID) {
+    /**
+     * Serializes a Showtime object to a .dat file.
+     * @param showtimeToSave is the Showtime object that is serialized.
+     * @param showtimeID specifies the filename of the serialized object.
+     */
+    void save(Showtime showtimeToSave, String showtimeID) {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/showtimes/showtime_" + showtimeID + ".dat";
-        SerializerHelper.serializeObject(objectToSave, filepath);
+        SerializerHelper.serializeObject(showtimeToSave, filepath);
     }
 }

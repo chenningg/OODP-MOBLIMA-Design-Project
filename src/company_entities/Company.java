@@ -5,14 +5,30 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Overarching entity that manages the cineplexes.
+ */
 public class Company implements Serializable {
 	// Attributes
+	/**
+	 * Company name.
+	 */
     private String companyName;
-    private List<Cineplex> cineplexes;
+	/**
+	 * List of cineplex objects that are owned by the company.
+	 */
+	private List<Cineplex> cineplexes;
+	/**
+	 * List of IDs of the cineplexes owned by the company.
+	 */
     private List<String> cineplexNames;
     
     
     // Constructor
+
+	/**
+	 * Constructor for the company. Reads from text file details about the company.
+	 */
 	public Company(){
     	this.cineplexes = new ArrayList<Cineplex>();
     	this.cineplexNames = new ArrayList<String>();
@@ -30,8 +46,12 @@ public class Company implements Serializable {
     public void setCompanyName(String companyName){
 		this.companyName = companyName;
     }
-    
-    public void addCineplexes(String cineplexName){
+
+	/**
+	 * Add cineplex to the array list of cineplexes.
+	 * @param cineplexName of cineplex to be added. Cineplex object will be constructed based on the name.
+	 */
+	public void addCineplexes(String cineplexName){
     	Cineplex cineplex = new Cineplex(cineplexName);
     	this.cineplexes.add(cineplex); 
     	this.cineplexNames.add(cineplex.getCineplexName());
@@ -50,7 +70,11 @@ public class Company implements Serializable {
     
 	// Initializers: Below code used only for the very first run of the app
     // File Reader
-    public void openCompanyFile() {
+
+	/**
+	 * Reads information about company from text file in our "database".
+	 */
+    private void openCompanyFile() {
 		try {
 			// Get filepath
 			String filePath = ProjectRootPathFinder.findProjectRootPath();

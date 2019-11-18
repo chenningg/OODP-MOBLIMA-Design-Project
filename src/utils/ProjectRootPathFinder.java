@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Helps find root path of files.
+ */
 public class ProjectRootPathFinder {
 	public static String findProjectRootPath() {
 		try {

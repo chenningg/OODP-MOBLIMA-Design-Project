@@ -2,7 +2,15 @@ package utils;
 
 import java.io.*;
 
+/**
+ * Assists in serializing objects.
+ */
 public class SerializerHelper {
+    /**
+     * Serializes object to a filename.dat file.
+     * @param object to be serialized.
+     * @param filename to save the object as.
+     */
     public static void serializeObject(Object object, String filename) {
         try {
             FileOutputStream fileOut = new FileOutputStream(filename);
@@ -17,6 +25,11 @@ public class SerializerHelper {
         }
     }
 
+    /**
+     * To deserialize an object from filename.dat.
+     * @param filename of object to be deserialized.
+     * @return deserialized object.
+     */
     public static Object deSerializeObject(String filename) {
         try {
             FileInputStream fileInputStream = new FileInputStream(filename);
