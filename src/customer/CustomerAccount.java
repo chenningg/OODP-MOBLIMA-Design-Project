@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Customer account holding customer details.
+ */
 public class CustomerAccount implements Serializable{
 	// Attributes
 	/**

@@ -68,7 +68,7 @@ public class MovieManager {
 
             System.out.println("Enter choice: ");
             while(!sc.hasNextInt()) {
-                System.out.println("Please enter a number!");
+                System.out.println("Invalid input type. Please choose a choice from 0-3");
                 sc.next();
             }
             choice = sc.nextInt();
@@ -266,7 +266,7 @@ public class MovieManager {
                 System.out.println("Enter choice: ");
                 
                 while (!sc.hasNextInt()) {
-            		System.out.println("Invalid input type. Please choose a choice from 0-4.");
+            		System.out.println("Invalid input type. Please choose a choice from 0-5.");
             		sc.next(); // Remove newline character
             	}
                 choice = sc.nextInt();
@@ -328,7 +328,7 @@ public class MovieManager {
                     	System.out.println("Back to Movie Listings......");
                         break;
                     default:
-                        System.out.println("Please enter a number between 0-2");
+                        System.out.println("Please enter a number between 0-3");
                         break;
                 }
             } while(choice != 0);
@@ -343,6 +343,7 @@ public class MovieManager {
      */
     private void searchMovies(String appType){
         System.out.println("Please enter a search term: ");
+        sc.nextLine();
         String movieTitle = sc.nextLine();
         List<Movie> foundMovies = new ArrayList<>();
         String lowerCaseName = movieTitle.toLowerCase();
@@ -784,7 +785,7 @@ public class MovieManager {
                     System.out.println("End of edit");
                     break;
                 default:
-                    System.out.println("Please enter a number from 1-11: ");
+                    System.out.println("Please enter a number from 0-10: ");
             }
         } while (choice != 0);
 
