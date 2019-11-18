@@ -1,27 +1,17 @@
-# OODP MOBLIMA Design Project
- **Group members:** Shaun, Reuben, Chen Ning, John, Chuan Xin
- 
-Object Oriented Design Programming Course Project for NTU REP Year 2 2019, wherein we have to create a Movie Booking console application applying OODP principles.
- 
-## Contributing to the project
+Welcome to our MOBLIMA app.
 
-**READ THE FOLLOWING BEFORE MAKING ANY CHANGES.**
+The class where you can start the MOBLIMA app is called DriverApp under src/boundaries package. It has a main class that when run, 
+starts up the app and brings you to the first menu. Reviews can be accessed after you have selected a movie. You have to make a booking
+before you can check booking history. Showtimes on both Staff and Customer side can be accessed after accessing the movie you want to
+view/edit/add/remove the showtime for.
 
-1. Ensure that you have fetched **AND** pulled the latest master branch into your local repository before making changes.
-2. After pulling in the latest repository, you want to make changes on a separate branch so it doesn't affect the origin (master) branch. Select **Current branch -> New branch**. Name it whatever you want. You will now be working within your own branch and can make all your changes there.
-3. Make any changes to your local repository as required. **DO NOT DELETE, CUT OR COPY ANY FOLDERS/FILES.** You should only create new files.
-4. When committing changes, **please check the changes list to ensure that the changes are correct.** Commit your changes to your newly created branch that you are working in.
-5. Push your commits to the new branch.
-6. Submit a pull request to the master branch (it should pop up after you commit to the new branch).
-7. After approval and review, your pull request will be accepted into the master branch.
+Our StaffAccount for your use has Username: User1 (case-sensitive) and the Password: 123
 
-## Updating your own branch
-1. To update your branch from the master branch, select **Branch -> Update from master**. This will commit any updates from master into your current branch.
-2. Thereafter, push the commits from master to your own branch. Your branch is now up to date with the master branch.
+In any menu selection, enter 0 in order to return to the previous menu.
 
+The preexisting data is already initialised, but if there are any loading issues, please go to the DataInitialiser under the src/utils 
+package and run that class (using Run Configurations if you have to). It will throw out filenotfound errors and exceptions but we have dealt with them and they do not cause errors
+within the program. If you want to reset the data, please do run DataInitialiser.
 
-## Important notes
-
-- If it's your first time contributing, make sure to pull and fetch from the master branch before commiting anything.
-- DO NOT pull from the master branch if you have changes on your local repository. All your changes will be lost. Instead, push all your changes to a new branch and submit a pull request.
-- If you want to make further changes BEFORE the master branch is updated, make a new branch of your pending branch and work from there.
+We have initialised a company, the 3 cineplexes, 9 cinemas, 9 movies and a number of showtimes and reviews such that our app has full
+capabilities when started up.
