@@ -7,6 +7,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+/**
+ * This is the SystemSettingsManager. It will interface with the system settings to perfomr CRUD operations.
+ * It will also allow external managers to access its methods to modify ticket prices
+ *
+ */
 public class SystemSettingsManager {
 	// Attributes
 	/**

@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This is the ReviewManager. It will handle all review related issues like adding new reviews or viewing reviews
+ *
+ */
 public class ReviewManager {
 	// Attributes
     private Scanner sc = new Scanner(System.in);

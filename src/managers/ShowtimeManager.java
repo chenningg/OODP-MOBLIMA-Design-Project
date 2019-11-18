@@ -17,7 +17,8 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 /**
- * Manages showtimes.
+ * This is the ShowtimeManager. It will manage all the showtimes that a booking has. 
+ * It will also allow the staff to create or edit or delete a showtime
  */
 public class ShowtimeManager {
 	// Attributes

@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This is the booking manager. It will interface with all booking related issues
+ * The booking manager is the central control class for all booking related issues, and will interact with every other manager to coordinate
+ */
 public class BookingManager implements ResetSelf {
     // Attributes
 	/**
