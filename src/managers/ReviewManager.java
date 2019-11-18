@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This is the ReviewManager. It will handle all review related issues like adding new reviews or viewing reviews
+ *
+ */
 public class ReviewManager {
 	// Attributes
     private Scanner sc = new Scanner(System.in);
@@ -126,11 +130,14 @@ public class ReviewManager {
             System.out.println("DateTime: " + review.getreviewDateTime().format(formatter));
             System.out.println("");
             System.out.println("Enter choice: ");
-            while(!sc.hasNextInt()) {
-                System.out.println("Please enter a number!");
-                sc.next();
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
             }
+            
             choice = sc.nextInt();
+            sc.nextLine();
         
             switch (choice) {
             case 1:
@@ -172,11 +179,12 @@ public class ReviewManager {
     	
     	do {
         	System.out.println("Which review would you like to delete? Input 0 to go back to MovieChoices");
-
-            while(!sc.hasNextInt()) {
-                System.out.println("Please enter a number!");
-                sc.next();
+        	
+        	while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
             }
+        	
         	choice = sc.nextInt();
         	
         	if (choice == 0) {
@@ -217,10 +225,12 @@ public class ReviewManager {
                                 "=========================================================");
 
             System.out.println("Enter choice: ");
-            while(!sc.hasNextInt()) {
-                System.out.println("Please enter a number!");
-                sc.next();
+            
+            while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
             }
+            
             choice = sc.nextInt();
             sc.nextLine();
             

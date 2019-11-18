@@ -13,6 +13,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.time.format.TextStyle;
 
+/**
+ * This is the TicketManager. It will handle the ticket booking for the customer 
+ *
+ */
 public class TicketManager implements ResetSelf {
 	// Attributes
 	/**

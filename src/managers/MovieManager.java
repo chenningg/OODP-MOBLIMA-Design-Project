@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- * Manages movies
+ * This is the MovieManager. Will take charge of all the CRUD functions related to a movie
+ * Also takes charge of the movie listings, the functions that will allow a customer to make a booking
  */
 public class MovieManager {
 
