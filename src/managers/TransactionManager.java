@@ -11,6 +11,10 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * This is the TransactionManager. It will handle transaction related information once the entire booking has been confirmed
+ *
+ */
 public class TransactionManager implements ResetSelf {
 	/**
 	 * This is the current transaction object being created

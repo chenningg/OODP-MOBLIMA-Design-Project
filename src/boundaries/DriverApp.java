@@ -21,6 +21,12 @@ public class DriverApp {
 							   "===========================================================");
 		
 	        System.out.println("Enter choice: ");
+	        
+	        while (!sc.hasNextInt()) {
+            	System.out.println("Invalid input type. Please enter an integer value.");
+        		sc.next(); // Remove newline character
+            }
+	        
 	        choice = sc.nextInt();
 	        
 	        switch (choice) {

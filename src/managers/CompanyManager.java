@@ -8,6 +8,10 @@ import utils.SerializerHelper;
 
 import java.util.ArrayList;
 
+/**
+ * This is the company manager. It will interface with all company related issues
+ * Company will be the entity that holds 3 cineplexes, each holding 3 cinemas
+ */
 public class CompanyManager {
 	// Attributes
 	/**
