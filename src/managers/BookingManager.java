@@ -12,24 +12,57 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BookingManager implements ResetSelf {
-    // Variables
+    // Attributes
+	/**
+	 * This is the current seating plan of the cinema being booked
+	 */
     private List<String> seatingPlan;
+    
+    /**
+     * This is the currently selected seats
+     */
     private List<String> selectedSeats = new ArrayList<String>();
-    private HashMap<Integer, Integer> colChecker = new HashMap<Integer, Integer>(); // Checks for seat's columns and stores them. SEAT COL : INDEX in string
-    private HashMap<Character, ArrayList<Integer>> rowChecker = new HashMap<Character, ArrayList<Integer>>(); // Checks if a seat has been booked in a specific row
-    private Scanner sc = new Scanner(System.in);
+    
+    /**
+     * Checks for seat's columns and stores them. SEAT COL : INDEX in string
+     */
+    private HashMap<Integer, Integer> colChecker = new HashMap<Integer, Integer>(); 
+    
+    /**
+     * Checks if a seat has been booked in a specific row
+     */
+    private HashMap<Character, ArrayList<Integer>> rowChecker = new HashMap<Character, ArrayList<Integer>>();
+    
+    /**
+     * This is the current booking that is being filled up
+     */
     private Booking booking = null; // Current booking to make
+    
+    /**
+     * This is the current showtime that is being booked
+     */
     private Showtime showtime = null; // Current showtime selected
+    
+	/**
+	 * This is for loop control to exit the current transaction manager "window"
+	 */
     public Boolean exit = false;
     
+    private Scanner sc = new Scanner(System.in);
     
-    // Singleton & Constructor
+    
+    // Singleton
+	/**
+     * single_instance tracks whether BookingManager has been instantiated before.
+     */
  	private static BookingManager single_instance = null;
  	
- 	private BookingManager() {
- 		resetSelf();
- 	}
-	
+
+	/**
+     * Instantiates the BookingManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of BookingManager.
+     */
 	public static BookingManager getInstance()
 	{
 	    if (single_instance == null) {
@@ -39,9 +72,20 @@ public class BookingManager implements ResetSelf {
 	}
 	    
 	
-    // Methods
-
-    // Starts a booking by showing available seats and allows user to select seats based on a copy of showtime
+	// Constructor
+    /**
+     * Constructor of BookingManager. Resets itself to clear its current memory in preparation for a new booking
+     */
+ 	private BookingManager() {
+ 		resetSelf();
+ 	}
+	
+	
+    // Public exposed methods to app
+    /**
+     * Starts a booking by showing available seats and allows user to select seats based on a copy of showtime
+     * @param baseShowtime Showtime This is the original showtime object that is not going to be changed until the booking is finalized
+     */
     public void startSeatSelection(Showtime baseShowtime) {
     	// Create a deep copy of showtime seats so we don't affect the original until booking completes
     	setShowtime(baseShowtime); // Contain reference to selected showtime
@@ -145,9 +189,147 @@ public class BookingManager implements ResetSelf {
     	}
     }
     
+    /**
+     * Once booking is confirmed and payment is made, we raise an event to let other parts know to inject information into this booking
+     */
+    public void makeBooking() {
+    	// Since booking is confirmed, we update all selected seats to be confirmed seats (occupied)
+    	for (int i = 0; i < getSelectedSeats().size(); i++) {
+    		updateSeatingPlan(getSelectedSeats().get(i), "confirmSelection");
+    	}
+    	
+    	// We then update the current showtime REFERENCE with the new seating plan, and update the showtime fill status
+    	getShowtime().getCinema().setCinemaLayout(getSeatingPlan());
+    	getShowtime().updateCinemaStatus();
+    	
+    	// Save the new showtimes status
+    	ShowtimeManager.getInstance().save(getShowtime(), getShowtime().getShowtimeID());
+    	
+    	// We create a new booking and fill it up with the finalized information before storing it
+    	setBooking(new Booking());
+    	
+    	// We now fill up the booking's tickets, transactionID, bookerName, bookerMobileNo and bookerEmail
+    	// Note that this also resets both these Managers (calls their respective reset functions)
+    	// In these functions, we also update the movie's ticket sales and gross profits
+    	// These also store the transaction as a serialized object
+    	TicketManager.getInstance().confirmTicketSelection();
+    	TransactionManager.getInstance().confirmTransaction(); 	
+    	
+    	// Now we have to update the rest of booking: bookingID, movieName, hallNo and cineplexName
+    	
+    	// Update the booking with the showtime's date and time
+    	getBooking().setDateTime(getShowtime().getDateTime());
+    	
+    	// Update booking's movieName, cineplexName and hallNo
+    	getBooking().setMovieID(showtime.getMovieID());
+    	getBooking().setCineplexName(showtime.getCineplexName());
+    	getBooking().setHallNo(showtime.getCinema().getHallNo());
+    	
+    	// Finally, we can generate a unique ID for this booking
+    	getBooking().setBookingID(IDHelper.getLatestID("booking"));
+    	
+    	// We store the booking in our CustomerAccount
+    	CustomerManager.getInstance().storeBooking(getBooking().getBookingID());
+    	
+    	// Print confirmation
+    	System.out.println("Booking confirmed! Your booking details:");
+    	getBooking().displayBooking();
+    	System.out.println("You may want to print out a copy for your reference.");
+    	System.out.println("Returning back to main screen...");
+    	
+    	// We can then send this booking off to store as a serialized file
+    	String filePath = ProjectRootPathFinder.findProjectRootPath();
+    	filePath = filePath + "/data/bookings/booking_" + getBooking().getBookingID() + ".dat";
+    	
+    	SerializerHelper.serializeObject(getBooking(), filePath);
+    	   	
+    	// Finally, reset this instance and all instances
+    	TicketManager.getInstance().resetSelf();
+    	TransactionManager.getInstance().resetSelf(); 	
+    	resetSelf();
+    }
+    
+    /**
+     * Resets all variables of this singleton instance (e.g. if user presses back)
+     */
+    public void resetSelf() {
+    	setShowtime(null);
+		setBooking(null);
+		setSeatingPlan(null);
+    	getSelectedSeats().clear();
+		getRowChecker().clear();
+		getColChecker().clear();
+		exit = true;
+    }
+    
+    
+    // Getters
+    /**
+     * This gets the current showtime being booked
+     * @return Showtime
+     */
+	public Showtime getShowtime() {return showtime;}
+	
+	/**
+	 * This gets the current booking being booked
+	 * @return Booking
+	 */
+	public Booking getBooking() {return booking;}
+	
+	/**
+	 * This gets the current seating plan
+	 * @return List<String>
+	 */
+    public List<String> getSeatingPlan() {return seatingPlan;}
+    
+    /**
+     * This gets the current selected seats 
+     * @return List<String>
+     */
+	public List<String> getSelectedSeats() {return selectedSeats;}
+	
+	/**
+	 * This gets the row checker, see whether the row is valid or not
+	 * @return HashMap<Character, ArrayList<Integer>>
+	 */
+	public HashMap<Character, ArrayList<Integer>> getRowChecker() {return rowChecker;}
+	
+	/**
+	 * This gets the column checker, see whether the column is valid or not
+	 * @return HashMap<Character, ArrayList<Integer>>
+	 */
+	public HashMap<Integer, Integer> getColChecker() {return colChecker;}
+	
+    // Setters
+    /**
+     * This sets the current showtime that we are booking
+     * @param showtime The showtime that we want to book
+     */
+    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
+    
+    /**
+     * This sets the current booking that we are working with
+     * @param booking The booking that we want to book
+     */
+    public void setBooking(Booking booking) {this.booking = booking;}
+    
+    /**
+     * This sets the current seating plan that we are working with, which is visual only so we do not affect the underlying seating plan
+     * @param seatingPlan The seating plan that we want to display
+     */
+    public void setSeatingPlan(ArrayList<String> seatingPlan) {this.seatingPlan = seatingPlan;}
+    
+	
 
-	// Prints out seating plan in a nice manner upon being given a List of Strings
-    public void displaySeats(List<String> list) {
+    
+    
+    
+    // Private methods
+	/**
+	 * Prints out seating plan in a nice manner upon being given a List of Strings
+	 * @param list List<String> this is the layout of the cinema being booked
+	 */
+    private void displaySeats(List<String> list) {
     	char item;
     	String rowRef;
     	String[] symbols = {"0", "1", "S"}; // Symbols for seat status display
@@ -185,8 +367,12 @@ public class BookingManager implements ResetSelf {
     }
     
     
-    // Create a local deep copy of showtime's seats
-    public ArrayList<String> copySeatingPlan(List<String> list) {
+    /**
+     * Create a local deep copy of showtime's seats
+     * @param list List<String> This is the layout of the cinema being booked
+     * @return ArrayList<String> This is a new copy that will be visually updated without affected the actual booking object
+     */
+    private ArrayList<String> copySeatingPlan(List<String> list) {
     	ArrayList<String> seatsCopy = new ArrayList<String>();
     	int i = 0;
 		while (i < list.size()) {
@@ -197,8 +383,10 @@ public class BookingManager implements ResetSelf {
     }
     
     
-    // Add a seat selection. We need to check that all seats added are adjacent to each other, and are unoccupied.
-    public void addSeatSelection() {
+    /**
+     * Add a seat selection. We need to check that all seats added are adjacent to each other, and are unoccupied.
+     */
+    private void addSeatSelection() {
 		System.out.println("Please enter a seat selection (e.g. C6):");
 		
 		while (!sc.hasNext()) { // Not a string
@@ -233,8 +421,12 @@ public class BookingManager implements ResetSelf {
     }
     
     
-    // Checks if seat selection is valid
-    public Boolean allowSeatSelection(String seatID) {
+    /**
+     * Checks if seat selection is valid
+     * @param seatID This is the current seatID that is being booked
+     * @return Boolean whether the seat can be booked or not
+     */
+    private Boolean allowSeatSelection(String seatID) {
     	// First we check if entered seat ID is valid aka starts with alphabet and has an integer (capped at 2 digits)
     	if (seatID.matches("[A-Z]\\d{1,2}")) {
 			// If seatID entered is valid, check if seat exists
@@ -295,8 +487,10 @@ public class BookingManager implements ResetSelf {
     }
     
     
-    // Deletes a seat selection
-    public void deleteSeatSelection() {
+    /**
+     * Deletes a seat selection
+     */
+    private void deleteSeatSelection() {
     	System.out.println("Please enter a seat selection to remove (e.g. C6):");
 		String selection = sc.next().toUpperCase();
 		
@@ -325,8 +519,12 @@ public class BookingManager implements ResetSelf {
     }
     
     
-    // Checks if seat selection removal is valid
-    public Boolean allowSeatDeletion(String seatID) {
+    /**
+     * Checks if seat selection removal is valid
+     * @param seatID The seat that is being deleted
+     * @return Boolean Whether the seat can be deleted or not
+     */
+    private Boolean allowSeatDeletion(String seatID) {
     	// First we check if entered seat ID is valid aka starts with alphabet and has an integer (capped at 2 digits)
     	if (seatID.matches("[A-Z]\\d{1,2}")) {
 			// If seatID entered is valid, check if seat exists in currently selected seats
@@ -360,8 +558,12 @@ public class BookingManager implements ResetSelf {
     }
     
     
-    // Update seating plan List. Operation can be: addSelection, deleteSelection or confirmSelection
-    public void updateSeatingPlan(String seatID, String operation) {
+    /** 
+     * Update seating plan List. Operation can be: addSelection, deleteSelection or confirmSelection
+     * @param seatID The current seat being booked
+     * @param operation What we are doing to the current seat
+     */
+    private void updateSeatingPlan(String seatID, String operation) {
     	char seatRow = seatID.charAt(0); // Alphabet row of seatID
 		int seatCol = Integer.valueOf(seatID.substring(1, seatID.length())); // Integer column of seatID
 		String seatModifier;
@@ -404,90 +606,4 @@ public class BookingManager implements ResetSelf {
     	}
     }
     
-    
-    // Once booking is confirmed and payment is made, we raise an event to let other parts know to inject information into this booking
-    public void makeBooking() {
-    	// Since booking is confirmed, we update all selected seats to be confirmed seats (occupied)
-    	for (int i = 0; i < getSelectedSeats().size(); i++) {
-    		updateSeatingPlan(getSelectedSeats().get(i), "confirmSelection");
-    	}
-    	
-    	// We then update the current showtime REFERENCE with the new seating plan, and update the showtime fill status
-    	getShowtime().getCinema().setCinemaLayout(getSeatingPlan());
-    	getShowtime().updateCinemaStatus();
-    	
-    	// Save the new showtimes status
-    	ShowtimeManager.getInstance().save(getShowtime(), getShowtime().getShowtimeID());
-    	
-    	// We create a new booking and fill it up with the finalized information before storing it
-    	setBooking(new Booking());
-    	
-    	// We now fill up the booking's tickets, transactionID, bookerName, bookerMobileNo and bookerEmail
-    	// Note that this also resets both these Managers (calls their respective reset functions)
-    	// In these functions, we also update the movie's ticket sales and gross profits
-    	// These also store the transaction as a serialized object
-    	TicketManager.getInstance().confirmTicketSelection();
-    	TransactionManager.getInstance().confirmTransaction(); 	
-    	
-    	// Now we have to update the rest of booking: bookingID, movieName, hallNo and cineplexName
-    	
-    	// Update the booking with the showtime's date and time
-    	getBooking().setDateTime(getShowtime().getDateTime());
-    	
-    	// Update booking's movieName, cineplexName and hallNo
-    	getBooking().setMovieID(showtime.getMovieID());
-    	getBooking().setCineplexName(showtime.getCineplexName());
-    	getBooking().setHallNo(showtime.getCinema().getHallNo());
-    	
-    	// Finally, we can generate a unique ID for this booking
-    	getBooking().setBookingID(IDHelper.getLatestID("booking"));
-    	
-    	// We store the booking in our CustomerAccount
-    	CustomerManager.getInstance().storeBooking(getBooking().getBookingID());
-    	
-    	// Print confirmation
-    	System.out.println("Booking confirmed! Your booking details:");
-    	getBooking().displayBooking();
-    	System.out.println("You may want to print out a copy for your reference.");
-    	System.out.println("Returning back to main screen...");
-    	
-    	// We can then send this booking off to store as a serialized file
-    	String filePath = ProjectRootPathFinder.findProjectRootPath();
-    	filePath = filePath + "/data/bookings/booking_" + getBooking().getBookingID() + ".dat";
-    	
-    	SerializerHelper.serializeObject(getBooking(), filePath);
-    	   	
-    	// Finally, reset this instance and all instances
-    	TicketManager.getInstance().resetSelf();
-    	TransactionManager.getInstance().resetSelf(); 	
-    	resetSelf();
-    }
-
-    
-    
-    // Resets all variables of this singleton instance (e.g. if user presses back)
-    public void resetSelf() {
-    	setShowtime(null);
-		setBooking(null);
-		setSeatingPlan(null);
-    	getSelectedSeats().clear();
-		getRowChecker().clear();
-		getColChecker().clear();
-		exit = true;
-    }
-    
-    
-    // Setters
-    public void setShowtime(Showtime showtime) {this.showtime = showtime;}
-    public void setBooking(Booking booking) {this.booking = booking;}
-    public void setSeatingPlan(ArrayList<String> seatingPlan) {this.seatingPlan = seatingPlan;}
-    
-	
-    // Getters
-	public Showtime getShowtime() {return showtime;}
-	public Booking getBooking() {return booking;}
-    public List<String> getSeatingPlan() {return seatingPlan;}
-	public List<String> getSelectedSeats() {return selectedSeats;}
-	public HashMap<Character, ArrayList<Integer>> getRowChecker() {return rowChecker;}
-	public HashMap<Integer, Integer> getColChecker() {return colChecker;}
 }
