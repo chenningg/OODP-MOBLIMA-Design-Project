@@ -56,6 +56,7 @@ public class StaffApp {
             }
 
 			choice = sc.nextInt();
+	        sc.nextLine();
 			
 			switch (choice) {
 			case 1: 
@@ -64,13 +65,13 @@ public class StaffApp {
                 	System.out.println("Invalid input type. Please try again!");
             		sc.next(); // Remove newline character
                 }
-                String username = sc.next();
+                String username = sc.nextLine();
                 System.out.println("Password: ");
                 while (!sc.hasNext()) {
                 	System.out.println("Invalid input type. Please try again!");
             		sc.next(); // Remove newline character
                 }
-                String password = sc.next();
+                String password = sc.nextLine();
                 
                 boolean authenticate = StaffManager.getInstance().login(username, password);
                 
