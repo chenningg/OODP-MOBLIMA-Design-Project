@@ -5,26 +5,55 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Cinema object.
+ */
 public class Cinema implements Cloneable, Serializable {
 	// Attributes
+	/**
+	 * unique cinemaID that identifies the cinema.
+	 */
 	private String cinemaID;
+	/**
+	 * hallNo of the cinema.
+	 */
 	private int hallNo;
+	/**
+	 * CinemaType enum specifying the type of the cinema.
+	 */
 	private CinemaType cinemaType;
+	/**
+	 * Total number of seats in the cinema.
+	 */
 	private int totalSeatNo;
+	/**
+	 * Number of currently occupied seats.
+	 */
 	private int occupiedSeatsNo;
+	/**
+	 * Shows the seating plan of the cinema. Seating plan is stored in a list.
+	 */
 	private List<String> cinemaLayout;
 	
-	
-	
-	
-	// Constructor	
+
+	// Constructor
+
+	/**
+	 * Constructor for the cinema object. It will open a text file from our "database" containing
+	 * information about the cinema.
+	 * @param cinemaID of the cinema.
+	 */
 	public Cinema(String cinemaID) {
 		this.cinemaLayout = new ArrayList<String>();
 		this.setCinemaID(cinemaID);			
 		this.openCinemaFile(cinemaID);
 	}
-	
+
+	/**
+	 * To clone the object.
+	 * @return cloned object.
+	 * @throws CloneNotSupportedException when the object cannot be cloned.
+	 */
 	public Object clone() throws CloneNotSupportedException { 
 		return super.clone(); 
 	} 
@@ -37,7 +66,10 @@ public class Cinema implements Cloneable, Serializable {
 	public int getTotalSeatNo() {return totalSeatNo;}
 	public int getOccupiedSeatsNo() {return occupiedSeatsNo;}
 	public List<String> getCinemaLayout() {return cinemaLayout;}
-	
+
+	/**
+	 * To print the layout of the cinema stored in an ArrayList.
+	 */
 	public void printCinemaLayout() {
 		int i=0;
 		while (i<this.getCinemaLayout().size()) {
@@ -55,13 +87,15 @@ public class Cinema implements Cloneable, Serializable {
 	public void setOccupiedSeatsNo(int occupiedSeatsNo) {this.occupiedSeatsNo = occupiedSeatsNo;}
 	public void setCinemaLayout(List<String> list) {this.cinemaLayout = list;}
 	
-	
-	// CRUD methods
-
-	
+  
 	// Initializers: Below code used only for the very first run of the app
     // File Reader
-    public void openCinemaFile(String cinemaID) {
+
+	/**
+	 * Reads in information of the cinema to be created from a text file.
+	 * @param cinemaID unique identifier of cinemaID that specified filename from which information is read.
+	 */
+	private void openCinemaFile(String cinemaID) {
 		try {
 			// Get filepath
 			String filePath = ProjectRootPathFinder.findProjectRootPath();
