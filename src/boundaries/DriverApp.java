@@ -5,6 +5,9 @@ import staff.StaffApp;
 
 import java.util.Scanner;
 
+/**
+ * Main app to run to choose Customer or Staff app
+ */
 public class DriverApp {
 	public static void main(String[] args) {
 		int choice;

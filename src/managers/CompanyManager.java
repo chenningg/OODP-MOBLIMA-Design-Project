@@ -8,13 +8,41 @@ import utils.SerializerHelper;
 
 import java.util.ArrayList;
 
+/**
+ * This is the company manager. It will interface with all company related issues
+ * Company will be the entity that holds 3 cineplexes, each holding 3 cinemas
+ */
 public class CompanyManager {
 	// Attributes
+	/**
+	 * This is the entire company object
+	 */
 	private Company company;
+
+	
+	// Singleton
+	/**
+     * single_instance tracks whether CompanyManager has been instantiated before.
+     */
 	private static CompanyManager single_instance = null;
+	
+	/**
+     * Instantiates the CompanyManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of CompanyManager.
+     */
+	public static CompanyManager getInstance() {
+		if (single_instance == null)
+			single_instance = new CompanyManager();
+		return single_instance;
+	}
 	
 	
 	// Constructor
+    /**
+     * Constructor of CompanyManager. Tries to read in the serialized data first. If not available, it will create these files
+     * from our initialization data
+     */
 	private CompanyManager() {
 		Company serializedObject = this.load();
 		if (serializedObject != null) {
@@ -28,14 +56,20 @@ public class CompanyManager {
 	
 	
 	// Public exposed methods to app
-	public static CompanyManager getInstance() {
-		if (single_instance == null)
-			single_instance = new CompanyManager();
-		return single_instance;
-	}
+	/**
+	 * This returns the company
+	 * @return Company
+	 */
 	public Company getCompany(){
 		return company;
 	}
+	
+	/**
+	 * This returns a deep copy of a cinema for the showtime manager to create a new showtime from. 
+	 * The deep copy is always of the completely empty cinema 
+	 * @param cinemaID This is the ID of the cinema to be copied
+	 * @return Cinema this returns a new cinema object with all its attributes
+	 */
 	public Cinema getNewCinema(String cinemaID) {
 		int i;
 		int noOfCineplex = this.company.getCineplexes().size();
@@ -62,6 +96,10 @@ public class CompanyManager {
 		return null;
 	}
 	
+	/**
+	 * This returns all the Cineplex Names that the company owns
+	 * @return ArrayList<String>
+	 */
 	public ArrayList<String> getCineplexNames() {
 		ArrayList<String> cineplexNames = (ArrayList<String>) this.company.getCineplexNames();
 		return cineplexNames;
@@ -69,11 +107,18 @@ public class CompanyManager {
 	
 	
 	// Private Serialization and Deserialization
+	/**
+	 * This saves the entire company object and serializes it
+	 */
 	public void save() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/company/company.dat";
 		SerializerHelper.serializeObject(this.company, filePath);
 	}
 	
+	/**
+	 * This returns the entire company object from a serialized file
+	 * @return
+	 */
 	public Company load() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/company/company.dat";
 		return (Company) SerializerHelper.deSerializeObject(filePath);

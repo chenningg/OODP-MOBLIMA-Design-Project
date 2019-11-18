@@ -5,28 +5,89 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Movie object
+ */
 public class Movie implements Serializable{
 	// Attributes
+    /**
+     * MovieID of movie.
+     */
 	private String movieID;
+    /**
+     * Title of movie.
+     */
     private String title;
+    /**
+     * List of genres for movie.
+     */
     private List<Genre> genres;
+    /**
+     * Director of movie.
+     */
     private String director;
-    private List<String> cast; 
+    /**
+     * List of cast members of movie.
+     */
+    private List<String> cast;
+    /**
+     * Synopsis of movie.
+     */
     private String synopsis;
+    /**
+     * Movie rating (e.g PG,R21) of movie.
+     */
     private MovieRating movieRating;
+    /**
+     * List of Movie Viewing Formats (e.g TWOD,THREED) of movie.
+     */
     private List<MovieFormat> movieFormats;
+    /**
+     * Length of movie in minutes.
+     */
     private int movieDuration;
+    /**
+     * List of reviews of movie.
+     */
     private List<String> reviews;
+    /**
+     * Average review score of movie. Takes total review score over number of reviews.
+     */
     private double averageReviewScore;
+    /**
+     * Number of reviews for movie.
+     */
     private int totalReviewNo;
+    /**
+     * Total review score of all reviews for movie.
+     */
     private double totalReviewScore;
+    /**
+     * Showing status of movie. (E.g COMING_SOON, NOW_SHOWING)
+     */
     private ShowingStatus showingStatus;
+    /**
+     * Release date of movie.
+     */
     private LocalDate releaseDate;
+    /**
+     * Number of tickets sold for movie.
+     */
     private long ticketsSold = 0;
+    /**
+     * Total gross profit/sales of movie.
+     */
     private double grossProfit = 0.0;
+    /**
+     * List of showtimeIDs of movie. Allows for accessing individual showtimes.
+     */
     private List<String> showtimeIDs;
 
 
+    /**
+     * Initialises new arraylist for genres, cast, movie formats, reviews, showtime IDs when movie is created.
+     * Sets average review score, total number of reviews and total review scores of movie to be 0 when created.
+     */
     // Constructor
     public Movie(){
     	this.genres = new ArrayList<Genre>();
@@ -41,6 +102,11 @@ public class Movie implements Serializable{
     
     
     // Methods
+
+    /**
+     * Displays movie details of movie.
+     * If number of reviews for movie is less than 1, N/A is printed instead.
+     */
     public void displayMovieDetails() {
     	// Title
     	System.out.printf("Movie Title: %s\n", getTitle());
@@ -140,10 +206,19 @@ public class Movie implements Serializable{
 
 
     // Adders
+
+    /**
+     * Adds a new review into review array list.
+     * @param reviewID Review ID of review to be added.
+     */
     public void addMovieReview(String reviewID) {
         this.reviews.add(reviewID);
     }
-    
+
+    /**
+     * Removes a review from review array list.
+     * @param reviewID Review ID of review to be removed.
+     */
     public void removeMovieReview(String reviewID) {
     	int i;
     	
@@ -152,7 +227,11 @@ public class Movie implements Serializable{
     			this.reviews.remove(i);
     		}
     }
-    
+
+    /**
+     * Adds a new showtime ID into list of showtime IDs.
+     * @param showtimeID Showtime ID of showtime to be added.
+     */
     public void addShowtimeID(String showtimeID) {
     	this.showtimeIDs.add(showtimeID);
     }

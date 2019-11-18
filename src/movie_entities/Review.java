@@ -3,14 +3,39 @@ package movie_entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+
+/**
+ * Review for Movie.
+ */
 public class Review implements Serializable {
     //Attributes
+    /**
+     * Review ID of review.
+     */
     private String reviewID;
+    /**
+     * Name of reviewer.
+     */
     private String reviewerName;
+    /**
+     * Title of review.
+     */
     private String reviewTitle;
+    /**
+     * Main body of review.
+     */
     private String reviewBody;
+    /**
+     * Movie ID of movie review was made for.
+     */
     private String movieID;
+    /**
+     * Score given by reviewer.
+     */
     private double score;
+    /**
+     * Date and time of review.
+     */
     private LocalDateTime reviewDateTime;
 
 

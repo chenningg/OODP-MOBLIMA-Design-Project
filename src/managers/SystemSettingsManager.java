@@ -5,16 +5,34 @@ import utils.ProjectRootPathFinder;
 import utils.SerializerHelper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+/**
+ * This is the SystemSettingsManager. It will interface with the system settings to perfomr CRUD operations.
+ * It will also allow external managers to access its methods to modify ticket prices
+ *
+ */
 public class SystemSettingsManager {
 	// Attributes
+	/**
+	 * Holds the systemsettings object, that has a hashmap of all the available system settings 
+	 * You can search out a system setting by providing its name
+	 */
 	private SystemSettings systemSettings;
 	
 	private Scanner sc = new Scanner(System.in);
 	
+	/**
+     * single_instance tracks whether ShowtimeManager has been instantiated before.
+     */
 	private static SystemSettingsManager single_instance = null;
 	
+	/**
+     * Instantiates the SystemSettingsManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of SystemSettingsManager.
+     */
 	public static SystemSettingsManager getInstance() {
 		if (single_instance == null)
 			single_instance = new SystemSettingsManager();
@@ -23,6 +41,10 @@ public class SystemSettingsManager {
 	
 	
 	// Constructor
+	/**
+	 * Constructor of the SystemSettingsManager. It will first try to load a serialized file of the class SystemSettings  
+	 * If it fails, it will create the system settings from the initialization files that we have preloaded and then serialize it for future use
+	 */
 	private SystemSettingsManager() {
 		SystemSettings serializedObject = this.load();
 		if (serializedObject != null) {
@@ -36,10 +58,22 @@ public class SystemSettingsManager {
 
 
 	// Public exposed methods to app
+	
+	/**
+	 * Gets the value of a certain ticket attribute such as BASE (base price) / BOOKING (booking price modifier) / MON (Monday price modifier) 
+	 * @param key This is the keyword present in system settings
+	 * @return	This returns a value by which the base ticket price should be modified
+	 */
 	public double getPrice(String key) {
 		return this.systemSettings.getPrice(key);
 	}
 	
+	
+	/**
+	 * Similar to getPrice(String key), except that this checks whether the specific date of the showtime is a holiday or not. 
+	 * @param date This is the date of the showtime
+	 * @return	This returns the value of the holiday price modifier if the date is a holiday, or returns 0 if it is not a holiday
+	 */
 	public double getPrice(LocalDate date) {
 		if (this.systemSettings.isHoliday(date)) {
 			return this.systemSettings.getPrice("HOLIDAY");
@@ -48,6 +82,9 @@ public class SystemSettingsManager {
 		}
 	}
 	
+	/**
+	 * This is an option menu, the entry point into the System Settings App where a staff can come to CRUD the system settings
+	 */
 	public void displayMenu() {
 		int choice;
 		
@@ -59,21 +96,26 @@ public class SystemSettingsManager {
 	                " 4. Delete Setting                                        \n"+
 	                " 0. Back to StaffApp                                      \n"+
 							   "==========================================================");
-			System.out.println("Enter choice: ");			
+			System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 			
 			switch (choice) {
 				case 1:
-					this.viewSystemSetting(sc);
+					this.viewSystemSetting();
 					break;
 				case 2:
-					this.addSystemSetting(sc);
+					this.addSystemSetting();
 					break;
 				case 3: 
-					this.changeSystemSetting(sc);
+					this.changeSystemSetting();
 					break;
 				case 4:
-					this.deleteSystemSetting(sc);
+					this.deleteSystemSetting();
 					break;
 				case 0:
 					System.out.println("Back to StaffApp......");
@@ -90,7 +132,11 @@ public class SystemSettingsManager {
 	
 	
 	// Private CRUD methods
-	private void viewSystemSetting(Scanner sc) {
+	/**
+	 * This is an option menu where a staff can come in to view the various system settings available to them.
+	 * There are many categories of settings, and the staff can get a good overview of what they can change
+	 */
+	private void viewSystemSetting() {
 		int choice;
 		
 		do {
@@ -106,7 +152,12 @@ public class SystemSettingsManager {
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"===========================================================");
 			System.out.println("Enter choice:");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -143,7 +194,12 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 	}
 	
-	private void addSystemSetting(Scanner sc) {
+	/**
+	 * This is an option menu where a staff will come in to enter a new system setting. 
+	 * The only system setting that actually makes sense to add will be a holiday reference, since new holidays can be 
+	 * easily declared, but new movie formats or new cinema types are very rare, and it's not possible to create a new day of the week
+	 */
+	private void addSystemSetting() {
 		int choice;
 		
 		do {
@@ -151,8 +207,13 @@ public class SystemSettingsManager {
 			        		   	" 1. New Holiday Reference                                 \n"+
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"===========================================================");
-			System.out.println("Enter choice: ");			
+			System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -160,7 +221,11 @@ public class SystemSettingsManager {
 					String newHolidayName;
 					
 					System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
-					newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					newHolidayDate = this.dateParser(sc.nextLine());
+					while (newHolidayDate == null) {
+						System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
+						newHolidayDate = this.dateParser(sc.nextLine());
+					}
 					
 					System.out.println("Enter name of holiday: ");
 					newHolidayName = sc.next().toUpperCase();
@@ -178,7 +243,12 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 	}
 	
-	private void changeSystemSetting(Scanner sc) {
+	
+	/**
+	 * This is an option menu, where the staff will decide what kind of system settings they would like to change. 
+	 * It is sorted by categories and hence the staff can easily pick what kind of settings they want to change
+	 */
+	private void changeSystemSetting() {
 		int choice;
 		
 		do {
@@ -192,8 +262,13 @@ public class SystemSettingsManager {
 				                " 7. Default Prices                                        \n"+
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"============================================================");
-			System.out.println("Enter choice: ");			
+			System.out.println("Enter choice: ");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -202,8 +277,11 @@ public class SystemSettingsManager {
 					String newHolidayName;
 					
 					System.out.println("Enter date of holiday you want to change in format YYYY-MM-DD: ");
-					newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-					
+					newHolidayDate = this.dateParser(sc.next());
+					while (newHolidayDate == null) {
+						System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
+						newHolidayDate = this.dateParser(sc.nextLine());
+					}
 					System.out.println("Enter new name of holiday: ");
 					newHolidayName = sc.next().toUpperCase();
 					
@@ -219,6 +297,10 @@ public class SystemSettingsManager {
 					newMovieFormatName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newMovieFormatModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("movieFormat$", newMovieFormatName, newMovieFormatModifier);
@@ -233,6 +315,10 @@ public class SystemSettingsManager {
 					newTicketTypeName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newTicketTypeModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("ticketType$", newTicketTypeName, newTicketTypeModifier);
@@ -247,6 +333,10 @@ public class SystemSettingsManager {
 					newCinemaTypeName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newCinemaTypeModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("cinemaType$", newCinemaTypeName, newCinemaTypeModifier);	
@@ -261,6 +351,10 @@ public class SystemSettingsManager {
 					newDayOfWeekName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new price modifier: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newDayOfWeekModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("dayOfWeek$", newDayOfWeekName, newDayOfWeekModifier);	
@@ -271,6 +365,10 @@ public class SystemSettingsManager {
 					double newHolidayModifier;
 					
 					System.out.println("Enter new price modifier for holidays: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newHolidayModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("holiday$", "HOLIDAY", newHolidayModifier);	
@@ -285,6 +383,10 @@ public class SystemSettingsManager {
 					newDefaultName = sc.next().toUpperCase();
 					
 					System.out.println("Enter new default price: ");
+					while(!sc.hasNextDouble()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					newDefaultModifier = sc.nextDouble();
 					
 					this.systemSettings.updateSetting("default$", newDefaultName, newDefaultModifier);	
@@ -301,19 +403,26 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");
 	}
 		
-	private void deleteSystemSetting(Scanner sc) {
+	/**
+	 * This is where a staff can come in to delete a system settings. Similar to adding a system setting, the only
+	 * setting that makes sense to be added is a new holiday reference. Any new movie format or cinema will be a structural change
+	 * to the entire cinema, and not something that needs to be accounted for in the MOBLIMA app
+	 */
+	private void deleteSystemSetting() {
 		int choice;
 		
 		do {
 	        System.out.println(	"=================== Delete SystemSettings ==================\n"+
 			        		   	" 1. Holiday Reference                                     \n"+
-			        		   	" 2. Movie Format 											\n"+
-				                " 3. Ticket Type                                    		\n"+
-				                " 4. Cinema Type 		                                    \n"+
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"============================================================");
 	        System.out.println("Enter choice:");
+			while(!sc.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				sc.next();
+			}
 			choice = sc.nextInt();
+			sc.nextLine();
 				
 			switch (choice) {
 				case 1:
@@ -326,63 +435,19 @@ public class SystemSettingsManager {
 						LocalDate newHolidayDate;
 						
 						System.out.println("Enter date of holiday you want to delete in format YYYY-MM-DD: ");
-						newHolidayDate = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-						
+						newHolidayDate = this.dateParser(sc.next());
+						while (newHolidayDate == null) {
+							System.out.println("Enter date of holiday in format YYYY-MM-DD: ");
+							newHolidayDate = this.dateParser(sc.nextLine());
+						}
 						this.systemSettings.deleteSetting("holidayReference", newHolidayDate);
 						this.systemSettings.viewSetting("holidayReference");
-						break;
-					}
-				case 2:
-					this.systemSettings.viewSetting("movieFormat$");
-					if (this.systemSettings.getSystemInfoHash().get("movieFormat$").size()==0) {
-						System.out.println("No data!");
-						break;
-					} else {	
-						String newMovieFormatName;
-						
-						System.out.println("Enter name of movie format you want to delete: ");
-						newMovieFormatName = sc.next().toUpperCase();
-						
-						this.systemSettings.deleteSetting("movieFormat$", newMovieFormatName);
-						this.systemSettings.viewSetting("movieFormat$");
-						break;
-					}
-				case 3: 
-					this.systemSettings.viewSetting("ticketType$");
-					
-					if (this.systemSettings.getSystemInfoHash().get("ticketType$").size()==0) {
-						System.out.println("No data!");
-						break;
-					} else {	
-						String newTicketTypeName;
-						
-						System.out.println("Enter name of ticket type you want to delete: ");
-						newTicketTypeName = sc.next().toUpperCase();
-						
-						this.systemSettings.deleteSetting("ticketType$", newTicketTypeName);
-						this.systemSettings.viewSetting("ticketType$");
-						break;
-					}
-				case 4:
-					this.systemSettings.viewSetting("cinemaType$");
-					
-					if (this.systemSettings.getSystemInfoHash().get("cinemaType$").size()==0) {
-						System.out.println("No data!");
-						break;
-					} else {	
-						String newCinemaTypeName;
-						
-						System.out.println("Enter name of cinema type you want to delete: ");
-						newCinemaTypeName = sc.next().toUpperCase();
-						
-						this.systemSettings.deleteSetting("cinemaType$", newCinemaTypeName);	
-						this.systemSettings.viewSetting("cinemaType$");
 						break;
 					}
 				case 0: 
 					break;
 				default:
-					System.out.println("Invalid choice. Please choose between 0-4.");
+					System.out.println("Invalid choice. Please choose between 0-1.");
 					break;
 			}
 		} while (choice!=0);
@@ -392,13 +457,39 @@ public class SystemSettingsManager {
 
 	
 	// Private Serialization and Deserialization
+	/**
+	 * This is used to save the entire new system settings object
+	 */
 	private void save() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		SerializerHelper.serializeObject(this.systemSettings, filePath);
 	}
 	
+	/**
+	 * This is used to load all of the system settings from the "database". If it fails to load, it will return null. 
+	 * The constructor will then create the system settings data file. This will only occur upon initialisation (the very first run of the app)
+	 * Or when data is cleared
+	 * @return This returns all the SystemSettings available as the SystemSettings class
+	 */
 	private SystemSettings load() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		return (SystemSettings) SerializerHelper.deSerializeObject(filePath);
+	}
+
+	/**
+	 * Helper function to parse date.
+	 * @param dateString date in string
+	 * @return date object.
+	 */
+	private LocalDate dateParser(String dateString) {
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date = LocalDate.parse(dateString, formatter);
+			return date;
+		}
+		catch (DateTimeParseException dtpe) {
+			System.out.println("Wrong date format entered!");
+			return null;
+		}
 	}
 }

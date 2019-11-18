@@ -14,13 +14,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is the SystemSettings class. It will hold the information about all the system settings which affect a movie's price
+ *
+ */
 public class SystemSettings implements Serializable {
 	// Attributes
+	/**
+	 * This holds all the system information in a hashmap of Map<String, Map<Object, Object>>
+	 */
 	private Map<String, Map<Object, Object>> systemInfoHash;	
+	
+	/**
+	 * This holds the list of system information
+	 */
 	private List<String> systemInfoList;
 
 	
 	// Constructor
+	/**
+	 * This sets the two attributes of systemInfoList and systemInfoHash
+	 */
 	public SystemSettings() {
 		this.setsystemInfoList();
 		this.setSystemInfoHash();
@@ -28,13 +42,32 @@ public class SystemSettings implements Serializable {
 	
 	
 	// Getters 
+	/**
+	 * This returns the systemInfoList, which is all the system settings that are available 
+	 * @return List<String>
+	 */
 	public List<String> getsystemInfoList() {return this.systemInfoList;}
+	
+	/**
+	 * This returns the actual system info hash, which is all the system settings with detailed information 
+	 * @return Map<String, Map<Object, Object>>
+	 */
 	public Map<String, Map<Object, Object>> getSystemInfoHash() {return this.systemInfoHash;};
 	
+	/**
+	 * This gets the price modifier for a certain key that will modify a ticket's base price
+	 * @param key
+	 * @return
+	 */
 	public double getPrice(String key) {
 		return (double) this.getSystemInfoHash().get("priceReference").get(key);
 	}
 	
+	/**
+	 * This checks whether the date given is a holiday or not. 
+	 * @param key The date 
+	 * @return Boolean is holiday or not
+	 */
 	public boolean isHoliday(LocalDate key) {
 		String temp = (String) this.getSystemInfoHash().get("holidayReference").get(key);
 		if (temp==null) {
@@ -46,10 +79,21 @@ public class SystemSettings implements Serializable {
 	
 	
 	// CRUD methods
+	/**
+	 * This allows the staff to view the system settings by the information type (category)
+	 * @param infoType
+	 */
 	public void viewSetting(String infoType) {
 		System.out.println(this.getSystemInfoHash().get(infoType));
 	}
 	
+	
+	/**
+	 * This allows the staff to add a setting into system settings. This can only add a new holiday since it is the only one that makes sense
+	 * @param infoType At the moment, only allow "holidayReference". However note that "priceReference" is also coded to cater for future changes
+	 * @param key The key of the new setting
+	 * @param value The price modifier of the new setting if price. If holiday, it is the holiday name
+	 */
 	public void addSetting(String infoType, Object key, Object value) {
 		if (infoType.equals("holidayReference")) {
 			this.systemInfoHash.get(infoType).put((LocalDate) key, (String) value);
@@ -61,6 +105,12 @@ public class SystemSettings implements Serializable {
 		System.out.println("Setting added");
 	}
 	
+	/**
+	 * This allows the staff to update the system settings that are available
+	 * @param infoType The type of setting to update (category)
+	 * @param key The key that we want to update
+	 * @param value The new price modifier for that key
+	 */
 	public void updateSetting(String infoType, Object key, Object value) {
 		if (infoType.equals("holidayReference")) {
 			this.systemInfoHash.get(infoType).replace((LocalDate) key, (String) value);
@@ -72,6 +122,11 @@ public class SystemSettings implements Serializable {
 		System.out.println("Setting updated");		
 	}
 	
+	/**
+	 * This allows the staff to delete a specific system setting. At the moment, only holidays makes sense. However we also coded for priceReference to cater to future changes
+	 * @param infoType This is the type of information to be deleted (category)
+	 * @param key This is the key that we want to delete
+	 */
 	public void deleteSetting(String infoType, Object key) {
 		if (infoType.equals("holidayReference")) {
 			this.systemInfoHash.get(infoType).remove((LocalDate) key);

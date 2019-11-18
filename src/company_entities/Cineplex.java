@@ -5,15 +5,35 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cineplex object holding cinemas.
+ */
 public class Cineplex implements Serializable {
 	// Attributes
+	/**
+	 * unique identifier for the cineplex.
+	 */
 	private String cineplexID;
+	/**
+	 * name of the cineplex.
+	 */
 	private String cineplexName;
+	/**
+	 * List of cinema objects belonging to the cineplex.
+	 */
 	private List<Cinema> cinemas;
+	/**
+	 * List of cinemaIDs for the cinemas belonging to the cineplex.
+	 */
 	private List<String> cinemaIDs;
 	
 	
 	// Constructor
+
+	/**
+	 * Constructor for the cineplex class which reads from text file the details of the cineplex.
+	 * @param cineplexID to be set as attribute of the Cineplex object.
+	 */
 	public Cineplex(String cineplexID) {
 		this.cinemas = new ArrayList<Cinema>();
 		this.cinemaIDs = new ArrayList<String>();
@@ -32,7 +52,11 @@ public class Cineplex implements Serializable {
 	// Setters
 	public void setCineplexID(String cineplexID) {this.cineplexID = cineplexID;}
 	public void setCineplexName(String cineplexName) {this.cineplexName = cineplexName;}
-	
+
+	/**
+	 * To add a cinema to the cineplex.
+	 * @param cinemaID that identifies the cinema to be added to cineplex.
+	 */
 	public void addCinemas(String cinemaID) {
     	Cinema cinema = new Cinema(cinemaID);
     	this.cinemas.add(cinema); 
@@ -42,7 +66,12 @@ public class Cineplex implements Serializable {
 	
 	// Initializers: Below code used only for the very first run of the app
     // File Reader
-    public void openCineplexFile(String cineplexID) {
+
+	/**
+	 * Reads in details of a cineplex from a text file.
+	 * @param cineplexID specifies the filename to be read.
+	 */
+    private void openCineplexFile(String cineplexID) {
 		try {
 			// Get filepath
 			String filePath = ProjectRootPathFinder.findProjectRootPath();
