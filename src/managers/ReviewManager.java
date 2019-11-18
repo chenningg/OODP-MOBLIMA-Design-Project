@@ -137,6 +137,7 @@ public class ReviewManager {
             }
 
             choice = sc.nextInt();
+            sc.nextLine();
 
             switch (choice) {
             case 1:
