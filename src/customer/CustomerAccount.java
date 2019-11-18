@@ -1,4 +1,4 @@
-package accounts;
+package customer;
 
 import java.io.Serializable;
 import java.util.ArrayList;

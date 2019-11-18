@@ -2,6 +2,8 @@ package utils;
 
 import company_entities.Cinema;
 import company_entities.CinemaType;
+import managers.CompanyManager;
+import managers.SystemSettingsManager;
 import movie_entities.*;
 
 import java.io.*;
@@ -388,9 +390,14 @@ public class DataInitialiser {
 		}         
 		
 		return newCinema;
-    }	
+    }
 
-	
+	public void initialiseSystemFiles() {
+		CompanyManager.getInstance();
+		SystemSettingsManager.getInstance();
+	}
+
+
 	public void resetAllData() {
 		// Initialise data		
 		this.resetFolders("movies");
@@ -399,6 +406,8 @@ public class DataInitialiser {
 		this.resetFolders("transactions");
 		this.resetFolders("bookings");
 		this.resetFolders("customers");
+		this.resetFiles("/data/company/company.dat");
+		this.resetFiles("/data/system_settings/system_settings.dat");
 		this.resetID("movie_id.txt");
 		this.resetID("showtime_id.txt");
 		this.resetID("review_id.txt");
@@ -408,7 +417,13 @@ public class DataInitialiser {
 		System.out.println("All data reset");
 	}
 
-	
+	public void resetFiles(String fileName) {
+		String root = ProjectRootPathFinder.findProjectRootPath();
+
+		File file = new File(root + fileName);
+
+		file.delete();
+	}
 	public void resetFolders(String folderName) {
 		String root = ProjectRootPathFinder.findProjectRootPath();
 		
@@ -479,7 +494,9 @@ class Reset {
 			String storagePath =  ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_" + movieList.get(i).getMovieID() + ".dat";
 			SerializerHelper.serializeObject(movieList.get(i), storagePath);
 		}
-		
+		// Remake the company and system_settings files
+		dataInitialiser.initialiseSystemFiles();
+
 		System.out.println("Initialized!");
 
 	}

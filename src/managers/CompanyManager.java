@@ -22,6 +22,7 @@ public class CompanyManager {
 		} else {
 			this.company = new Company();
 			this.save();
+			System.out.println("Company File created!");
 		}
 	}
 	

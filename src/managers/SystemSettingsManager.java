@@ -1,6 +1,6 @@
 package managers;
 
-import movie_entities.SystemSettings;
+import staff.SystemSettings;
 import utils.ProjectRootPathFinder;
 import utils.SerializerHelper;
 import java.time.LocalDate;
@@ -30,6 +30,7 @@ public class SystemSettingsManager {
 		} else {
 			this.systemSettings = new SystemSettings();
 			this.save();
+			System.out.println("System Settings File created!");
 		}
 	}
 
@@ -56,7 +57,8 @@ public class SystemSettingsManager {
 	                " 2. Add Setting                                           \n"+
 	                " 3. Change Setting                                        \n"+
 	                " 4. Delete Setting                                        \n"+
-	                " 0. Back to StaffApp                                      ");
+	                " 0. Back to StaffApp                                      \n"+
+							   "==========================================================");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 			
@@ -101,7 +103,8 @@ public class SystemSettingsManager {
 				                " 6. Movie Format Prices                                   \n"+
 				                " 7. Ticket Type Prices                                    \n"+
 				                " 8. Cinema Type Prices                                    \n"+
-				                " 0. Back to movie_entities.SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           \n"+
+								"===========================================================");
 			System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
@@ -131,7 +134,7 @@ public class SystemSettingsManager {
 					this.systemSettings.viewSetting("cinemaType$");
 					break;
 				case 0:
-					System.out.println("Back to movie_entities.SystemSettings Menu......");
+					System.out.println("Back to SystemSettings Menu......");
 					break;
 				default:
 					System.out.println("Invalid choice. Please choose between 0-8.");
@@ -146,10 +149,8 @@ public class SystemSettingsManager {
 		do {
 	        System.out.println(	"==================== Add SystemSettings ===================\n"+
 			        		   	" 1. New Holiday Reference                                 \n"+
-			        		   	" 2. New Movie Format                                      \n"+
-				                " 3. New Ticket Type                                       \n"+
-				                " 4. New Cinema Type                                       \n"+
-				                " 0. Back to movie_entities.SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           \n"+
+								"===========================================================");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -167,50 +168,11 @@ public class SystemSettingsManager {
 					this.systemSettings.addSetting("holidayReference", newHolidayDate, newHolidayName);
 					this.systemSettings.viewSetting("holidayReference");
 					break;
-				case 2:
-					String newMovieFormatName;
-					double newMovieFormatModifier;
-					
-					System.out.println("Enter name of new movie format: ");
-					newMovieFormatName = sc.next().toUpperCase();
-					
-					System.out.println("Enter price modifier of new movie format: ");
-					newMovieFormatModifier = sc.nextDouble();
-					
-					this.systemSettings.addSetting("movieFormat$", newMovieFormatName, newMovieFormatModifier);
-					this.systemSettings.viewSetting("movieFormat$");
-					break;
-				case 3: 
-					String newTicketTypeName;
-					double newTicketTypeModifier;
-					
-					System.out.println("Enter name of new ticket type: ");
-					newTicketTypeName = sc.next().toUpperCase();
-					
-					System.out.println("Enter price modifier of new ticket type: ");
-					newTicketTypeModifier = sc.nextDouble();
-					
-					this.systemSettings.addSetting("ticketType$", newTicketTypeName, newTicketTypeModifier);
-					this.systemSettings.viewSetting("ticketType$");
-					break;
-				case 4:
-					String newCinemaTypeName;
-					double newCinemaTypeModifier;
-					
-					System.out.println("Enter name of new cinema type: ");
-					newCinemaTypeName = sc.next().toUpperCase();
-					
-					System.out.println("Enter price modifier of new cinema type: ");
-					newCinemaTypeModifier = sc.nextDouble();
-					
-					this.systemSettings.addSetting("cinemaType$", newCinemaTypeName, newCinemaTypeModifier);
-					this.systemSettings.viewSetting("cinemaType$");
-					break;
 				case 0:
-					System.out.println("Back to movie_entities.SystemSettings Menu......");
+					System.out.println("Back to SystemSettings Menu......");
 					break;
 				default:
-					System.out.println("Invalid choice. Please choose between 0-4.");
+					System.out.println("Invalid choice. Please choose between 0-1.");
 					break;
 			}
 		} while (choice!=0);
@@ -228,7 +190,8 @@ public class SystemSettingsManager {
 				                " 5. Day-of-the-Week Prices                                \n"+
 				                " 6. Holiday Prices                                        \n"+
 				                " 7. Default Prices                                        \n"+
-				                " 0. Back to SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           \n"+
+								"============================================================");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -347,7 +310,8 @@ public class SystemSettingsManager {
 			        		   	" 2. Movie Format 											\n"+
 				                " 3. Ticket Type                                    		\n"+
 				                " 4. Cinema Type 		                                    \n"+
-				                " 0. Back to SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           \n"+
+								"============================================================");
 	        System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				

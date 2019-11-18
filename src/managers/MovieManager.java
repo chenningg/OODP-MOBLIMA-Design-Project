@@ -39,7 +39,8 @@ public class MovieManager {
                                " 1. View/ Edit Movies 						    		\n" +
                                " 2. Add Movies		                                 	\n" +
                                " 3. Search Movies (By Title)	                        \n" +
-                               " 0. Back to StaffApp......                             ");
+                               " 0. Back to StaffApp......                             \n"+
+                               "==========================================================");
 
             System.out.println("Enter choice: ");
             while(!sc.hasNextInt()) {
@@ -78,7 +79,8 @@ public class MovieManager {
                                    " 3. Preview		                                    \n" +
                                    " 4. Now Showing	                                    \n" +
                                    " 5. End of Showing                                     \n" +
-                                   " 0. Back to Staff Movie Menu......                     ");
+                                   " 0. Back to Staff Movie Menu......                     \n"+
+                                   "=========================================================");
 
 
                 System.out.println("Enter choice: ");
@@ -151,7 +153,8 @@ public class MovieManager {
                                    " 3. Preview		                                     \n" +
                                    " 4. Now Showing	                                     \n" +
                                    " 5. Search Movies (By Title)                            \n" +
-                                   " 0. Back to Customer Movie Menu......                   ");
+                                   " 0. Back to Customer Movie Menu......                   \n"+
+                                   "==========================================================");
                 System.out.println("Enter choice: ");
                 
                 while (!sc.hasNextInt()) {
@@ -220,7 +223,8 @@ public class MovieManager {
 			                        " 3. Remove Movie		                                  \n" +
 			                        " 4. View Reviews	                                      \n" +
 			                        " 5. Delete Reviews	                                  \n" +
-			                        " 0. Back to Movie Listings			                  ");
+			                        " 0. Back to Movie Listings			                  \n"+
+                                    "==========================================================");
 
                 System.out.println("Enter choice: ");
                 
@@ -260,7 +264,8 @@ public class MovieManager {
 			                        " 1. Display Showtimes                                   \n" +
 			                        " 2. View Reviews                                        \n" +
 			                        " 3. Leave Review                                        \n" +
-			                        " 0. Back to Movie Listings                              ");
+			                        " 0. Back to Movie Listings                              \n"+
+                                    "==========================================================");
 
                 System.out.println("Enter your choice: ");
                 
@@ -524,7 +529,8 @@ public class MovieManager {
             System.out.println(	"========================= ADD MOVIE ====================\n" +
                                 " 1. Submit movie                                      \n" +
                                 " 2. Edit movie                                        \n" +
-                                " 0. Discard movie, back to Movie Menu                 ");
+                                " 0. Discard movie, back to Movie Menu                 \n"+
+                                "========================================================");
             System.out.println("Enter choice: ");
             
             while (!sc.hasNextInt()) {
@@ -574,7 +580,8 @@ public class MovieManager {
                                 " 8. Edit Duration                                       \n" +
                                 " 9. Edit Showing Status                                 \n" +
                                 " 10. Edit Release Date                                  \n" +
-                                " 0. Finish Editing Movie                                ");
+                                " 0. Finish Editing Movie                                \n"+
+                                "=========================================================");
             System.out.println("Enter choice: ");
             
             while (!sc.hasNextInt()) {
@@ -745,13 +752,15 @@ public class MovieManager {
                                     " 1. By Sales                                              \n" +
                                     " 2. By Tickets Sold                                       \n" +
                                     " 3. By Reviews                                            \n" +
-                                    " 0. Back to CustomerApp                                   ");
+                                    " 0. Back to CustomerApp                                   \n"+
+                                    "============================================================");
     		} else if (appType.equals("Staff")) {
                 System.out.println(	"==================== View Top 5 Movies =====================\n" +
                                     " 1. By Sales                                              \n" +
                                     " 2. By Tickets Sold                                       \n" +
                                     " 3. By Reviews                                            \n" +
-                                    " 0. Back to StaffApp                                      ");
+                                    " 0. Back to StaffApp                                      \n"+
+                                    "============================================================");
     		}
     		
 			System.out.println("Enter choice:");
