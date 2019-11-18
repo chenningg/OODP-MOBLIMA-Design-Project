@@ -35,10 +35,22 @@ public class SystemSettingsManager {
 
 
 	// Public exposed methods to app
+	
+	/**
+	 * Gets the value of a certain ticket attribute such as BASE (base price) / BOOKING (booking price modifier) / MON (Monday price modifier) 
+	 * @param key This is the keyword present in system settings
+	 * @return	This returns a value by which the base ticket price should be modified
+	 */
 	public double getPrice(String key) {
 		return this.systemSettings.getPrice(key);
 	}
 	
+	
+	/**
+	 * Similar to getPrice(String key), except that this checks whether the specific date of the showtime is a holiday or not. 
+	 * @param date This is the date of the showtime
+	 * @return	This returns the value of the holiday price modifier if the date is a holiday, or returns 0 if it is not a holiday
+	 */
 	public double getPrice(LocalDate date) {
 		if (this.systemSettings.isHoliday(date)) {
 			return this.systemSettings.getPrice("HOLIDAY");
@@ -47,31 +59,35 @@ public class SystemSettingsManager {
 		}
 	}
 	
+	/**
+	 * This is the entry point into the System Settings App where a staff can come to CRUD the system settings
+	 */
 	public void displayMenu() {
 		int choice;
 		
 		do {
-	        System.out.println("=================== SystemSettings Menu ===================\n"+
-	                " 1. View Setting                                         \n"+
-	                " 2. Add Setting                                           \n"+
-	                " 3. Change Setting                                        \n"+
-	                " 4. Delete Setting                                        \n"+
-	                " 0. Back to StaffApp                                      ");
+	        System.out.println(	"=================== SystemSettings Menu ===================\n"+
+				                " 1. View Setting                                         \n"+
+				                " 2. Add Setting                                           \n"+
+				                " 3. Change Setting                                        \n"+
+				                " 4. Delete Setting                                        \n"+
+				                " 0. Back to StaffApp                                      \n"+
+	        					"===========================================================\n");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 			
 			switch (choice) {
 				case 1:
-					this.viewSystemSetting(sc);
+					this.viewSystemSetting();
 					break;
 				case 2:
-					this.addSystemSetting(sc);
+					this.addSystemSetting();
 					break;
 				case 3: 
-					this.changeSystemSetting(sc);
+					this.changeSystemSetting();
 					break;
 				case 4:
-					this.deleteSystemSetting(sc);
+					this.deleteSystemSetting();
 					break;
 				case 0:
 					System.out.println("Back to StaffApp......");
@@ -88,7 +104,11 @@ public class SystemSettingsManager {
 	
 	
 	// Private CRUD methods
-	private void viewSystemSetting(Scanner sc) {
+	/**
+	 * This is the 
+	 * @param sc
+	 */
+	private void viewSystemSetting() {
 		int choice;
 		
 		do {
@@ -101,7 +121,9 @@ public class SystemSettingsManager {
 				                " 6. Movie Format Prices                                   \n"+
 				                " 7. Ticket Type Prices                                    \n"+
 				                " 8. Cinema Type Prices                                    \n"+
-				                " 0. Back to movie_entities.SystemSettings Menu                           ");
+				                " 0. Back to movie_entities.SystemSettings Menu            \n"+
+	        					"===========================================================\n");
+	        
 			System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
@@ -140,7 +162,7 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 	}
 	
-	private void addSystemSetting(Scanner sc) {
+	private void addSystemSetting() {
 		int choice;
 		
 		do {
@@ -149,7 +171,8 @@ public class SystemSettingsManager {
 			        		   	" 2. New Movie Format                                      \n"+
 				                " 3. New Ticket Type                                       \n"+
 				                " 4. New Cinema Type                                       \n"+
-				                " 0. Back to movie_entities.SystemSettings Menu                           ");
+				                " 0. Back to movie_entities.SystemSettings Menu            \n"+
+	        					"===========================================================\n");
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -216,7 +239,7 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 	}
 	
-	private void changeSystemSetting(Scanner sc) {
+	private void changeSystemSetting() {
 		int choice;
 		
 		do {
@@ -228,7 +251,8 @@ public class SystemSettingsManager {
 				                " 5. Day-of-the-Week Prices                                \n"+
 				                " 6. Holiday Prices                                        \n"+
 				                " 7. Default Prices                                        \n"+
-				                " 0. Back to SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           \n"+
+	        					"===========================================================\n");	        
 			System.out.println("Enter choice: ");			
 			choice = sc.nextInt();
 				
@@ -338,7 +362,7 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");
 	}
 		
-	private void deleteSystemSetting(Scanner sc) {
+	private void deleteSystemSetting() {
 		int choice;
 		
 		do {
@@ -347,7 +371,8 @@ public class SystemSettingsManager {
 			        		   	" 2. Movie Format 											\n"+
 				                " 3. Ticket Type                                    		\n"+
 				                " 4. Cinema Type 		                                    \n"+
-				                " 0. Back to SystemSettings Menu                           ");
+				                " 0. Back to SystemSettings Menu                           \n"+
+	        					"===========================================================\n");	        
 	        System.out.println("Enter choice:");
 			choice = sc.nextInt();
 				
