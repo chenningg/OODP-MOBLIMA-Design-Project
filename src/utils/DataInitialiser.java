@@ -398,10 +398,12 @@ public class DataInitialiser {
 		this.resetFolders("reviews");
 		this.resetFolders("transactions");
 		this.resetFolders("bookings");
+		this.resetFolders("customers");
 		this.resetID("movie_id.txt");
 		this.resetID("showtime_id.txt");
 		this.resetID("review_id.txt");
 		this.resetID("booking_id.txt");
+		this.resetID("customer_id.txt");
 		
 		System.out.println("All data reset");
 	}
@@ -449,7 +451,7 @@ public class DataInitialiser {
 	}
 }
 
-class Main {
+class Reset {
 	public static void main(String[] args) {
 
 		// Data initializer 

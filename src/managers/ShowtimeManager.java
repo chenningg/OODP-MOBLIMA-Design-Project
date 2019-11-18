@@ -132,7 +132,6 @@ public class ShowtimeManager {
                     case 1:
                         Showtime showtime = this.createShowtime(movieID);
                         relevantShowtimes.add(showtime);
-                        relevantShowtimeIDs.add(showtime.getShowtimeID());
                         break;
                     case 0:
                         System.out.println("Back to Showtimes List......");
