@@ -104,6 +104,10 @@ public class ReviewManager {
         review.setReviewBody(sc.nextLine());
         
         System.out.println("Enter a movie score between 0-5: ");
+        while(!sc.hasNextInt()) {
+            System.out.println("Please enter a number!");
+            sc.next();
+        }
         review.setScore(sc.nextDouble());
         
         review.setReviewDateTime(LocalDateTime.now());
@@ -133,6 +137,7 @@ public class ReviewManager {
             }
             
             choice = sc.nextInt();
+            sc.nextLine();
         
             switch (choice) {
             case 1:
@@ -244,6 +249,10 @@ public class ReviewManager {
             	break;
             case 4: 
                 System.out.println("Enter a movie score between 0-5: ");
+                while(!sc.hasNextInt()) {
+                    System.out.println("Please enter a number!");
+                    sc.next();
+                }
                 review.setScore(sc.nextDouble());   
             	break;
             case 0:
