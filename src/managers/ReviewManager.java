@@ -71,6 +71,11 @@ public class ReviewManager {
         review.setReviewBody(sc.nextLine());
         
         System.out.println("Enter a movie score between 0-5: ");
+        
+        while (!sc.hasNextDouble()) {
+        	System.out.println("Invalid input type. Please enter a numeric value.");
+    		sc.next(); // Remove newline character
+        }
         review.setScore(sc.nextDouble());
         
         review.setReviewDateTime(LocalDateTime.now());
@@ -201,6 +206,11 @@ public class ReviewManager {
             	break;
             case 4: 
                 System.out.println("Enter a movie score between 0-5: ");
+                
+                while (!sc.hasNextDouble()) {
+                	System.out.println("Invalid input type. Please enter a numeric value.");
+            		sc.next(); // Remove newline character
+                }
                 review.setScore(sc.nextDouble());   
             	break;
             case 0:
