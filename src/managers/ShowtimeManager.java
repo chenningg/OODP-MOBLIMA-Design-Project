@@ -84,7 +84,8 @@ public class ShowtimeManager {
                 System.out.println("==================== SHOWTIMES  =====================\n" +
                                     " 1. View/Update/Remove Specific Showtime          \n" +
                                     " 2. Create New Showtime                           \n" +
-                                    " 0. Back to Showtimes List                        ");
+                                    " 0. Back to Showtimes List                        \n"+
+                                    "=====================================================");
                 System.out.println("Enter choice:");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
@@ -120,8 +121,9 @@ public class ShowtimeManager {
             }
             else if (appType.equalsIgnoreCase("Staff") && relevantShowtimes.size() == 0) {
                 System.out.println("==================== SHOWTIMES  =====================\n" +
-                        " 1. Create New Showtime                           \n" +
-                        " 0. Back to Showtimes List                        ");
+                                   " 1. Create New Showtime                           \n" +
+                                   " 0. Back to Showtimes List                        \n"+
+                                   "=====================================================");
                 System.out.println("Enter choice:");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
@@ -148,8 +150,9 @@ public class ShowtimeManager {
                 }
                 else {
                     System.out.println("==================== SHOWTIMES  ====================\n" +
-                            " 1. View Specific Showtime (Details / Booking)    \n" +
-                            " 0. Back to MovieManager                          ");
+                                       " 1. View Specific Showtime (Details / Booking)    \n" +
+                                       " 0. Back to MovieManager                          \n"+
+                                       "====================================================");
                 System.out.println("Enter choice:");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
@@ -195,9 +198,10 @@ public class ShowtimeManager {
         else {
             do {
                 System.out.println("================== SHOWTIME CUSTOMER APP ===================\n" +
-                        " 1. View ALL Details                                      \n" +
-                        " 2. Book Showtime                                         \n" +
-                        " 0. Back to MovieManager                                  ");
+                                " 1. View ALL Details                                      \n" +
+                                " 2. Book Showtime                                         \n" +
+                                " 0. Back to MovieManager                                  \n"+
+                                   "============================================================");
                 System.out.println("Enter choice: ");
                 while(!sc.hasNextInt()) {
                     System.out.println("Please enter a number!");
@@ -232,7 +236,8 @@ public class ShowtimeManager {
             					" 1. View ALL Details                                      \n" +
 			            		" 2. Update                                                \n" +
 			                    " 3. Remove                                                \n" +
-			                    " 0. Back to MovieManager                                  ");
+			                    " 0. Back to MovieManager                                  \n"+
+                                "============================================================");
             System.out.println("Enter choice: ");
             while(!sc.hasNextInt()) {
                 System.out.println("Please enter a number!");
@@ -288,7 +293,8 @@ public class ShowtimeManager {
                                     " 4. Cineplex Name                                         \n" +
                                     " 5. Cinema Status                                         \n" +
                                     " 6. Movie Format                                          \n" +
-                                    " 0. Back to Showtime Staff App                            ");
+                                    " 0. Back to Showtime Staff App                            \n"+
+                                    "============================================================");
 
                 System.out.println("Enter choice: ");
                 while(!sc.hasNextInt()) {

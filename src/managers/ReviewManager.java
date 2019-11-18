@@ -6,6 +6,7 @@ import utils.SerializerHelper;
 import movie_entities.Review;
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,9 @@ public class ReviewManager {
             System.out.println("Title: " + review.getReviewTitle());
             System.out.println("Score: " + review.getScore() + "/5");
             System.out.println("Review body: " + review.getReviewBody());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh.mma");
+            System.out.println("Review date: "+review.getreviewDateTime().format(formatter));
+            System.out.println("==================================================");
             System.out.println("");
     	}
     	
@@ -77,14 +81,16 @@ public class ReviewManager {
             System.out.println(	"========================= ADD REVIEW ====================\n" +
 			                    " 1. Submit review	   						    	 	 \n" +
 			                    " 2. Edit review	   						    	 	 \n" +
-				                " 0. Discard review, back to Movie Choices              ");
+				                " 0. Discard review, back to Movie Choices              \n"+
+                                "=========================================================");
             
             System.out.println("Your current review: ");
             System.out.println("Name: " + review.getReviewerName());
             System.out.println("Title: " + review.getReviewTitle());
             System.out.println("Review body: " + review.getReviewBody());
             System.out.println("Score: " + review.getScore());
-            System.out.println("DateTime: " + review.getreviewDateTime());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh.mma");
+            System.out.println("DateTime: " + review.getreviewDateTime().format(formatter));
             System.out.println("");
             System.out.println("Enter choice: ");
             choice = sc.nextInt();
@@ -156,7 +162,8 @@ public class ReviewManager {
 				                " 2. Edit Title	   						    	 	 \n" +
 				                " 3. Edit Review Body	   						    	\n" +
 				                " 4. Edit Score	   						    	 	 \n" +
-				                " 0. Finish Editing Review 				            ");
+				                " 0. Finish Editing Review 				            \n"+
+                                "=========================================================");
 
             System.out.println("Enter choice: ");
             choice = sc.nextInt();

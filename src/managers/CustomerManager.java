@@ -2,7 +2,7 @@ package managers;
 
 
 import utils.*;
-import accounts.CustomerAccount;
+import customer.CustomerAccount;
 import movie_entities.Booking;
 import java.io.File;
 import java.util.HashMap;

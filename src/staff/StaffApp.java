@@ -1,4 +1,4 @@
-package boundaries;
+package staff;
 
 import managers.StaffManager;
 import managers.MovieManager;
@@ -29,8 +29,8 @@ public class StaffApp {
 		
 		do {
 	        System.out.println(	"==================== MOBLIMA STAFF APP ====================\n"+
-				                "| 1. Login                                                |\n"+
-				                "| 0. Back to MOBLIMA APP                                  |\n"+
+				                " 1. Login                                                \n"+
+				                " 0. Back to MOBLIMA APP                                  \n"+
 				                "===========================================================");
 	        System.out.println("Enter choice: ");
       
@@ -85,7 +85,8 @@ public class StaffApp {
 			                    " 1. View Top 5 Movies                                     \n" +
 			                    " 2. Configure System Settings                             \n" +
 			                    " 3. Movie Database                                        \n" +
-			                    " 0. Logout from StaffApp                                  ");
+			                    " 0. Logout from StaffApp                                  \n"+
+								"===========================================================");
             System.out.println("Enter choice: ");
 
             while (!sc.hasNextInt()) {

@@ -1,4 +1,4 @@
-package boundaries;
+package customer;
 
 import managers.MovieManager;
 import managers.CustomerManager;
@@ -27,7 +27,8 @@ public class CustomerApp {
 			                    " 1. View movie listings					        \n" +
 			                    " 2. View top 5                                    \n" +
 			                    " 3. Check booking history                         \n" +
-			                    " 0. Back to MOBLIMA APP                           ");
+			                    " 0. Back to MOBLIMA APP                           \n"+
+							    "====================================================");
 	    	
             System.out.println("Enter choice: ");
             
@@ -53,7 +54,8 @@ public class CustomerApp {
                         System.out.println(	"=========== SEARCH BOOKING HISTORY =============\n" +
 			                    " 1. Check via email address					    		\n" +
 			                    " 2. Check via mobile number 					    		\n" +
-				                " 0. Back to CustomerApp......                             ");
+				                " 0. Back to CustomerApp......                             \n"+
+											"================================================");
                 		
                         System.out.println("Enter choice: ");
                         

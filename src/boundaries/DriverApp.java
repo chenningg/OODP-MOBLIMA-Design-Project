@@ -1,5 +1,8 @@
 package boundaries;
 
+import customer.CustomerApp;
+import staff.StaffApp;
+
 import java.util.Scanner;
 
 public class DriverApp {
@@ -11,7 +14,8 @@ public class DriverApp {
 	        System.out.println("======================= MOBLIMA APP =======================\n"+
 	                " 1. Customer App                                          \n"+
 	                " 2. Staff App                                             \n"+
-	                " 0. Quit App                                              ");
+	                " 0. Quit App                                              \n"+
+							   "===========================================================");
 		
 	        System.out.println("Enter choice: ");
 	        choice = sc.nextInt();
