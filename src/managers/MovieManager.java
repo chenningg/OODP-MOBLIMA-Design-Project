@@ -8,15 +8,28 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
+/**
+ * Manages movies
+ */
 public class MovieManager {
-	// Attributes 
 
+    // Attributes
+    /**
+     * A hashmap mapping a string movieID to Movie object.
+     */
     private Map<String,Movie> movies;
     private Scanner sc = new Scanner(System.in);
 
+    /**
+     * single_instance tracks whether MovieManager has been instantiated before.
+     */
     private static MovieManager single_instance = null;
 
+    /**
+     * Instantiates the MovieManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of MovieManager.
+     */
     public static MovieManager getInstance()
     {
         if (single_instance == null)
@@ -25,12 +38,23 @@ public class MovieManager {
     }
 
     // Constructor
+
+    /**
+     * Constructor of the MovieManager. It will load a serialized file of the class Movies from
+     * the data files that we have preloaded
+     * New hashmap with String movieID to Movie object created and updated when loading.
+     */
     private MovieManager() {
     	this.movies= new HashMap<String,Movie>();
     	this.load();
     }
 
 	// Public exposed methods to app
+
+    /**
+     * Prints out main display movie menu for staff
+     * Choices allow for viewing/editing movies, adding movies and searching movies.
+     */
     public void movieMenuStaff() {
         int choice;
         
@@ -63,12 +87,18 @@ public class MovieManager {
                 	System.out.println("Back to StaffApp......");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please enter a number between 1-3.");
+                    System.out.println("Invalid choice. Please enter a number between 0-3.");
                     break;
             }
         } while (choice != 0);
     }
 
+    /**
+     * Prints out a display menu to see the various types of movies.
+     * User can choose to view all movies or movies filtered by showing status
+     * @param appType This String indicates whether user viewing movies is Staff or Customer.
+     *                The User will then be able to select a movie from the displayed list.
+     */
     public void viewMovies(String appType) {
         int choice;
         if (appType.equals("Staff")) {
@@ -213,7 +243,14 @@ public class MovieManager {
         }
     }
 
-    public void subMovieMenu(Movie movie,String appType){
+    /**
+     * Prints our a display menu, allowing access to showtimes, movies and reviews.
+     * @param movie Movie object that user previously selected from movielisting. All methods within this display menu will
+     *              be able to access attributes and methods of the specific movie object.
+     * @param appType String indicates whether user is Staff or Customer. Staff will be able to edit showtimes and movies as well as reviews
+     *                on top of viewing them whereas customer can only view showtimes and reviews as well as leave a review for the specific movie.
+     */
+    private void subMovieMenu(Movie movie, String appType){
         if(appType.equals("Staff")) {
             int choice;
             do{
@@ -299,9 +336,14 @@ public class MovieManager {
         }
     }
 
-    public List<Movie> searchMovies(String appType){
+    /**
+     * This method helps search for movies containing the input String. All movies,regardless of lower or uppercase, will
+     * be returned. If no movies contains the input string, a print statement will instead be printed to inform the user.
+     * @param appType String indicates whether user is Staff or Customer and passes this information down to subsequent methods.
+     */
+    private void searchMovies(String appType){
         System.out.println("Please enter a search term: ");
-        String movieTitle = sc.next();
+        String movieTitle = sc.nextLine();
         List<Movie> foundMovies = new ArrayList<>();
         String lowerCaseName = movieTitle.toLowerCase();
 
@@ -313,13 +355,17 @@ public class MovieManager {
         }
         if(foundMovies.size() == 0){
             System.out.println("No such movie found!");
-            return null;
+            return;
         }
         selectMovie(foundMovies,appType);
-        return foundMovies;
     }
 
-    public Movie selectMovie(List<Movie> movieSelect,String appType) {
+    /**
+     * This method prints out all movies within the selected list and allows user to select the movie.
+     * @param movieSelect The list of movies that user wants to view.
+     * @param appType String indicates whether user is Staff or Customer and passes this information down to subsequent methods.
+     */
+    private void selectMovie(List<Movie> movieSelect, String appType) {
         int choice,subChoice;
         do{
             for (int i = 0; i < movieSelect.size(); i++) {
@@ -335,7 +381,7 @@ public class MovieManager {
             	}
                 choice = sc.nextInt()-1;
                 if(choice==-1) {
-                    return null;
+                    return;
                 } else if (choice < 0 || choice >= movieSelect.size()) {
                 	System.out.println("Invalid choice. Please enter a number between 0 and " + movieSelect.size());
                 } 
@@ -359,10 +405,13 @@ public class MovieManager {
             }
             
         }while(subChoice != 0);
-        
-        return movieSelect.get(choice);
+
     }
 
+    /**
+     * This method creates a new Movie object and takes in information from the Staff to create a new movie. Upon input of details, Staff is prompted to
+     * confirm and submit new movie,edit details of the new movie or completely discard this new movie.
+     */
     private void addMovies() {
         Movie newMovie = new Movie();
         ArrayList<Genre> genreList = new ArrayList<>();
@@ -564,6 +613,11 @@ public class MovieManager {
         } while (choice1 != 0);
     }
 
+    /**
+     * This method prints out a menu for editing specific details of a selected movie for Staff.
+     * @param movie Selected Movie chosen by user. Movie details input by user can call on setters in Movie class.
+     *              The Movie object will then be saved.
+     */
     private void editMovies(Movie movie) {
         int choice;
         do {
@@ -737,11 +791,21 @@ public class MovieManager {
         this.save(movie);
     }
 
+    /**
+     * This method removes a movie by changing its showtime to END_OF_SHOWING.
+     * @param movie Movie selected by user.
+     */
     private void removeMovie(Movie movie) {
         movie.setShowingStatus(ShowingStatus.END_OF_SHOWING);
         this.save(movie);
     }
 
+    /**
+     * This method prints out a display menu to allow for 3 options for viewing top 5 movies.
+     * 1. By Sales 2. By Tickets sold 3. By Average Review Score.
+     * Movies with only 1 review will not be within the sorted movies.
+     * @param appType String indicates whether user is Staff or Customer and passes this information down to subsequent methods.
+     */
     public void viewTop5(String appType) {
     	int choice;
     	int subchoice;
@@ -879,7 +943,11 @@ public class MovieManager {
     	} while (choice != 0);
     }
 
-    public void load() {
+    /**
+     * Loads Movie objects from the data files created by iterating through the list of datafiles within the specified movie folder.
+     * Movie object deserialized from data files will be put into hashmap specified within constructor.
+     */
+    private void load() {
         File folder = new File(ProjectRootPathFinder.findProjectRootPath() + "/data/movies");
 
         File[] listOfFiles = folder.listFiles();
@@ -893,25 +961,52 @@ public class MovieManager {
         }
     }
 
-    public void save(Movie movie) {
+    /**
+     * Saves a Movie object and serializes it.
+     * @param movie The Movie object to be saved.
+     */
+    private void save(Movie movie) {
         String filepath = ProjectRootPathFinder.findProjectRootPath() + "/data/movies/movie_"+movie.getMovieID()+".dat";
         SerializerHelper.serializeObject(movie, filepath);
         System.out.println("Movies Saved!");
     }
 
+    /**
+     * This method accesses the hashmap and finds a Movie object with the given movieID.
+     * @param movieID MovieID of a Movie object that is to be found.
+     * @return Returns the Movie object with the specific movieID from the hashmap.
+     */
     public Movie getMoviebyID(String movieID){
         return movies.get(movieID);
     }
 
-    public void updateGrossProfit(String movieID,double grossProfit){
+    /**
+     * Updates Gross Profit of a specific movie when a ticket for the movie is bought.
+     * @param movieID MovieID of the Movie.
+     * @param grossProfit Gross profit of the Movie.
+     */
+    void updateGrossProfit(String movieID, double grossProfit){
         movies.get(movieID).setGrossProfit(movies.get(movieID).getGrossProfit() + grossProfit);
     }
 
-    public void updateTicketsSold(String movieID,long ticketsSold){
+    /**
+     * Updates number of Tickets sold of a specific movie when a ticket for the movie is bought.
+     * @param movieID MovieID of the Movie.
+     * @param ticketsSold Number of tickets sold for the Movie.
+     */
+    void updateTicketsSold(String movieID, long ticketsSold){
         movies.get(movieID).setTicketsSold(movies.get(movieID).getTicketsSold() + ticketsSold);
     }
 
-    public void updateReview(String movieID, String reviewID, double reviewScore, String function){
+    /**
+     * Adds review to list of reviews that Movie holds and updates the Movie's total review number,
+     * total review score and average review score.
+     * @param movieID MovieID of the Movie.
+     * @param reviewID ID of the review to be added.
+     * @param reviewScore Review score of the review to be added.
+     * @param function Specifies whether to add or remove a review from the Movie review list.
+     */
+    void updateReview(String movieID, String reviewID, double reviewScore, String function){
         if (function.equals("add")) {
         	Movie movie = movies.get(movieID);
             movie.setTotalReviewNo(movie.getTotalReviewNo()+1);
@@ -930,7 +1025,12 @@ public class MovieManager {
 
     }
 
-    public void updateShowtimes(String movieID, String showtimeID) {
+    /**
+     * Updates showtimes of a specific movie.
+     * @param movieID MovieID of the Movie.
+     * @param showtimeID Showtime ID of the showtime to be added.
+     */
+    void updateShowtimes(String movieID, String showtimeID) {
         this.movies.get(movieID).addShowtimeID(showtimeID);
 
         this.save(this.movies.get(movieID));

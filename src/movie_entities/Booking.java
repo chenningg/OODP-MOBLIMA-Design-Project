@@ -6,22 +6,46 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.io.*;
 
+/**
+ * Booking made by Customer
+ */
 public class Booking implements Serializable {
 	
     //Attributes
-
+	/**
+	 * Booking ID of booking.
+	 */
     private String bookingID;
-    private List<Ticket> tickets;
+	/**
+	 * List of Tickets purchased per booking.
+	 */
+	private List<Ticket> tickets;
+	/**
+	 * Transaction ID of booking.
+	 */
     private String transactionID;
-    private LocalDateTime dateTime;
+	/**
+	 * Time booking was made.
+	 */
+	private LocalDateTime dateTime;
+	/**
+	 * Movie ID of movie booked.
+	 */
     private String movieID;
-    private int hallNo;
+	/**
+	 * Hall No of movie booked.
+	 */
+	private int hallNo;
+	/**
+	 * Name of cineplex where movie booked is showing.
+	 */
     private String cineplexName;
 
     
     //Methods
-    
-    // Displays this booking in formatted form
+	/**
+	 * Displays booking in formatted form.
+	 */
     public void displayBooking() {
     	System.out.println("=============================================================================");
     	System.out.printf("Booking ID: %s\n", getBookingID());
