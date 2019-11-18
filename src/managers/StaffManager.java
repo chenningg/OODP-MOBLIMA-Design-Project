@@ -7,6 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * This is the StaffManager. For now it is a simple manager that will handle the login issues of staff
+ *
+ */
 public class StaffManager {
 	// Attributes
 	/**

@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is the SystemSettings class. It will hold the information about all the system settings which affect a movie's price
+ *
+ */
 public class SystemSettings implements Serializable {
 	// Attributes
 	/**

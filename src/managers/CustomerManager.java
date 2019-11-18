@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This is the CustomerManager. It will manage the customer side of things, the check their booking 
+ * 
+ *
+ */
 public class CustomerManager implements ResetSelf{
 	// Attributes 
 	/**
