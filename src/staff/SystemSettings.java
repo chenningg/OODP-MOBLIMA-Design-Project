@@ -1,4 +1,4 @@
-package movie_entities;
+package staff;
 
 import utils.ProjectRootPathFinder;
 
