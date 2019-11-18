@@ -5,14 +5,25 @@ import managers.MovieManager;
 import managers.SystemSettingsManager;
 import java.util.Scanner;
 
+/**
+ * StaffApp for Staff
+ */
 public class StaffApp {
 	// Attributes
+	/**
+	 * single_instance tracks whether StaffApp has been instantiated before.
+	 */
     private static StaffApp single_instance = null;
     
     private Scanner sc = new Scanner(System.in);
 
     private StaffApp(){}
 
+	/**
+	 * Instantiates the StaffApp singleton. If no previous instance has been created,
+	 * one is created. Otherwise, the previous instance created is used.
+	 * @return an instance of StaffApp.
+	 */
     public static StaffApp getInstance()
     {
         if (single_instance == null)
@@ -22,6 +33,11 @@ public class StaffApp {
 
     
     // Public exposed methods to app
+
+	/**
+	 * Displays login menu for staff. Staff is prompted to enter username and password. If not authenticated, staff will be prompted to
+	 * enter username and password again.
+	 */
     public void displayLoginMenu() {
     	boolean loggedIn = false;
     	boolean quit = false;
@@ -77,6 +93,10 @@ public class StaffApp {
     
     
     // Private methods
+
+	/**
+	 * Displays menu for staff once log in is approved.
+	 */
     private void displayLoggedInMenu() {
 		int choice;
 		

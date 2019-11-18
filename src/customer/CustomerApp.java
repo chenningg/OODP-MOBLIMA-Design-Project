@@ -4,22 +4,40 @@ import managers.MovieManager;
 import managers.CustomerManager;
 import java.util.Scanner;
 
+/**
+ * App for customers
+ */
 public class CustomerApp {
 	// Attributes
+
+	/**
+	 * single_instance tracks whether CustomerApp has been instantiated before.
+	 */
     private static CustomerApp single_instance = null;
     
     private Scanner sc = new Scanner(System.in);
 
     private CustomerApp(){}
 
+	/**
+	 * Instantiates the CustomerApp singleton. If no previous instance has been created,
+	 * one is created. Otherwise, the previous instance created is used.
+	 * @return an instance of CustomerApp.
+	 */
     public static CustomerApp getInstance()
     {
         if (single_instance == null)
             single_instance = new CustomerApp();
         return single_instance;
     }
-	
-    public void displayCustomerMenu() {
+
+	/**
+	 * Displays Customer Menu and list of options for them such as
+	 * Viewing Movies
+	 * Viewing Top 5 movies by different criteria
+	 * Check their booking history
+	 */
+	public void displayCustomerMenu() {
 		int choice;		
 		
 		do {
