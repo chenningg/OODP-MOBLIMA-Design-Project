@@ -12,20 +12,50 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class TransactionManager implements ResetSelf {
-	
+	/**
+	 * This is the current transaction object being created
+	 */
 	private Transaction transaction = null;
+	
+	/**
+	 * This is the current name that is being put in
+	 */
 	private String bookerName;
+	
+	/**
+	 * This is the current mobile number
+	 */
 	private String bookerMobileNo;
+	
+	/**
+	 * This is the current customer's email
+	 */
 	private String bookerEmail;
+	
+	/**
+	 * This is the current customer's credit card number (not redacted, this is not an encryption assignment)
+	 */
 	private String bookerCreditCard;
-	private Scanner sc = new Scanner(System.in);
+	
+	/**
+	 * This is for loop control to exit the current transaction manager "window"
+	 */
 	public Boolean exit = false;
 	
-	// Singleton & Constructor
- 	private static TransactionManager single_instance = null;
- 	
- 	private TransactionManager() {}
+	private Scanner sc = new Scanner(System.in);
 	
+	
+	// Singleton 
+	/**
+     * single_instance tracks whether TransactionManager has been instantiated before.
+     */
+ 	private static TransactionManager single_instance = null;
+	
+	/**
+     * Instantiates the TransactionManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of TransactionManager.
+     */
 	public static TransactionManager getInstance()
 	{
 	    if (single_instance == null) {
@@ -35,9 +65,22 @@ public class TransactionManager implements ResetSelf {
 	}
 
 	
-	// Methods
+	// Constructor
+    /**
+     * Constructor of TransactionManager. Doesn't do much
+     */
+ 	private TransactionManager() {
+ 		
+ 	}
 	
-	// Start a new transaction with selected seats and selected tickets
+	// Public exposed methods to app
+ 	
+	/**
+	 *  Start a new transaction with selected seats and selected tickets
+	 * @param ticketList List<Ticket> The list of tickets that are being purchased
+	 * @param ticketPrices Map<TicketType, Double> The prices of tickets based off ticket types
+	 * @param ticketCount Map<TicketType, Integer>  The number of tickets based off ticket types
+	 */
 	public void startTransaction(List<Ticket> ticketList, Map<TicketType, Double> ticketPrices, Map<TicketType, Integer> ticketCount) {
 		
 		exit = false;
@@ -143,7 +186,11 @@ public class TransactionManager implements ResetSelf {
 	}
 	
 	
-	// Displays pricing information and total price
+	/**
+	 * Displays pricing information and total price 
+	 * @param ticketPrices Map<TicketType, Double> The prices of the tickets that are being bought
+	 * @param ticketCount Map<TicketType, Integer> The number of tickets that are being bought
+	 */
 	public void displayPrices(Map<TicketType, Double> ticketPrices, Map<TicketType, Integer> ticketCount) {
 		
 		// Print out selected ticket prices inclusive of GST and total amount
@@ -168,8 +215,105 @@ public class TransactionManager implements ResetSelf {
 	}
 	
 	
-	// Validate user's name, check if all alphabets
-	public Boolean validateName(String name) {
+ 	
+	/** 
+	 * Make transaction, called after transaction is approved
+	 */
+	public void confirmTransaction() {
+		
+		// Fill up booking details
+		getTransaction().setTransactionID();
+		getTransaction().setCreditCardNo(getBookerCreditCard());
+		BookingManager.getInstance().getBooking().setTransactionID(getTransaction().getTransactionID());
+		CustomerManager.getInstance().updateCustomer(getBookerName(), getBookerEmail(), getBookerMobileNo());
+		
+		// Update movie's total grossing
+		String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
+		MovieManager.getInstance().updateGrossProfit(currMovieID, getTransaction().getTotalPrice());
+		
+		// Serialize transaction
+		String savePath = ProjectRootPathFinder.findProjectRootPath() + "/data/transactions/transaction_" + getTransaction().getTransactionID() + ".dat"; 
+		SerializerHelper.serializeObject(getTransaction(), savePath);
+	}
+	
+	
+	/** 
+	 * Self reset after everything is done to clear the TransactionManager memory
+	 */
+	public void resetSelf() {
+		setTransaction(null);
+		setBookerName(null);
+		setBookerMobileNo(null);
+		setBookerEmail(null);
+		exit = true;
+	}
+	
+	
+	// Getters
+	/**
+	 * This returns the current transaction
+	 * @return Transaction 
+	 */
+	public Transaction getTransaction() {return transaction;}
+	/** 
+	 * This returns the current customer's name
+	 * @return String 
+	 */
+	public String getBookerName() {return bookerName;}
+	/**
+	 * This returns the current customer's mobile number 
+	 * @return String
+	 */
+	public String getBookerMobileNo() {return bookerMobileNo;}
+	/**
+	 * This returns the current customer's email
+	 * @return String
+	 */
+	public String getBookerEmail() {return bookerEmail;}
+	/**
+	 * This returns the current customer's credit card number (not encrypted, not the focus of this project)
+	 * @return String credit card
+	 */
+	private String getBookerCreditCard() {return bookerCreditCard;}
+	
+	
+	// Setters
+	/**
+	 * This sets the current Transaction object
+	 * @param transaction 
+	 */
+	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
+	/**
+	 * This sets the current booker's name
+	 * @param bookerName
+	 */
+	public void setBookerName(String bookerName) {this.bookerName = bookerName;}
+	/**
+	 * This sets the current booker's mobile number
+	 * @param bookerMobileNo
+	 */
+	public void setBookerMobileNo(String bookerMobileNo) {this.bookerMobileNo = bookerMobileNo;}
+	/**
+	 * This sets the current booker's email
+	 * @param bookerEmail
+	 */
+	public void setBookerEmail(String bookerEmail) {this.bookerEmail = bookerEmail;}
+	/**
+	 * This sets the current booker's credit card number (not encrypted, not the focus of this project)
+	 * @param bookerCreditCard
+	 */
+	private void setBookerCreditCard(String bookerCreditCard) {this.bookerCreditCard = bookerCreditCard;}
+	
+	
+	
+	
+	// Private methods 
+	/**
+	 * Validate user's name, check if all alphabets
+	 * @param name This is the booker's name
+	 * @return Boolean if successfully validated or not
+	 */
+	private Boolean validateName(String name) {
 		String checkName = name.replaceAll("[^a-zA-Z0-9-_'\"]","");
 		char[] chars = checkName.toCharArray();
 
@@ -188,8 +332,12 @@ public class TransactionManager implements ResetSelf {
 	    return true;
 	}
 	
-	// Validate mobile number of user, check if all numeric and is 8 digits long (Assume Singapore)
-	protected Boolean validateMobileNo(String mobileNo) {	
+	/**
+	 * Validate mobile number of user, check if all numeric and is 8 digits long (Assume Singapore)
+	 * @param mobileNo This is the booker's mobile number
+	 * @return Boolean if successfully validated or not
+	 */
+	private Boolean validateMobileNo(String mobileNo) {	
 		char[] chars = mobileNo.toCharArray();
 
 		if (chars[0] != '8' && chars[0] != '9') {
@@ -213,8 +361,12 @@ public class TransactionManager implements ResetSelf {
 	    return true;
 	}
 	
-	// Checks if email address is valid
-	protected Boolean validateEmail(String email) {
+	/**
+	 * Checks if email address is valid
+	 * @param email This is the booker's email address
+	 * @return Boolean if successfully validated or not
+	 */
+	private Boolean validateEmail(String email) {
 		// Check length
 		if (email.length() > 100) {
 			System.out.println("Sorry, your email is too long. Please use a shorter email.");
@@ -231,8 +383,12 @@ public class TransactionManager implements ResetSelf {
 		return true;
 	}
 	
-	// Checks if credit card is valid
-	protected Boolean validateCreditCard(String creditCardNo) {
+	/**
+	 * Checks if credit card is valid
+	 * @param email This is the booker's credit card 
+	 * @return Boolean if successfully validated or not
+	 */
+	private Boolean validateCreditCard(String creditCardNo) {
 		
 		String card = creditCardNo.replaceAll("[^0-9]+", ""); // Remove all non-numerics
         
@@ -260,8 +416,12 @@ public class TransactionManager implements ResetSelf {
 	}
 	
 	
-	// Luhn's check for credit card validity
-	protected Boolean luhnCheck(String cardNumber) {
+	/**
+	 * Luhn's check for credit card validity. This is a more advanced check
+	 * @param cardNumber This is the booker's credit card
+	 * @return Boolean if successfully validated or not
+	 */
+	private Boolean luhnCheck(String cardNumber) {
 		// Takes in a pure digit card number
         int digits = cardNumber.length();
         int oddOrEven = digits & 1;
@@ -287,8 +447,12 @@ public class TransactionManager implements ResetSelf {
     }
 	
 	
-	// Credit card company check
-	protected Boolean creditCardCompanyCheck(String cardNumber) {
+	/** 
+	 * Credit card company check 
+	 * @param cardNumber
+	 * @return
+	 */
+	private Boolean creditCardCompanyCheck(String cardNumber) {
 		List<String> cardCompanies = new ArrayList<String>();
 		cardCompanies.add("^4[0-9]{12}(?:[0-9]{3})?$"); // VISA
 		cardCompanies.add("^5[1-5][0-9]{14}$"); // MASTER
@@ -308,8 +472,12 @@ public class TransactionManager implements ResetSelf {
 	}
 	
 	
-	// Update total price of booking
-	public void updateTotalPrice(Map<TicketType, Double> ticketPrices, Map<TicketType, Integer> ticketCount) {
+	/**
+	 * Update total price of booking
+	 * @param ticketPrices Map<TicketType, Double> This is all the ticket price by ticket type
+	 * @param ticketCount Map<TicketType, Integer> This is the number of ticket types 
+	 */
+	private void updateTotalPrice(Map<TicketType, Double> ticketPrices, Map<TicketType, Integer> ticketCount) {
 	
 		double totalPrice = 0;
 		
@@ -325,50 +493,5 @@ public class TransactionManager implements ResetSelf {
 		getTransaction().setTotalPrice(totalPrice);
 	}
 	
-	
-	// Make transaction, called after transaction is approved, listen to EVENT
-	public void confirmTransaction() {
-		
-		// Fill up booking details
-		getTransaction().setTransactionID();
-		getTransaction().setCreditCardNo(getBookerCreditCard());
-		BookingManager.getInstance().getBooking().setTransactionID(getTransaction().getTransactionID());
-		CustomerManager.getInstance().updateCustomer(getBookerName(), getBookerEmail(), getBookerMobileNo());
-		
-		// Update movie's total grossing
-		String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
-		MovieManager.getInstance().updateGrossProfit(currMovieID, getTransaction().getTotalPrice());
-		
-		// Serialize transaction
-		String savePath = ProjectRootPathFinder.findProjectRootPath() + "/data/transactions/transaction_" + getTransaction().getTransactionID() + ".dat"; 
-		SerializerHelper.serializeObject(getTransaction(), savePath);
-	}
-	
-	
-	// Self reset
-	public void resetSelf() {
-		setTransaction(null);
-		setBookerName(null);
-		setBookerMobileNo(null);
-		setBookerEmail(null);
-		exit = true;
-	}
-	
-	
-	// Getters
-	
-	public Transaction getTransaction() {return transaction;}
-	public String getBookerName() {return bookerName;}
-	public String getBookerMobileNo() {return bookerMobileNo;}
-	public String getBookerEmail() {return bookerEmail;}
-	private String getBookerCreditCard() {return bookerCreditCard;}
-	
-	
-	// Setters
-	
-	public void setTransaction(Transaction transaction) {this.transaction = transaction;}
-	public void setBookerName(String bookerName) {this.bookerName = bookerName;}
-	public void setBookerMobileNo(String bookerMobileNo) {this.bookerMobileNo = bookerMobileNo;}
-	public void setBookerEmail(String bookerEmail) {this.bookerEmail = bookerEmail;}
-	private void setBookerCreditCard(String bookerCreditCard) {this.bookerCreditCard = bookerCreditCard;}
+
 }

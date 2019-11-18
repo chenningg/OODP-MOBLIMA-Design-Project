@@ -9,12 +9,24 @@ import java.util.Scanner;
 
 public class SystemSettingsManager {
 	// Attributes
+	/**
+	 * Holds the systemsettings object, that has a hashmap of all the available system settings 
+	 * You can search out a system setting by providing its name
+	 */
 	private SystemSettings systemSettings;
 	
 	private Scanner sc = new Scanner(System.in);
 	
+	/**
+     * single_instance tracks whether ShowtimeManager has been instantiated before.
+     */
 	private static SystemSettingsManager single_instance = null;
 	
+	/**
+     * Instantiates the SystemSettingsManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of SystemSettingsManager.
+     */
 	public static SystemSettingsManager getInstance() {
 		if (single_instance == null)
 			single_instance = new SystemSettingsManager();
@@ -23,6 +35,10 @@ public class SystemSettingsManager {
 	
 	
 	// Constructor
+	/**
+	 * Constructor of the SystemSettingsManager. It will first try to load a serialized file of the class SystemSettings  
+	 * If it fails, it will create the system settings from the initialization files that we have preloaded and then serialize it for future use
+	 */
 	private SystemSettingsManager() {
 		SystemSettings serializedObject = this.load();
 		if (serializedObject != null) {
@@ -61,7 +77,7 @@ public class SystemSettingsManager {
 	}
 	
 	/**
-	 * This is the entry point into the System Settings App where a staff can come to CRUD the system settings
+	 * This is an option menu, the entry point into the System Settings App where a staff can come to CRUD the system settings
 	 */
 	public void displayMenu() {
 		int choice;
@@ -106,8 +122,8 @@ public class SystemSettingsManager {
 	
 	// Private CRUD methods
 	/**
-	 * This is the 
-	 * @param sc
+	 * This is an option menu where a staff can come in to view the various system settings available to them.
+	 * There are many categories of settings, and the staff can get a good overview of what they can change
 	 */
 	private void viewSystemSetting() {
 		int choice;
@@ -162,6 +178,11 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 	}
 	
+	/**
+	 * This is an option menu where a staff will come in to enter a new system setting. 
+	 * The only system setting that actually makes sense to add will be a holiday reference, since new holidays can be 
+	 * easily declared, but new movie formats or new cinema types are very rare, and it's not possible to create a new day of the week
+	 */
 	private void addSystemSetting() {
 		int choice;
 		
@@ -197,6 +218,11 @@ public class SystemSettingsManager {
 		} while (choice!=0);
 	}
 	
+	
+	/**
+	 * This is an option menu, where the staff will decide what kind of system settings they would like to change. 
+	 * It is sorted by categories and hence the staff can easily pick what kind of settings they want to change
+	 */
 	private void changeSystemSetting() {
 		int choice;
 		
@@ -320,15 +346,17 @@ public class SystemSettingsManager {
 		System.out.println("Back to SystemSettings Menu......");
 	}
 		
+	/**
+	 * This is where a staff can come in to delete a system settings. Similar to adding a system setting, the only
+	 * setting that makes sense to be added is a new holiday reference. Any new movie format or cinema will be a structural change
+	 * to the entire cinema, and not something that needs to be accounted for in the MOBLIMA app
+	 */
 	private void deleteSystemSetting() {
 		int choice;
 		
 		do {
 	        System.out.println(	"=================== Delete SystemSettings ==================\n"+
 			        		   	" 1. Holiday Reference                                     \n"+
-			        		   	" 2. Movie Format 											\n"+
-				                " 3. Ticket Type                                    		\n"+
-				                " 4. Cinema Type 		                                    \n"+
 				                " 0. Back to SystemSettings Menu                           \n"+
 								"============================================================");
 	        System.out.println("Enter choice:");
@@ -351,57 +379,10 @@ public class SystemSettingsManager {
 						this.systemSettings.viewSetting("holidayReference");
 						break;
 					}
-				case 2:
-					this.systemSettings.viewSetting("movieFormat$");
-					if (this.systemSettings.getSystemInfoHash().get("movieFormat$").size()==0) {
-						System.out.println("No data!");
-						break;
-					} else {	
-						String newMovieFormatName;
-						
-						System.out.println("Enter name of movie format you want to delete: ");
-						newMovieFormatName = sc.next().toUpperCase();
-						
-						this.systemSettings.deleteSetting("movieFormat$", newMovieFormatName);
-						this.systemSettings.viewSetting("movieFormat$");
-						break;
-					}
-				case 3: 
-					this.systemSettings.viewSetting("ticketType$");
-					
-					if (this.systemSettings.getSystemInfoHash().get("ticketType$").size()==0) {
-						System.out.println("No data!");
-						break;
-					} else {	
-						String newTicketTypeName;
-						
-						System.out.println("Enter name of ticket type you want to delete: ");
-						newTicketTypeName = sc.next().toUpperCase();
-						
-						this.systemSettings.deleteSetting("ticketType$", newTicketTypeName);
-						this.systemSettings.viewSetting("ticketType$");
-						break;
-					}
-				case 4:
-					this.systemSettings.viewSetting("cinemaType$");
-					
-					if (this.systemSettings.getSystemInfoHash().get("cinemaType$").size()==0) {
-						System.out.println("No data!");
-						break;
-					} else {	
-						String newCinemaTypeName;
-						
-						System.out.println("Enter name of cinema type you want to delete: ");
-						newCinemaTypeName = sc.next().toUpperCase();
-						
-						this.systemSettings.deleteSetting("cinemaType$", newCinemaTypeName);	
-						this.systemSettings.viewSetting("cinemaType$");
-						break;
-					}
 				case 0: 
 					break;
 				default:
-					System.out.println("Invalid choice. Please choose between 0-4.");
+					System.out.println("Invalid choice. Please choose between 0-1.");
 					break;
 			}
 		} while (choice!=0);
@@ -411,11 +392,20 @@ public class SystemSettingsManager {
 
 	
 	// Private Serialization and Deserialization
+	/**
+	 * This is used to save the entire new system settings object
+	 */
 	private void save() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		SerializerHelper.serializeObject(this.systemSettings, filePath);
 	}
 	
+	/**
+	 * This is used to load all of the system settings from the "database". If it fails to load, it will return null. 
+	 * The constructor will then create the system settings data file. This will only occur upon initialisation (the very first run of the app)
+	 * Or when data is cleared
+	 * @return This returns all the SystemSettings available as the SystemSettings class
+	 */
 	private SystemSettings load() {
 		String filePath = ProjectRootPathFinder.findProjectRootPath() + "/data/system_settings/system_settings.dat";
 		return (SystemSettings) SerializerHelper.deSerializeObject(filePath);

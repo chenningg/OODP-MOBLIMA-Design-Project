@@ -14,20 +14,42 @@ import java.util.Scanner;
 import java.time.format.TextStyle;
 
 public class TicketManager implements ResetSelf {
-	
 	// Attributes
+	/**
+	 * This holds the current list of selected tickets by the customer during their booking
+	 */
     private List<Ticket> selectedTickets = new ArrayList<Ticket>();
+    
+    /**
+     * This holds the total number of each ticket type there is
+     */
     private Map<TicketType, Integer> ticketCount = new HashMap<TicketType, Integer>();
+    
+    /**
+     * This holds the various prices of the ticket types. These prices are the modifed prices 
+     * after implementing the price modifiers for every aspect of the booking in question
+     */
     private Map<TicketType, Double> ticketPrices = new HashMap<TicketType, Double>();
+    
     private Scanner sc = new Scanner(System.in);
+    
+    /**
+     * This is for loop control to exit the current ticket manager "window"
+     */
     public Boolean exit = false;
 	
 
-	// Singleton & Constructor
+	// Singleton
+	/**
+     * single_instance tracks whether TicketManager has been instantiated before.
+     */
  	private static TicketManager single_instance = null;
- 	
- 	private TicketManager() {}
 	
+	/**
+     * Instantiates the TicketManager singleton. If no previous instance has been created,
+     * one is created. Otherwise, the previous instance created is used.
+     * @return an instance of TicketManager.
+     */
 	public static TicketManager getInstance()
 	{
 	    if (single_instance == null) {
@@ -37,9 +59,19 @@ public class TicketManager implements ResetSelf {
 	}
 
 	
-	// Methods
+	// Constructor
+    /**
+     * Constructor of TicketManager. Doesn't do much
+     */
+	private TicketManager() {}
 	
-	// Starts ticket selection
+	// Public exposed methods to app
+	
+	/**
+	 * Starts ticket selection process for the customer
+	 * @param showtime This is the current showtime object that is being booked
+	 * @param selectedSeats This is the current list of selected seats by the customer
+	 */
     public void startTicketSelection(Showtime showtime, List<String> selectedSeats) {
     	
     	// Get new ticket prices based on showtime
@@ -133,8 +165,54 @@ public class TicketManager implements ResetSelf {
     }
     
     
-    // Adds a new ticket selection
-    public void addTicketSelection(TicketType ticketType, int count) {
+    
+    /**
+     * This resets the ticket manager instance, and clears all the current memory 
+     */
+    public void resetSelf() {
+    	getSelectedTickets().clear();
+    	getTicketCount().clear();
+    	getTicketPrices().clear();
+    	exit = true;
+    }
+    
+    
+    // Getters
+    /**
+     * This returns the current selected tickets by the customer
+     * @return List<Ticket> 
+     */
+ 	public List<Ticket> getSelectedTickets() {return selectedTickets;}
+ 	
+ 	/**
+ 	 * This returns the current ticket count for type of ticket
+ 	 * @return Map<TicketType, Integer> 
+ 	 */
+ 	public Map<TicketType, Integer> getTicketCount() {return ticketCount;}
+ 	
+ 	/**
+ 	 * This returns the current ticket prices by ticket type 
+ 	 * @return Map<TicketType, Double>
+ 	 */
+ 	public Map<TicketType, Double> getTicketPrices() {return ticketPrices;}
+    
+    /**
+     * Injects ticket selection information into BookingManager's booking when event is raised, and reset ticketmanager
+     */
+    public void confirmTicketSelection() {
+    	BookingManager.getInstance().getBooking().setTickets(getSelectedTickets());
+    	
+    	// Update movie's ticket sales info
+    	String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
+    	MovieManager.getInstance().updateTicketsSold(currMovieID, getSelectedTickets().size());
+    }
+
+    /**
+     * Adds a new ticket selection
+     * @param ticketType TicketType This is the type of ticket
+     * @param count This is the number of that type of ticket
+     */
+    private void addTicketSelection(TicketType ticketType, int count) {
     	for (int i = 0; i < count; i++) {
     		Ticket newTicket = new Ticket(ticketType);
     		
@@ -146,9 +224,17 @@ public class TicketManager implements ResetSelf {
     	getTicketCount().put(ticketType, count);
     }
    
+
     
-    // Updates ticket prices for all tickets types for current showtime
-    public void updateTicketPrices(Showtime showtime) {
+    
+    
+    // Private methods
+    
+    /**
+     * Updates ticket prices for all tickets types for current showtime
+     * @param showtime this is the current showtime object being booked
+     */
+    private void updateTicketPrices(Showtime showtime) {
     	Map<TicketType, Double> prices = getTicketPrices();
     	SystemSettingsManager priceList = SystemSettingsManager.getInstance();
     	
@@ -173,36 +259,13 @@ public class TicketManager implements ResetSelf {
     	    prices.put(type, prices.get(type) + priceList.getPrice(showtime.getCinema().getCinemaType().toString()));
     	}
     }
-    
-    
-    // Injects ticket selection information into BookingManager's booking when event is raised, and reset itself
-    public void confirmTicketSelection() {
-    	BookingManager.getInstance().getBooking().setTickets(getSelectedTickets());
-    	
-    	// Update movie's ticket sales info
-    	String currMovieID = BookingManager.getInstance().getShowtime().getMovieID();
-    	MovieManager.getInstance().updateTicketsSold(currMovieID, getSelectedTickets().size());
-    }
 
-    
-    // Clear tickets, doesn't clear other info
+    /** 
+     * Clear tickets, doesn't clear other info
+     */
     private void clearTicketSelection() {
     	getSelectedTickets().clear();
     	getTicketCount().clear();
     }
     
-    
-    // Resets self
-    public void resetSelf() {
-    	getSelectedTickets().clear();
-    	getTicketCount().clear();
-    	getTicketPrices().clear();
-    	exit = true;
-    }
-    
-    
-    // Getters
- 	public List<Ticket> getSelectedTickets() {return selectedTickets;}
- 	public Map<TicketType, Integer> getTicketCount() {return ticketCount;}
- 	public Map<TicketType, Double> getTicketPrices() {return ticketPrices;}
 }
