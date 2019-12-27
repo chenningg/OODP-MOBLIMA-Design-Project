@@ -36,7 +36,3 @@ If you want to reset the data, please do run Reset, which can be found under the
 Reviews can be accessed after you have selected a movie. 
         
 You have to make a booking before you can check booking history. Showtimes on both Staff and Customer side can be accessed after accessing the movie you want to view/edit/add/remove the showtime for.
-
-## Closing Words
-Thank you for using our application.
-
