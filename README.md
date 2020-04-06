@@ -1,5 +1,5 @@
 <h1 align="center">MOBLIMA</h1>
-<p>Welcome to our Movie Booking and Listing Management Application (MOBLIMA). This is a purely console based application, and allows for movie listings, revies and even the booking and cancellation of tickets through an ASCII interface! This application was a project made for Nanyang Technological University, Singapore's CZ2002 course - Object Oriented Design & Programming.</p>
+<p>Welcome to our Movie Booking and Listing Management Application (MOBLIMA). This is a purely console based application, and allows for movie listings, reviews and even the booking and cancellation of tickets through an ASCII interface! This application was a project made for Nanyang Technological University, Singapore's CZ2002 course - Object Oriented Design & Programming.</p>
 <p align="center"><img alt="Cinema booking screen." src="https://i.imgur.com/jt99Ypt.png"></img></p>
 
 ## Group Details
