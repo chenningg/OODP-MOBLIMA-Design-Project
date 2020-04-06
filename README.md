@@ -1,5 +1,5 @@
 <h1 align="center">MOBLIMA</h1>
-<p align="center><img alt="Cinema booking screen." src="https://i.imgur.com/jt99Ypt.png"></img></p>
+<p align="center"><img alt="Cinema booking screen." src="https://i.imgur.com/jt99Ypt.png"></img></p>
 
 ## Group Details
 SS5 Assignment Group 4
