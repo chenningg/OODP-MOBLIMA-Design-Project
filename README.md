@@ -1,4 +1,4 @@
-# MOBLIMA
+<h1 align="center">MOBLIMA</h1>
 
 ## Group Details
 SS5 Assignment Group 4
